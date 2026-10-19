@@ -118,6 +118,11 @@
   --spring-fast: 440ms;
   --spring-slow: 590ms;
 
+  /* Page layout, shared by the shell and anything that sticks within it. */
+  --page-top: 1.5rem; /* sticky offset inside a page (the shell has no top bar from md up) */
+  --page-bottom: 4rem; /* the shell's bottom padding from md up */
+  --header-h: 3.5rem; /* the phone top bar */
+
   color-scheme: light;
 }
 
@@ -274,6 +279,13 @@ html {
   /* Always reserve the scrollbar's space, so switching between long and short pages
      doesn't shift the layout sideways (no-op with overlay scrollbars). */
   scrollbar-gutter: stable;
+  /* Hash links and scrollIntoView land clear of the phone top bar (none from md up). */
+  scroll-padding-top: calc(env(safe-area-inset-top) + var(--header-h) + 1rem);
+}
+@media (width >= 48rem) {
+  html {
+    scroll-padding-top: var(--page-top);
+  }
 }
 
 body {
@@ -471,7 +483,8 @@ dialog.panel[open]::backdrop {
     background: rgb(0 0 0 / 0);
   }
 }
-@media (max-width: 639px) {
+@media (width < 40rem) {
+  /* Tailwind's `max-sm`; Dialog.tsx checks the same query for the drag gesture. */
   /* Sheets enter from the bottom edge and leave the same way. */
   dialog.panel {
     margin: auto 0 0;
@@ -498,6 +511,12 @@ dialog.panel[open]::backdrop {
   position: fixed;
   inset: auto;
   margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--fg);
+  padding: 6px;
+  box-shadow: var(--shadow-pop);
   opacity: 0;
   scale: 0.95;
   transition:

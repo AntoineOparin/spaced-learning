@@ -1,4 +1,5 @@
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
+import { buttonClass } from '../../ui/Button';
 import { Icon } from '../../ui/Icon';
 import { PageHeader } from '../../ui/misc';
 import { ItemEditor } from './ItemEditor';
@@ -15,7 +16,7 @@ export default function ItemEditorPage() {
         back={
           <Link
             to={topic ? `/library?topic=${topic}` : '/library'}
-            className="-ml-2 inline-flex h-9 items-center gap-1.5 rounded-xl px-2 text-sm font-semibold text-muted transition-colors hover:bg-surface hover:text-fg"
+            className={buttonClass('ghost', 'sm', '-ml-2 px-2 font-semibold')}
           >
             <Icon name="arrowLeft" size={18} /> Library
           </Link>

@@ -25,6 +25,9 @@ export function Kbd({
   );
 }
 
+/** The card surface (Notion): border-only depth, never a tactile shadow. Add padding with cn. */
+export const surface = 'rounded-xl border border-line bg-bg-alt';
+
 /** A flat document surface (Notion): border-only depth, never a tactile shadow. */
 export function Panel({
   title,
@@ -38,7 +41,7 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <section className={cn('rounded-xl border border-line bg-bg-alt p-5 sm:p-6', className)}>
+    <section className={cn(surface, 'p-5 sm:p-6', className)}>
       {(title || action) && (
         <div className="mb-4 flex items-center justify-between gap-3">
           {title && <h2 className="text-[15px] font-bold">{title}</h2>}
@@ -64,7 +67,7 @@ export function Callout({
 }) {
   const iconTone = { streak: 'text-streak-text', accent: 'text-accent-text' };
   return (
-    <div className="flex flex-wrap items-start gap-x-3 gap-y-2 rounded-xl border border-line bg-bg-alt px-4 py-3 text-sm">
+    <div className={cn(surface, 'flex flex-wrap items-start gap-x-3 gap-y-2 px-4 py-3 text-sm')}>
       <Icon name={icon} className={cn('mt-0.5 shrink-0', iconTone[tone])} />
       <div className="min-w-0 flex-1">{children}</div>
       {action && <div className="flex shrink-0 items-center gap-2">{action}</div>}
@@ -84,7 +87,7 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-line bg-bg-alt px-6 py-12 text-center">
+    <div className={cn(surface, 'px-6 py-12 text-center')}>
       {icon && (
         <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-2xl bg-surface text-muted">
           <Icon name={icon} size={22} />
@@ -180,17 +183,32 @@ export function Skeleton({ className }: { className?: string }) {
   return <div aria-hidden className={cn('skeleton', className)} />;
 }
 
+/** A loading placeholder that screen readers announce as "Loading…". */
+export function LoadingStatus({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={className} role="status">
+      <span className="sr-only">Loading…</span>
+      {children}
+    </div>
+  );
+}
+
 /** Generic page placeholder while a route or its data loads. */
 export function PageSkeleton() {
   return (
-    <div className="space-y-6" role="status">
-      <span className="sr-only">Loading…</span>
+    <LoadingStatus className="space-y-6">
       <Skeleton className="h-9 w-48" />
       <Skeleton className="h-40 w-full" />
       <div className="grid gap-4 sm:grid-cols-2">
         <Skeleton className="h-28" />
         <Skeleton className="h-28" />
       </div>
-    </div>
+    </LoadingStatus>
   );
 }

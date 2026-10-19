@@ -29,7 +29,17 @@ import { useSyncState } from '../../sync/manager';
 import { Button, buttonClass } from '../../ui/Button';
 import { cn } from '../../ui/cn';
 import { Icon } from '../../ui/Icon';
-import { Callout, Dot, EmptyState, Kbd, Panel, ProgressBar, Skeleton } from '../../ui/misc';
+import {
+  Callout,
+  Dot,
+  EmptyState,
+  Kbd,
+  LoadingStatus,
+  Panel,
+  ProgressBar,
+  Skeleton,
+  surface,
+} from '../../ui/misc';
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
 import { ForecastChart, MaturityBar, MaturityLegend } from './charts';
 
@@ -205,15 +215,14 @@ function RetentionMeter({ rate, target }: { rate: number; target: number }) {
 
 function DashboardSkeleton() {
   return (
-    <div className="space-y-8" role="status">
-      <span className="sr-only">Loading…</span>
+    <LoadingStatus className="space-y-8">
       <div className="space-y-2">
         <Skeleton className="h-4 w-32" />
         <Skeleton className="h-9 w-64" />
       </div>
       <Skeleton className="h-64 rounded-2xl" />
       <Skeleton className="h-28" />
-    </div>
+    </LoadingStatus>
   );
 }
 
@@ -300,7 +309,7 @@ export function DashboardPage() {
     return (
       <li
         key={course.id}
-        className="rounded-xl border border-line bg-bg-alt p-4 transition-colors hover:border-line-strong sm:p-5"
+        className={cn(surface, 'p-4 transition-colors hover:border-line-strong sm:p-5')}
       >
         <div className="flex items-center gap-4">
           <div className="min-w-0 flex-1">

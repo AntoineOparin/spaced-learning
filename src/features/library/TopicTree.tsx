@@ -16,6 +16,7 @@ import type { Course, Topic } from '../../domain/types';
 import { readLocal, writeLocal } from '../../lib/storage';
 import { IconButton } from '../../ui/Button';
 import { cn } from '../../ui/cn';
+import { DisclosureChevron } from '../../ui/Disclosure';
 import { Icon } from '../../ui/Icon';
 import { Badge } from '../../ui/misc';
 import { courseKey, revealKeys, type TreeRow, topicKey, treeKey, visibleRows } from './tree';
@@ -160,9 +161,9 @@ export function TopicTree({
   };
 
   return (
-    // Fits between the sticky offset (1.5rem) and the page's bottom padding (4rem), so the
+    // Fits between the sticky offset and the page's bottom padding, so the
     // header never gets pushed off the top at the end of the page.
-    <div className="flex max-h-[calc(100dvh-6rem)] flex-col">
+    <div className="flex max-h-[calc(100dvh-var(--page-top)-var(--page-bottom))] flex-col">
       <div className="mb-1 flex items-center justify-between pl-2.5">
         <h2 className="text-xs font-bold text-muted">Courses</h2>
         <div className="flex">
@@ -231,16 +232,7 @@ export function TopicTree({
                   row.hasChildren && 'hover:bg-line hover:text-fg',
                 )}
               >
-                {row.hasChildren && (
-                  <Icon
-                    name="chevronRight"
-                    size={14}
-                    className={cn(
-                      'transition-transform duration-(--spring-fast) ease-spring',
-                      row.expanded && 'rotate-90',
-                    )}
-                  />
-                )}
+                {row.hasChildren && <DisclosureChevron open={row.expanded} size={14} />}
               </span>
               {row.kind === 'course' && (
                 <Icon name="folder" size={16} className="shrink-0 text-dim" />

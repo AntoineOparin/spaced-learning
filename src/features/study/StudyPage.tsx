@@ -11,10 +11,11 @@ import { readLocal, writeLocal } from '../../lib/storage';
 import { Button, IconButton } from '../../ui/Button';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
+import { DisclosureButton } from '../../ui/Disclosure';
 import { Textarea } from '../../ui/Field';
 import type { IconName } from '../../ui/Icon';
 import { Icon } from '../../ui/Icon';
-import { Badge, Dot, Kbd, ProgressBar, Skeleton } from '../../ui/misc';
+import { Badge, Dot, Kbd, LoadingStatus, ProgressBar, Skeleton, surface } from '../../ui/misc';
 import { useToast } from '../../ui/Toast';
 import { ItemEditor } from '../editor/ItemEditor';
 import { cardFaces, isExactMatch } from './answer';
@@ -134,10 +135,7 @@ function Summary({ stats, onExit }: { stats: SessionStats; onExit: () => void })
       {stats.reviewed > 0 && (
         <dl className="mt-8 grid grid-cols-3 gap-3">
           {tiles.map((t) => (
-            <div
-              key={t.label}
-              className="animate-rise rounded-xl border border-line bg-bg-alt px-2 py-4"
-            >
+            <div key={t.label} className={cn(surface, 'animate-rise px-2 py-4')}>
               <dt className={cn('text-xs font-bold', t.tone)}>{t.label}</dt>
               <dd className="mt-1 text-3xl font-extrabold tabular-nums">{t.value}</dd>
             </div>
@@ -151,7 +149,7 @@ function Summary({ stats, onExit }: { stats: SessionStats; onExit: () => void })
           <p className="mt-0.5 text-[13px] text-muted">
             If a card keeps failing, rewrite it: make it smaller, add a cue, or explain why.
           </p>
-          <ul className="mt-3 divide-y divide-line rounded-xl border border-line bg-bg-alt">
+          <ul className={cn(surface, 'mt-3 divide-y divide-line')}>
             {stats.forgotten.slice(0, 8).map((item) => (
               <li key={item.id} className="flex items-center justify-between gap-3 px-4 py-3">
                 <RichText
@@ -390,11 +388,10 @@ export default function StudyPage() {
 
       <main className="flex flex-1 flex-col">
         {phase === 'loading' && (
-          <div className="mx-auto w-full max-w-[720px] space-y-5 px-5 pt-10" role="status">
-            <span className="sr-only">Loading…</span>
+          <LoadingStatus className="mx-auto w-full max-w-[720px] space-y-5 px-5 pt-10">
             <Skeleton className="h-4 w-48" />
             <Skeleton className="h-10 w-3/4" />
-          </div>
+          </LoadingStatus>
         )}
 
         {phase === 'done' && <Summary stats={s.stats} onExit={exit} />}
@@ -490,7 +487,7 @@ export default function StudyPage() {
                     rows={2}
                   />
                   {typed.includes('$') && (
-                    <div className="rounded-xl border border-line bg-bg-alt px-4 py-3 text-lg">
+                    <div className={cn(surface, 'px-4 py-3 text-lg')}>
                       <RichText source={typed} />
                     </div>
                   )}
@@ -528,7 +525,7 @@ export default function StudyPage() {
 
                   {/* The key keeps the same place in every mode; your attempt follows it. */}
                   {mode !== 'reveal' && (
-                    <div className="mt-8 rounded-xl border border-line bg-bg-alt px-4 py-3">
+                    <div className={cn(surface, 'mt-8 px-4 py-3')}>
                       <div className="mb-1 flex items-center justify-between text-[13px] text-muted">
                         <span className="font-semibold">Your answer</span>
                         {mode === 'typed' &&
@@ -552,27 +549,14 @@ export default function StudyPage() {
                   )}
                   {hasWhy && (
                     <div className="mt-10">
-                      <button
-                        type="button"
-                        onClick={toggleWhy}
-                        aria-expanded={showWhy}
-                        className="-ml-1 flex items-center gap-1 rounded-lg px-1 py-0.5 text-[15px] font-bold text-accent-text"
-                      >
-                        <Icon
-                          name="chevronRight"
-                          size={18}
-                          className={cn(
-                            'transition-transform duration-(--spring-fast) ease-spring',
-                            showWhy && 'rotate-90',
-                          )}
-                        />
+                      <DisclosureButton open={showWhy} onToggle={toggleWhy}>
                         Why?
                         <span className="ml-1.5 hidden sm:inline-flex">
                           <Kbd>I</Kbd>
                         </span>
-                      </button>
+                      </DisclosureButton>
                       {showWhy && (
-                        <div className="mt-3 animate-rise space-y-4 rounded-xl border border-line bg-bg-alt px-5 py-4">
+                        <div className={cn(surface, 'mt-3 animate-rise space-y-4 px-5 py-4')}>
                           {item.fields.explanation && <RichText source={item.fields.explanation} />}
                           {item.fields.mnemonic && (
                             <div>

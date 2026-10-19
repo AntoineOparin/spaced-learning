@@ -6,7 +6,7 @@ import type { ContentPack } from '../../io/schema';
 import { errorMessage } from '../../lib/errors';
 import { Button } from '../../ui/Button';
 import { Dialog } from '../../ui/Dialog';
-import { Skeleton } from '../../ui/misc';
+import { LoadingStatus, Skeleton } from '../../ui/misc';
 import { useToast } from '../../ui/Toast';
 
 /**
@@ -99,12 +99,11 @@ export function InstallDeckDialog({
     >
       {error && <p className="text-sm text-danger-text">Could not load the deck: {error}</p>}
       {!pack && !error && (
-        <div className="space-y-2" role="status">
-          <span className="sr-only">Loading…</span>
+        <LoadingStatus className="space-y-2">
           {[0, 1, 2, 3].map((i) => (
             <Skeleton key={i} className="h-14" />
           ))}
-        </div>
+        </LoadingStatus>
       )}
       {pack && (
         <fieldset>

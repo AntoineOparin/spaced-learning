@@ -25,7 +25,7 @@ import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
 import { hintText, Input, Segmented, Switch, useFieldIds } from '../../ui/Field';
 import { Icon, type IconName } from '../../ui/Icon';
-import { PageHeader } from '../../ui/misc';
+import { PageHeader, surface } from '../../ui/misc';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
@@ -56,16 +56,9 @@ function Section({
   plain?: boolean;
 }) {
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <h2 className="mb-3 text-lg font-bold">{title}</h2>
-      <div
-        className={cn(
-          'rounded-xl border border-line bg-bg-alt',
-          plain ? 'px-5 py-5' : 'divide-y divide-line',
-        )}
-      >
-        {children}
-      </div>
+      <div className={cn(surface, plain ? 'px-5 py-5' : 'divide-y divide-line')}>{children}</div>
     </section>
   );
 }

@@ -19,9 +19,10 @@ import { errorMessage } from '../../lib/errors';
 import { Button } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
+import { DisclosureButton } from '../../ui/Disclosure';
 import { Field, hintText, Input, Segmented, Switch, Textarea } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
-import { Callout, EmptyState, Kbd, Skeleton } from '../../ui/misc';
+import { Callout, EmptyState, Kbd, LoadingStatus, Skeleton } from '../../ui/misc';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 
@@ -239,12 +240,11 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
 
   if (!loaded || !courses || !topics)
     return (
-      <div className="space-y-5" role="status">
-        <span className="sr-only">Loading…</span>
+      <LoadingStatus className="space-y-5">
         <Skeleton className="h-11 w-full" />
         <Skeleton className="h-28 w-full" />
         <Skeleton className="h-28 w-full" />
-      </div>
+      </LoadingStatus>
     );
   if (itemId && existing === null)
     return <EmptyState title="This item no longer exists" icon="trash" />;
@@ -384,22 +384,9 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
         )}
 
         <div>
-          <button
-            type="button"
-            className="-ml-1 flex items-center gap-1 rounded-lg px-1 py-0.5 text-sm font-bold text-accent-text"
-            onClick={() => setShowMore((v) => !v)}
-            aria-expanded={showMore}
-          >
-            <Icon
-              name="chevronRight"
-              size={16}
-              className={cn(
-                'transition-transform duration-(--spring-fast) ease-spring',
-                showMore && 'rotate-90',
-              )}
-            />
+          <DisclosureButton open={showMore} onToggle={() => setShowMore((v) => !v)} small>
             {showMore ? 'Hide' : 'Add'} explanation, mnemonic & source
-          </button>
+          </DisclosureButton>
         </div>
         {showMore && (
           <div className="animate-rise space-y-5">

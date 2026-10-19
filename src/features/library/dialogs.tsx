@@ -58,24 +58,19 @@ export function CourseDialog({
       open={open}
       onClose={onClose}
       title={course ? 'Course settings' : 'New course'}
+      onSubmit={() => void save()}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={() => void save()} disabled={!name.trim()}>
+          <Button type="submit" variant="primary" disabled={!name.trim()}>
             {course ? 'Save' : 'Create course'}
           </Button>
         </>
       }
     >
-      <form
-        className="space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void save();
-        }}
-      >
+      <div className="space-y-4">
         <Field label="Name">
           {(id) => (
             <Input
@@ -133,8 +128,7 @@ export function CourseDialog({
             )}
           </Field>
         </div>
-        <button type="submit" hidden />
-      </form>
+      </div>
     </Dialog>
   );
 }
@@ -166,35 +160,29 @@ export function TopicDialog({
       onClose={onClose}
       title={title}
       size="sm"
+      onSubmit={() => void save()}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={() => void save()} disabled={!name.trim()}>
+          <Button type="submit" variant="primary" disabled={!name.trim()}>
             Save
           </Button>
         </>
       }
     >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          void save();
-        }}
-      >
-        <Field label="Name">
-          {(id) => (
-            <Input
-              id={id}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              data-autofocus
-              placeholder="e.g. Integration Techniques"
-            />
-          )}
-        </Field>
-      </form>
+      <Field label="Name">
+        {(id) => (
+          <Input
+            id={id}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            data-autofocus
+            placeholder="e.g. Integration Techniques"
+          />
+        )}
+      </Field>
     </Dialog>
   );
 }

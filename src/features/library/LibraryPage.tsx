@@ -23,7 +23,15 @@ import { cn } from '../../ui/cn';
 import { Input, Switch } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
 import { Menu, type MenuItem } from '../../ui/Menu';
-import { Badge, type BadgeTone, EmptyState, PageHeader, Skeleton } from '../../ui/misc';
+import {
+  Badge,
+  type BadgeTone,
+  EmptyState,
+  LoadingStatus,
+  PageHeader,
+  Skeleton,
+  surface,
+} from '../../ui/misc';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { CourseDialog, TopicDialog } from './dialogs';
@@ -217,12 +225,11 @@ export default function LibraryPage() {
 
   if (!data)
     return (
-      <div className="space-y-6" role="status">
-        <span className="sr-only">Loading…</span>
+      <LoadingStatus className="space-y-6">
         <Skeleton className="h-9 w-40" />
         <Skeleton className="h-11 w-full" />
         <Skeleton className="h-72 w-full" />
-      </div>
+      </LoadingStatus>
     );
 
   const toggleSuspend = async (item: Item) => {
@@ -261,8 +268,8 @@ export default function LibraryPage() {
   /** Picking from the tree shows the new list from its top, even when scrolled far down. */
   const showFromTree = (row: TreeRow) => {
     select(row.kind === 'course' ? { course: row.id } : { topic: row.id });
-    const top = contentRef.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) window.scrollTo({ top: window.scrollY + top - 24 });
+    const el = contentRef.current;
+    if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ block: 'start' });
   };
   const flatTopics = course ? curriculumOrder(data.topics, course.id) : [];
   const newItem = () => navigate(`/items/new${selectedTopic ? `?topic=${selectedTopic.id}` : ''}`);
@@ -383,7 +390,7 @@ export default function LibraryPage() {
             </div>
 
             {/* The tree stays in view with its own scrolling while the item list scrolls. */}
-            <div className="sticky top-6 hidden xl:block">
+            <div className="sticky top-(--page-top) hidden xl:block">
               <TopicTree
                 courses={data.courses}
                 topics={data.topics}
@@ -439,7 +446,7 @@ export default function LibraryPage() {
                   />
                 </div>
                 {selectedTopic && (
-                  <div className="mt-4 rounded-xl border border-line bg-bg-alt px-4 py-3.5">
+                  <div className={cn(surface, 'mt-4 px-4 py-3.5')}>
                     <Switch
                       checked={selectedTopic.active}
                       onChange={(v) => void repo.setTopicActive(selectedTopic.id, v)}
@@ -533,7 +540,7 @@ export default function LibraryPage() {
                 </EmptyState>
               )
             ) : (
-              <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-bg-alt">
+              <ul className={cn(surface, 'divide-y divide-line overflow-hidden')}>
                 {visibleItems.slice(0, limit).map((item) => {
                   const cards = cardsByItem.get(item.id) ?? [];
                   const allSuspended = cards.length > 0 && cards.every((c) => c.suspended);

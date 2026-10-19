@@ -3,10 +3,13 @@
  * using coalesced events for smooth curves; once a stylus is seen, touches are ignored
  * (palm rejection). Strokes are data, so they redraw on resize and theme changes.
  */
+
 import { type PointerEvent, useCallback, useEffect, useRef } from 'react';
 import { onThemeChange } from '../../lib/theme';
 import { IconButton } from '../../ui/Button';
+import { cn } from '../../ui/cn';
 import { Icon } from '../../ui/Icon';
+import { surface } from '../../ui/misc';
 import {
   type Point,
   STROKE_WIDTH,
@@ -131,7 +134,12 @@ export function Sketchpad({
   const empty = strokes.length === 0;
 
   return (
-    <div className="relative min-h-60 flex-1 animate-rise overflow-hidden rounded-xl border border-line bg-bg-alt [-webkit-touch-callout:none] select-none">
+    <div
+      className={cn(
+        surface,
+        'relative min-h-60 flex-1 animate-rise overflow-hidden [-webkit-touch-callout:none] select-none',
+      )}
+    >
       {/* A faint dot grid helps keep handwriting level, like squared paper. */}
       <div
         aria-hidden

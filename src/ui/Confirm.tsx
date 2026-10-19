@@ -50,6 +50,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
         onClose={() => settle(false)}
         title={options?.title ?? ''}
         size="sm"
+        onSubmit={() => ready && settle(true)}
         footer={
           <>
             {/* The safe choice takes focus, so Enter never destroys anything by accident. */}
@@ -60,19 +61,13 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
             >
               Cancel
             </Button>
-            <Button variant="destructive" disabled={!ready} onClick={() => settle(true)}>
+            <Button type="submit" variant="destructive" disabled={!ready}>
               {options?.confirmLabel}
             </Button>
           </>
         }
       >
-        <form
-          className="space-y-4 text-[15px] text-muted"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (ready) settle(true);
-          }}
-        >
+        <div className="space-y-4 text-[15px] text-muted">
           {options?.body && <div>{options.body}</div>}
           {word && (
             <Field label={`Type ${word} to confirm`}>
@@ -89,7 +84,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
               )}
             </Field>
           )}
-        </form>
+        </div>
       </Dialog>
     </ConfirmContext.Provider>
   );
