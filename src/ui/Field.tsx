@@ -2,14 +2,14 @@ import {
   forwardRef,
   type InputHTMLAttributes,
   type ReactNode,
-  type SelectHTMLAttributes,
   type TextareaHTMLAttributes,
   useId,
 } from 'react';
 import { cn } from './cn';
 import { Icon, type IconName } from './Icon';
 
-const CONTROL =
+/** Shared look of text inputs, textareas and the Select trigger. */
+export const fieldControl =
   'w-full rounded-[10px] border border-line bg-bg px-3.5 text-base text-fg placeholder:text-dim sm:text-[15px] ' +
   'transition-colors hover:border-line-strong focus:border-line-strong';
 
@@ -53,7 +53,7 @@ export function Field({ label, hint, error, children, className }: FieldProps) {
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function Input({ className, ...props }, ref) {
-    return <input ref={ref} className={cn(CONTROL, 'h-11', className)} {...props} />;
+    return <input ref={ref} className={cn(fieldControl, 'h-11', className)} {...props} />;
   },
 );
 
@@ -67,7 +67,7 @@ export const Textarea = forwardRef<
     <textarea
       ref={ref}
       className={cn(
-        CONTROL,
+        fieldControl,
         'min-h-20 py-2.5 leading-relaxed',
         mono && 'font-mono text-[15px] sm:text-sm',
         className,
@@ -76,12 +76,6 @@ export const Textarea = forwardRef<
     />
   );
 });
-
-export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSelectElement>>(
-  function Select({ className, ...props }, ref) {
-    return <select ref={ref} className={cn(CONTROL, 'select h-11 pr-9', className)} {...props} />;
-  },
-);
 
 export function Switch({
   checked,

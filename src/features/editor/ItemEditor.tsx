@@ -10,9 +10,10 @@ import type { Item, ItemFields, ItemType } from '../../domain/types';
 import { Button } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
-import { Field, Input, Segmented, Select, Switch, Textarea } from '../../ui/Field';
+import { Field, Input, Segmented, Switch, Textarea } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
 import { Callout, EmptyState, Kbd, Skeleton } from '../../ui/misc';
+import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 
 type FieldKey = keyof ItemFields;
@@ -301,17 +302,15 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
           </div>
           <Field label="Topic">
             {(id) => (
-              <Select id={id} value={topicId} onChange={(e) => setTopicId(e.target.value)}>
-                {topicOptions.map(({ course, topics: ts }) => (
-                  <optgroup key={course.id} label={course.name}>
-                    {ts.map((t) => (
-                      <option key={t.id} value={t.id}>
-                        {t.parentId ? ` ${t.name}` : t.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </Select>
+              <Select
+                id={id}
+                value={topicId}
+                onChange={setTopicId}
+                groups={topicOptions.map(({ course, topics: ts }) => ({
+                  label: course.name,
+                  options: ts.map((t) => ({ value: t.id, label: t.name, indent: !!t.parentId })),
+                }))}
+              />
             )}
           </Field>
         </div>

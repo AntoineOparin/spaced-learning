@@ -3,7 +3,8 @@ import { repo } from '../../db/instance';
 import type { Course, Topic } from '../../domain/types';
 import { Button } from '../../ui/Button';
 import { Dialog } from '../../ui/Dialog';
-import { Field, Input, Select, Textarea } from '../../ui/Field';
+import { Field, Input, Textarea } from '../../ui/Field';
+import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 
 const RETENTION_CHOICES = [0.8, 0.85, 0.9, 0.93, 0.95, 0.97];
@@ -106,15 +107,15 @@ export function CourseDialog({
                 id={id}
                 aria-describedby={d}
                 value={retention}
-                onChange={(e) => setRetention(e.target.value)}
-              >
-                <option value="">Use global setting</option>
-                {RETENTION_CHOICES.map((r) => (
-                  <option key={r} value={r}>
-                    {Math.round(r * 100)}%
-                  </option>
-                ))}
-              </Select>
+                onChange={setRetention}
+                options={[
+                  { value: '', label: 'Use global setting' },
+                  ...RETENTION_CHOICES.map((r) => ({
+                    value: String(r),
+                    label: `${Math.round(r * 100)}%`,
+                  })),
+                ]}
+              />
             )}
           </Field>
           <Field label="New cards per day" hint="Leave empty to use the global setting.">

@@ -12,10 +12,11 @@ import { type Card, CardState, type Course, type Item, type Topic } from '../../
 import { Button, IconButton } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
-import { Input, Select, Switch } from '../../ui/Field';
+import { Input, Switch } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
 import { Menu, type MenuItem } from '../../ui/Menu';
 import { Badge, type BadgeTone, EmptyState, PageHeader, Skeleton } from '../../ui/misc';
+import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { CourseDialog, TopicDialog } from './dialogs';
 
@@ -405,28 +406,18 @@ export default function LibraryPage() {
               <Select
                 aria-label="Course"
                 value={course?.id ?? ''}
-                onChange={(e) => select({ course: e.target.value })}
-              >
-                {data.courses.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </Select>
+                onChange={(v) => select({ course: v })}
+                options={data.courses.map((c) => ({ value: c.id, label: c.name }))}
+              />
               <Select
                 aria-label="Topic"
                 value={selectedTopic?.id ?? ''}
-                onChange={(e) =>
-                  select(e.target.value ? { topic: e.target.value } : { course: course?.id })
-                }
-              >
-                <option value="">All topics</option>
-                {flatTopics.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.parentId ? ` ${t.name}` : t.name}
-                  </option>
-                ))}
-              </Select>
+                onChange={(v) => select(v ? { topic: v } : { course: course?.id })}
+                options={[
+                  { value: '', label: 'All topics' },
+                  ...flatTopics.map((t) => ({ value: t.id, label: t.name, indent: !!t.parentId })),
+                ]}
+              />
             </div>
 
             <div className="sticky top-12 hidden space-y-1 xl:block">

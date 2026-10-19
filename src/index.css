@@ -86,8 +86,6 @@
   --mat-2: #4a9410;
   --mat-3: #2a6503;
 
-  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f6b62' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
-
   /* Motion. A critically damped spring (damping 1.0) sampled into linear(); the shape is
      time-scale invariant, so response 0.3 s settles in 440 ms and response 0.4 s in 590 ms. */
   --spring: linear(
@@ -165,8 +163,6 @@
   --mat-1: #2f6a0c;
   --mat-2: #4f9e14;
   --mat-3: #7ad83a;
-
-  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b5afa3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
 
   color-scheme: dark;
 }
@@ -376,14 +372,6 @@ body {
     min-height: 2px;
     border-radius: 999px;
     background: rgb(255 255 255 / 0.32);
-  }
-
-  .select {
-    appearance: none;
-    background-image: var(--select-chevron);
-    background-repeat: no-repeat;
-    background-position: right 0.625rem center;
-    background-size: 1.125rem;
   }
 
   /* Range slider: green fill up to the thumb (set --fill as a percentage). */

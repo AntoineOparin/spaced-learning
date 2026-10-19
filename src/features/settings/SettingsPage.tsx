@@ -22,9 +22,10 @@ import { Button, buttonClass } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
-import { Input, Segmented, Select, Switch } from '../../ui/Field';
+import { Input, Segmented, Switch } from '../../ui/Field';
 import { Icon, type IconName } from '../../ui/Icon';
 import { PageHeader } from '../../ui/misc';
+import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
 
@@ -199,14 +200,9 @@ function StudySettings({ settings }: { settings: Settings }) {
             aria-describedby={d}
             value={settings.dayStartHour}
             className="w-28 tabular-nums"
-            onChange={(e) => void update({ dayStartHour: Number(e.target.value) })}
-          >
-            {HOURS.map((h) => (
-              <option key={h} value={h}>
-                {String(h).padStart(2, '0')}:00
-              </option>
-            ))}
-          </Select>
+            onChange={(h) => void update({ dayStartHour: h })}
+            options={HOURS.map((h) => ({ value: h, label: `${String(h).padStart(2, '0')}:00` }))}
+          />
         )}
       </Row>
       <Row label="Learning steps" hint="Short same-day repeats for new cards, e.g. 1m 10m.">
