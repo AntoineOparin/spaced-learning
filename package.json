@@ -1,0 +1,58 @@
+{
+  "name": "spaced-learning",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "cf-typegen": "wrangler types",
+    "db:migrate:local": "wrangler d1 migrations apply spaced-learning --local",
+    "db:migrate:remote": "wrangler d1 migrations apply spaced-learning --remote",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "dexie": "4.4.6",
+    "dexie-react-hooks": "4.4.0",
+    "jose": "6.2.12",
+    "katex": "0.19.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router": "8.4.0",
+    "ts-fsrs": "5.4.2",
+    "workbox-window": "7.4.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@biomejs/biome": "2.5.15",
+    "@cloudflare/vite-plugin": "1.63.1",
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/vite": "4.3.3",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.7",
+    "@types/node": "24.19.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "fake-indexeddb": "6.2.5",
+    "jsdom": "29.1.1",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3",
+    "vite": "8.3.2",
+    "vite-plugin-pwa": "2.0.0",
+    "vitest": "5.0.3",
+    "wrangler": "4.149.0"
+  }
+}

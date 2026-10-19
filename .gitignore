@@ -1,0 +1,28 @@
+# dependencies
+node_modules
+
+# build output
+dist
+dist-ssr
+*.local
+
+# cloudflare
+.wrangler
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+# tests
+test-results
+playwright-report
+playwright/.cache
+coverage
+
+# logs
+*.log
+
+# editor / OS
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea

@@ -1,0 +1,2600 @@
+{
+  "format": "spaced-learning-content",
+  "version": 1,
+  "deck": {
+    "id": "calc2-core",
+    "version": 1,
+    "title": "Calculus 2"
+  },
+  "courses": [
+    {
+      "key": "calc2",
+      "name": "Calculus 2",
+      "description": "Core single-variable Calculus 2 (Stewart-style): integration techniques, improper integrals, applications of integration, parametric and polar curves, sequences and series, and power/Taylor series, plus a refresher on derivatives, antiderivatives and trig identities."
+    }
+  ],
+  "topics": [
+    {
+      "key": "prereq",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Derivative & Integral Refresher"
+    },
+    {
+      "key": "prereq-derivatives",
+      "courseKey": "calc2",
+      "parentKey": "prereq",
+      "name": "Derivatives"
+    },
+    {
+      "key": "prereq-antiderivatives",
+      "courseKey": "calc2",
+      "parentKey": "prereq",
+      "name": "Basic Antiderivatives"
+    },
+    {
+      "key": "trig",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Trigonometric Identities"
+    },
+    {
+      "key": "trig-pythagorean",
+      "courseKey": "calc2",
+      "parentKey": "trig",
+      "name": "Pythagorean & Reciprocal"
+    },
+    {
+      "key": "trig-double",
+      "courseKey": "calc2",
+      "parentKey": "trig",
+      "name": "Double-Angle"
+    },
+    {
+      "key": "trig-half",
+      "courseKey": "calc2",
+      "parentKey": "trig",
+      "name": "Half-Angle & Power-Reduction"
+    },
+    {
+      "key": "trig-sum",
+      "courseKey": "calc2",
+      "parentKey": "trig",
+      "name": "Sum, Difference & Product-to-Sum"
+    },
+    {
+      "key": "integration",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Integration Techniques"
+    },
+    {
+      "key": "int-usub",
+      "courseKey": "calc2",
+      "parentKey": "integration",
+      "name": "u-Substitution"
+    },
+    {
+      "key": "int-parts",
+      "courseKey": "calc2",
+      "parentKey": "integration",
+      "name": "Integration by Parts"
+    },
+    {
+      "key": "int-trig",
+      "courseKey": "calc2",
+      "parentKey": "integration",
+      "name": "Trigonometric Integrals"
+    },
+    {
+      "key": "int-trigsub",
+      "courseKey": "calc2",
+      "parentKey": "integration",
+      "name": "Trigonometric Substitution"
+    },
+    {
+      "key": "int-partial",
+      "courseKey": "calc2",
+      "parentKey": "integration",
+      "name": "Partial Fractions"
+    },
+    {
+      "key": "int-strategy",
+      "courseKey": "calc2",
+      "parentKey": "integration",
+      "name": "Choosing a Technique"
+    },
+    {
+      "key": "improper",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Improper Integrals"
+    },
+    {
+      "key": "improper-def",
+      "courseKey": "calc2",
+      "parentKey": "improper",
+      "name": "Definitions"
+    },
+    {
+      "key": "improper-tests",
+      "courseKey": "calc2",
+      "parentKey": "improper",
+      "name": "Convergence"
+    },
+    {
+      "key": "applications",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Applications of Integration"
+    },
+    {
+      "key": "app-area-volume",
+      "courseKey": "calc2",
+      "parentKey": "applications",
+      "name": "Area & Volume"
+    },
+    {
+      "key": "app-arc-surface",
+      "courseKey": "calc2",
+      "parentKey": "applications",
+      "name": "Arc Length & Surface Area"
+    },
+    {
+      "key": "app-average",
+      "courseKey": "calc2",
+      "parentKey": "applications",
+      "name": "Average Value"
+    },
+    {
+      "key": "param-polar",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Parametric & Polar"
+    },
+    {
+      "key": "param",
+      "courseKey": "calc2",
+      "parentKey": "param-polar",
+      "name": "Parametric Curves"
+    },
+    {
+      "key": "polar",
+      "courseKey": "calc2",
+      "parentKey": "param-polar",
+      "name": "Polar Coordinates"
+    },
+    {
+      "key": "series",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Sequences & Series"
+    },
+    {
+      "key": "series-sequences",
+      "courseKey": "calc2",
+      "parentKey": "series",
+      "name": "Sequences"
+    },
+    {
+      "key": "series-geometric",
+      "courseKey": "calc2",
+      "parentKey": "series",
+      "name": "Geometric & Telescoping"
+    },
+    {
+      "key": "series-tests",
+      "courseKey": "calc2",
+      "parentKey": "series",
+      "name": "Convergence Tests"
+    },
+    {
+      "key": "series-alternating",
+      "courseKey": "calc2",
+      "parentKey": "series",
+      "name": "Alternating Series & Absolute Convergence"
+    },
+    {
+      "key": "series-strategy",
+      "courseKey": "calc2",
+      "parentKey": "series",
+      "name": "Choosing a Test"
+    },
+    {
+      "key": "power",
+      "courseKey": "calc2",
+      "parentKey": null,
+      "name": "Power & Taylor Series"
+    },
+    {
+      "key": "power-series",
+      "courseKey": "calc2",
+      "parentKey": "power",
+      "name": "Power Series"
+    },
+    {
+      "key": "power-taylor",
+      "courseKey": "calc2",
+      "parentKey": "power",
+      "name": "Taylor & Maclaurin Series"
+    },
+    {
+      "key": "power-remainder",
+      "courseKey": "calc2",
+      "parentKey": "power",
+      "name": "Remainders & Approximation"
+    }
+  ],
+  "items": [
+    {
+      "key": "deriv-cos",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\cos x = \\;?$",
+      "answer": "$-\\sin x$",
+      "explanation": "Sign check: on $(0, \\pi)$ cosine is decreasing while $\\sin x > 0$, so the derivative must be $-\\sin x$.\n\nCompare $\\dfrac{d}{dx}\\sin x = \\cos x$, with no minus sign.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-tan",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\tan x = \\;?$",
+      "answer": "$\\sec^2 x$",
+      "explanation": "Quotient rule on $\\dfrac{\\sin x}{\\cos x}$: $\\dfrac{\\cos x\\cdot\\cos x - \\sin x\\cdot(-\\sin x)}{\\cos^2 x} = \\dfrac{1}{\\cos^2 x} = \\sec^2 x$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-sec",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\sec x = \\;?$",
+      "answer": "$\\sec x\\tan x$",
+      "explanation": "Write $\\sec x = (\\cos x)^{-1}$. Chain rule: $-(\\cos x)^{-2}\\cdot(-\\sin x) = \\dfrac{1}{\\cos x}\\cdot\\dfrac{\\sin x}{\\cos x} = \\sec x\\tan x$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-csc",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\csc x = \\;?$",
+      "answer": "$-\\csc x\\cot x$",
+      "explanation": "$(\\sin x)^{-1}$ differentiates to $-(\\sin x)^{-2}\\cos x = -\\dfrac{1}{\\sin x}\\cdot\\dfrac{\\cos x}{\\sin x} = -\\csc x\\cot x$.\n\nPattern: the derivatives of the \"co-\" functions ($\\cos$, $\\cot$, $\\csc$) all carry a minus sign.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-ln-abs",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\ln|x| = \\;?$ (for $x \\ne 0$)",
+      "answer": "$\\dfrac{1}{x}$",
+      "explanation": "For $x > 0$ this is just $\\frac{d}{dx}\\ln x = \\frac{1}{x}$. For $x < 0$, $\\ln|x| = \\ln(-x)$ and the chain rule gives $\\dfrac{-1}{-x} = \\dfrac{1}{x}$.\n\nThat is why $\\int \\frac{dx}{x} = \\ln|x| + C$ carries an absolute value.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-exp-a",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}a^x = \\;?$ (for a constant $a > 0$)",
+      "answer": "$a^x\\ln a$",
+      "explanation": "$a^x = e^{x\\ln a}$, so the chain rule gives $e^{x\\ln a}\\cdot\\ln a = a^x\\ln a$. For $a = e$, $\\ln e = 1$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-arcsin",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\arcsin x = \\;?$",
+      "answer": "$\\dfrac{1}{\\sqrt{1 - x^2}}$ (for $|x| < 1$)",
+      "explanation": "Let $y = \\arcsin x$, so $\\sin y = x$ with $-\\frac{\\pi}{2} \\le y \\le \\frac{\\pi}{2}$. Differentiating implicitly, $\\cos y\\,y' = 1$, and $\\cos y = \\sqrt{1 - \\sin^2 y} = \\sqrt{1 - x^2}$ (cosine is $\\ge 0$ on that range).",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-arccos",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "How does $\\dfrac{d}{dx}\\arccos x$ differ from $\\dfrac{d}{dx}\\arcsin x$?",
+      "answer": "Only in sign: $\\dfrac{d}{dx}\\arccos x = -\\dfrac{1}{\\sqrt{1 - x^2}}$, while $\\dfrac{d}{dx}\\arcsin x = +\\dfrac{1}{\\sqrt{1 - x^2}}$.",
+      "explanation": "$\\arcsin x + \\arccos x = \\dfrac{\\pi}{2}$ is constant, so the two derivatives must add up to $0$.",
+      "tags": [
+        "confusable",
+        "formula"
+      ]
+    },
+    {
+      "key": "deriv-arctan",
+      "topicKey": "prereq-derivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\arctan x = \\;?$",
+      "answer": "$\\dfrac{1}{1 + x^2}$",
+      "explanation": "Let $y = \\arctan x$, so $\\tan y = x$. Then $\\sec^2 y\\,y' = 1$, and $\\sec^2 y = 1 + \\tan^2 y = 1 + x^2$.\n\nRead backwards: $\\int \\frac{dx}{1 + x^2} = \\arctan x + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-power",
+      "topicKey": "prereq-antiderivatives",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int x^n\\,dx = {{c1::\\frac{x^{n+1}}{n+1}}} + C$, valid for every $n \\ne {{c2::-1}}$",
+      "answer": "For $n = -1$: $\\int x^{-1}\\,dx = \\ln|x| + C$.",
+      "explanation": "Check by differentiating: $\\dfrac{d}{dx}\\dfrac{x^{n+1}}{n+1} = x^n$. This breaks down when $n + 1 = 0$.",
+      "tags": [
+        "formula",
+        "condition"
+      ]
+    },
+    {
+      "key": "antideriv-recip",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\frac{1}{x}\\,dx = \\;?$",
+      "answer": "$\\ln|x| + C$",
+      "explanation": "$\\frac{1}{x}$ is defined for $x < 0$ too, and $\\frac{d}{dx}\\ln|x| = \\frac{1}{x}$ for every $x \\ne 0$. Without the absolute value the answer would only be valid for $x > 0$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-exp-a",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int a^x\\,dx = \\;?$ (for a constant $a > 0$, $a \\ne 1$)",
+      "answer": "$\\dfrac{a^x}{\\ln a} + C$",
+      "explanation": "Undo $\\frac{d}{dx}a^x = a^x\\ln a$ by dividing by the constant $\\ln a$. Example: $\\int 2^x\\,dx = \\frac{2^x}{\\ln 2} + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-sin",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\sin x\\,dx = \\;?$",
+      "answer": "$-\\cos x + C$",
+      "explanation": "Check: $\\frac{d}{dx}(-\\cos x) = \\sin x$. The minus sign appears in the integral of $\\sin$ and in the derivative of $\\cos$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-csc2",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\csc^2 x\\,dx = \\;?$",
+      "answer": "$-\\cot x + C$",
+      "explanation": "Because $\\frac{d}{dx}\\cot x = -\\csc^2 x$. Compare $\\int \\sec^2 x\\,dx = \\tan x + C$, which has no minus sign.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-tan",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\tan x\\,dx = \\;?$",
+      "answer": "$\\ln|\\sec x| + C$ (equivalently $-\\ln|\\cos x| + C$)",
+      "explanation": "Write $\\tan x = \\dfrac{\\sin x}{\\cos x}$ and let $u = \\cos x$, $du = -\\sin x\\,dx$: $-\\int \\frac{du}{u} = -\\ln|\\cos x| + C = \\ln|\\sec x| + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-sec",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\sec x\\,dx = \\;?$",
+      "answer": "$\\ln|\\sec x + \\tan x| + C$",
+      "explanation": "Check: $\\dfrac{d}{dx}\\ln|\\sec x + \\tan x| = \\dfrac{\\sec x\\tan x + \\sec^2 x}{\\sec x + \\tan x} = \\sec x$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-csc",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\csc x\\,dx = \\;?$ (contrast with $\\int \\sec x\\,dx = \\ln|\\sec x + \\tan x| + C$)",
+      "answer": "$-\\ln|\\csc x + \\cot x| + C$, equivalently $\\ln|\\csc x - \\cot x| + C$",
+      "explanation": "Multiply by $\\frac{\\csc x + \\cot x}{\\csc x + \\cot x}$. The numerator $\\csc^2 x + \\csc x\\cot x$ is **minus** the derivative of $u = \\csc x + \\cot x$, which gives $-\\ln|u|$.\n\nThe two forms agree because $(\\csc x + \\cot x)(\\csc x - \\cot x) = \\csc^2 x - \\cot^2 x = 1$.",
+      "tags": [
+        "formula",
+        "confusable"
+      ]
+    },
+    {
+      "key": "antideriv-arctan-a",
+      "topicKey": "prereq-antiderivatives",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int \\frac{dx}{x^2 + a^2} = {{c1::\\frac{1}{a}}}\\,{{c2::\\arctan\\left(\\frac{x}{a}\\right)}} + C \\quad (a > 0)$",
+      "answer": "",
+      "explanation": "Substitute $x = au$: $\\displaystyle\\int \\frac{a\\,du}{a^2(u^2 + 1)} = \\frac{1}{a}\\arctan u + C$.\n\nCheck: $\\dfrac{d}{dx}\\left[\\dfrac{1}{a}\\arctan\\dfrac{x}{a}\\right] = \\dfrac{1}{a}\\cdot\\dfrac{1/a}{1 + x^2/a^2} = \\dfrac{1}{x^2 + a^2}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "antideriv-arcsin-a",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\frac{dx}{\\sqrt{a^2 - x^2}} = \\;?$ (for $a > 0$)",
+      "answer": "$\\arcsin\\left(\\dfrac{x}{a}\\right) + C$",
+      "explanation": "Substitute $x = au$: $\\displaystyle\\int \\frac{a\\,du}{a\\sqrt{1 - u^2}} = \\arcsin u + C$.\n\nUnlike $\\int \\frac{dx}{x^2 + a^2} = \\frac{1}{a}\\arctan\\frac{x}{a} + C$, there is **no** $\\frac{1}{a}$ factor: the $a$'s cancel.",
+      "tags": [
+        "formula",
+        "confusable"
+      ]
+    },
+    {
+      "key": "antideriv-mistake-xm2",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "Is $\\displaystyle\\int \\frac{1}{x^2}\\,dx = \\ln(x^2) + C$?",
+      "answer": "No. Use the power rule with $n = -2$: $\\displaystyle\\int x^{-2}\\,dx = \\frac{x^{-1}}{-1} + C = -\\frac{1}{x} + C$.",
+      "explanation": "A logarithm only comes from $x^{-1}$. Checking the wrong answer: $\\frac{d}{dx}\\ln(x^2) = \\frac{2}{x} \\ne \\frac{1}{x^2}$.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "ftc1-chain",
+      "topicKey": "prereq-antiderivatives",
+      "type": "basic",
+      "prompt": "$\\dfrac{d}{dx}\\displaystyle\\int_a^{g(x)} f(t)\\,dt = \\;?$ ($f$ continuous, $g$ differentiable)",
+      "answer": "$f(g(x))\\,g'(x)$",
+      "explanation": "FTC part 1 gives $\\frac{d}{du}\\int_a^u f(t)\\,dt = f(u)$; the chain rule with $u = g(x)$ supplies the factor $g'(x)$.\n\nExample: $\\frac{d}{dx}\\int_0^{x^2}\\cos t\\,dt = 2x\\cos(x^2)$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "trig-pyth-sin-cos",
+      "topicKey": "trig-pythagorean",
+      "type": "cloze",
+      "prompt": "$1 - \\sin^2\\theta = {{c1::\\cos^2\\theta}}$",
+      "answer": "From $\\sin^2\\theta + \\cos^2\\theta = 1$.",
+      "explanation": "This is what makes $x = a\\sin\\theta$ work: $\\sqrt{a^2 - a^2\\sin^2\\theta} = \\sqrt{a^2\\cos^2\\theta} = a\\cos\\theta$ for $-\\frac{\\pi}{2} \\le \\theta \\le \\frac{\\pi}{2}$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-pyth-tan-sec",
+      "topicKey": "trig-pythagorean",
+      "type": "cloze",
+      "prompt": "$1 + \\tan^2\\theta = {{c1::\\sec^2\\theta}}$",
+      "answer": "",
+      "explanation": "Divide $\\sin^2\\theta + \\cos^2\\theta = 1$ by $\\cos^2\\theta$.\n\nUsed with $x = a\\tan\\theta$ (so $\\sqrt{a^2 + x^2} = a\\sec\\theta$), and as $\\tan^2\\theta = \\sec^2\\theta - 1$ in $\\int \\tan^m x\\sec^n x\\,dx$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-pyth-cot-csc",
+      "topicKey": "trig-pythagorean",
+      "type": "basic",
+      "prompt": "Derive the identity relating $\\cot^2\\theta$ and $\\csc^2\\theta$ from $\\sin^2\\theta + \\cos^2\\theta = 1$.",
+      "answer": "Divide by $\\sin^2\\theta$: $1 + \\cot^2\\theta = \\csc^2\\theta$.",
+      "explanation": "$\\dfrac{\\sin^2\\theta}{\\sin^2\\theta} + \\dfrac{\\cos^2\\theta}{\\sin^2\\theta} = \\dfrac{1}{\\sin^2\\theta}$. Dividing by $\\cos^2\\theta$ instead gives $\\tan^2\\theta + 1 = \\sec^2\\theta$.",
+      "tags": [
+        "derivation",
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-reciprocal",
+      "topicKey": "trig-pythagorean",
+      "type": "basic",
+      "prompt": "$\\sec\\theta$ and $\\csc\\theta$ are the reciprocals of which functions?",
+      "answer": "$\\sec\\theta = \\dfrac{1}{\\cos\\theta}$ and $\\csc\\theta = \\dfrac{1}{\\sin\\theta}$",
+      "explanation": "Each pairs a \"co-\" name with a plain name: **co**secant goes with sine, secant goes with **co**sine (and **co**tangent is $\\frac{1}{\\tan}$).",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "trig-astc",
+      "topicKey": "trig-pythagorean",
+      "type": "basic",
+      "prompt": "For $\\theta$ in quadrant II ($\\frac{\\pi}{2} < \\theta < \\pi$), which of $\\sin\\theta$, $\\cos\\theta$, $\\tan\\theta$ are positive?",
+      "answer": "Only $\\sin\\theta$ (and its reciprocal $\\csc\\theta$).",
+      "explanation": "On the unit circle in quadrant II, $x < 0$ and $y > 0$: $\\cos\\theta = x < 0$, $\\sin\\theta = y > 0$, $\\tan\\theta = \\frac{y}{x} < 0$.",
+      "mnemonic": "**ASTC**, \"All Students Take Calculus\": in quadrants I, II, III, IV the positive functions are All, Sine, Tangent, Cosine.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "trig-even-odd",
+      "topicKey": "trig-pythagorean",
+      "type": "cloze",
+      "prompt": "$\\sin(-x) = {{c1::-\\sin x}}$ and $\\cos(-x) = {{c2::\\cos x}}$",
+      "answer": "Sine (and tangent) are odd; cosine is even.",
+      "explanation": "Reflecting a point on the unit circle across the $x$-axis flips $y = \\sin\\theta$ but keeps $x = \\cos\\theta$. Useful for symmetric integrals, e.g. $\\int_{-a}^{a}\\sin x\\,dx = 0$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-double-sin",
+      "topicKey": "trig-double",
+      "type": "cloze",
+      "prompt": "$\\sin 2x = {{c1::2\\sin x\\cos x}}$",
+      "answer": "",
+      "explanation": "From $\\sin(A + B) = \\sin A\\cos B + \\cos A\\sin B$ with $A = B = x$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-double-cos",
+      "topicKey": "trig-double",
+      "type": "cloze",
+      "prompt": "$\\cos 2x = \\cos^2 x - \\sin^2 x = {{c1::2\\cos^2 x - 1}} = {{c2::1 - 2\\sin^2 x}}$",
+      "answer": "Convert between the forms with $\\sin^2 x + \\cos^2 x = 1$.",
+      "explanation": "Sanity check at $x = 0$: every form gives $1$. Solving the last two forms for $\\cos^2 x$ and $\\sin^2 x$ gives the power-reduction formulas.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-double-derive",
+      "topicKey": "trig-double",
+      "type": "basic",
+      "prompt": "Derive the double-angle formulas for $\\sin 2x$ and $\\cos 2x$ from the addition formulas.",
+      "answer": "Set $A = B = x$:\n$\\sin(x + x) = \\sin x\\cos x + \\cos x\\sin x = 2\\sin x\\cos x$\n$\\cos(x + x) = \\cos x\\cos x - \\sin x\\sin x = \\cos^2 x - \\sin^2 x$",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "trig-sincos-half",
+      "topicKey": "trig-double",
+      "type": "cloze",
+      "prompt": "$\\sin x\\cos x = {{c1::\\tfrac{1}{2}\\sin 2x}}$",
+      "answer": "",
+      "explanation": "Rearranged $\\sin 2x = 2\\sin x\\cos x$. Handy for $\\int \\sin x\\cos x\\,dx$ and for $\\sin^2 x\\cos^2 x = \\frac{1}{4}\\sin^2 2x$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-power-sin",
+      "topicKey": "trig-half",
+      "type": "cloze",
+      "prompt": "$\\sin^2 x = {{c1::\\dfrac{1 - \\cos 2x}{2}}}$",
+      "answer": "",
+      "explanation": "Check at $x = 0$: $\\sin^2 0 = 0 = \\frac{1 - 1}{2}$, so the minus sign belongs with sine.\n\nUsed for even powers in integrals: $\\int \\sin^2 x\\,dx = \\frac{x}{2} - \\frac{\\sin 2x}{4} + C$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-power-cos",
+      "topicKey": "trig-half",
+      "type": "cloze",
+      "prompt": "$\\cos^2 x = {{c1::\\dfrac{1 + \\cos 2x}{2}}}$",
+      "answer": "",
+      "explanation": "Check at $x = 0$: $\\cos^2 0 = 1 = \\frac{1 + 1}{2}$.\n\nUsed for even powers in integrals: $\\int \\cos^2 x\\,dx = \\frac{x}{2} + \\frac{\\sin 2x}{4} + C$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-power-derive",
+      "topicKey": "trig-half",
+      "type": "basic",
+      "prompt": "Derive the power-reduction formula for $\\sin^2 x$ from a double-angle formula.",
+      "answer": "Start from $\\cos 2x = 1 - 2\\sin^2 x$ and solve: $\\sin^2 x = \\dfrac{1 - \\cos 2x}{2}$.",
+      "explanation": "The same idea with $\\cos 2x = 2\\cos^2 x - 1$ gives $\\cos^2 x = \\frac{1 + \\cos 2x}{2}$. These trade a square for a first power of $\\cos 2x$, which integrates easily.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "trig-half-sin",
+      "topicKey": "trig-half",
+      "type": "cloze",
+      "prompt": "$\\sin\\dfrac{\\theta}{2} = {{c1::\\pm\\sqrt{\\dfrac{1 - \\cos\\theta}{2}}}}$",
+      "answer": "The sign is chosen by the quadrant of $\\frac{\\theta}{2}$.",
+      "explanation": "It is the power-reduction formula $\\sin^2 u = \\frac{1 - \\cos 2u}{2}$ with $u = \\frac{\\theta}{2}$, followed by a square root.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-half-cos",
+      "topicKey": "trig-half",
+      "type": "cloze",
+      "prompt": "$\\cos\\dfrac{\\theta}{2} = {{c1::\\pm\\sqrt{\\dfrac{1 + \\cos\\theta}{2}}}}$",
+      "answer": "The sign is chosen by the quadrant of $\\frac{\\theta}{2}$.",
+      "explanation": "It is the power-reduction formula $\\cos^2 u = \\frac{1 + \\cos 2u}{2}$ with $u = \\frac{\\theta}{2}$, followed by a square root.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-sin2cos2",
+      "topicKey": "trig-half",
+      "type": "basic",
+      "prompt": "Rewrite $\\sin^2 x\\cos^2 x$ using a single cosine of a multiple angle.",
+      "answer": "$\\sin^2 x\\cos^2 x = \\dfrac{1 - \\cos 4x}{8}$",
+      "explanation": "$\\sin x\\cos x = \\frac{1}{2}\\sin 2x$, so $\\sin^2 x\\cos^2 x = \\frac{1}{4}\\sin^2 2x = \\frac{1}{4}\\cdot\\frac{1 - \\cos 4x}{2}$.",
+      "tags": [
+        "derivation",
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-sum-sin",
+      "topicKey": "trig-sum",
+      "type": "cloze",
+      "prompt": "$\\sin(A \\pm B) = {{c1::\\sin A\\cos B \\pm \\cos A\\sin B}}$",
+      "answer": "Sine keeps the sign and mixes the functions.",
+      "explanation": "Sanity checks: $B = A$ in the plus version gives $\\sin 2A = 2\\sin A\\cos A$; the minus version gives $\\sin 0 = 0$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-sum-cos",
+      "topicKey": "trig-sum",
+      "type": "cloze",
+      "prompt": "$\\cos(A \\pm B) = {{c1::\\cos A\\cos B \\mp \\sin A\\sin B}}$",
+      "answer": "Cosine flips the sign: $\\cos(A + B)$ has a minus, $\\cos(A - B)$ a plus.",
+      "explanation": "Check with $B = A$: $\\cos(A - A) = \\cos^2 A + \\sin^2 A = 1$, and $\\cos(A + A) = \\cos^2 A - \\sin^2 A = \\cos 2A$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-prod-sin-cos",
+      "topicKey": "trig-sum",
+      "type": "cloze",
+      "prompt": "$\\sin A\\cos B = {{c1::\\tfrac{1}{2}\\left[\\sin(A - B) + \\sin(A + B)\\right]}}$",
+      "answer": "",
+      "explanation": "Add $\\sin(A - B) = \\sin A\\cos B - \\cos A\\sin B$ and $\\sin(A + B) = \\sin A\\cos B + \\cos A\\sin B$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-prod-sin-sin",
+      "topicKey": "trig-sum",
+      "type": "cloze",
+      "prompt": "$\\sin A\\sin B = {{c1::\\tfrac{1}{2}\\left[\\cos(A - B) - \\cos(A + B)\\right]}}$",
+      "answer": "",
+      "explanation": "Check with $B = A$: $\\sin^2 A = \\frac{1}{2}\\left[1 - \\cos 2A\\right]$, the power-reduction formula.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-prod-cos-cos",
+      "topicKey": "trig-sum",
+      "type": "cloze",
+      "prompt": "$\\cos A\\cos B = {{c1::\\tfrac{1}{2}\\left[\\cos(A - B) + \\cos(A + B)\\right]}}$",
+      "answer": "",
+      "explanation": "Check with $B = A$: $\\cos^2 A = \\frac{1}{2}\\left[1 + \\cos 2A\\right]$, the power-reduction formula.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "trig-prod-derive",
+      "topicKey": "trig-sum",
+      "type": "basic",
+      "prompt": "Derive the product-to-sum formula for $\\sin A\\sin B$ from the cosine addition formulas.",
+      "answer": "Subtract: $\\cos(A - B) - \\cos(A + B) = 2\\sin A\\sin B$, so $\\sin A\\sin B = \\tfrac{1}{2}\\left[\\cos(A - B) - \\cos(A + B)\\right]$.",
+      "explanation": "$\\cos(A \\mp B) = \\cos A\\cos B \\pm \\sin A\\sin B$; the $\\cos A\\cos B$ terms cancel when you subtract. Adding instead gives $\\cos A\\cos B = \\tfrac{1}{2}\\left[\\cos(A - B) + \\cos(A + B)\\right]$.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "usub-pattern",
+      "topicKey": "int-usub",
+      "type": "basic",
+      "prompt": "What pattern in an integrand signals $u$-substitution?",
+      "answer": "A composite $f(g(x))$ multiplied by (a constant multiple of) the inner derivative $g'(x)$. Set $u = g(x)$, $du = g'(x)\\,dx$.",
+      "explanation": "It is the chain rule in reverse: $\\int f(g(x))\\,g'(x)\\,dx = \\int f(u)\\,du$.\n\nExample: $\\int 2x\\cos(x^2)\\,dx = \\sin(x^2) + C$.",
+      "tags": [
+        "concept",
+        "strategy"
+      ]
+    },
+    {
+      "key": "usub-definite",
+      "topicKey": "int-usub",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int_a^b f(g(x))\\,g'(x)\\,dx = \\int_{ {{c1::g(a)}} }^{ {{c1::g(b)}} } f(u)\\,du$",
+      "answer": "Change the limits together with the variable; then no back-substitution is needed.",
+      "explanation": "Example: $\\int_0^{\\pi/2}\\sin x\\cos x\\,dx$ with $u = \\sin x$: $x = 0 \\mapsto u = 0$, $x = \\frac{\\pi}{2} \\mapsto u = 1$, so it equals $\\int_0^1 u\\,du = \\frac{1}{2}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "usub-log-deriv",
+      "topicKey": "int-usub",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int \\frac{f'(x)}{f(x)}\\,dx = {{c1::\\ln|f(x)|}} + C$",
+      "answer": "",
+      "explanation": "Let $u = f(x)$: $\\int \\frac{du}{u} = \\ln|u| + C$.\n\nExamples: $\\int \\frac{2x}{x^2 + 1}\\,dx = \\ln(x^2 + 1) + C$; $\\int \\cot x\\,dx = \\ln|\\sin x| + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "usub-linear",
+      "topicKey": "int-usub",
+      "type": "cloze",
+      "prompt": "If $F' = f$ and $a \\ne 0$: $\\displaystyle\\int f(ax + b)\\,dx = {{c1::\\frac{1}{a}F(ax + b)}} + C$",
+      "answer": "",
+      "explanation": "$u = ax + b$, $du = a\\,dx$. Examples: $\\int \\cos(3x)\\,dx = \\frac{1}{3}\\sin(3x) + C$; $\\int e^{-2x}\\,dx = -\\frac{1}{2}e^{-2x} + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "usub-xexp",
+      "topicKey": "int-usub",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int x e^{x^2}\\,dx$.",
+      "answer": "$\\dfrac{1}{2}e^{x^2} + C$",
+      "explanation": "$u = x^2$, $du = 2x\\,dx$, so $x\\,dx = \\frac{1}{2}\\,du$: $\\frac{1}{2}\\int e^u\\,du = \\frac{1}{2}e^{x^2} + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "usub-mistake-no-factor",
+      "topicKey": "int-usub",
+      "type": "basic",
+      "prompt": "Can $\\displaystyle\\int e^{x^2}\\,dx$ be done with $u = x^2$?",
+      "answer": "No. There is no factor $x$ to supply $du = 2x\\,dx$ (and you cannot divide by the variable $x$ outside the integral). $e^{x^2}$ has no elementary antiderivative.",
+      "explanation": "Contrast $\\int x e^{x^2}\\,dx = \\frac{1}{2}e^{x^2} + C$. For $\\int e^{x^2}\\,dx$, integrate its power series term by term.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "usub-symmetric",
+      "topicKey": "int-usub",
+      "type": "cloze",
+      "prompt": "For continuous $f$ and $a > 0$: if $f$ is odd, $\\displaystyle\\int_{-a}^{a} f(x)\\,dx = {{c1::0}}$; if $f$ is even, $\\displaystyle\\int_{-a}^{a} f(x)\\,dx = {{c2::2\\int_0^a f(x)\\,dx}}$.",
+      "answer": "",
+      "explanation": "Substitute $u = -x$ in $\\int_{-a}^{0} f(x)\\,dx$: it becomes $\\int_0^a f(-u)\\,du$, which is $-\\int_0^a f$ for odd $f$ and $+\\int_0^a f$ for even $f$.\n\nExample: $\\int_{-1}^{1} x^3\\cos x\\,dx = 0$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "usub-back-sub",
+      "topicKey": "int-usub",
+      "type": "basic",
+      "prompt": "In $\\displaystyle\\int x\\sqrt{x + 1}\\,dx$ with $u = x + 1$, what do you do with the leftover $x$?",
+      "answer": "Solve the substitution for $x$: $x = u - 1$. Then $\\displaystyle\\int (u - 1)\\sqrt{u}\\,du = \\int \\left(u^{3/2} - u^{1/2}\\right)du$.",
+      "explanation": "Result: $\\frac{2}{5}(x + 1)^{5/2} - \\frac{2}{3}(x + 1)^{3/2} + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "ibp-formula",
+      "topicKey": "int-parts",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int u\\,dv = {{c1::uv - \\int v\\,du}}$",
+      "answer": "For definite integrals: $\\displaystyle\\int_a^b u\\,dv = \\Big[uv\\Big]_a^b - \\int_a^b v\\,du$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ibp-derive",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Derive the integration by parts formula from the product rule.",
+      "answer": "$(uv)' = u'v + uv'$. Integrate both sides: $uv = \\int v\\,du + \\int u\\,dv$, so $\\displaystyle\\int u\\,dv = uv - \\int v\\,du$.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "ibp-liate",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Integration by parts: how do you choose $u$?",
+      "answer": "Take $u$ to be the factor that comes first in LIATE; everything else (including $dx$) is $dv$.",
+      "explanation": "Goal: $u$ gets simpler when differentiated, while $dv$ stays easy to integrate. Example: $\\int x\\ln x\\,dx$ uses $u = \\ln x$ (L comes before A). LIATE is a heuristic, not a law.",
+      "mnemonic": "**LIATE**: Logarithmic, Inverse trig, Algebraic, Trigonometric, Exponential.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "ibp-mistake-choice",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "In $\\displaystyle\\int x e^x\\,dx$, what goes wrong with $u = e^x$, $dv = x\\,dx$?",
+      "answer": "You get $\\dfrac{x^2}{2}e^x - \\displaystyle\\int \\frac{x^2}{2}e^x\\,dx$: the new integral is harder because the power of $x$ went up. Use $u = x$ instead.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "ibp-xex",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int x e^{x}\\,dx$.",
+      "answer": "$(x - 1)e^{x} + C$",
+      "explanation": "$u = x$, $dv = e^x\\,dx$: $xe^x - \\int e^x\\,dx = xe^x - e^x + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ibp-lnx",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int \\ln x\\,dx$.",
+      "answer": "$x\\ln x - x + C$",
+      "explanation": "Trick: $u = \\ln x$, $dv = dx$. Then $du = \\frac{dx}{x}$ and $v = x$: $x\\ln x - \\int x\\cdot\\frac{1}{x}\\,dx = x\\ln x - x + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ibp-arctan",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int \\arctan x\\,dx$.",
+      "answer": "$x\\arctan x - \\dfrac{1}{2}\\ln(1 + x^2) + C$",
+      "explanation": "$u = \\arctan x$, $dv = dx$: $x\\arctan x - \\int \\frac{x}{1 + x^2}\\,dx$. The last integral is $\\frac{1}{2}\\ln(1 + x^2)$ via $w = 1 + x^2$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ibp-xcos",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int x\\cos x\\,dx$.",
+      "answer": "$x\\sin x + \\cos x + C$",
+      "explanation": "$u = x$, $dv = \\cos x\\,dx$, $v = \\sin x$: $x\\sin x - \\int \\sin x\\,dx = x\\sin x + \\cos x + C$. Watch the sign: $-\\int \\sin x\\,dx = +\\cos x$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ibp-tabular",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int x^2 e^{x}\\,dx$ with the tabular method.",
+      "answer": "$e^{x}\\left(x^2 - 2x + 2\\right) + C$",
+      "explanation": "Differentiate $x^2 \\to 2x \\to 2 \\to 0$; integrate $e^x \\to e^x \\to e^x \\to e^x$. Multiply along the diagonals with alternating signs $+, -, +$: $x^2e^x - 2xe^x + 2e^x$.\n\nTabular integration works neatly when one factor is a polynomial (it differentiates to $0$).",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "ibp-cyclic",
+      "topicKey": "int-parts",
+      "type": "basic",
+      "prompt": "Integrating $\\displaystyle\\int e^x\\sin x\\,dx$ by parts twice brings back the original integral. How do you finish?",
+      "answer": "Call the integral $I$. The two steps give $I = e^x\\sin x - e^x\\cos x - I$, so $I = \\dfrac{1}{2}e^x(\\sin x - \\cos x) + C$.",
+      "explanation": "Solve algebraically for $I$ instead of integrating forever. Keep the same kind of choice for $u$ in both steps (here the trig factor); switching to $u = e^x$ in step two just undoes step one.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "trigint-odd-sin",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\sin^m x\\cos^n x\\,dx$ with the power of **sine** odd: what is the plan?",
+      "answer": "Save one $\\sin x$, convert the remaining even power with $\\sin^2 x = 1 - \\cos^2 x$, and substitute $u = \\cos x$, $du = -\\sin x\\,dx$.",
+      "explanation": "Example: $\\int \\sin^3 x\\,dx = \\int (1 - \\cos^2 x)\\sin x\\,dx = -\\cos x + \\frac{\\cos^3 x}{3} + C$.\n\nMirror case: if the power of cosine is odd, save one $\\cos x$, use $\\cos^2 x = 1 - \\sin^2 x$, and let $u = \\sin x$.",
+      "tags": [
+        "strategy",
+        "condition"
+      ]
+    },
+    {
+      "key": "trigint-even",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\sin^m x\\cos^n x\\,dx$ with **both** powers even: what is the plan?",
+      "answer": "Use the power-reduction identities $\\sin^2 x = \\frac{1 - \\cos 2x}{2}$ and $\\cos^2 x = \\frac{1 + \\cos 2x}{2}$, repeatedly if needed. $\\sin x\\cos x = \\frac{1}{2}\\sin 2x$ can also help.",
+      "tags": [
+        "strategy",
+        "condition"
+      ]
+    },
+    {
+      "key": "trigint-sin2",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int \\sin^2 x\\,dx$.",
+      "answer": "$\\dfrac{x}{2} - \\dfrac{\\sin 2x}{4} + C$",
+      "explanation": "$\\displaystyle\\int \\frac{1 - \\cos 2x}{2}\\,dx = \\frac{x}{2} - \\frac{\\sin 2x}{4} + C$. Likewise $\\int \\cos^2 x\\,dx = \\frac{x}{2} + \\frac{\\sin 2x}{4} + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "trigint-sec-even",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\tan^m x\\sec^n x\\,dx$ with the power of **secant** even ($n \\ge 2$): what is the plan?",
+      "answer": "Save $\\sec^2 x$, convert the rest with $\\sec^2 x = 1 + \\tan^2 x$, and substitute $u = \\tan x$, $du = \\sec^2 x\\,dx$.",
+      "explanation": "Example: $\\int \\sec^4 x\\,dx = \\int (1 + \\tan^2 x)\\sec^2 x\\,dx = \\tan x + \\frac{\\tan^3 x}{3} + C$.",
+      "tags": [
+        "strategy",
+        "condition"
+      ]
+    },
+    {
+      "key": "trigint-tan-odd",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\int \\tan^m x\\sec^n x\\,dx$ with the power of **tangent** odd (and $n \\ge 1$): what is the plan?",
+      "answer": "Save $\\sec x\\tan x$, convert the remaining even power of tangent with $\\tan^2 x = \\sec^2 x - 1$, and substitute $u = \\sec x$, $du = \\sec x\\tan x\\,dx$.",
+      "explanation": "Example: $\\int \\tan^3 x\\sec^3 x\\,dx = \\int (\\sec^2 x - 1)\\sec^2 x\\cdot\\sec x\\tan x\\,dx = \\frac{\\sec^5 x}{5} - \\frac{\\sec^3 x}{3} + C$.",
+      "tags": [
+        "strategy",
+        "condition"
+      ]
+    },
+    {
+      "key": "trigint-tan2",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int \\tan^2 x\\,dx$.",
+      "answer": "$\\tan x - x + C$",
+      "explanation": "Rewrite with $\\tan^2 x = \\sec^2 x - 1$: $\\int \\sec^2 x\\,dx - \\int 1\\,dx$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "trigint-sec-derive",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "Derive $\\displaystyle\\int \\sec x\\,dx = \\ln|\\sec x + \\tan x| + C$.",
+      "answer": "Multiply by $\\dfrac{\\sec x + \\tan x}{\\sec x + \\tan x}$. The numerator $\\sec^2 x + \\sec x\\tan x$ is exactly the derivative of $u = \\sec x + \\tan x$, so the integral is $\\displaystyle\\int \\frac{du}{u} = \\ln|\\sec x + \\tan x| + C$.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "trigint-sec3",
+      "topicKey": "int-trig",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int \\sec^3 x\\,dx = {{c1::\\frac{1}{2}\\left(\\sec x\\tan x + \\ln|\\sec x + \\tan x|\\right)}} + C$",
+      "answer": "",
+      "explanation": "By parts with $u = \\sec x$, $dv = \\sec^2 x\\,dx$: $I = \\sec x\\tan x - \\int \\sec x\\tan^2 x\\,dx = \\sec x\\tan x - I + \\int \\sec x\\,dx$ (using $\\tan^2 x = \\sec^2 x - 1$). Solve for $I$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "trigint-prod-sum",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "How do you evaluate $\\displaystyle\\int \\sin 3x\\cos 5x\\,dx$?",
+      "answer": "Product-to-sum: $\\sin 3x\\cos 5x = \\frac{1}{2}\\left[\\sin(-2x) + \\sin 8x\\right] = \\frac{1}{2}\\left[\\sin 8x - \\sin 2x\\right]$, then integrate term by term.",
+      "explanation": "Result: $-\\dfrac{\\cos 8x}{16} + \\dfrac{\\cos 2x}{4} + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "trigint-equivalent",
+      "topicKey": "int-trig",
+      "type": "basic",
+      "prompt": "Three methods give $\\displaystyle\\int \\sin x\\cos x\\,dx$ as $\\tfrac{1}{2}\\sin^2 x + C$, as $-\\tfrac{1}{2}\\cos^2 x + C$, and as $-\\tfrac{1}{4}\\cos 2x + C$. Which is correct?",
+      "answer": "All three. They differ only by constants, which are absorbed into $C$.",
+      "explanation": "$\\frac{1}{2}\\sin^2 x - \\left(-\\frac{1}{2}\\cos^2 x\\right) = \\frac{1}{2}$, and $-\\frac{1}{4}\\cos 2x = -\\frac{1}{4}(1 - 2\\sin^2 x) = \\frac{1}{2}\\sin^2 x - \\frac{1}{4}$.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "trigsub-sin",
+      "topicKey": "int-trigsub",
+      "type": "basic",
+      "prompt": "Which trig substitution for an integrand containing $\\sqrt{a^2 - x^2}$ ($a > 0$)?",
+      "answer": "$x = a\\sin\\theta$, with $-\\dfrac{\\pi}{2} \\le \\theta \\le \\dfrac{\\pi}{2}$",
+      "explanation": "Then $\\sqrt{a^2 - a^2\\sin^2\\theta} = a\\cos\\theta$, which is $\\ge 0$ on that interval, and $dx = a\\cos\\theta\\,d\\theta$.",
+      "reverse": true,
+      "tags": [
+        "formula",
+        "strategy"
+      ]
+    },
+    {
+      "key": "trigsub-tan",
+      "topicKey": "int-trigsub",
+      "type": "basic",
+      "prompt": "Which trig substitution for an integrand containing $\\sqrt{a^2 + x^2}$ ($a > 0$)?",
+      "answer": "$x = a\\tan\\theta$, with $-\\dfrac{\\pi}{2} < \\theta < \\dfrac{\\pi}{2}$",
+      "explanation": "$1 + \\tan^2\\theta = \\sec^2\\theta$ gives $\\sqrt{a^2 + x^2} = a\\sec\\theta > 0$ on that interval, and $dx = a\\sec^2\\theta\\,d\\theta$.",
+      "reverse": true,
+      "tags": [
+        "formula",
+        "strategy"
+      ]
+    },
+    {
+      "key": "trigsub-sec",
+      "topicKey": "int-trigsub",
+      "type": "basic",
+      "prompt": "Which trig substitution for an integrand containing $\\sqrt{x^2 - a^2}$ ($a > 0$)?",
+      "answer": "$x = a\\sec\\theta$, with $0 \\le \\theta < \\dfrac{\\pi}{2}$ or $\\pi \\le \\theta < \\dfrac{3\\pi}{2}$",
+      "explanation": "$\\sec^2\\theta - 1 = \\tan^2\\theta$ gives $\\sqrt{x^2 - a^2} = a\\tan\\theta$, which is $\\ge 0$ on those intervals, and $dx = a\\sec\\theta\\tan\\theta\\,d\\theta$.",
+      "reverse": true,
+      "tags": [
+        "formula",
+        "strategy"
+      ]
+    },
+    {
+      "key": "trigsub-triangle",
+      "topicKey": "int-trigsub",
+      "type": "basic",
+      "prompt": "After substituting $x = a\\sin\\theta$ ($a > 0$), how do you express $\\tan\\theta$ in terms of $x$?",
+      "answer": "Use the reference right triangle: opposite $= x$, hypotenuse $= a$, adjacent $= \\sqrt{a^2 - x^2}$. So $\\tan\\theta = \\dfrac{x}{\\sqrt{a^2 - x^2}}$.",
+      "explanation": "Read every trig function off the triangle, e.g. $\\cos\\theta = \\frac{\\sqrt{a^2 - x^2}}{a}$, and $\\theta = \\arcsin\\frac{x}{a}$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "trigsub-int-sqrt-x2-plus-a2",
+      "topicKey": "int-trigsub",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int \\frac{dx}{\\sqrt{x^2 + a^2}} = {{c1::\\ln\\left(x + \\sqrt{x^2 + a^2}\\right)}} + C \\quad (a > 0)$",
+      "answer": "",
+      "explanation": "$x = a\\tan\\theta$ turns it into $\\int \\sec\\theta\\,d\\theta = \\ln|\\sec\\theta + \\tan\\theta| = \\ln\\left|\\frac{\\sqrt{x^2 + a^2} + x}{a}\\right|$. The $-\\ln a$ is absorbed into $C$, and $x + \\sqrt{x^2 + a^2} > 0$, so no absolute value is needed.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "trigsub-half-disk",
+      "topicKey": "int-trigsub",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int \\sqrt{a^2 - x^2}\\,dx = {{c1::\\frac{x}{2}\\sqrt{a^2 - x^2}}} + {{c2::\\frac{a^2}{2}\\arcsin\\frac{x}{a}}} + C \\quad (a > 0)$",
+      "answer": "",
+      "explanation": "$x = a\\sin\\theta$: $a^2\\int \\cos^2\\theta\\,d\\theta = \\frac{a^2}{2}(\\theta + \\sin\\theta\\cos\\theta)$, then back-substitute.\n\nSanity check: $\\int_{-a}^{a}\\sqrt{a^2 - x^2}\\,dx = \\frac{\\pi a^2}{2}$, the area of a half-disk.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "trigsub-example",
+      "topicKey": "int-trigsub",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int \\frac{dx}{x^2\\sqrt{4 - x^2}}$.",
+      "answer": "$-\\dfrac{\\sqrt{4 - x^2}}{4x} + C$",
+      "explanation": "$x = 2\\sin\\theta$, $dx = 2\\cos\\theta\\,d\\theta$, $\\sqrt{4 - x^2} = 2\\cos\\theta$. The integral becomes $\\frac{1}{4}\\int \\csc^2\\theta\\,d\\theta = -\\frac{1}{4}\\cot\\theta + C$, and the triangle gives $\\cot\\theta = \\frac{\\sqrt{4 - x^2}}{x}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "trigsub-complete-square",
+      "topicKey": "int-trigsub",
+      "type": "basic",
+      "prompt": "How do you evaluate $\\displaystyle\\int \\frac{dx}{\\sqrt{3 - 2x - x^2}}$?",
+      "answer": "Complete the square: $3 - 2x - x^2 = 4 - (x + 1)^2$. With $u = x + 1$ it is $\\displaystyle\\int \\frac{du}{\\sqrt{4 - u^2}} = \\arcsin\\frac{x + 1}{2} + C$.",
+      "explanation": "For $-\\left(x^2 + 2x\\right) + 3$: $x^2 + 2x = (x + 1)^2 - 1$, so the radicand is $4 - (x + 1)^2$, the form $\\sqrt{a^2 - u^2}$ with $a = 2$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "trigsub-not-needed",
+      "topicKey": "int-trigsub",
+      "type": "basic",
+      "prompt": "Is a trig substitution needed for $\\displaystyle\\int \\frac{x}{\\sqrt{a^2 - x^2}}\\,dx$?",
+      "answer": "No. $u = a^2 - x^2$, $du = -2x\\,dx$ gives $-\\sqrt{a^2 - x^2} + C$ directly.",
+      "explanation": "Always look for an easy $u$-substitution first: here the factor $x$ is (up to a constant) the derivative of $a^2 - x^2$. Trig substitution also works, just more slowly.",
+      "tags": [
+        "strategy",
+        "mistake"
+      ]
+    },
+    {
+      "key": "pf-proper",
+      "topicKey": "int-partial",
+      "type": "basic",
+      "prompt": "What must you check before decomposing $\\dfrac{P(x)}{Q(x)}$ into partial fractions?",
+      "answer": "That it is proper: $\\deg P < \\deg Q$. If not, do polynomial long division first.",
+      "explanation": "Example: $\\dfrac{x^2}{x - 1} = x + 1 + \\dfrac{1}{x - 1}$, so $\\int \\frac{x^2}{x - 1}\\,dx = \\frac{x^2}{2} + x + \\ln|x - 1| + C$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "pf-repeated",
+      "topicKey": "int-partial",
+      "type": "basic",
+      "prompt": "Partial-fraction terms for a repeated linear factor $(x - a)^3$ in the denominator?",
+      "answer": "$\\dfrac{A_1}{x - a} + \\dfrac{A_2}{(x - a)^2} + \\dfrac{A_3}{(x - a)^3}$: one term for each power.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "pf-quadratic",
+      "topicKey": "int-partial",
+      "type": "basic",
+      "prompt": "Partial-fraction term for an irreducible quadratic factor $ax^2 + bx + c$ (i.e. $b^2 - 4ac < 0$)?",
+      "answer": "$\\dfrac{Ax + B}{ax^2 + bx + c}$: a linear numerator, not just a constant.",
+      "explanation": "To integrate such a term, complete the square and split it into a $\\frac{u'}{u}$ piece (a logarithm) and a $\\frac{1}{u^2 + k^2}$ piece (an arctangent).",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "pf-coverup",
+      "topicKey": "int-partial",
+      "type": "basic",
+      "prompt": "Fast way to find $A$ in $\\dfrac{3x + 1}{(x - 2)(x + 1)} = \\dfrac{A}{x - 2} + \\dfrac{B}{x + 1}$?",
+      "answer": "Cover-up (Heaviside) method: cover the factor $(x - 2)$ and evaluate the rest at $x = 2$: $A = \\dfrac{3(2) + 1}{2 + 1} = \\dfrac{7}{3}$.",
+      "explanation": "Similarly $B = \\frac{3(-1) + 1}{-1 - 2} = \\frac{2}{3}$. Check: $A + B = 3$ matches the coefficient of $x$. The shortcut works directly only for non-repeated linear factors.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "pf-x2-minus-a2",
+      "topicKey": "int-partial",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int \\frac{dx}{x^2 - a^2} = {{c1::\\frac{1}{2a}\\ln\\left|\\frac{x - a}{x + a}\\right|}} + C \\quad (a > 0)$",
+      "answer": "",
+      "explanation": "$\\dfrac{1}{x^2 - a^2} = \\dfrac{1}{2a}\\left(\\dfrac{1}{x - a} - \\dfrac{1}{x + a}\\right)$; integrate each term.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "pf-example",
+      "topicKey": "int-partial",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int \\frac{dx}{x(x + 1)}$.",
+      "answer": "$\\ln\\left|\\dfrac{x}{x + 1}\\right| + C$",
+      "explanation": "$\\frac{1}{x(x + 1)} = \\frac{1}{x} - \\frac{1}{x + 1}$ (cover-up gives $A = 1$, $B = -1$), so the integral is $\\ln|x| - \\ln|x + 1| + C$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "pf-example-quad",
+      "topicKey": "int-partial",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int \\frac{dx}{x(x^2 + 1)}$.",
+      "answer": "$\\ln|x| - \\dfrac{1}{2}\\ln(x^2 + 1) + C$",
+      "explanation": "$\\frac{1}{x(x^2 + 1)} = \\frac{A}{x} + \\frac{Bx + D}{x^2 + 1}$. Cover-up at $x = 0$ gives $A = 1$; then $1 = (x^2 + 1) + (Bx + D)x$ forces $B = -1$, $D = 0$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "pf-mistake-repeated",
+      "topicKey": "int-partial",
+      "type": "basic",
+      "prompt": "Is $\\dfrac{x + 3}{(x - 1)^2} = \\dfrac{A}{(x - 1)^2}$ a valid partial-fraction setup?",
+      "answer": "No. A repeated factor needs every power: $\\dfrac{A}{x - 1} + \\dfrac{B}{(x - 1)^2}$. (Here $A = 1$, $B = 4$.)",
+      "explanation": "$A(x - 1) + B = x + 3$ gives $A = 1$, $B = 4$. With only $\\frac{A}{(x - 1)^2}$, the numerator would have to be a constant.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "intstrat-x2-sinx",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int x^2\\sin x\\,dx$?",
+      "answer": "Integration by parts twice (or the tabular method) with $u = x^2$: each round lowers the power of $x$.",
+      "explanation": "Result: $-x^2\\cos x + 2x\\sin x + 2\\cos x + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-sqrt-9-x2",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\sqrt{9 - x^2}\\,dx$?",
+      "answer": "Trig substitution $x = 3\\sin\\theta$ (the form $\\sqrt{a^2 - x^2}$).",
+      "explanation": "Result: $\\frac{x}{2}\\sqrt{9 - x^2} + \\frac{9}{2}\\arcsin\\frac{x}{3} + C$. Geometrically, $\\int_{-3}^{3}$ is a half-disk of area $\\frac{9\\pi}{2}$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-pf",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\frac{5x - 4}{x^2 - x - 2}\\,dx$?",
+      "answer": "Partial fractions: the denominator factors as $(x - 2)(x + 1)$ and the fraction is proper.",
+      "explanation": "$\\frac{5x - 4}{(x - 2)(x + 1)} = \\frac{2}{x - 2} + \\frac{3}{x + 1}$, so the integral is $2\\ln|x - 2| + 3\\ln|x + 1| + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-sin3-cos2",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\sin^3 x\\cos^2 x\\,dx$?",
+      "answer": "Odd power of sine: save one $\\sin x$, write $\\sin^2 x = 1 - \\cos^2 x$, and substitute $u = \\cos x$.",
+      "explanation": "$-\\int (1 - u^2)u^2\\,du = -\\frac{\\cos^3 x}{3} + \\frac{\\cos^5 x}{5} + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-split",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\frac{x + 1}{x^2 + 1}\\,dx$?",
+      "answer": "Split the fraction: $\\dfrac{x}{x^2 + 1}$ (substitute $u = x^2 + 1$) plus $\\dfrac{1}{x^2 + 1}$ (arctangent).",
+      "explanation": "Result: $\\frac{1}{2}\\ln(x^2 + 1) + \\arctan x + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-lnx-over-x",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\frac{\\ln x}{x}\\,dx$?",
+      "answer": "$u$-substitution with $u = \\ln x$, since $du = \\frac{dx}{x}$ is already present (no need for parts).",
+      "explanation": "$\\int u\\,du = \\frac{(\\ln x)^2}{2} + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-complete-square",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\frac{dx}{x^2 + 6x + 13}$?",
+      "answer": "Complete the square: $x^2 + 6x + 13 = (x + 3)^2 + 4$, then use the arctangent form with $u = x + 3$, $a = 2$.",
+      "explanation": "Result: $\\frac{1}{2}\\arctan\\frac{x + 3}{2} + C$. The discriminant $36 - 52 < 0$, so the denominator does not factor over the reals.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-x-lnx",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int x\\ln x\\,dx$?",
+      "answer": "Integration by parts with $u = \\ln x$, $dv = x\\,dx$ (L comes before A in LIATE).",
+      "explanation": "$\\frac{x^2}{2}\\ln x - \\int \\frac{x^2}{2}\\cdot\\frac{1}{x}\\,dx = \\frac{x^2}{2}\\ln x - \\frac{x^2}{4} + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-x2-sqrt-x2-plus-4",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\frac{dx}{x^2\\sqrt{x^2 + 4}}$?",
+      "answer": "Trig substitution $x = 2\\tan\\theta$ (the form $\\sqrt{a^2 + x^2}$).",
+      "explanation": "It becomes $\\frac{1}{4}\\int \\frac{\\cos\\theta}{\\sin^2\\theta}\\,d\\theta = -\\frac{1}{4\\sin\\theta} + C = -\\frac{\\sqrt{x^2 + 4}}{4x} + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-sin-sqrt",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\sin\\sqrt{x}\\,dx$?",
+      "answer": "First substitute $w = \\sqrt{x}$ ($x = w^2$, $dx = 2w\\,dw$), then do $2\\int w\\sin w\\,dw$ by parts.",
+      "explanation": "Result: $2\\sin\\sqrt{x} - 2\\sqrt{x}\\cos\\sqrt{x} + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-x3-over-x2-plus-1",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\frac{x^3}{x^2 + 1}\\,dx$?",
+      "answer": "Long division first, because the rational function is improper: $\\dfrac{x^3}{x^2 + 1} = x - \\dfrac{x}{x^2 + 1}$.",
+      "explanation": "Result: $\\frac{x^2}{2} - \\frac{1}{2}\\ln(x^2 + 1) + C$. (Alternatively, $u = x^2 + 1$ with $x^2 = u - 1$.)",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "intstrat-exp-arctan",
+      "topicKey": "int-strategy",
+      "type": "basic",
+      "prompt": "Which technique for $\\displaystyle\\int \\frac{e^x}{1 + e^{2x}}\\,dx$?",
+      "answer": "$u$-substitution with $u = e^x$, $du = e^x\\,dx$, giving $\\displaystyle\\int \\frac{du}{1 + u^2}$.",
+      "explanation": "Result: $\\arctan(e^x) + C$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "improper-type1",
+      "topicKey": "improper-def",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\int_a^{\\infty} f(x)\\,dx = {{c1::\\lim_{t\\to\\infty}\\int_a^{t} f(x)\\,dx}}$",
+      "answer": "The integral **converges** if this limit exists as a finite number, and **diverges** otherwise.",
+      "tags": [
+        "formula",
+        "concept"
+      ]
+    },
+    {
+      "key": "improper-type2",
+      "topicKey": "improper-def",
+      "type": "basic",
+      "prompt": "How is $\\displaystyle\\int_a^b f(x)\\,dx$ defined if $f$ is continuous on $[a, b)$ but discontinuous at $b$?",
+      "answer": "$\\displaystyle\\lim_{t\\to b^-}\\int_a^{t} f(x)\\,dx$ (a type 2 improper integral)",
+      "explanation": "Approach the bad point from inside the interval. If the trouble is at $a$, use $\\lim_{t\\to a^+}\\int_t^b f(x)\\,dx$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "improper-both-ends",
+      "topicKey": "improper-def",
+      "type": "basic",
+      "prompt": "When does $\\displaystyle\\int_{-\\infty}^{\\infty} f(x)\\,dx$ converge?",
+      "answer": "Only if both $\\displaystyle\\int_{-\\infty}^{c} f(x)\\,dx$ and $\\displaystyle\\int_{c}^{\\infty} f(x)\\,dx$ converge (for some $c$). The value is their sum.",
+      "explanation": "The two limits are independent. The integral is **not** defined as $\\lim_{t\\to\\infty}\\int_{-t}^{t} f(x)\\,dx$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "improper-odd-mistake",
+      "topicKey": "improper-def",
+      "type": "basic",
+      "prompt": "Is $\\displaystyle\\int_{-\\infty}^{\\infty} x\\,dx = 0$ because $x$ is odd?",
+      "answer": "No, it diverges, since $\\int_0^\\infty x\\,dx = \\infty$. Odd symmetry only cancels when each half converges.",
+      "explanation": "The symmetric limit $\\lim_{t\\to\\infty}\\int_{-t}^{t} x\\,dx = 0$ exists, but that is not the definition of the improper integral.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "improper-interior",
+      "topicKey": "improper-def",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int_{-1}^{1} \\frac{dx}{x^2}$.",
+      "answer": "It diverges: $\\frac{1}{x^2}$ blows up at $x = 0$ inside the interval, and $\\int_0^1 \\frac{dx}{x^2} = \\infty$.",
+      "explanation": "Blindly applying the FTC gives $\\left[-\\frac{1}{x}\\right]_{-1}^{1} = -2$, which is impossible for a positive integrand. Always scan the interval for discontinuities.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "improper-lnx",
+      "topicKey": "improper-def",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\int_0^1 \\ln x\\,dx$.",
+      "answer": "$-1$ (it converges)",
+      "explanation": "$\\ln x \\to -\\infty$ as $x \\to 0^+$, so compute $\\lim_{t\\to 0^+}\\Big[x\\ln x - x\\Big]_t^1 = -1 - \\lim_{t\\to 0^+}(t\\ln t - t) = -1$, using $t\\ln t \\to 0$ (L'Hôpital).",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "improper-p-infinity",
+      "topicKey": "improper-tests",
+      "type": "basic",
+      "prompt": "For which $p$ does $\\displaystyle\\int_1^{\\infty} \\frac{dx}{x^p}$ converge?",
+      "answer": "$p > 1$ (value $\\frac{1}{p - 1}$); it diverges for $p \\le 1$.",
+      "explanation": "For $p \\ne 1$: $\\int_1^t x^{-p}\\,dx = \\frac{t^{1 - p} - 1}{1 - p}$, which has a finite limit iff $1 - p < 0$. For $p = 1$: $\\ln t \\to \\infty$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "improper-p-zero",
+      "topicKey": "improper-tests",
+      "type": "basic",
+      "prompt": "For which $p > 0$ does $\\displaystyle\\int_0^{1} \\frac{dx}{x^p}$ converge?",
+      "answer": "$p < 1$ (value $\\frac{1}{1 - p}$); it diverges for $p \\ge 1$.",
+      "explanation": "$\\int_t^1 x^{-p}\\,dx = \\frac{1 - t^{1 - p}}{1 - p}$, and $t^{1 - p} \\to 0$ as $t \\to 0^+$ iff $1 - p > 0$. For $p = 1$: $-\\ln t \\to \\infty$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "improper-p-confusable",
+      "topicKey": "improper-tests",
+      "type": "basic",
+      "prompt": "Why do $\\displaystyle\\int_1^{\\infty} \\frac{dx}{x^p}$ and $\\displaystyle\\int_0^{1} \\frac{dx}{x^p}$ have opposite convergence conditions?",
+      "answer": "At $\\infty$ the integrand must decay fast (large $p$: $p > 1$); near $0$ it may only blow up mildly (small $p$: $p < 1$). At $p = 1$ both diverge.",
+      "explanation": "Consequently $\\int_0^{\\infty} \\frac{dx}{x^p}$ diverges for every $p$.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "improper-comparison",
+      "topicKey": "improper-tests",
+      "type": "basic",
+      "prompt": "Comparison Theorem: if $0 \\le f(x) \\le g(x)$ for $x \\ge a$, what can you conclude about $\\int_a^\\infty f(x)\\,dx$ and $\\int_a^\\infty g(x)\\,dx$?",
+      "answer": "If $\\int_a^\\infty g(x)\\,dx$ converges, so does $\\int_a^\\infty f(x)\\,dx$. If $\\int_a^\\infty f(x)\\,dx$ diverges, so does $\\int_a^\\infty g(x)\\,dx$.",
+      "explanation": "In words: smaller than convergent converges; bigger than divergent diverges.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "improper-comparison-mistake",
+      "topicKey": "improper-tests",
+      "type": "basic",
+      "prompt": "If $0 \\le f(x) \\le g(x)$ and $\\int_a^\\infty g(x)\\,dx$ diverges, what does that say about $\\int_a^\\infty f(x)\\,dx$?",
+      "answer": "Nothing: the smaller integral may converge or diverge.",
+      "explanation": "Example: $\\frac{1}{x^2} \\le \\frac{1}{x}$ on $[1, \\infty)$. $\\int_1^\\infty \\frac{dx}{x}$ diverges, yet $\\int_1^\\infty \\frac{dx}{x^2}$ converges.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "improper-gauss",
+      "topicKey": "improper-tests",
+      "type": "basic",
+      "prompt": "Does $\\displaystyle\\int_1^{\\infty} e^{-x^2}\\,dx$ converge? Justify.",
+      "answer": "Yes. For $x \\ge 1$, $x^2 \\ge x$, so $0 < e^{-x^2} \\le e^{-x}$, and $\\int_1^\\infty e^{-x}\\,dx = e^{-1}$ converges. By comparison, so does the original.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "improper-oscillate",
+      "topicKey": "improper-tests",
+      "type": "basic",
+      "prompt": "Does $\\displaystyle\\int_0^{\\infty} \\sin x\\,dx$ converge?",
+      "answer": "No. $\\int_0^t \\sin x\\,dx = 1 - \\cos t$ oscillates between $0$ and $2$ and has no limit, so the integral diverges without blowing up.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "area-between",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Area between $y = f(x)$ and $y = g(x)$ for $a \\le x \\le b$, where $f(x) \\ge g(x)$?",
+      "answer": "$\\displaystyle\\int_a^b \\left[f(x) - g(x)\\right]dx$ (top minus bottom)",
+      "explanation": "If the curves cross, integrate $|f(x) - g(x)|$: split at the intersection points and take top minus bottom on each piece.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "area-dy",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "When is it easier to compute an area by integrating with respect to $y$, and what is the integrand?",
+      "answer": "When the region is bounded on the left and right by curves $x = f(y)$ (e.g. a sideways parabola). Use $\\displaystyle\\int_c^d \\left[x_{\\text{right}} - x_{\\text{left}}\\right]dy$.",
+      "explanation": "Example: between $x = y^2$ and $x = y + 2$. With $dx$ you would need two integrals; with $dy$ it is one: $\\int_{-1}^{2}\\left(y + 2 - y^2\\right)dy = \\frac{9}{2}$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "vol-disk",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Disk method: volume when the region under $y = R(x) \\ge 0$, $a \\le x \\le b$, is rotated about the $x$-axis?",
+      "answer": "$\\displaystyle\\pi\\int_a^b \\left[R(x)\\right]^2 dx$",
+      "explanation": "Each slice perpendicular to the axis is a disk of area $\\pi R(x)^2$ and thickness $dx$.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "vol-washer-mistake",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Washer method: is the cross-sectional area $\\pi(R - r)^2$?",
+      "answer": "No. It is the outer disk minus the hole: $\\pi R^2 - \\pi r^2 = \\pi\\left(R^2 - r^2\\right)$, so $V = \\displaystyle\\pi\\int_a^b \\left(R^2 - r^2\\right)dx$.",
+      "explanation": "$R$ and $r$ are the distances from the axis of rotation to the outer and inner curves.",
+      "tags": [
+        "mistake",
+        "formula"
+      ]
+    },
+    {
+      "key": "vol-shell",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Shell method: volume when the region under $y = f(x) \\ge 0$, $0 \\le a \\le x \\le b$, is rotated about the $y$-axis?",
+      "answer": "$\\displaystyle 2\\pi\\int_a^b x\\,f(x)\\,dx$",
+      "explanation": "A shell at $x$ has circumference $2\\pi x$ (radius $x$), height $f(x)$ and thickness $dx$: volume $\\approx 2\\pi\\cdot\\text{radius}\\cdot\\text{height}\\cdot dx$.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "vol-shell-shifted",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Shell method about the vertical line $x = h$, for the region under $y = f(x) \\ge 0$ on $[a, b]$ with $h \\le a$?",
+      "answer": "$\\displaystyle 2\\pi\\int_a^b (x - h)\\,f(x)\\,dx$: the radius is the distance to the axis.",
+      "explanation": "If the axis is to the right of the region ($h \\ge b$), the radius is $h - x$ instead.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "vol-disk-vs-shell",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Disks/washers vs shells: how are the slices oriented relative to the axis of rotation?",
+      "answer": "Disks/washers: perpendicular to the axis (integrate along the axis). Shells: parallel to the axis (integrate perpendicular to it).",
+      "explanation": "Rotating about the $y$-axis: washers use $dy$, shells use $dx$. Shells often avoid solving $y = f(x)$ for $x$.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "vol-cross-section",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Volume of a solid whose cross-section perpendicular to the $x$-axis at $x$ has area $A(x)$, for $a \\le x \\le b$?",
+      "answer": "$\\displaystyle\\int_a^b A(x)\\,dx$",
+      "explanation": "The disk method is the special case $A(x) = \\pi R(x)^2$. For square cross-sections of side $s(x)$, $A(x) = s(x)^2$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "vol-sphere",
+      "topicKey": "app-area-volume",
+      "type": "basic",
+      "prompt": "Derive the volume of a ball of radius $r$ with the disk method.",
+      "answer": "Rotate $y = \\sqrt{r^2 - x^2}$ about the $x$-axis: $V = \\displaystyle\\pi\\int_{-r}^{r}\\left(r^2 - x^2\\right)dx = \\pi\\left[r^2x - \\frac{x^3}{3}\\right]_{-r}^{r} = \\frac{4}{3}\\pi r^3$.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "arc-length",
+      "topicKey": "app-arc-surface",
+      "type": "basic",
+      "prompt": "Arc length of $y = f(x)$, $a \\le x \\le b$ (with $f'$ continuous)?",
+      "answer": "$\\displaystyle\\int_a^b \\sqrt{1 + \\left[f'(x)\\right]^2}\\,dx$",
+      "explanation": "A tiny piece has length $ds = \\sqrt{dx^2 + dy^2} = \\sqrt{1 + (dy/dx)^2}\\,dx$ (Pythagoras).\n\nFor $x = g(y)$, $c \\le y \\le d$: $\\int_c^d \\sqrt{1 + [g'(y)]^2}\\,dy$.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "arc-example",
+      "topicKey": "app-arc-surface",
+      "type": "basic",
+      "prompt": "Find the arc length of $y = \\frac{2}{3}x^{3/2}$ from $x = 0$ to $x = 3$.",
+      "answer": "$\\dfrac{14}{3}$",
+      "explanation": "$f'(x) = x^{1/2}$, so $\\sqrt{1 + (f')^2} = \\sqrt{1 + x}$ and $\\int_0^3 \\sqrt{1 + x}\\,dx = \\frac{2}{3}(1 + x)^{3/2}\\Big|_0^3 = \\frac{2}{3}(8 - 1) = \\frac{14}{3}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "surface-x-axis",
+      "topicKey": "app-arc-surface",
+      "type": "basic",
+      "prompt": "Surface area when $y = f(x) \\ge 0$, $a \\le x \\le b$, is rotated about the $x$-axis?",
+      "answer": "$\\displaystyle 2\\pi\\int_a^b f(x)\\sqrt{1 + \\left[f'(x)\\right]^2}\\,dx$",
+      "explanation": "Each band has circumference $2\\pi y$ (radius $y$) and slant width $ds$.\n\nAbout the $y$-axis (with $a \\ge 0$) the radius is $x$ instead: $2\\pi\\int_a^b x\\sqrt{1 + [f'(x)]^2}\\,dx$.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "surface-mistake",
+      "topicKey": "app-arc-surface",
+      "type": "basic",
+      "prompt": "Why is $2\\pi\\displaystyle\\int_a^b f(x)\\,dx$ wrong for the area of the surface obtained by rotating $y = f(x)$ about the $x$-axis?",
+      "answer": "It uses $dx$ instead of the slant length $ds = \\sqrt{1 + [f'(x)]^2}\\,dx$. The bands are slanted (frustum-like), not cylinders, so it underestimates wherever $f' \\ne 0$.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "surface-sphere",
+      "topicKey": "app-arc-surface",
+      "type": "basic",
+      "prompt": "Derive the surface area of a sphere of radius $r$ by rotating $y = \\sqrt{r^2 - x^2}$ about the $x$-axis.",
+      "answer": "$f'(x) = -\\dfrac{x}{\\sqrt{r^2 - x^2}}$, so $f(x)\\sqrt{1 + f'(x)^2} = \\sqrt{r^2 - x^2}\\cdot\\dfrac{r}{\\sqrt{r^2 - x^2}} = r$. Then $S = \\displaystyle 2\\pi\\int_{-r}^{r} r\\,dx = 4\\pi r^2$.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "avg-value",
+      "topicKey": "app-average",
+      "type": "basic",
+      "prompt": "Average value of $f$ on $[a, b]$?",
+      "answer": "$\\displaystyle\\frac{1}{b - a}\\int_a^b f(x)\\,dx$",
+      "explanation": "The integral is the total accumulation; dividing by the length of the interval gives the height of the rectangle with the same area.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "avg-mvt",
+      "topicKey": "app-average",
+      "type": "basic",
+      "prompt": "Mean Value Theorem for integrals: what does it guarantee for continuous $f$ on $[a, b]$?",
+      "answer": "Some $c \\in [a, b]$ with $f(c) = \\dfrac{1}{b - a}\\displaystyle\\int_a^b f(x)\\,dx$: the function actually attains its average value.",
+      "tags": [
+        "condition",
+        "concept"
+      ]
+    },
+    {
+      "key": "avg-sin",
+      "topicKey": "app-average",
+      "type": "basic",
+      "prompt": "Average value of $\\sin x$ on $[0, \\pi]$?",
+      "answer": "$\\dfrac{2}{\\pi} \\approx 0.64$",
+      "explanation": "$\\dfrac{1}{\\pi}\\displaystyle\\int_0^\\pi \\sin x\\,dx = \\frac{1}{\\pi}\\Big[-\\cos x\\Big]_0^\\pi = \\frac{2}{\\pi}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "param-slope",
+      "topicKey": "param",
+      "type": "basic",
+      "prompt": "Slope $\\dfrac{dy}{dx}$ of the parametric curve $x = f(t)$, $y = g(t)$?",
+      "answer": "$\\dfrac{dy}{dx} = \\dfrac{dy/dt}{dx/dt}$, provided $\\dfrac{dx}{dt} \\ne 0$.",
+      "explanation": "Chain rule: $\\frac{dy}{dt} = \\frac{dy}{dx}\\cdot\\frac{dx}{dt}$.\n\nExample: $x = t^2$, $y = t^3$ gives $\\frac{dy}{dx} = \\frac{3t^2}{2t} = \\frac{3t}{2}$ for $t \\ne 0$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "param-second-deriv",
+      "topicKey": "param",
+      "type": "basic",
+      "prompt": "For a parametric curve, is $\\dfrac{d^2y}{dx^2} = \\dfrac{d^2y/dt^2}{d^2x/dt^2}$?",
+      "answer": "No. $\\dfrac{d^2y}{dx^2} = \\dfrac{\\frac{d}{dt}\\left(\\frac{dy}{dx}\\right)}{dx/dt}$: differentiate the slope with respect to $t$, then divide by $dx/dt$.",
+      "explanation": "It is the slope formula applied to the function $\\frac{dy}{dx}$ instead of $y$. For $x = t^2$, $y = t^3$: $\\frac{d}{dt}\\left(\\frac{3t}{2}\\right) \\div 2t = \\frac{3}{4t}$.",
+      "tags": [
+        "mistake",
+        "formula"
+      ]
+    },
+    {
+      "key": "param-tangents",
+      "topicKey": "param",
+      "type": "basic",
+      "prompt": "Parametric curve $x = f(t)$, $y = g(t)$: when is the tangent line horizontal, and when vertical?",
+      "answer": "Horizontal: $\\dfrac{dy}{dt} = 0$ and $\\dfrac{dx}{dt} \\ne 0$. Vertical: $\\dfrac{dx}{dt} = 0$ and $\\dfrac{dy}{dt} \\ne 0$.",
+      "explanation": "If both derivatives vanish, the test says nothing; investigate separately (e.g. with the limit of $\\frac{dy}{dx}$).",
+      "tags": [
+        "condition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "param-arc",
+      "topicKey": "param",
+      "type": "basic",
+      "prompt": "Arc length of $x = f(t)$, $y = g(t)$, $\\alpha \\le t \\le \\beta$, when the curve is traversed exactly once?",
+      "answer": "$\\displaystyle\\int_\\alpha^\\beta \\sqrt{\\left(\\frac{dx}{dt}\\right)^2 + \\left(\\frac{dy}{dt}\\right)^2}\\,dt$",
+      "explanation": "$ds = \\sqrt{dx^2 + dy^2}$ with $dx = f'(t)\\,dt$ and $dy = g'(t)\\,dt$. If part of the curve is traced twice, the integral counts it twice.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "param-area",
+      "topicKey": "param",
+      "type": "basic",
+      "prompt": "Area under the parametric curve $x = f(t)$, $y = g(t) \\ge 0$, traced once from left to right as $t$ goes from $\\alpha$ to $\\beta$?",
+      "answer": "$\\displaystyle\\int_\\alpha^\\beta g(t)\\,f'(t)\\,dt$",
+      "explanation": "It is $\\int y\\,dx$ with $dx = f'(t)\\,dt$. If the curve is traced right to left, swap the limits (otherwise the result comes out negative).",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "param-ellipse",
+      "topicKey": "param",
+      "type": "basic",
+      "prompt": "Eliminate the parameter: $x = a\\cos t$, $y = b\\sin t$ ($a, b > 0$).",
+      "answer": "$\\dfrac{x^2}{a^2} + \\dfrac{y^2}{b^2} = 1$: an ellipse (a circle when $a = b$).",
+      "explanation": "$\\left(\\frac{x}{a}\\right)^2 + \\left(\\frac{y}{b}\\right)^2 = \\cos^2 t + \\sin^2 t = 1$. For $0 \\le t \\le 2\\pi$ it is traced once, counterclockwise.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "polar-convert",
+      "topicKey": "polar",
+      "type": "basic",
+      "prompt": "Convert polar coordinates $(r, \\theta)$ to Cartesian $(x, y)$.",
+      "answer": "$x = r\\cos\\theta$, $y = r\\sin\\theta$",
+      "explanation": "Conversely $r^2 = x^2 + y^2$ and $\\tan\\theta = \\frac{y}{x}$. Choose $\\theta$ in the correct quadrant: $\\arctan\\frac{y}{x}$ alone can be off by $\\pi$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "polar-area",
+      "topicKey": "polar",
+      "type": "basic",
+      "prompt": "Area of the region bounded by the polar curve $r = f(\\theta)$ for $a \\le \\theta \\le b$?",
+      "answer": "$\\displaystyle\\frac{1}{2}\\int_a^b \\left[f(\\theta)\\right]^2 d\\theta$",
+      "explanation": "Thin sectors: a sector of radius $r$ and angle $d\\theta$ has area $\\frac{1}{2}r^2\\,d\\theta$. (Assumes $0 < b - a \\le 2\\pi$ and that the region is swept only once.)",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "polar-area-between",
+      "topicKey": "polar",
+      "type": "basic",
+      "prompt": "Area between polar curves $r = f(\\theta)$ (outer) and $r = g(\\theta)$ (inner), $a \\le \\theta \\le b$?",
+      "answer": "$\\displaystyle\\frac{1}{2}\\int_a^b \\left(\\left[f(\\theta)\\right]^2 - \\left[g(\\theta)\\right]^2\\right) d\\theta$",
+      "explanation": "Subtract the areas, i.e. the squares. It is **not** $\\frac{1}{2}\\int (f - g)^2\\,d\\theta$.",
+      "tags": [
+        "formula",
+        "mistake"
+      ]
+    },
+    {
+      "key": "polar-arc",
+      "topicKey": "polar",
+      "type": "basic",
+      "prompt": "Arc length of the polar curve $r = f(\\theta)$, $a \\le \\theta \\le b$?",
+      "answer": "$\\displaystyle\\int_a^b \\sqrt{r^2 + \\left(\\frac{dr}{d\\theta}\\right)^2}\\,d\\theta$",
+      "explanation": "With $x = r\\cos\\theta$, $y = r\\sin\\theta$: $\\left(\\frac{dx}{d\\theta}\\right)^2 + \\left(\\frac{dy}{d\\theta}\\right)^2 = r^2 + \\left(\\frac{dr}{d\\theta}\\right)^2$.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "polar-slope",
+      "topicKey": "polar",
+      "type": "cloze",
+      "prompt": "For $r = f(\\theta)$: $\\dfrac{dy}{dx} = \\dfrac{ {{c1::\\frac{dr}{d\\theta}\\sin\\theta + r\\cos\\theta}} }{ {{c2::\\frac{dr}{d\\theta}\\cos\\theta - r\\sin\\theta}} }$",
+      "answer": "",
+      "explanation": "Treat $\\theta$ as the parameter: $x = r\\cos\\theta$, $y = r\\sin\\theta$, so $\\frac{dy}{dx} = \\frac{dy/d\\theta}{dx/d\\theta}$, each computed with the product rule.",
+      "tags": [
+        "formula",
+        "derivation"
+      ]
+    },
+    {
+      "key": "polar-circle",
+      "topicKey": "polar",
+      "type": "basic",
+      "prompt": "What curve is $r = 2a\\cos\\theta$ ($a > 0$)?",
+      "answer": "A circle of radius $a$ centered at $(a, 0)$.",
+      "explanation": "Multiply by $r$: $x^2 + y^2 = 2ax$, i.e. $(x - a)^2 + y^2 = a^2$. Likewise $r = 2a\\sin\\theta$ is the circle of radius $a$ centered at $(0, a)$.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "polar-rose",
+      "topicKey": "polar",
+      "type": "basic",
+      "prompt": "How many petals does the rose $r = \\cos(n\\theta)$ have, for an integer $n \\ge 2$?",
+      "answer": "$n$ petals if $n$ is odd; $2n$ petals if $n$ is even.",
+      "explanation": "For odd $n$ the curve retraces itself after $\\theta = \\pi$. Example: $r = \\cos 3\\theta$ has 3 petals, $r = \\cos 2\\theta$ has 4.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "polar-intersections",
+      "topicKey": "polar",
+      "type": "basic",
+      "prompt": "Why can solving $f(\\theta) = g(\\theta)$ miss intersection points of two polar curves $r = f(\\theta)$ and $r = g(\\theta)$?",
+      "answer": "A point has many polar representations. The curves may both pass through the pole at different $\\theta$, or reach the same point with different $(r, \\theta)$, e.g. $(-r, \\theta + \\pi)$. Sketch the curves to catch these.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "seq-function-limit",
+      "topicKey": "series-sequences",
+      "type": "basic",
+      "prompt": "If $\\lim_{x\\to\\infty} f(x) = L$ and $a_n = f(n)$ for integers $n$, what is $\\lim_{n\\to\\infty} a_n$?",
+      "answer": "$L$. So you can use calculus tools such as L'Hôpital's rule on $f(x)$.",
+      "explanation": "Example: $\\lim \\frac{\\ln n}{n} = \\lim_{x\\to\\infty}\\frac{1/x}{1} = 0$.\n\nThe converse fails: $\\sin(\\pi n) = 0$ for every integer $n$, but $\\lim_{x\\to\\infty}\\sin(\\pi x)$ does not exist.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "seq-geometric-rn",
+      "topicKey": "series-sequences",
+      "type": "basic",
+      "prompt": "For which $r$ does the sequence $\\{r^n\\}$ converge, and to what?",
+      "answer": "For $-1 < r \\le 1$: the limit is $0$ if $|r| < 1$ and $1$ if $r = 1$. It diverges for $r \\le -1$ or $r > 1$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "seq-monotone",
+      "topicKey": "series-sequences",
+      "type": "basic",
+      "prompt": "What does the Monotone Sequence Theorem say?",
+      "answer": "Every bounded, monotonic sequence converges.",
+      "explanation": "Typical use: for a recursive sequence $a_{n+1} = g(a_n)$, show it is increasing and bounded above, then find the limit by solving $L = g(L)$.",
+      "tags": [
+        "concept",
+        "condition"
+      ]
+    },
+    {
+      "key": "seq-abs-zero",
+      "topicKey": "series-sequences",
+      "type": "basic",
+      "prompt": "If $\\displaystyle\\lim_{n\\to\\infty} |a_n| = 0$, what can you conclude about $\\displaystyle\\lim_{n\\to\\infty} a_n$?",
+      "answer": "$\\displaystyle\\lim_{n\\to\\infty} a_n = 0$.",
+      "explanation": "Squeeze: $-|a_n| \\le a_n \\le |a_n|$. Example: $\\frac{(-1)^n}{n} \\to 0$. This only works for the limit $0$: $(-1)^n$ has $|a_n| \\to 1$ but diverges.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "seq-e-limit",
+      "topicKey": "series-sequences",
+      "type": "cloze",
+      "prompt": "$\\displaystyle\\lim_{n\\to\\infty}\\left(1 + \\frac{x}{n}\\right)^n = {{c1::e^{x}}}$",
+      "answer": "",
+      "explanation": "Take logarithms: $n\\ln\\left(1 + \\frac{x}{n}\\right) \\to x$ (by L'Hôpital, or $\\ln(1 + u) \\approx u$ for small $u$).",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "seq-growth",
+      "topicKey": "series-sequences",
+      "type": "basic",
+      "prompt": "Order by growth rate as $n \\to \\infty$: $n!$, $\\ln n$, $2^n$, $n^{2}$, $n^n$.",
+      "answer": "$\\ln n \\ll n^{2} \\ll 2^n \\ll n! \\ll n^n$",
+      "explanation": "In general $\\ln n \\ll n^p \\ll b^n \\ll n! \\ll n^n$ for $p > 0$, $b > 1$. So, e.g., $\\frac{n^{10}}{2^n} \\to 0$ and $\\frac{100^n}{n!} \\to 0$.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "series-partial-sums",
+      "topicKey": "series-geometric",
+      "type": "basic",
+      "prompt": "What does $\\displaystyle\\sum_{n=1}^{\\infty} a_n = s$ mean?",
+      "answer": "The partial sums $s_N = a_1 + a_2 + \\cdots + a_N$ converge to $s$: $\\displaystyle\\lim_{N\\to\\infty} s_N = s$.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "geo-sum",
+      "topicKey": "series-geometric",
+      "type": "basic",
+      "prompt": "Sum of the geometric series $\\displaystyle\\sum_{n=1}^{\\infty} a r^{n-1}$ when $|r| < 1$?",
+      "answer": "$\\dfrac{a}{1 - r}$: first term over one minus the ratio.",
+      "explanation": "Partial sums: $s_N = \\frac{a(1 - r^N)}{1 - r}$, and $r^N \\to 0$ when $|r| < 1$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "geo-condition",
+      "topicKey": "series-geometric",
+      "type": "basic",
+      "prompt": "For which $r$ does the geometric series $\\displaystyle\\sum_{n=1}^{\\infty} a r^{n-1}$ (with $a \\ne 0$) converge?",
+      "answer": "Exactly when $|r| < 1$; it diverges for $|r| \\ge 1$.",
+      "explanation": "For $|r| \\ge 1$ the terms $ar^{n-1}$ do not tend to $0$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "geo-start-mistake",
+      "topicKey": "series-geometric",
+      "type": "basic",
+      "prompt": "Is $\\displaystyle\\sum_{n=1}^{\\infty}\\left(\\frac{2}{3}\\right)^n = \\frac{1}{1 - 2/3} = 3$?",
+      "answer": "No. The first term is $\\frac{2}{3}$, not $1$, so the sum is $\\dfrac{2/3}{1 - 2/3} = 2$.",
+      "explanation": "$\\frac{1}{1 - r}$ is only right for $\\sum_{n=0}^{\\infty} r^n$, which starts with $r^0 = 1$. In general use (first term) divided by $(1 - r)$.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "tele-basic",
+      "topicKey": "series-geometric",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{1}{n(n + 1)}$.",
+      "answer": "$1$",
+      "explanation": "$\\frac{1}{n(n + 1)} = \\frac{1}{n} - \\frac{1}{n + 1}$, so the partial sums telescope: $s_N = 1 - \\frac{1}{N + 1} \\to 1$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "tele-gap",
+      "topicKey": "series-geometric",
+      "type": "basic",
+      "prompt": "Evaluate $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{1}{n(n + 2)}$.",
+      "answer": "$\\dfrac{3}{4}$",
+      "explanation": "$\\frac{1}{n(n + 2)} = \\frac{1}{2}\\left(\\frac{1}{n} - \\frac{1}{n + 2}\\right)$. Terms cancel two apart, leaving $\\frac{1}{2}\\left(1 + \\frac{1}{2}\\right) = \\frac{3}{4}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "tele-diverge",
+      "topicKey": "series-geometric",
+      "type": "basic",
+      "prompt": "Does $\\displaystyle\\sum_{n=1}^{\\infty} \\ln\\frac{n + 1}{n}$ converge?",
+      "answer": "No. It telescopes to $s_N = \\ln(N + 1) \\to \\infty$, even though the terms tend to $0$.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "test-divergence",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "Test for Divergence: what does it say?",
+      "answer": "If $\\displaystyle\\lim_{n\\to\\infty} a_n \\ne 0$ (or the limit does not exist), then $\\sum a_n$ diverges.",
+      "explanation": "Contrapositive of: if $\\sum a_n$ converges to $s$, then $a_n = s_n - s_{n-1} \\to s - s = 0$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "test-divergence-mistake",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "If $\\displaystyle\\lim_{n\\to\\infty} a_n = 0$, must $\\sum a_n$ converge?",
+      "answer": "No. The harmonic series $\\sum \\frac{1}{n}$ has $\\frac{1}{n} \\to 0$ but diverges. The Test for Divergence can only ever prove divergence.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "test-p-series",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "For which $p$ does the p-series $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{1}{n^p}$ converge?",
+      "answer": "$p > 1$. It diverges for $p \\le 1$ (e.g. the harmonic series, $p = 1$).",
+      "explanation": "Integral Test with $\\int_1^\\infty \\frac{dx}{x^p}$. Examples: $\\sum \\frac{1}{n^2}$ converges (to $\\frac{\\pi^2}{6}$); $\\sum \\frac{1}{\\sqrt{n}}$ diverges.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "test-p-vs-geometric",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "How do you tell a p-series from a geometric series, and what are their convergence conditions?",
+      "answer": "p-series $\\sum \\frac{1}{n^p}$: $n$ in the base, fixed exponent; converges iff $p > 1$. Geometric $\\sum r^n$: fixed base, $n$ in the exponent; converges iff $|r| < 1$.",
+      "explanation": "$\\sum \\frac{1}{n^2}$: p-series with $p = 2$, converges. $\\sum \\frac{1}{2^n}$: geometric with $r = \\frac{1}{2}$, converges. $\\sum \\frac{1}{n^{1/2}}$: p-series with $p = \\frac{1}{2}$, diverges.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "test-integral-conditions",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "Integral Test: what must $f$ satisfy (with $a_n = f(n)$) for $\\sum a_n$ and $\\int_1^\\infty f(x)\\,dx$ to converge or diverge together?",
+      "answer": "$f$ is continuous, positive, and decreasing on $[1, \\infty)$ (eventually decreasing is enough).",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "test-integral-mistake",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "If the Integral Test applies and $\\displaystyle\\int_1^{\\infty} f(x)\\,dx = L$, is $\\displaystyle\\sum_{n=1}^{\\infty} f(n) = L$?",
+      "answer": "No. The test only says both converge; the values generally differ.",
+      "explanation": "$\\int_1^\\infty \\frac{dx}{x^2} = 1$, but $\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6} \\approx 1.645$.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "test-integral-remainder",
+      "topicKey": "series-tests",
+      "type": "cloze",
+      "prompt": "Integral Test remainder bound ($f$ positive, continuous, decreasing; $R_n = s - s_n$): $\\displaystyle\\int_{ {{c1::n+1}} }^{\\infty} f(x)\\,dx \\le R_n \\le \\int_{ {{c1::n}} }^{\\infty} f(x)\\,dx$",
+      "answer": "",
+      "explanation": "$R_n = a_{n+1} + a_{n+2} + \\cdots$. Rectangles of height $a_k$ on $[k - 1, k]$ lie under the graph (so $R_n \\le \\int_n^\\infty f$); rectangles of height $a_k$ on $[k, k + 1]$ lie above it (so $R_n \\ge \\int_{n+1}^\\infty f$).",
+      "tags": [
+        "formula",
+        "condition"
+      ]
+    },
+    {
+      "key": "test-comparison",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "Direct Comparison Test: if $0 \\le a_n \\le b_n$ for all $n$, what can you conclude?",
+      "answer": "If $\\sum b_n$ converges, so does $\\sum a_n$. If $\\sum a_n$ diverges, so does $\\sum b_n$.",
+      "explanation": "The partial sums of $\\sum a_n$ increase and are bounded by $\\sum b_n$ (Monotone Sequence Theorem). Typical comparison series: p-series and geometric series.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "test-limit-comparison",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "Limit Comparison Test: for $a_n, b_n > 0$ with $\\displaystyle\\lim_{n\\to\\infty}\\frac{a_n}{b_n} = c$, when can you conclude, and what?",
+      "answer": "If $0 < c < \\infty$, then $\\sum a_n$ and $\\sum b_n$ both converge or both diverge.",
+      "explanation": "Pick $b_n$ from the dominant terms: $a_n = \\frac{2n + 1}{n^3 + 1}$ behaves like $\\frac{2}{n^2}$, so compare with $b_n = \\frac{1}{n^2}$: $c = 2$, and both converge.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "test-ratio",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "Ratio Test: with $L = \\displaystyle\\lim_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|$, what do $L < 1$, $L > 1$ and $L = 1$ tell you?",
+      "answer": "$L < 1$: converges absolutely. $L > 1$ (including $L = \\infty$): diverges. $L = 1$: inconclusive.",
+      "explanation": "The series eventually behaves like a geometric series with ratio $L$. Best for factorials and exponentials.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "test-ratio-p-series",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "Why is the Ratio Test useless for $\\sum \\frac{1}{n^p}$ (and for any rational function of $n$)?",
+      "answer": "$\\dfrac{a_{n+1}}{a_n} = \\left(\\dfrac{n}{n + 1}\\right)^p \\to 1$ for every $p$, so $L = 1$: inconclusive. Use the p-series test or a comparison instead.",
+      "tags": [
+        "concept",
+        "strategy"
+      ]
+    },
+    {
+      "key": "test-root",
+      "topicKey": "series-tests",
+      "type": "basic",
+      "prompt": "Root Test: what limit do you compute, and how do you interpret it?",
+      "answer": "$L = \\displaystyle\\lim_{n\\to\\infty}\\sqrt[n]{|a_n|}$, with the same conclusions as the Ratio Test: $L < 1$ converges absolutely, $L > 1$ diverges, $L = 1$ inconclusive.",
+      "explanation": "Best when $a_n$ is something raised to the $n$th power, e.g. $\\sum\\left(\\frac{n}{2n + 1}\\right)^n$ has $L = \\frac{1}{2}$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "ast-conditions",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "Alternating Series Test: which conditions on $b_n > 0$ make $\\displaystyle\\sum (-1)^{n-1} b_n$ converge?",
+      "answer": "$b_n$ is decreasing ($b_{n+1} \\le b_n$, at least eventually) and $\\displaystyle\\lim_{n\\to\\infty} b_n = 0$.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "ast-error-bound",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "If $\\sum (-1)^{n-1} b_n$ satisfies the Alternating Series Test and has sum $s$, how large can the error $|s - s_n|$ be?",
+      "answer": "$|s - s_n| \\le b_{n+1}$: at most the first omitted term.",
+      "explanation": "The partial sums alternately overshoot and undershoot $s$. Example: $1 - \\frac{1}{2} + \\frac{1}{3} - \\frac{1}{4}$ is within $\\frac{1}{5}$ of $\\ln 2$.",
+      "tags": [
+        "formula",
+        "condition"
+      ]
+    },
+    {
+      "key": "abs-vs-conditional",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "Absolute vs conditional convergence of $\\sum a_n$?",
+      "answer": "Absolutely convergent: $\\sum |a_n|$ converges. Conditionally convergent: $\\sum a_n$ converges but $\\sum |a_n|$ diverges.",
+      "explanation": "$\\sum \\frac{(-1)^n}{n^2}$ is absolutely convergent; $\\sum \\frac{(-1)^{n-1}}{n}$ is conditionally convergent.",
+      "tags": [
+        "confusable",
+        "concept"
+      ]
+    },
+    {
+      "key": "abs-implies-conv",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "If $\\sum |a_n|$ converges, what about $\\sum a_n$?",
+      "answer": "It converges too: absolute convergence implies convergence.",
+      "explanation": "$0 \\le a_n + |a_n| \\le 2|a_n|$, so $\\sum (a_n + |a_n|)$ converges by comparison; subtract $\\sum |a_n|$. The converse is false (alternating harmonic series).",
+      "tags": [
+        "condition",
+        "concept"
+      ]
+    },
+    {
+      "key": "alt-harmonic",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "Does $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1}}{n}$ converge absolutely, converge conditionally, or diverge?",
+      "answer": "It converges conditionally: the AST applies, but $\\sum \\frac{1}{n}$ diverges.",
+      "explanation": "Its sum is $\\ln 2$ (the Maclaurin series of $\\ln(1 + x)$ at $x = 1$).",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "alt-p-series",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "For which $p$ does $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{(-1)^{n}}{n^p}$ converge absolutely, and for which only conditionally?",
+      "answer": "Absolutely for $p > 1$; conditionally for $0 < p \\le 1$. (For $p \\le 0$ the terms do not tend to $0$, so it diverges.)",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "alt-mistake",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "Does $\\displaystyle\\sum_{n=1}^{\\infty} (-1)^n\\frac{n}{n + 1}$ converge by the Alternating Series Test?",
+      "answer": "No. $b_n = \\frac{n}{n + 1} \\to 1 \\ne 0$, so the AST does not apply; since the terms do not tend to $0$, the series diverges by the Test for Divergence.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "riemann-rearrangement",
+      "topicKey": "series-alternating",
+      "type": "basic",
+      "prompt": "What can rearranging the terms of a conditionally convergent series do to its sum?",
+      "answer": "Anything: by Riemann's rearrangement theorem it can be rearranged to converge to any real number, or to diverge. Absolutely convergent series keep the same sum under every rearrangement.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "serstrat-divergence",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{n}{2n + 1}$?",
+      "answer": "Test for Divergence: $a_n \\to \\frac{1}{2} \\ne 0$, so the series diverges.",
+      "explanation": "Check $\\lim a_n$ first; it is the quickest test.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-direct",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{\\sin^2 n}{n^2}$?",
+      "answer": "Direct comparison: $0 \\le \\frac{\\sin^2 n}{n^2} \\le \\frac{1}{n^2}$, and $\\sum \\frac{1}{n^2}$ converges ($p = 2$). So it converges.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-geometric-like",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{2^n}{3^n + 1}$?",
+      "answer": "Direct comparison with a geometric series: $\\frac{2^n}{3^n + 1} < \\left(\\frac{2}{3}\\right)^n$, and $|r| = \\frac{2}{3} < 1$. So it converges.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-lct",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{n^2 + 1}{n^3 + 2}$?",
+      "answer": "Limit comparison with $\\sum \\frac{1}{n}$: $\\dfrac{a_n}{1/n} = \\dfrac{n^3 + n}{n^3 + 2} \\to 1$, and the harmonic series diverges. So it diverges.",
+      "explanation": "Dominant terms: $\\frac{n^2}{n^3} = \\frac{1}{n}$. The LCT avoids having to prove an inequality.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-ln-over-n",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{\\ln n}{n}$?",
+      "answer": "Direct comparison with the harmonic series: $\\frac{\\ln n}{n} \\ge \\frac{1}{n}$ for $n \\ge 3$, and $\\sum \\frac{1}{n}$ diverges. So it diverges.",
+      "explanation": "The Integral Test also works: $\\int \\frac{\\ln x}{x}\\,dx = \\frac{(\\ln x)^2}{2} \\to \\infty$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-ratio-factorial",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=0}^{\\infty} \\frac{3^n}{n!}$?",
+      "answer": "Ratio Test: $\\dfrac{a_{n+1}}{a_n} = \\dfrac{3}{n + 1} \\to 0 < 1$. So it converges (absolutely).",
+      "explanation": "Factorials suggest the Ratio Test. (In fact the sum is $e^3$.)",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-factorial-power",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{n!}{n^n}$?",
+      "answer": "Ratio Test: $\\dfrac{a_{n+1}}{a_n} = \\left(\\dfrac{n}{n + 1}\\right)^n \\to \\dfrac{1}{e} < 1$. So it converges.",
+      "explanation": "$\\dfrac{(n + 1)!}{(n + 1)^{n+1}}\\cdot\\dfrac{n^n}{n!} = \\dfrac{n^n}{(n + 1)^n} = \\dfrac{1}{(1 + 1/n)^n}$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-root",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\left(\\frac{2n + 3}{3n + 2}\\right)^n$?",
+      "answer": "Root Test: $\\sqrt[n]{a_n} = \\dfrac{2n + 3}{3n + 2} \\to \\dfrac{2}{3} < 1$. So it converges.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-alternating",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{(-1)^n}{\\sqrt{n}}$, and what kind of convergence results?",
+      "answer": "Alternating Series Test ($\\frac{1}{\\sqrt{n}}$ decreases to $0$), so it converges. But $\\sum \\frac{1}{\\sqrt{n}}$ is a p-series with $p = \\frac{1}{2} \\le 1$, so the convergence is only conditional.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "serstrat-integral",
+      "topicKey": "series-strategy",
+      "type": "basic",
+      "prompt": "Which test for $\\displaystyle\\sum_{n=2}^{\\infty} \\frac{1}{n\\ln n}$?",
+      "answer": "Integral Test: $\\displaystyle\\int_2^{\\infty} \\frac{dx}{x\\ln x} = \\lim_{t\\to\\infty}\\Big[\\ln(\\ln x)\\Big]_2^t = \\infty$. So it diverges.",
+      "explanation": "Comparison with $\\frac{1}{n}$ fails ($\\frac{1}{n\\ln n}$ is smaller), and the Ratio Test gives $L = 1$. Contrast $\\sum \\frac{1}{n(\\ln n)^2}$, which converges.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "ps-cases",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "What are the possible convergence behaviors of a power series $\\sum c_n (x - a)^n$?",
+      "answer": "Exactly one of: it converges only at $x = a$ ($R = 0$); for all $x$ ($R = \\infty$); or for $|x - a| < R$ and diverges for $|x - a| > R$, for some $0 < R < \\infty$.",
+      "explanation": "In the last case the endpoints $x = a \\pm R$ must be checked separately; anything can happen there.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "ps-endpoints",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "After the Ratio Test gives convergence for $|x - a| < R$, what is still needed to find the interval of convergence?",
+      "answer": "Test each endpoint $x = a - R$ and $x = a + R$ separately (the Ratio Test gives $L = 1$ there), e.g. with the p-series test, the AST, or the Test for Divergence.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "ps-ex-xn-over-n",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "Interval of convergence of $\\displaystyle\\sum_{n=1}^{\\infty} \\frac{x^n}{n}$?",
+      "answer": "$[-1, 1)$",
+      "explanation": "Ratio Test: $|x|\\cdot\\frac{n}{n + 1} \\to |x|$, so $R = 1$. At $x = 1$: harmonic series, diverges. At $x = -1$: alternating harmonic series, converges.",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "ps-factorial-radius",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "Radius of convergence: $\\displaystyle\\sum n!\\,x^n$ vs $\\displaystyle\\sum \\frac{x^n}{n!}$?",
+      "answer": "$\\sum n!\\,x^n$: $R = 0$ (converges only at $x = 0$). $\\sum \\frac{x^n}{n!}$: $R = \\infty$.",
+      "explanation": "Ratio Test: $(n + 1)|x| \\to \\infty$ for every $x \\ne 0$, versus $\\frac{|x|}{n + 1} \\to 0$ for every $x$.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "ps-geometric",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "$\\dfrac{1}{1 - x}$ as a power series, with its interval of convergence?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} x^n = 1 + x + x^2 + \\cdots$, for $|x| < 1$",
+      "explanation": "A geometric series with first term $1$ and ratio $x$. It is the building block for many other series via substitution, differentiation and integration.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ps-substitution",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "$\\dfrac{1}{1 + x^2}$ as a power series, with its interval of convergence?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} (-1)^n x^{2n} = 1 - x^2 + x^4 - \\cdots$, for $|x| < 1$",
+      "explanation": "Substitute $-x^2$ for $x$ in $\\frac{1}{1 - x} = \\sum x^n$; the condition $|-x^2| < 1$ means $|x| < 1$.",
+      "tags": [
+        "formula",
+        "derivation"
+      ]
+    },
+    {
+      "key": "ps-termwise",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "When a power series is differentiated or integrated term by term, what happens to the radius of convergence?",
+      "answer": "It stays the same. Convergence at the endpoints, however, can change.",
+      "explanation": "$\\sum \\frac{x^n}{n}$ converges at $x = -1$, but its derivative $\\sum x^{n-1}$ does not.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "ps-ln-derive",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "Derive the power series of $\\ln(1 - x)$ for $|x| < 1$.",
+      "answer": "Integrate $\\frac{1}{1 - x} = \\sum_{n=0}^{\\infty} x^n$: $-\\ln(1 - x) = \\sum_{n=0}^{\\infty} \\frac{x^{n+1}}{n + 1} + C$, and $x = 0$ gives $C = 0$. So $\\ln(1 - x) = -\\displaystyle\\sum_{n=1}^{\\infty} \\frac{x^n}{n}$.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "ps-diff-derive",
+      "topicKey": "power-series",
+      "type": "basic",
+      "prompt": "Derive a power series for $\\dfrac{1}{(1 - x)^2}$, $|x| < 1$.",
+      "answer": "Differentiate $\\frac{1}{1 - x} = \\sum_{n=0}^{\\infty} x^n$ term by term: $\\dfrac{1}{(1 - x)^2} = \\displaystyle\\sum_{n=1}^{\\infty} n x^{n-1}$.",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "taylor-coefficients",
+      "topicKey": "power-taylor",
+      "type": "cloze",
+      "prompt": "Taylor series of $f$ centered at $a$: $\\displaystyle f(x) = \\sum_{n=0}^{\\infty} {{c1::\\frac{f^{(n)}(a)}{n!}}}(x - a)^n$",
+      "answer": "(valid where the series converges to $f$)",
+      "explanation": "Differentiate $c_n(x - a)^n$ $n$ times and set $x = a$: you get $n!\\,c_n = f^{(n)}(a)$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "taylor-vs-maclaurin",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Taylor series vs Maclaurin series?",
+      "answer": "A Maclaurin series is a Taylor series centered at $a = 0$: $\\displaystyle\\sum_{n=0}^{\\infty}\\frac{f^{(n)}(0)}{n!}x^n$. A Taylor series can be centered at any $a$, in powers of $(x - a)$.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "mac-exp",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Maclaurin series of $e^x$, with its interval of convergence?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} \\frac{x^n}{n!} = 1 + x + \\frac{x^2}{2!} + \\cdots$, for all real $x$ ($R = \\infty$)",
+      "explanation": "Every derivative of $e^x$ equals $1$ at $x = 0$. At $x = 1$: $e = \\sum \\frac{1}{n!}$.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "mac-sin",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Maclaurin series of $\\sin x$?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n+1}}{(2n + 1)!} = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\cdots$, for all $x$",
+      "explanation": "The derivatives at $0$ cycle through $0, 1, 0, -1$. Sine is odd, so only odd powers appear.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "mac-cos",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Maclaurin series of $\\cos x$?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{(2n)!} = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\cdots$, for all $x$",
+      "explanation": "Differentiate the sine series term by term. Cosine is even, so only even powers appear.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "mac-ln",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Maclaurin series of $\\ln(1 + x)$, with its interval of convergence?",
+      "answer": "$\\displaystyle\\sum_{n=1}^{\\infty} \\frac{(-1)^{n-1} x^n}{n} = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\cdots$, for $-1 < x \\le 1$",
+      "explanation": "Integrate $\\frac{1}{1 + t} = \\sum (-1)^n t^n$ from $0$ to $x$. No factorials, and the sum starts at $n = 1$. At $x = 1$ it gives $\\ln 2$.",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "mac-arctan",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Maclaurin series of $\\arctan x$, with its interval of convergence?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n+1}}{2n + 1} = x - \\frac{x^3}{3} + \\frac{x^5}{5} - \\cdots$, for $-1 \\le x \\le 1$",
+      "explanation": "Integrate $\\frac{1}{1 + t^2} = \\sum (-1)^n t^{2n}$. Compare $\\sin x$: same signs and powers, but $\\arctan x$ divides by $2n + 1$, not $(2n + 1)!$. At $x = 1$: $\\frac{\\pi}{4} = 1 - \\frac{1}{3} + \\frac{1}{5} - \\cdots$.",
+      "reverse": true,
+      "tags": [
+        "formula",
+        "confusable"
+      ]
+    },
+    {
+      "key": "mac-binomial",
+      "topicKey": "power-taylor",
+      "type": "cloze",
+      "prompt": "Binomial series ($k$ any real number, $|x| < 1$): $\\displaystyle(1 + x)^k = \\sum_{n=0}^{\\infty}\\binom{k}{n}x^n$, where $\\dbinom{k}{n} = {{c1::\\frac{k(k - 1)\\cdots(k - n + 1)}{n!}}}$",
+      "answer": "and $\\binom{k}{0} = 1$.",
+      "explanation": "Example with $k = \\frac{1}{2}$: $\\sqrt{1 + x} = 1 + \\frac{x}{2} - \\frac{x^2}{8} + \\cdots$, since $\\binom{1/2}{2} = \\frac{\\frac{1}{2}\\cdot\\left(-\\frac{1}{2}\\right)}{2!} = -\\frac{1}{8}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "mac-exp-neg-x2",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Maclaurin series of $e^{-x^2}$?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{n!} = 1 - x^2 + \\frac{x^4}{2!} - \\cdots$, for all $x$",
+      "explanation": "Substitute $u = -x^2$ into $e^u = \\sum \\frac{u^n}{n!}$; no derivatives needed. The denominator stays $n!$, not $(2n)!$.",
+      "tags": [
+        "formula",
+        "derivation"
+      ]
+    },
+    {
+      "key": "taylor-exp-at-2",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Taylor series of $e^x$ centered at $a = 2$?",
+      "answer": "$\\displaystyle\\sum_{n=0}^{\\infty} \\frac{e^2}{n!}(x - 2)^n$, for all $x$",
+      "explanation": "$f^{(n)}(2) = e^2$ for every $n$. Equivalently, write $e^x = e^2 e^{x - 2}$ and expand $e^{x - 2}$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "taylor-limit",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Use series to evaluate $\\displaystyle\\lim_{x\\to 0}\\frac{\\sin x - x}{x^3}$.",
+      "answer": "$-\\dfrac{1}{6}$",
+      "explanation": "$\\sin x - x = -\\frac{x^3}{3!} + \\frac{x^5}{5!} - \\cdots$; divide by $x^3$ and let $x \\to 0$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "taylor-integral",
+      "topicKey": "power-taylor",
+      "type": "basic",
+      "prompt": "Express $\\displaystyle\\int e^{-x^2}\\,dx$ as a power series.",
+      "answer": "$\\displaystyle C + \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n+1}}{(2n + 1)\\,n!}$",
+      "explanation": "Integrate $e^{-x^2} = \\sum \\frac{(-1)^n x^{2n}}{n!}$ term by term (valid for all $x$). This is how integrals without elementary antiderivatives are evaluated numerically.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "remainder-to-zero",
+      "topicKey": "power-remainder",
+      "type": "basic",
+      "prompt": "When does $f(x)$ equal the sum of its Taylor series at a point $x$?",
+      "answer": "Exactly when the remainder $R_n(x) = f(x) - T_n(x) \\to 0$ as $n \\to \\infty$, where $T_n$ is the $n$th-degree Taylor polynomial.",
+      "tags": [
+        "condition",
+        "concept"
+      ]
+    },
+    {
+      "key": "taylor-inequality",
+      "topicKey": "power-remainder",
+      "type": "cloze",
+      "prompt": "Taylor's Inequality: if $|f^{(n+1)}(x)| \\le M$ for $|x - a| \\le d$, then for $|x - a| \\le d$: $\\displaystyle|R_n(x)| \\le {{c1::\\frac{M}{(n + 1)!}|x - a|^{n+1}}}$",
+      "answer": "",
+      "explanation": "It is the size of the next Taylor term, with $|f^{(n+1)}|$ replaced by its bound $M$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "lagrange-remainder",
+      "topicKey": "power-remainder",
+      "type": "cloze",
+      "prompt": "Lagrange form of the remainder: $\\displaystyle R_n(x) = {{c1::\\frac{f^{(n+1)}(z)}{(n + 1)!}(x - a)^{n+1}}}$ for some $z$ between $a$ and $x$",
+      "answer": "",
+      "explanation": "It looks like the next term of the series, but with the derivative evaluated at an unknown point $z$. Bounding $|f^{(n+1)}(z)| \\le M$ gives Taylor's Inequality.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "xn-over-factorial",
+      "topicKey": "power-remainder",
+      "type": "basic",
+      "prompt": "$\\displaystyle\\lim_{n\\to\\infty}\\frac{x^n}{n!}$ for a fixed real number $x$?",
+      "answer": "$0$, for every $x$.",
+      "explanation": "It is the $n$th term of the convergent series $\\sum \\frac{x^n}{n!}$ (Ratio Test, $L = 0$). This is the key step in showing that $e^x$, $\\sin x$ and $\\cos x$ equal their Maclaurin series everywhere.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "remainder-alternating",
+      "topicKey": "power-remainder",
+      "type": "basic",
+      "prompt": "Bound the error of $\\sin x \\approx x - \\dfrac{x^3}{6}$ for $|x| \\le 0.1$.",
+      "answer": "At most $\\dfrac{(0.1)^5}{5!} \\approx 8.3 \\times 10^{-8}$.",
+      "explanation": "The series is alternating with decreasing terms, so the error is at most the next term $\\frac{|x|^5}{5!}$. (Taylor's Inequality with $M = 1$ gives the same bound, because $T_3 = T_4$ for sine.)",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "taylor-not-equal",
+      "topicKey": "power-remainder",
+      "type": "basic",
+      "prompt": "Can a function's Taylor series converge everywhere but not to the function?",
+      "answer": "Yes. $f(x) = e^{-1/x^2}$ (with $f(0) = 0$) has $f^{(n)}(0) = 0$ for every $n$, so its Maclaurin series is identically $0$, which equals $f$ only at $x = 0$.",
+      "tags": [
+        "concept"
+      ]
+    }
+  ]
+}
