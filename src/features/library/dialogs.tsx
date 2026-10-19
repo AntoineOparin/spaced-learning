@@ -81,7 +81,7 @@ export function CourseDialog({
               id={id}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              autoFocus
+              data-autofocus
               placeholder="e.g. Discrete Mathematics"
             />
           )}
@@ -91,7 +91,6 @@ export function CourseDialog({
             <Textarea
               id={id}
               rows={2}
-              className="font-sans"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -185,7 +184,13 @@ export function TopicDialog({
       >
         <Field label="Name">
           {(id) => (
-            <Input id={id} value={name} onChange={(e) => setName(e.target.value)} autoFocus />
+            <Input
+              id={id}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              data-autofocus
+              placeholder="e.g. Integration Techniques"
+            />
           )}
         </Field>
       </form>

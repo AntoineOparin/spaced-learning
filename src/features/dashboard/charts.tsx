@@ -1,8 +1,8 @@
 /**
  * Small hand-built charts. Single-series columns (no legend; the title names it) and a stacked
- * maturity bar (ordinal ramp + legend). Every chart has a screen-reader table.
+ * maturity bar (ordinal green ramp + legend). Every chart has a screen-reader table.
  */
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { Maturity } from '../../domain/stats';
 import { cn } from '../../ui/cn';
 
@@ -14,24 +14,44 @@ function columnPath(x: number, y: number, w: number, h: number): string {
   return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`;
 }
 
+/** Tracks an element's width so SVG text renders at its real size instead of scaling. */
+function useWidth<T extends HTMLElement>(fallback: number) {
+  const ref = useRef<T>(null);
+  const [width, setWidth] = useState(fallback);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    setWidth(el.clientWidth || fallback);
+    const ro = new ResizeObserver(([entry]) => {
+      if (entry) setWidth(Math.round(entry.contentRect.width) || fallback);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [fallback]);
+  return [ref, width] as const;
+}
+
 export function ForecastChart({ counts, start }: { counts: number[]; start: number }) {
   const [hover, setHover] = useState<number | null>(null);
-  const width = 560;
-  const height = 132;
-  const top = 18;
-  const baseline = height - 20;
+  const [ref, width] = useWidth<HTMLElement>(560);
+  const height = 140;
+  const top = 20;
+  const baseline = height - 24;
   const slot = width / counts.length;
-  const barW = Math.min(24, slot - 6);
+  const barW = Math.max(6, Math.min(24, slot * 0.6));
+  const everyLabel = slot >= 36;
   const max = Math.max(1, ...counts);
   const peak = counts.indexOf(Math.max(...counts));
   const labelFor = (i: number) =>
     i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : DAY_LABEL.format(new Date(start + i * 86_400_000));
 
   return (
-    <figure>
+    <figure ref={ref}>
       <svg
+        width={width}
+        height={height}
         viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full"
+        className="block max-w-full"
         role="img"
         aria-label={`Reviews due over the next ${counts.length} days. Today: ${counts[0] ?? 0}. Busiest day: ${labelFor(peak)} with ${counts[peak] ?? 0}.`}
         onMouseLeave={() => setHover(null)}
@@ -47,7 +67,7 @@ export function ForecastChart({ counts, start }: { counts: number[]; start: numb
         {counts.map((c, i) => {
           const h = c === 0 ? 0 : Math.max(2, ((baseline - top) * c) / max);
           const x = i * slot + (slot - barW) / 2;
-          const showLabel = hover === i || (hover === null && (i === 0 || i === peak) && c > 0);
+          const showValue = hover === i || (hover === null && (i === 0 || i === peak) && c > 0);
           const key = `${start}-${i}`;
           return (
             <g key={key}>
@@ -68,29 +88,30 @@ export function ForecastChart({ counts, start }: { counts: number[]; start: numb
                 <path
                   d={columnPath(x, baseline - h, barW, h)}
                   className={cn(
-                    'fill-chart-bar transition-opacity',
-                    hover !== null && hover !== i && 'opacity-40',
+                    'fill-chart-bar transition-opacity duration-150',
+                    hover !== null && hover !== i && 'opacity-35',
                   )}
                   pointerEvents="none"
                 />
               )}
-              {showLabel && (
+              {showValue && (
                 <text
                   x={x + barW / 2}
-                  y={baseline - h - 5}
+                  y={baseline - h - 6}
                   textAnchor="middle"
-                  className="fill-fg text-[11px] font-medium tabular-nums"
+                  className="fill-fg text-[12px] font-bold tabular-nums"
                   pointerEvents="none"
                 >
                   {c}
                 </text>
               )}
-              {(i === 0 || i % 2 === 0 || hover === i) && (
+              {(i === 0 || everyLabel || i % 2 === 0 || hover === i) && (
                 <text
-                  x={i * slot + slot / 2}
-                  y={height - 5}
-                  textAnchor="middle"
-                  className={cn('text-[10px]', hover === i ? 'fill-fg' : 'fill-muted')}
+                  // "Today" is wider than a narrow slot: align it with its bar instead of centering.
+                  x={i === 0 && !everyLabel ? x : i * slot + slot / 2}
+                  y={height - 6}
+                  textAnchor={i === 0 && !everyLabel ? 'start' : 'middle'}
+                  className={cn('text-[11px] font-medium', hover === i ? 'fill-fg' : 'fill-muted')}
                   pointerEvents="none"
                 >
                   {i === 0
@@ -102,27 +123,30 @@ export function ForecastChart({ counts, start }: { counts: number[]; start: numb
           );
         })}
       </svg>
-      <table className="sr-only">
-        <caption>Reviews due per day</caption>
-        <tbody>
-          {counts.map((c, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: one row per day offset
-            <tr key={i}>
-              <th scope="row">{labelFor(i)}</th>
-              <td>{c}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Hide a wrapper, not the table: tables treat height: 1px as a minimum and grow. */}
+      <div className="sr-only">
+        <table>
+          <caption>Reviews due per day</caption>
+          <tbody>
+            {counts.map((c, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: one row per day offset
+              <tr key={i}>
+                <th scope="row">{labelFor(i)}</th>
+                <td>{c}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </figure>
   );
 }
 
 const SEGMENTS: { key: keyof Omit<Maturity, 'suspended'>; label: string; className: string }[] = [
-  { key: 'new', label: 'New', className: 'bg-surface-2' },
   { key: 'learning', label: 'Learning', className: 'bg-mat-1' },
   { key: 'young', label: 'Young', className: 'bg-mat-2' },
   { key: 'mature', label: 'Mature (≥ 21 d)', className: 'bg-mat-3' },
+  { key: 'new', label: 'New', className: 'bg-line-strong' },
 ];
 
 export function MaturityBar({ m, showLegend = true }: { m: Maturity; showLegend?: boolean }) {
@@ -144,19 +168,22 @@ export function MaturityBar({ m, showLegend = true }: { m: Maturity; showLegend?
           />
         ))}
       </div>
-      {showLegend && (
-        <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
-          {SEGMENTS.map((s) => (
-            <li key={s.key} className="flex items-center gap-1.5">
-              <span
-                className={cn('size-2 rounded-sm border border-line', s.className)}
-                aria-hidden
-              />
-              {s.label} <span className="tabular-nums text-fg">{m[s.key]}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      {showLegend && <MaturityLegend m={m} />}
     </div>
+  );
+}
+
+/** Legend for maturity bars; pass `m` to include counts. */
+export function MaturityLegend({ m }: { m?: Maturity }) {
+  return (
+    <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
+      {SEGMENTS.map((s) => (
+        <li key={s.key} className="flex items-center gap-1.5">
+          <span className={cn('size-2 rounded-full', s.className)} aria-hidden />
+          {s.label}
+          {m && <span className="font-semibold text-fg tabular-nums">{m[s.key]}</span>}
+        </li>
+      ))}
+    </ul>
   );
 }

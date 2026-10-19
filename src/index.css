@@ -2,96 +2,275 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Design tokens ─────────────────────────────────────────────────────────── */
+/* ── Typeface ──────────────────────────────────────────────────────────────────
+   Inter with the optical-size axis: text sizes get Inter, display sizes get Inter Display.
+   Self-hosted (the CSP allows fonts from 'self' only); only the subsets this app needs. */
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-latin-opsz-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-latin-opsz-italic.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../node_modules/@fontsource-variable/inter/files/inter-greek-opsz-normal.woff2")
+    format("woff2-variations");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+/* ── Design tokens ─────────────────────────────────────────────────────────────
+   Notion's warm document surfaces + Duolingo's leaf green for CTAs and progress.
+   The four signal hues map 1:1 onto the four ratings and are used nowhere else:
+   danger = Again / wrong, streak = Hard / streaks, accent = Good / go, xp = Easy / new.
+   Every *-text token clears WCAG AA (4.5:1) on bg, bg-alt and its own *-soft fill. */
 :root {
-  --bg: #f7f7f5;
-  --surface: #ffffff;
-  --surface-2: #f0f0ed;
-  --line: #e4e4df;
-  --line-strong: #cfcfc8;
-  --fg: #1b1c1f;
-  --muted: #5f6166;
-  --faint: #6b6d72;
-  --accent: #4338ca;
-  --accent-hover: #3730a3;
-  --accent-soft: #eceafd;
-  --accent-fg: #ffffff;
-  --again: #b42318;
-  --again-soft: #fdecea;
-  --hard: #9a5b00;
-  --hard-soft: #fdf3e2;
-  --good: #1d7a43;
-  --good-soft: #e6f4ec;
-  --easy: #1f5fb4;
-  --easy-soft: #e7effa;
-  --cloze: #4338ca;
-  --cloze-soft: #eceafd;
-  /* Chart marks (validated with the dataviz palette checker against --surface). */
-  --chart-bar: #4338ca;
-  --mat-1: #aaa5f0;
-  --mat-2: #7a73e3;
-  --mat-3: #4338ca;
+  --bg: #ffffff;
+  --bg-alt: #fbfaf8;
+  --surface: #f1efea;
+  --line: #e9e7e2;
+  --line-strong: #d6d3cc;
+  --fg: #37352f;
+  --muted: #6f6b62;
+  --faint: #74706a; /* text-safe on bg / bg-alt only */
+  --dim: #a09c92; /* decoration only, never text */
+
+  --accent: #58cc02;
+  --accent-hover: #61d60a;
+  --accent-deep: #46a302;
+  --accent-soft: #e8f8d8;
+  --accent-text: #2f7a00;
+  --on-accent: #1d3604;
+
+  --danger: #ff4b4b;
+  --danger-text: #c42b2b;
+  --danger-deep: #9e1f1f;
+  --danger-soft: #fff0ef;
+  --streak: #ff9600;
+  --streak-text: #a85400;
+  --streak-soft: #fff3e2;
+  --xp: #1cb0f6;
+  --xp-text: #0b74b0;
+  --xp-soft: #e6f6fe;
+
+  /* On inverted surfaces (toasts: fg background, bg text). */
+  --inv-accent: #58cc02;
+  --inv-danger: #ff7a7a;
+
+  --ring: #2f7a00;
+  --scrim: rgb(37 36 31 / 0.4);
+  --shadow-modal: 0 20px 48px rgb(55 53 47 / 0.18);
+  --shadow-pop: 0 8px 24px rgb(55 53 47 / 0.14), 0 1px 2px rgb(55 53 47 / 0.08);
+
+  /* Chart marks, validated with the dataviz checker against --bg-alt. */
+  --chart-bar: #46a302;
+  --mat-1: #76c135;
+  --mat-2: #4a9410;
+  --mat-3: #2a6503;
+
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f6b62' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+
+  /* Motion. A critically damped spring (damping 1.0) sampled into linear(); the shape is
+     time-scale invariant, so response 0.3 s settles in 440 ms and response 0.4 s in 590 ms. */
+  --spring: linear(
+    0,
+    0.0016 0.6%,
+    0.0134 1.9%,
+    0.0442 3.6%,
+    0.098 5.7%,
+    0.1736 8.1%,
+    0.2661 10.9%,
+    0.3683 13.9%,
+    0.4727 17.2%,
+    0.5727 20.8%,
+    0.6636 24.6%,
+    0.7423 28.7%,
+    0.8077 33%,
+    0.8602 37.5%,
+    0.9007 42.2%,
+    0.9312 47.1%,
+    0.9534 52.3%,
+    0.9691 57.6%,
+    0.9799 63.1%,
+    0.9872 68.8%,
+    0.992 74.7%,
+    0.9951 80.8%,
+    0.9971 87%,
+    0.9983 93.4%,
+    1 100%
+  );
+  --spring-fast: 440ms;
+  --spring-slow: 590ms;
+
   color-scheme: light;
 }
 
+/* Dark: warm and softer than pitch black. Signal hues are lifted for the dark surface. */
 .dark {
-  --bg: #121316;
-  --surface: #1a1b1f;
-  --surface-2: #222328;
-  --line: #2c2d33;
-  --line-strong: #3a3c43;
-  --fg: #ececee;
-  --muted: #a1a3aa;
-  --faint: #8e9097;
-  --accent: #8b87f5;
-  --accent-hover: #a29ff8;
-  --accent-soft: #26244a;
-  --accent-fg: #121316;
-  --again: #f2867c;
-  --again-soft: #3a1d1b;
-  --hard: #f0b45b;
-  --hard-soft: #352813;
-  --good: #6fcf97;
-  --good-soft: #15301f;
-  --easy: #82b1f2;
-  --easy-soft: #172739;
-  --cloze: #a29ff8;
-  --cloze-soft: #26244a;
-  --chart-bar: #7a74e8;
-  --mat-1: #4a45a8;
-  --mat-2: #6f69dc;
-  --mat-3: #a19df6;
+  --bg: #25241f;
+  --bg-alt: #2a2924;
+  --surface: #322f29;
+  --line: #3e3a32;
+  --line-strong: #4d483e;
+  --fg: #f1efea;
+  --muted: #b5afa3;
+  --faint: #9a9488;
+  --dim: #6c665b;
+
+  --accent: #58cc02;
+  --accent-hover: #66d814;
+  --accent-deep: #3d8a00;
+  --accent-soft: #25331a;
+  --accent-text: #6fd420;
+  --on-accent: #1d3604;
+
+  --danger: #ff6b6b;
+  --danger-text: #ff8a80;
+  --danger-deep: #8f2a2a;
+  --danger-soft: #3d2220;
+  --streak: #ffa733;
+  --streak-text: #ffb454;
+  --streak-soft: #3b2c17;
+  --xp: #3bbcf8;
+  --xp-text: #6ccdfb;
+  --xp-soft: #1b3140;
+
+  --inv-accent: #2f7a00;
+  --inv-danger: #c42b2b;
+
+  --ring: #58cc02;
+  --scrim: rgb(0 0 0 / 0.55);
+  --shadow-modal: 0 20px 48px rgb(0 0 0 / 0.5);
+  --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.04);
+
+  --chart-bar: #58cc02;
+  --mat-1: #2f6a0c;
+  --mat-2: #4f9e14;
+  --mat-3: #7ad83a;
+
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b5afa3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+
   color-scheme: dark;
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
   --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
+  --color-dim: var(--dim);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-accent-deep: var(--accent-deep);
   --color-accent-soft: var(--accent-soft);
-  --color-accent-fg: var(--accent-fg);
-  --color-again: var(--again);
-  --color-again-soft: var(--again-soft);
-  --color-hard: var(--hard);
-  --color-hard-soft: var(--hard-soft);
-  --color-good: var(--good);
-  --color-good-soft: var(--good-soft);
-  --color-easy: var(--easy);
-  --color-easy-soft: var(--easy-soft);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-danger: var(--danger);
+  --color-danger-text: var(--danger-text);
+  --color-danger-deep: var(--danger-deep);
+  --color-danger-soft: var(--danger-soft);
+  --color-streak: var(--streak);
+  --color-streak-text: var(--streak-text);
+  --color-streak-soft: var(--streak-soft);
+  --color-xp: var(--xp);
+  --color-xp-text: var(--xp-text);
+  --color-xp-soft: var(--xp-soft);
+  --color-inv-accent: var(--inv-accent);
+  --color-inv-danger: var(--inv-danger);
   --color-chart-bar: var(--chart-bar);
   --color-mat-1: var(--mat-1);
   --color-mat-2: var(--mat-2);
   --color-mat-3: var(--mat-3);
+  --shadow-modal: var(--shadow-modal);
+  --shadow-pop: var(--shadow-pop);
+  --ease-spring: var(--spring);
+}
+
+@theme {
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Type ramp 12/14/16/18/20/24/32/40/56. Tracking and leading are size-specific:
+     small text opens up, display text tightens (Inter's dynamic metrics). */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-xs--letter-spacing: 0.005em;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-sm--letter-spacing: -0.006em;
+  --text-base: 1rem;
+  --text-base--line-height: 1.625rem;
+  --text-base--letter-spacing: -0.011em;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-lg--letter-spacing: -0.014em;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-xl--letter-spacing: -0.017em;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-2xl--letter-spacing: -0.019em;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 2.375rem;
+  --text-3xl--letter-spacing: -0.021em;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 2.75rem;
+  --text-4xl--letter-spacing: -0.022em;
+  --text-5xl: 3.5rem;
+  --text-5xl--line-height: 3.5rem;
+  --text-5xl--letter-spacing: -0.024em;
+
+  --animate-rise: rise 300ms var(--spring) both;
+  --animate-card: card-in var(--spring-fast) var(--spring) both;
+  --animate-pop: pop-in var(--spring-slow) var(--spring) both;
+  --animate-fade: fade-in 200ms ease-out both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────────── */
@@ -104,6 +283,11 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  letter-spacing: var(--text-base--letter-spacing);
+  font-optical-sizing: auto;
+  font-feature-settings: "cv11"; /* single-storey a: a friendlier texture */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
@@ -111,8 +295,25 @@ body {
 
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--ring);
     outline-offset: 2px;
+  }
+  /* Tailwind v4's reset leaves buttons with the arrow; anything clickable gets the hand.
+     Disabled controls keep the arrow, as on macOS. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  select:not(:disabled),
+  summary,
+  label:has(input:is([type="checkbox"], [type="radio"]):not(:disabled)) {
+    cursor: pointer;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
 }
 
@@ -120,26 +321,251 @@ body {
   background: var(--accent-soft);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    /* biome-ignore lint/complexity/noImportantStyles: must override every component's motion */
-    animation-duration: 0.01ms !important;
-    /* biome-ignore lint/complexity/noImportantStyles: must override every component's motion */
-    transition-duration: 0.01ms !important;
-  }
-}
-
-dialog::backdrop {
-  background: rgb(0 0 0 / 0.4);
-}
-
 .pb-safe {
   padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
 }
 .pt-safe {
   padding-top: env(safe-area-inset-top);
+}
+
+/* ── Components ────────────────────────────────────────────────────────────── */
+@layer components {
+  /* Tactile depth (Duolingo): only for things you press, answer or commit — never cards.
+     The cap sinks onto its lip on pointer-down, so the bottom edge never moves. */
+  .tactile {
+    --lip: 4px;
+    box-shadow: 0 var(--lip) 0 0 var(--lip-color, var(--line-strong));
+    transition:
+      transform 90ms ease-out,
+      box-shadow 90ms ease-out,
+      background-color 150ms ease-out,
+      border-color 150ms ease-out,
+      color 150ms ease-out;
+  }
+  .tactile:active:not(:disabled) {
+    transform: translateY(var(--lip));
+    box-shadow: 0 0 0 0 var(--lip-color, var(--line-strong));
+  }
+  @media (max-width: 479px) {
+    .tactile {
+      --lip: 3px;
+    }
+  }
+
+  /* Progress (Duolingo): the fill slides with a spring, transform-only. */
+  .progress {
+    position: relative;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .progress-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--accent);
+    transition: transform var(--spring-slow) var(--spring);
+  }
+  .progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 6px;
+    right: 6px;
+    height: 25%;
+    min-height: 2px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.32);
+  }
+
+  .select {
+    appearance: none;
+    background-image: var(--select-chevron);
+    background-repeat: no-repeat;
+    background-position: right 0.625rem center;
+    background-size: 1.125rem;
+  }
+
+  /* Range slider: green fill up to the thumb (set --fill as a percentage). */
+  .range {
+    appearance: none;
+    height: 1.75rem;
+    background: transparent;
+    cursor: pointer;
+  }
+  .range::-webkit-slider-runnable-track {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      var(--accent) var(--fill, 50%),
+      var(--surface) var(--fill, 50%)
+    );
+  }
+  .range::-moz-range-track {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .range::-moz-range-progress {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+  .range::-webkit-slider-thumb {
+    appearance: none;
+    margin-top: -0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 2px solid var(--line-strong);
+    box-shadow: 0 2px 0 var(--line-strong);
+    transition: transform 120ms ease-out;
+  }
+  .range::-moz-range-thumb {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 2px solid var(--line-strong);
+    box-shadow: 0 2px 0 var(--line-strong);
+  }
+  .range:active::-webkit-slider-thumb {
+    transform: scale(1.1);
+  }
+
+  /* Placeholder shapes for slow loads; they appear only if loading takes > 150 ms. */
+  .skeleton {
+    border-radius: 12px;
+    background: var(--surface);
+    animation: fade-in 300ms ease-out 150ms both;
+  }
+}
+
+/* ── Dialogs: a centered panel on desktop, a bottom sheet on phones ────────── */
+dialog.panel {
+  opacity: 0;
+  scale: 0.96;
+  translate: 0 8px;
+  transition:
+    opacity 180ms ease-out,
+    scale var(--spring-fast) var(--spring),
+    translate var(--spring-fast) var(--spring),
+    overlay var(--spring-fast) allow-discrete,
+    display var(--spring-fast) allow-discrete;
+}
+dialog.panel[open] {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+}
+@starting-style {
+  dialog.panel[open] {
+    opacity: 0;
+    scale: 0.96;
+    translate: 0 8px;
+  }
+}
+dialog.panel::backdrop {
+  background: rgb(0 0 0 / 0);
+  transition:
+    background-color 250ms ease-out,
+    overlay 250ms allow-discrete,
+    display 250ms allow-discrete;
+}
+dialog.panel[open]::backdrop {
+  background: var(--scrim);
+}
+@starting-style {
+  dialog.panel[open]::backdrop {
+    background: rgb(0 0 0 / 0);
+  }
+}
+@media (max-width: 639px) {
+  /* Sheets enter from the bottom edge and leave the same way. */
+  dialog.panel {
+    margin: auto 0 0;
+    width: 100%;
+    max-width: none;
+    border-radius: 20px 20px 0 0;
+    border-bottom: 0;
+    opacity: 1;
+    scale: 1;
+    translate: 0 100%;
+  }
+  dialog.panel[open] {
+    translate: 0 0;
+  }
+  @starting-style {
+    dialog.panel[open] {
+      translate: 0 100%;
+    }
+  }
+}
+
+/* ── Menus (popover): scale out of the trigger (transform-origin is set from JS) ── */
+.menu {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  opacity: 0;
+  scale: 0.95;
+  transition:
+    opacity 150ms ease-out,
+    scale var(--spring-fast) var(--spring),
+    overlay 200ms allow-discrete,
+    display 200ms allow-discrete;
+}
+.menu:popover-open {
+  opacity: 1;
+  scale: 1;
+}
+@starting-style {
+  .menu:popover-open {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+
+/* ── Accessibility preferences ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced motion keeps feedback but swaps movement for cross-fades. */
+  .animate-rise,
+  .animate-card,
+  .animate-pop {
+    animation: fade-in 200ms ease-out both;
+  }
+  dialog.panel,
+  dialog.panel[open],
+  .menu {
+    scale: 1;
+    translate: 0 0;
+  }
+  @starting-style {
+    dialog.panel[open] {
+      opacity: 0;
+      translate: 0 0;
+    }
+  }
+  .progress-fill {
+    transition: transform 200ms ease-out;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --line: #a09c92;
+    --line-strong: #6f6b62;
+    --muted: #4f4c45;
+    --faint: #5c5951;
+  }
+  .dark {
+    --line: #7a7468;
+    --line-strong: #a09c92;
+    --muted: #d6d1c6;
+    --faint: #c4bfb3;
+  }
 }
 
 /* ── Rich text (card content) ──────────────────────────────────────────────── */
@@ -164,9 +590,9 @@ dialog::backdrop {
 .rich-text code {
   font-family: var(--font-mono);
   font-size: 0.9em;
-  background: var(--surface-2);
-  border-radius: 4px;
-  padding: 0.1em 0.3em;
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
 }
 .rich-text strong {
   font-weight: 650;
@@ -188,29 +614,30 @@ dialog::backdrop {
 
 .math-error,
 .rich-text .math-error {
-  color: var(--again);
-  background: var(--again-soft);
+  color: var(--danger-text);
+  background: var(--danger-soft);
 }
 
-/* Cloze deletions */
+/* Cloze deletions: the blank is "something to recall" (blue), the revealed answer is
+   "correct" (green). */
 .cloze-blank,
 .katex .cloze-blank {
-  color: var(--cloze);
+  color: var(--xp-text);
 }
 .rich-text .cloze-blank {
   display: inline-block;
   min-width: 3em;
-  padding: 0 0.4em;
-  border-radius: 6px;
-  background: var(--cloze-soft);
+  padding: 0 0.45em;
+  border-radius: 8px;
+  background: var(--xp-soft);
   text-align: center;
   font-weight: 600;
 }
 .cloze-answer,
 .katex .cloze-answer {
-  color: var(--cloze);
+  color: var(--accent-text);
 }
 .rich-text .cloze-answer {
   font-weight: 650;
-  border-bottom: 2px solid var(--cloze);
+  border-bottom: 2px solid var(--accent);
 }

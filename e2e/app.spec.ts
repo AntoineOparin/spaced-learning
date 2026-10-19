@@ -4,15 +4,24 @@ import { type Browser, expect, type Page, test } from '@playwright/test';
 
 const SHOTS = 'test-results/screens';
 
+/** Waits for running animations; a cancelled one (its element unmounted) counts as settled. */
+async function settle(page: Page) {
+  await page.evaluate(() =>
+    Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))),
+  );
+}
+
 async function shot(page: Page, name: string) {
+  await settle(page);
   await page.screenshot({
     path: `${SHOTS}/${test.info().project.name}-${name}.png`,
     fullPage: true,
   });
 }
 
-/** No serious or critical accessibility violations. */
+/** No serious or critical accessibility violations, checked once entry animations settle. */
 async function expectAccessible(page: Page) {
+  await settle(page);
   const results = await new AxeBuilder({
     // @axe-core/playwright types against its own playwright-core copy; the runtime object is the same.
     page: page as unknown as ConstructorParameters<typeof AxeBuilder>[0]['page'],
@@ -72,7 +81,7 @@ test.describe('local study flow', () => {
     await shot(page, 'dashboard');
     await expectAccessible(page);
 
-    await page.getByRole('button', { name: 'Study all' }).click();
+    await page.getByRole('button', { name: 'Start studying' }).click();
     await expect(page).toHaveURL(/\/study/);
     await expect(page.getByRole('article', { name: 'Question' })).toBeVisible();
     await shot(page, 'study-question');
@@ -126,9 +135,9 @@ test.describe('local study flow', () => {
     await page.getByRole('dialog').getByLabel('Name').fill('Logic');
     await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
 
-    await page.getByRole('button', { name: 'Item', exact: true }).click();
+    await page.getByRole('button', { name: 'New item' }).click();
     await expect(page.getByRole('heading', { name: 'New item' })).toBeVisible();
-    await page.getByLabel('Type').selectOption('cloze');
+    await page.getByText('Cloze', { exact: true }).click();
     await page
       .getByLabel('Text with deletions')
       .fill('De Morgan: $\\neg(p \\land q) \\equiv {{c1::\\neg p \\lor \\neg q}}$');
@@ -160,8 +169,12 @@ test.describe('local study flow', () => {
     expect(backup.format).toBe('spaced-learning-backup');
     expect(backup.items.length).toBeGreaterThan(150);
 
-    page.once('dialog', (d) => d.accept('ERASE'));
     await page.getByRole('button', { name: 'Reset this device' }).click();
+    const erase = page.getByRole('dialog', { name: 'Reset this device?' });
+    const eraseButton = erase.getByRole('button', { name: 'Erase this device' });
+    await expect(eraseButton).toBeDisabled();
+    await erase.getByLabel('Type ERASE to confirm').fill('ERASE');
+    await eraseButton.click();
     await expect(page.getByRole('heading', { name: 'Welcome' })).toBeVisible();
 
     await page.goto('/settings');
@@ -191,7 +204,7 @@ test.describe('sync between devices', () => {
     await laptop.page.getByRole('button', { name: 'Add a topic' }).click();
     await laptop.page.getByRole('dialog').getByLabel('Name').fill('Topic');
     await laptop.page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
-    await laptop.page.getByRole('button', { name: 'Item', exact: true }).click();
+    await laptop.page.getByRole('button', { name: 'New item' }).click();
     await laptop.page.getByLabel('Question').fill(`Sum of a geometric series? (${name})`);
     await laptop.page.getByLabel('Answer').fill('$\\frac{a}{1-r}$ for $|r|<1$');
     await laptop.page.getByRole('button', { name: 'Create', exact: true }).click();

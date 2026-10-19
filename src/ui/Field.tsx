@@ -7,10 +7,11 @@ import {
   useId,
 } from 'react';
 import { cn } from './cn';
+import { Icon, type IconName } from './Icon';
 
 const CONTROL =
-  'w-full rounded-lg border border-line bg-surface px-3 text-base text-fg placeholder:text-faint sm:text-sm ' +
-  'transition-colors hover:border-line-strong focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25';
+  'w-full rounded-[10px] border border-line bg-bg px-3.5 text-base text-fg placeholder:text-dim sm:text-[15px] ' +
+  'transition-colors hover:border-line-strong focus:border-line-strong';
 
 export interface FieldProps {
   label: ReactNode;
@@ -27,18 +28,23 @@ export function Field({ label, hint, error, children, className }: FieldProps) {
   const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
   return (
     <div className={cn('space-y-1.5', className)}>
-      <label htmlFor={id} className="block text-sm font-medium">
+      <label htmlFor={id} className="block text-sm font-semibold">
         {label}
       </label>
       {children(id, describedBy)}
       {hint && (
-        <p id={hintId} className="text-xs text-muted">
+        <p id={hintId} className="text-[13px] leading-5 text-muted">
           {hint}
         </p>
       )}
       {error && (
-        <div id={errorId} className="text-xs text-again" role="alert">
-          {error}
+        <div
+          id={errorId}
+          className="flex gap-1.5 text-[13px] leading-5 font-medium text-danger-text"
+          role="alert"
+        >
+          <Icon name="alert" size={16} className="mt-0.5 shrink-0" />
+          <div>{error}</div>
         </div>
       )}
     </div>
@@ -47,18 +53,25 @@ export function Field({ label, hint, error, children, className }: FieldProps) {
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   function Input({ className, ...props }, ref) {
-    return <input ref={ref} className={cn(CONTROL, 'h-10', className)} {...props} />;
+    return <input ref={ref} className={cn(CONTROL, 'h-11', className)} {...props} />;
   },
 );
 
 export const Textarea = forwardRef<
   HTMLTextAreaElement,
-  TextareaHTMLAttributes<HTMLTextAreaElement>
->(function Textarea({ className, ...props }, ref) {
+  TextareaHTMLAttributes<HTMLTextAreaElement> & {
+    /** For LaTeX and markup source. */ mono?: boolean;
+  }
+>(function Textarea({ className, mono = false, ...props }, ref) {
   return (
     <textarea
       ref={ref}
-      className={cn(CONTROL, 'min-h-20 py-2 font-mono leading-relaxed', className)}
+      className={cn(
+        CONTROL,
+        'min-h-20 py-2.5 leading-relaxed',
+        mono && 'font-mono text-[15px] sm:text-sm',
+        className,
+      )}
       {...props}
     />
   );
@@ -66,7 +79,7 @@ export const Textarea = forwardRef<
 
 export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSelectElement>>(
   function Select({ className, ...props }, ref) {
-    return <select ref={ref} className={cn(CONTROL, 'h-10 pr-8', className)} {...props} />;
+    return <select ref={ref} className={cn(CONTROL, 'select h-11 pr-9', className)} {...props} />;
   },
 );
 
@@ -86,11 +99,11 @@ export function Switch({
   const id = useId();
   return (
     <div className="flex items-start justify-between gap-4">
-      <div>
-        <label htmlFor={id} className="text-sm font-medium">
+      <div className="min-w-0">
+        <label htmlFor={id} className="cursor-pointer text-[15px] font-semibold">
           {label}
         </label>
-        {description && <p className="mt-0.5 text-xs text-muted">{description}</p>}
+        {description && <p className="mt-0.5 text-[13px] leading-5 text-muted">{description}</p>}
       </div>
       <button
         id={id}
@@ -100,18 +113,83 @@ export function Switch({
         disabled={disabled}
         onClick={() => onChange(!checked)}
         className={cn(
-          'relative mt-0.5 inline-flex h-6 w-10 shrink-0 items-center rounded-full transition-colors',
+          'group relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-200',
           checked ? 'bg-accent' : 'bg-line-strong',
           'disabled:opacity-50',
         )}
       >
         <span
           className={cn(
-            'inline-block size-5 rounded-full bg-white shadow transition-transform',
-            checked ? 'translate-x-[18px]' : 'translate-x-0.5',
+            'inline-block size-6 rounded-full bg-white shadow-[0_2px_4px_rgb(0_0_0/0.18)]',
+            'transition-transform duration-(--spring-fast) ease-spring group-active:scale-x-110',
+            checked ? 'translate-x-[22px]' : 'translate-x-0.5',
           )}
         />
       </button>
     </div>
+  );
+}
+
+export interface SegmentOption<T extends string> {
+  value: T;
+  label: ReactNode;
+  icon?: IconName;
+}
+
+/** iOS-style segmented control: radio inputs under a thumb that slides with a spring. */
+export function Segmented<T extends string>({
+  legend,
+  value,
+  onChange,
+  options,
+  className,
+}: {
+  legend: string;
+  value: T;
+  onChange: (value: T) => void;
+  options: SegmentOption<T>[];
+  className?: string;
+}) {
+  const name = useId();
+  const index = Math.max(
+    0,
+    options.findIndex((o) => o.value === value),
+  );
+  return (
+    <fieldset
+      className={cn('relative grid min-w-0 rounded-xl bg-surface p-1', className)}
+      style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}
+    >
+      <legend className="sr-only">{legend}</legend>
+      <span
+        aria-hidden
+        className="absolute top-1 bottom-1 left-1 rounded-[9px] bg-bg shadow-[0_1px_3px_rgb(55_53_47/0.14)] transition-transform duration-(--spring-fast) ease-spring dark:bg-line-strong"
+        style={{
+          width: `calc((100% - 0.5rem) / ${options.length})`,
+          transform: `translateX(${index * 100}%)`,
+        }}
+      />
+      {options.map((o) => (
+        <label
+          key={o.value}
+          className={cn(
+            'relative z-10 flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[9px] px-3 text-sm font-semibold transition-colors',
+            'has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-1 has-[:focus-visible]:outline-(--ring)',
+            o.value === value ? 'text-fg' : 'text-muted hover:text-fg',
+          )}
+        >
+          <input
+            type="radio"
+            name={name}
+            value={o.value}
+            checked={o.value === value}
+            onChange={() => onChange(o.value)}
+            className="sr-only"
+          />
+          {o.icon && <Icon name={o.icon} size={16} />}
+          {o.label}
+        </label>
+      ))}
+    </fieldset>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { describeSync } from '../../app/SyncIndicator';
 import { BUNDLED_DECKS } from '../../content/decks';
@@ -18,12 +18,13 @@ import {
 } from '../../lib/platform';
 import { getThemePref, setThemePref, type ThemePref } from '../../lib/theme';
 import { syncManager, useSyncState } from '../../sync/manager';
-import { Button } from '../../ui/Button';
+import { Button, buttonClass } from '../../ui/Button';
+import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
-import { Field, Input, Select, Switch } from '../../ui/Field';
+import { Input, Segmented, Select, Switch } from '../../ui/Field';
 import { Icon, type IconName } from '../../ui/Icon';
-import { PageHeader, Panel } from '../../ui/misc';
+import { PageHeader } from '../../ui/misc';
 import { useToast } from '../../ui/Toast';
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
 
@@ -39,6 +40,80 @@ function parseSteps(s: string): StepUnit[] | null {
   return parts.every((p) => /^\d+(\.\d+)?[mhd]$/.test(p)) ? (parts as StepUnit[]) : null;
 }
 
+/** A titled, grouped list of settings rows (iOS Settings / Notion). */
+function Section({
+  id,
+  title,
+  children,
+  plain = false,
+}: {
+  id?: string;
+  title: string;
+  children: ReactNode;
+  /** Render children as-is instead of a divided list. */
+  plain?: boolean;
+}) {
+  return (
+    <section id={id} className="scroll-mt-24">
+      <h2 className="mb-3 text-lg font-bold">{title}</h2>
+      <div
+        className={cn(
+          'rounded-xl border border-line bg-bg-alt',
+          plain ? 'px-5 py-5' : 'divide-y divide-line',
+        )}
+      >
+        {children}
+      </div>
+    </section>
+  );
+}
+
+/** One setting: label and hint on the left, its control on the right (stacked on phones). */
+function Row({
+  label,
+  hint,
+  children,
+  stacked = false,
+  className,
+}: {
+  label: ReactNode;
+  hint?: ReactNode;
+  /** Receives the id to put on the control and the id of the hint for aria-describedby. */
+  children?: ReactNode | ((id: string, describedBy: string | undefined) => ReactNode);
+  stacked?: boolean;
+  className?: string;
+}) {
+  const id = useId();
+  const hintId = hint ? `${id}-hint` : undefined;
+  const control = typeof children === 'function' ? children(id, hintId) : children;
+  const labelled = typeof children === 'function';
+  return (
+    <div
+      className={cn(
+        'flex flex-col gap-3 px-5 py-4',
+        !stacked && 'sm:flex-row sm:items-center sm:justify-between sm:gap-6',
+        className,
+      )}
+    >
+      <div className="min-w-0">
+        {labelled ? (
+          <label htmlFor={id} className="text-[15px] font-semibold">
+            {label}
+          </label>
+        ) : (
+          <p className="text-[15px] font-semibold">{label}</p>
+        )}
+        {hint && (
+          <p id={hintId} className="mt-0.5 text-[13px] leading-5 text-muted">
+            {hint}
+          </p>
+        )}
+      </div>
+      {control && <div className="flex shrink-0 flex-wrap gap-2">{control}</div>}
+    </div>
+  );
+}
+
 function ThemePicker() {
   const [pref, setPref] = useState<ThemePref>(getThemePref);
   const options: { value: ThemePref; label: string; icon: IconName }[] = [
@@ -47,34 +122,16 @@ function ThemePicker() {
     { value: 'dark', label: 'Dark', icon: 'moon' },
   ];
   return (
-    <fieldset className="inline-flex rounded-lg border border-line bg-surface-2 p-0.5">
-      <legend className="sr-only">Theme</legend>
-      {options.map((o) => (
-        <label
-          key={o.value}
-          className={cn(
-            'flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-1.5 text-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-accent',
-            pref === o.value
-              ? 'bg-surface font-medium text-fg shadow-sm'
-              : 'text-muted hover:text-fg',
-          )}
-        >
-          <input
-            type="radio"
-            name="theme"
-            value={o.value}
-            checked={pref === o.value}
-            onChange={() => {
-              setPref(o.value);
-              setThemePref(o.value);
-            }}
-            className="sr-only"
-          />
-          <Icon name={o.icon} size={16} />
-          {o.label}
-        </label>
-      ))}
-    </fieldset>
+    <Segmented
+      legend="Theme"
+      value={pref}
+      onChange={(v) => {
+        setPref(v);
+        setThemePref(v);
+      }}
+      options={options}
+      className="w-full sm:w-80"
+    />
   );
 }
 
@@ -86,11 +143,20 @@ function StudySettings({ settings }: { settings: Settings }) {
     await repo.updateSettings(patch);
   };
 
+  const retention = Math.round(settings.desiredRetention * 100);
+  const fill = ((settings.desiredRetention - 0.8) / (0.97 - 0.8)) * 100;
   return (
-    <div className="space-y-5">
-      <Field
-        label={`Desired retention: ${Math.round(settings.desiredRetention * 100)}%`}
-        hint="The probability of recalling a card when it comes due. 90% is a good default; each extra point costs noticeably more reviews. Courses can override this."
+    <>
+      <Row
+        stacked
+        label={
+          <span className="flex items-baseline justify-between gap-4">
+            Desired retention
+            <span className="text-lg font-extrabold tabular-nums">{retention}%</span>
+          </span>
+        }
+        hint="The chance of recalling a card when it comes due. 90% is a good default; each extra point costs noticeably more reviews. Courses can override this."
+        className="[&>div:first-child]:w-full"
       >
         {(id, d) => (
           <input
@@ -102,118 +168,124 @@ function StudySettings({ settings }: { settings: Settings }) {
             step={0.01}
             value={settings.desiredRetention}
             onChange={(e) => void update({ desiredRetention: Number(e.target.value) })}
-            className="w-full accent-[var(--accent)]"
+            className="range w-full"
+            style={{ '--fill': `${fill}%` } as React.CSSProperties}
           />
         )}
-      </Field>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="New cards per day (per course)">
-          {(id) => (
-            <Input
-              id={id}
-              type="number"
-              min={0}
-              max={500}
-              inputMode="numeric"
-              value={settings.newPerDay}
-              onChange={(e) =>
-                void update({
-                  newPerDay: Math.max(0, Math.min(500, Math.round(Number(e.target.value) || 0))),
-                })
+      </Row>
+      <Row label="New cards per day" hint="Per course.">
+        {(id, d) => (
+          <Input
+            id={id}
+            aria-describedby={d}
+            type="number"
+            min={0}
+            max={500}
+            inputMode="numeric"
+            value={settings.newPerDay}
+            className="w-28 text-right tabular-nums"
+            onChange={(e) =>
+              void update({
+                newPerDay: Math.max(0, Math.min(500, Math.round(Number(e.target.value) || 0))),
+              })
+            }
+          />
+        )}
+      </Row>
+      <Row label="New day starts at" hint="Late-night reviews count for the previous day.">
+        {(id, d) => (
+          <Select
+            id={id}
+            aria-describedby={d}
+            value={settings.dayStartHour}
+            className="w-28 tabular-nums"
+            onChange={(e) => void update({ dayStartHour: Number(e.target.value) })}
+          >
+            {HOURS.map((h) => (
+              <option key={h} value={h}>
+                {String(h).padStart(2, '0')}:00
+              </option>
+            ))}
+          </Select>
+        )}
+      </Row>
+      <Row label="Learning steps" hint="Short same-day repeats for new cards, e.g. 1m 10m.">
+        {(id, d) => (
+          <Input
+            id={id}
+            aria-describedby={d}
+            value={learning}
+            className="w-40 font-mono text-sm"
+            onChange={(e) => setLearning(e.target.value)}
+            onBlur={() => {
+              const steps = parseSteps(learning);
+              if (steps) void update({ learningSteps: steps });
+              else {
+                toast({ tone: 'error', message: 'Steps look like 1m 10m 1h' });
+                setLearning(settings.learningSteps.join(' '));
               }
-            />
-          )}
-        </Field>
-        <Field label="New day starts at" hint="Late-night reviews count for the previous day.">
-          {(id, d) => (
-            <Select
-              id={id}
-              aria-describedby={d}
-              value={settings.dayStartHour}
-              onChange={(e) => void update({ dayStartHour: Number(e.target.value) })}
-            >
-              {HOURS.map((h) => (
-                <option key={h} value={h}>
-                  {String(h).padStart(2, '0')}:00
-                </option>
-              ))}
-            </Select>
-          )}
-        </Field>
-        <Field label="Learning steps" hint="Short same-day repeats for new cards, e.g. 1m 10m.">
-          {(id, d) => (
-            <Input
-              id={id}
-              aria-describedby={d}
-              value={learning}
-              onChange={(e) => setLearning(e.target.value)}
-              onBlur={() => {
-                const steps = parseSteps(learning);
-                if (steps) void update({ learningSteps: steps });
-                else {
-                  toast({ tone: 'error', message: 'Steps look like 1m 10m 1h' });
-                  setLearning(settings.learningSteps.join(' '));
-                }
-              }}
-            />
-          )}
-        </Field>
-        <Field label="Relearning steps" hint="Repeats after you forget a card, e.g. 10m.">
-          {(id, d) => (
-            <Input
-              id={id}
-              aria-describedby={d}
-              value={relearning}
-              onChange={(e) => setRelearning(e.target.value)}
-              onBlur={() => {
-                const steps = parseSteps(relearning);
-                if (steps) void update({ relearningSteps: steps });
-                else {
-                  toast({ tone: 'error', message: 'Steps look like 10m' });
-                  setRelearning(settings.relearningSteps.join(' '));
-                }
-              }}
-            />
-          )}
-        </Field>
-        <Field label="Leech threshold" hint="Flag a card after this many lapses.">
-          {(id, d) => (
-            <Input
-              id={id}
-              aria-describedby={d}
-              type="number"
-              min={2}
-              max={20}
-              value={settings.leechThreshold}
-              onChange={(e) =>
-                void update({
-                  leechThreshold: Math.max(
-                    2,
-                    Math.min(20, Math.round(Number(e.target.value) || 5)),
-                  ),
-                })
+            }}
+          />
+        )}
+      </Row>
+      <Row label="Relearning steps" hint="Repeats after you forget a card, e.g. 10m.">
+        {(id, d) => (
+          <Input
+            id={id}
+            aria-describedby={d}
+            value={relearning}
+            className="w-40 font-mono text-sm"
+            onChange={(e) => setRelearning(e.target.value)}
+            onBlur={() => {
+              const steps = parseSteps(relearning);
+              if (steps) void update({ relearningSteps: steps });
+              else {
+                toast({ tone: 'error', message: 'Steps look like 10m' });
+                setRelearning(settings.relearningSteps.join(' '));
               }
-            />
-          )}
-        </Field>
+            }}
+          />
+        )}
+      </Row>
+      <Row label="Leech threshold" hint="Flag a card after this many lapses.">
+        {(id, d) => (
+          <Input
+            id={id}
+            aria-describedby={d}
+            type="number"
+            min={2}
+            max={20}
+            value={settings.leechThreshold}
+            className="w-28 text-right tabular-nums"
+            onChange={(e) =>
+              void update({
+                leechThreshold: Math.max(2, Math.min(20, Math.round(Number(e.target.value) || 5))),
+              })
+            }
+          />
+        )}
+      </Row>
+      <div className="px-5 py-4">
+        <Switch
+          checked={settings.enableFuzz}
+          onChange={(v) => void update({ enableFuzz: v })}
+          label="Spread out reviews"
+          description="Adds a little randomness to long intervals so cards learned together don’t all fall due on the same day."
+        />
       </div>
-      <Switch
-        checked={settings.enableFuzz}
-        onChange={(v) => void update({ enableFuzz: v })}
-        label="Spread out reviews (fuzz)"
-        description="Adds a little randomness to long intervals so cards learned together don't all fall due on the same day."
-      />
-    </div>
+    </>
   );
 }
 
-function BackupAndSync() {
+/** Sync, backup and content: everything that moves data in or out of this device. */
+function DataSections() {
   const toast = useToast();
   const sync = useSyncState();
   const lastExportAt = useMeta<number>(LAST_EXPORT_AT_KEY);
   const [storage, setStorage] = useState<StorageStatus | null>(null);
   const [pending, setPending] = useState<{ backup: BackupFile; name: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  const [installing, setInstalling] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const packRef = useRef<HTMLInputElement>(null);
 
@@ -294,84 +366,110 @@ function BackupAndSync() {
   const summary = pending ? summarizeBackup(pending.backup) : null;
 
   return (
-    <div className="space-y-6">
-      <div id="sync" className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-sm font-medium">Cloud sync · {label}</p>
-            <p className="text-xs text-muted">
-              Last synced {formatDate(sync.lastSyncAt)} · {sync.pending} local change
-              {sync.pending === 1 ? '' : 's'} pending
-            </p>
-          </div>
-          <div className="flex gap-2">
-            {sync.status === 'auth' && (
-              // Full navigation: Cloudflare Access shows its login page, then returns here.
-              <a
-                href="/auth/refresh"
-                className="inline-flex h-8 items-center rounded-lg bg-accent px-3 text-sm font-medium text-accent-fg"
-              >
-                Sign in
-              </a>
-            )}
-            <Button
-              size="sm"
-              onClick={() => void syncManager.sync()}
-              disabled={sync.status === 'syncing'}
-            >
-              <Icon name="refresh" size={16} /> Sync now
-            </Button>
-          </div>
-        </div>
-        {sync.error && <p className="text-xs text-again">{sync.error}</p>}
-        <p className="text-xs text-muted">
-          Your data lives on this device first; sync copies changes to your private Cloudflare
-          database so your other devices — and a reinstalled app — get them too. Studying works
+    <>
+      <Section id="sync" title="Sync">
+        <Row
+          label={`Cloud sync · ${label}`}
+          hint={`Last synced ${formatDate(sync.lastSyncAt)} · ${sync.pending} local change${sync.pending === 1 ? '' : 's'} pending`}
+        >
+          {sync.status === 'auth' && (
+            // Full navigation: Cloudflare Access shows its login page, then returns here.
+            <a href="/auth/refresh" className={buttonClass('primary', 'sm')}>
+              Sign in
+            </a>
+          )}
+          <Button
+            size="sm"
+            onClick={() => void syncManager.sync()}
+            disabled={sync.status === 'syncing'}
+          >
+            <Icon name="refresh" size={16} /> Sync now
+          </Button>
+        </Row>
+        {sync.error && (
+          <p className="flex gap-2 px-5 py-3 text-[13px] font-medium text-danger-text">
+            <Icon name="alert" size={16} className="mt-0.5 shrink-0" />
+            {sync.error}
+          </p>
+        )}
+        <p className="px-5 py-4 text-[13px] leading-5 text-muted">
+          Your data lives on this device first. Sync copies changes to your private Cloudflare
+          database, so your other devices — and a reinstalled app — get them too. Studying works
           offline.
         </p>
-      </div>
+      </Section>
 
-      <div id="backup" className="space-y-3 border-t border-line pt-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-sm font-medium">Backup file</p>
-            <p className="text-xs text-muted">Last exported {formatDate(lastExportAt)}</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button size="sm" onClick={() => void doExport()}>
-              <Icon name="download" size={16} /> Export backup
-            </Button>
-            <Button size="sm" onClick={() => fileRef.current?.click()}>
-              <Icon name="upload" size={16} /> Restore…
-            </Button>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="application/json,.json"
-              hidden
-              onChange={(e) => {
-                void onPickBackup(e.target.files?.[0]);
-                e.target.value = '';
+      <Section id="backup" title="Backup">
+        <Row
+          label="Backup file"
+          hint={`A complete JSON copy of courses, items, scheduling and review history. Last exported ${formatDate(lastExportAt)}.`}
+        >
+          <Button size="sm" onClick={() => void doExport()}>
+            <Icon name="download" size={16} /> Export backup
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => fileRef.current?.click()}>
+            <Icon name="upload" size={16} /> Restore…
+          </Button>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            hidden
+            onChange={(e) => {
+              void onPickBackup(e.target.files?.[0]);
+              e.target.value = '';
+            }}
+          />
+        </Row>
+        <Row
+          label="Storage on this device"
+          hint={
+            <>
+              {storage?.usage != null && `Using ${formatBytes(storage.usage)}. `}
+              {storage?.persisted
+                ? 'Persistent storage is granted, so the browser won’t evict this data under storage pressure.'
+                : 'Persistent storage isn’t granted yet; the browser may evict data under storage pressure (sync and backups protect you).'}
+            </>
+          }
+        >
+          {storage && !storage.persisted && (
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={async () => {
+                const ok = await requestPersistence();
+                setStorage(await storageStatus());
+                toast({
+                  message: ok
+                    ? 'Persistent storage granted'
+                    : 'The browser declined for now (installing the app helps)',
+                });
               }}
-            />
-          </div>
-        </div>
-        <p className="text-xs text-muted">
-          A complete JSON copy of courses, items, scheduling and review history — independent of any
-          server. Keep one somewhere safe now and then.
-        </p>
-      </div>
+            >
+              Request
+            </Button>
+          )}
+        </Row>
+      </Section>
 
-      <div className="space-y-3 border-t border-line pt-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-sm font-medium">Import content pack</p>
-            <p className="text-xs text-muted">
+      <Section title="Content">
+        {BUNDLED_DECKS.map((d) => (
+          <Row key={d.id} label={d.title} hint={d.description}>
+            <Button size="sm" onClick={() => setInstalling(true)}>
+              Install / update
+            </Button>
+          </Row>
+        ))}
+        <Row
+          label="Import content pack"
+          hint={
+            <>
               Add courses and items from a{' '}
-              <code className="font-mono">spaced-learning-content</code> JSON file. Existing items
-              are never duplicated.
-            </p>
-          </div>
+              <code className="font-mono text-xs">spaced-learning-content</code> JSON file. Existing
+              items are never duplicated.
+            </>
+          }
+        >
           <Button size="sm" onClick={() => packRef.current?.click()}>
             <Icon name="upload" size={16} /> Import…
           </Button>
@@ -385,35 +483,9 @@ function BackupAndSync() {
               e.target.value = '';
             }}
           />
-        </div>
-      </div>
-
-      <div className="space-y-2 border-t border-line pt-6">
-        <p className="text-sm font-medium">Storage on this device</p>
-        <p className="text-xs text-muted">
-          {storage?.usage != null && `Using ${formatBytes(storage.usage)}. `}
-          {storage?.persisted
-            ? 'Persistent storage is granted — the browser will not evict this data under storage pressure.'
-            : 'Persistent storage not granted yet; the browser may evict data under storage pressure (sync and backups protect you).'}
-        </p>
-        {storage && !storage.persisted && (
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={async () => {
-              const ok = await requestPersistence();
-              setStorage(await storageStatus());
-              toast({
-                message: ok
-                  ? 'Persistent storage granted'
-                  : 'The browser declined for now (installing the app helps)',
-              });
-            }}
-          >
-            Request persistent storage
-          </Button>
-        )}
-      </div>
+        </Row>
+        <InstallDeckDialog open={installing} onClose={() => setInstalling(false)} />
+      </Section>
 
       <Dialog
         open={!!pending}
@@ -425,14 +497,14 @@ function BackupAndSync() {
             <Button variant="ghost" onClick={() => setPending(null)}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={() => void confirmRestore()} disabled={busy}>
+            <Button variant="destructive" onClick={() => void confirmRestore()} disabled={busy}>
               {busy ? 'Restoring…' : 'Replace local data'}
             </Button>
           </>
         }
       >
         {summary && (
-          <div className="space-y-3 text-sm">
+          <div className="space-y-3 text-[15px]">
             <p>
               Exported {formatDate(summary.exportedAt)}: {summary.courses} courses, {summary.items}{' '}
               items, {summary.cards} cards, {summary.reviews} reviews.
@@ -445,15 +517,38 @@ function BackupAndSync() {
           </div>
         )}
       </Dialog>
-    </div>
+    </>
   );
 }
+
+const PRINCIPLES: [string, ReactNode][] = [
+  [
+    'Recall first.',
+    <>
+      Try to answer from memory before revealing — that effort is what strengthens memory. Typing
+      your answer (press <kbd className="font-mono">T</kbd> in a session) makes the attempt
+      concrete.
+    </>,
+  ],
+  [
+    'Rate honestly.',
+    'Again = forgot; Hard = recalled with real effort; Good = recalled; Easy = instant. The FSRS scheduler uses these to predict when you’d forget each card.',
+  ],
+  [
+    'Write small cards.',
+    'One fact per item. Use cloze deletions for long formulas, add a short “why” explanation, and rewrite cards that keep failing (leeches).',
+  ],
+  [
+    'Mix it up.',
+    'Sessions interleave topics so you learn to tell similar formulas and techniques apart — that’s harder, and it works better.',
+  ],
+];
 
 export default function SettingsPage() {
   const settings = useSettings();
   const location = useLocation();
-  const [installing, setInstalling] = useState(false);
   const toast = useToast();
+  const confirm = useConfirm();
 
   useEffect(() => {
     if (location.hash)
@@ -461,10 +556,13 @@ export default function SettingsPage() {
   }, [location.hash]);
 
   const resetDevice = async () => {
-    const answer = window.prompt(
-      'This deletes ALL data stored on this device. Synced data stays on the server and comes back on the next sync. Type ERASE to confirm.',
-    );
-    if (answer !== 'ERASE') return;
+    const ok = await confirm({
+      title: 'Reset this device?',
+      body: 'This deletes all data stored on this device. Synced data stays on the server and comes back on the next sync.',
+      confirmLabel: 'Erase this device',
+      typeToConfirm: 'ERASE',
+    });
+    if (!ok) return;
     db.close();
     await db.delete();
     toast({ message: 'Device reset' });
@@ -472,71 +570,40 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-[720px]">
       <PageHeader title="Settings" />
+      <div className="space-y-10">
+        <Section title="Appearance">
+          <Row label="Theme">
+            <ThemePicker />
+          </Row>
+        </Section>
 
-      <Panel title="Appearance">
-        <ThemePicker />
-      </Panel>
+        <Section title="Study">{settings ? <StudySettings settings={settings} /> : null}</Section>
 
-      <Panel title="Study">{settings ? <StudySettings settings={settings} /> : null}</Panel>
+        <DataSections />
 
-      <Panel title="Backup & sync">
-        <BackupAndSync />
-      </Panel>
+        <Section title="How this app works" plain>
+          <ul className="space-y-4 text-[15px] text-muted">
+            {PRINCIPLES.map(([lead, body]) => (
+              <li key={lead}>
+                <strong className="font-bold text-fg">{lead}</strong> {body}
+              </li>
+            ))}
+          </ul>
+        </Section>
 
-      <Panel title="Curated decks">
-        <ul className="space-y-3">
-          {BUNDLED_DECKS.map((d) => (
-            <li key={d.id} className="flex flex-wrap items-center justify-between gap-3">
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium">{d.title}</p>
-                <p className="text-xs text-muted">{d.description}</p>
-              </div>
-              <Button size="sm" onClick={() => setInstalling(true)}>
-                Install / update
-              </Button>
-            </li>
-          ))}
-        </ul>
-        <InstallDeckDialog open={installing} onClose={() => setInstalling(false)} />
-      </Panel>
-
-      <Panel title="How this app works">
-        <div className="space-y-3 text-sm text-muted">
-          <p>
-            <strong className="text-fg">Recall first.</strong> Try to answer from memory before
-            revealing — that effort is what strengthens memory. Typing your answer (press{' '}
-            <kbd>T</kbd> in a session) makes the attempt concrete.
-          </p>
-          <p>
-            <strong className="text-fg">Rate honestly.</strong> Again = forgot; Hard = recalled with
-            real effort; Good = recalled; Easy = instant. The FSRS scheduler uses these to predict
-            when you'd forget each card.
-          </p>
-          <p>
-            <strong className="text-fg">Write small cards.</strong> One fact per item. Use cloze
-            deletions for long formulas, add a short “why” explanation, and rewrite cards that keep
-            failing (leeches).
-          </p>
-          <p>
-            <strong className="text-fg">Mixed practice.</strong> Sessions interleave topics so you
-            learn to tell similar formulas and techniques apart — that's harder, and it works
-            better.
-          </p>
-        </div>
-      </Panel>
-
-      <Panel title="Danger zone">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted">
-            Erase everything stored on this device (the server copy is not affected).
-          </p>
-          <Button variant="danger" size="sm" onClick={() => void resetDevice()}>
-            Reset this device
-          </Button>
-        </div>
-      </Panel>
+        <Section title="Danger zone">
+          <Row
+            label="Reset this device"
+            hint="Erase everything stored on this device. The server copy is not affected."
+          >
+            <Button variant="danger" size="sm" onClick={() => void resetDevice()}>
+              Reset this device
+            </Button>
+          </Row>
+        </Section>
+      </div>
     </div>
   );
 }

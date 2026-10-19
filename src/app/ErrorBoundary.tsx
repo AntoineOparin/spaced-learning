@@ -19,17 +19,17 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
   render() {
     if (!this.state.error) return this.props.children;
     return (
-      <div className="mx-auto max-w-lg px-6 py-16">
-        <h1 className="text-xl font-semibold">Something went wrong</h1>
-        <p className="mt-2 text-sm text-muted">
+      <div className="mx-auto max-w-lg px-6 py-20">
+        <h1 className="text-3xl font-bold">Something went wrong</h1>
+        <p className="mt-3 text-muted">
           Your data is stored safely on this device. Reloading usually fixes this.
         </p>
-        <pre className="mt-4 overflow-auto rounded-lg bg-surface-2 p-3 text-xs text-muted">
+        <pre className="mt-6 overflow-auto rounded-xl border border-line bg-bg-alt p-4 font-mono text-xs text-muted">
           {this.state.error.message}
         </pre>
         <button
           type="button"
-          className="mt-6 h-10 rounded-lg bg-accent px-4 text-sm font-medium text-accent-fg"
+          className="tactile mt-8 h-11 rounded-2xl bg-accent px-6 font-bold text-on-accent [--lip-color:var(--accent-deep)] hover:bg-accent-hover"
           onClick={() => window.location.reload()}
         >
           Reload
