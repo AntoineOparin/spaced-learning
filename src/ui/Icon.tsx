@@ -41,6 +41,7 @@ const PATHS = {
   arrowLeft: 'M19 12H5M11 6l-6 6 6 6',
   clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 7.5V12l3 2',
   checkCircle: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM8 12.5l2.7 2.7L16 9.8',
+  collapseAll: 'm7 20 5-5 5 5M7 4l5 5 5-5',
   folder: 'M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z',
 } as const;
 

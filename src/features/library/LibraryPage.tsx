@@ -1,5 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { RichText } from '../../content/RichText';
 import { db, repo } from '../../db/instance';
@@ -7,7 +7,7 @@ import { stripCloze } from '../../domain/cloze';
 import { endOfStudyDay } from '../../domain/day';
 import { formatInterval } from '../../domain/scheduler';
 import { isLeech } from '../../domain/stats';
-import { childTopics, curriculumOrder, subtreeIds, topicPath } from '../../domain/topics';
+import { curriculumOrder, subtreeIds, topicPath } from '../../domain/topics';
 import { type Card, CardState, type Course, type Item, type Topic } from '../../domain/types';
 import { Button, IconButton } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
@@ -19,6 +19,8 @@ import { Badge, type BadgeTone, EmptyState, PageHeader, Skeleton } from '../../u
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { CourseDialog, TopicDialog } from './dialogs';
+import { TopicTree } from './TopicTree';
+import { courseKey, type TreeRow, topicKey } from './tree';
 
 type Filter = 'all' | 'new' | 'due' | 'suspended' | 'leech';
 const PAGE = 50;
@@ -97,61 +99,6 @@ function CardBadges({
   );
 }
 
-function TreeNode({
-  topic,
-  topics,
-  counts,
-  selected,
-  onSelect,
-}: {
-  topic: Topic;
-  topics: Topic[];
-  counts: Map<string, number>;
-  selected: string | null;
-  onSelect: (id: string) => void;
-}) {
-  const children = childTopics(topics, topic.id);
-  const count = [...subtreeIds(topics, topic.id)].reduce((n, id) => n + (counts.get(id) ?? 0), 0);
-  const isSelected = selected === topic.id;
-  return (
-    <li>
-      <button
-        type="button"
-        onClick={() => onSelect(topic.id)}
-        aria-current={isSelected ? 'true' : undefined}
-        className={cn(
-          'flex h-8 w-full items-center gap-2 rounded-lg px-2.5 text-left text-sm transition-colors',
-          isSelected ? 'bg-surface font-semibold text-fg' : 'hover:bg-surface/60',
-          !topic.active && !isSelected && 'text-faint',
-        )}
-      >
-        <span className="min-w-0 flex-1 truncate">{topic.name}</span>
-        {!topic.active && (
-          <>
-            <Icon name="pause" size={12} className="shrink-0 text-dim" />
-            <span className="sr-only">(paused)</span>
-          </>
-        )}
-        <span className="text-xs text-faint tabular-nums">{count}</span>
-      </button>
-      {children.length > 0 && (
-        <ul className="mt-0.5 ml-3.5 space-y-0.5 border-l border-line pl-2">
-          {children.map((c) => (
-            <TreeNode
-              key={c.id}
-              topic={c}
-              topics={topics}
-              counts={counts}
-              selected={selected}
-              onSelect={onSelect}
-            />
-          ))}
-        </ul>
-      )}
-    </li>
-  );
-}
-
 export default function LibraryPage() {
   const data = useLibraryData();
   const [params, setParams] = useSearchParams();
@@ -178,6 +125,7 @@ export default function LibraryPage() {
   const courseId = selectedTopic?.courseId ?? params.get('course') ?? data?.courses[0]?.id ?? null;
   const course = data?.courses.find((c) => c.id === courseId) ?? null;
 
+  const contentRef = useRef<HTMLElement>(null);
   const select = (next: { course?: string; topic?: string }) => {
     setLimit(PAGE);
     setParams(
@@ -299,9 +247,12 @@ export default function LibraryPage() {
     select({});
   };
 
-  const roots = course
-    ? childTopics(data.topics, null).filter((t) => t.courseId === course.id)
-    : [];
+  /** Picking from the tree shows the new list from its top, even when scrolled far down. */
+  const showFromTree = (row: TreeRow) => {
+    select(row.kind === 'course' ? { course: row.id } : { topic: row.id });
+    const top = contentRef.current?.getBoundingClientRect().top ?? 0;
+    if (top < 0) window.scrollTo({ top: window.scrollY + top - 24 });
+  };
   const flatTopics = course ? curriculumOrder(data.topics, course.id) : [];
   const newItem = () => navigate(`/items/new${selectedTopic ? `?topic=${selectedTopic.id}` : ''}`);
 
@@ -399,9 +350,9 @@ export default function LibraryPage() {
           Courses hold topics and subtopics, and topics hold your cards.
         </EmptyState>
       ) : (
-        <div className="grid gap-8 xl:grid-cols-[15rem_minmax(0,1fr)]">
+        <div className="grid gap-8 xl:grid-cols-[16rem_minmax(0,1fr)]">
           {/* Tree (wide screens) / pickers (everything else) */}
-          <nav aria-label="Courses and topics">
+          <nav aria-label="Library">
             <div className="grid grid-cols-2 gap-3 xl:hidden">
               <Select
                 aria-label="Course"
@@ -420,53 +371,25 @@ export default function LibraryPage() {
               />
             </div>
 
-            <div className="sticky top-12 hidden space-y-1 xl:block">
-              {data.courses.map((c) => (
-                <div key={c.id}>
-                  <button
-                    type="button"
-                    onClick={() => select({ course: c.id })}
-                    aria-current={c.id === course?.id && !selectedTopic ? 'true' : undefined}
-                    className={cn(
-                      'flex h-9 w-full items-center gap-2 rounded-lg px-2.5 text-left text-sm font-bold transition-colors',
-                      c.id === course?.id && !selectedTopic ? 'bg-surface' : 'hover:bg-surface/60',
-                    )}
-                  >
-                    <Icon name="folder" size={16} className="shrink-0 text-dim" />
-                    <span className="min-w-0 flex-1 truncate">{c.name}</span>
-                    {c.archived && <Badge>Archived</Badge>}
-                  </button>
-                  {c.id === course?.id && (
-                    <ul className="mt-0.5 mb-3 space-y-0.5 pl-3">
-                      {roots.map((t) => (
-                        <TreeNode
-                          key={t.id}
-                          topic={t}
-                          topics={data.topics}
-                          counts={itemCounts}
-                          selected={selectedTopic?.id ?? null}
-                          onSelect={(id) => select({ topic: id })}
-                        />
-                      ))}
-                      <li>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            openDialog({ kind: 'topic', courseId: c.id, parent: null })
-                          }
-                          className="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-[13px] font-semibold text-muted transition-colors hover:bg-surface/60 hover:text-fg"
-                        >
-                          <Icon name="plus" size={14} /> Add topic
-                        </button>
-                      </li>
-                    </ul>
-                  )}
-                </div>
-              ))}
+            {/* The tree stays in view with its own scrolling while the item list scrolls. */}
+            <div className="sticky top-6 hidden xl:block">
+              <TopicTree
+                courses={data.courses}
+                topics={data.topics}
+                itemCounts={itemCounts}
+                selectedKey={
+                  selectedTopic ? topicKey(selectedTopic.id) : course ? courseKey(course.id) : ''
+                }
+                onSelect={showFromTree}
+                onAddTopic={() =>
+                  course && openDialog({ kind: 'topic', courseId: course.id, parent: null })
+                }
+                addTopicLabel={course ? `New topic in ${course.name}` : 'New topic'}
+              />
             </div>
           </nav>
 
-          <section className="min-w-0">
+          <section ref={contentRef} className="min-w-0">
             {/* The selected course or topic, with its actions */}
             {course && (
               <div className="mb-6">

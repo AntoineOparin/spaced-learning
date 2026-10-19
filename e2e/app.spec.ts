@@ -213,6 +213,58 @@ test.describe('local study flow', () => {
     await expect(page.getByRole('img', { name: 'Drawing pad, empty' })).toBeVisible();
   });
 
+  test('browse the library tree: fold, select, keyboard, independent scrolling', async ({
+    page,
+  }) => {
+    test.skip(test.info().project.name.includes('iphone'), 'the tree is the wide-screen layout');
+    await installDeck(page);
+    await page.goto('/library');
+    const tree = page.getByRole('tree', { name: 'Courses' });
+    const item = (name: string) => tree.getByRole('treeitem', { name: new RegExp(`^${name},`) });
+    const calc = item('Calculus 2');
+    const trig = item('Trigonometric Identities');
+
+    // The selected course starts open with its topics folded.
+    await expect(calc).toHaveAttribute('aria-expanded', 'true');
+    await expect(trig).toHaveAttribute('aria-expanded', 'false');
+    await expect(tree.getByRole('treeitem', { name: /^Double-Angle,/ })).toBeHidden();
+
+    // Clicking a topic selects it, shows its items and opens it; clicking again folds it.
+    await trig.click();
+    await expect(trig).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('heading', { name: 'Trigonometric Identities' })).toBeVisible();
+    await expect(tree.getByRole('treeitem', { name: /^Double-Angle,/ })).toBeVisible();
+    await trig.click();
+    await expect(trig).toHaveAttribute('aria-expanded', 'false');
+
+    // VS Code keys: → opens, ↓ moves, ← climbs to the parent and folds it.
+    await page.keyboard.press('ArrowRight');
+    await expect(trig).toHaveAttribute('aria-expanded', 'true');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await expect(tree.getByRole('treeitem', { name: /^Pythagorean/ })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    await page.keyboard.press('ArrowLeft');
+    await expect(trig).toBeFocused();
+    await page.keyboard.press('ArrowLeft');
+    await expect(trig).toHaveAttribute('aria-expanded', 'false');
+
+    // The tree keeps its place while the long item list scrolls the page.
+    await calc.click();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    const header = await page.getByRole('heading', { name: 'Courses', level: 2 }).boundingBox();
+    const viewport = page.viewportSize();
+    if (!header || !viewport) throw new Error('layout missing');
+    expect(header.y).toBeGreaterThanOrEqual(0);
+    expect(header.y).toBeLessThan(viewport.height / 2);
+    await shot(page, 'library-tree');
+
+    await page.getByRole('button', { name: 'Collapse all' }).click();
+    await expect(tree.getByRole('treeitem')).toHaveCount(1);
+  });
+
   test('export a backup, reset the device, and restore it', async ({ page }) => {
     await installDeck(page);
     await page.goto('/settings');
