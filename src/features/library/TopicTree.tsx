@@ -40,7 +40,7 @@ export function TopicTree({
   courses,
   topics,
   itemCounts,
-  selectedKey,
+  selected,
   onSelect,
   onAddTopic,
   addTopicLabel,
@@ -48,8 +48,8 @@ export function TopicTree({
   courses: Course[];
   topics: Topic[];
   itemCounts: Map<string, number>;
-  /** `course:<id>` or `topic:<id>` of what the item list shows. */
-  selectedKey: string;
+  /** What the item list shows: a course, or a topic in it. */
+  selected: { courseId: string; topicId?: string } | null;
   onSelect: (row: TreeRow) => void;
   onAddTopic: () => void;
   addTopicLabel: string;
@@ -57,17 +57,18 @@ export function TopicTree({
   const treeId = useId();
   const rowId = (key: string) => `${treeId}-${key}`;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const selectedTopicId = selected?.topicId;
+  const selectedCourseKey = selected ? courseKey(selected.courseId) : '';
+  const selectedKey = selectedTopicId ? topicKey(selectedTopicId) : selectedCourseKey;
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     // First visit: open the selected course (a selected topic is revealed below).
-    return loadExpanded() ?? new Set(selectedKey.startsWith('course:') ? [selectedKey] : []);
+    return loadExpanded() ?? new Set(selected && !selectedTopicId ? [selectedKey] : []);
   });
   const [focusKey, setFocusKey] = useState(selectedKey);
   const focusPending = useRef(false);
 
   const rows = visibleRows(courses, topics, itemCounts, expanded);
   const visible = (key: string) => rows.some((r) => r.key === key);
-  const selectedTopic = topics.find((t) => topicKey(t.id) === selectedKey);
-  const selectedCourseKey = selectedTopic ? courseKey(selectedTopic.courseId) : selectedKey;
   // Focus falls back to the selection, then its course, when its row gets folded away.
   const focus = [focusKey, selectedKey, selectedCourseKey].find(visible) ?? rows[0]?.key ?? '';
 
@@ -84,11 +85,11 @@ export function TopicTree({
   const topicsRef = useRef(topics);
   topicsRef.current = topics;
   useEffect(() => {
-    const topic = topicsRef.current.find((t) => topicKey(t.id) === selectedKey);
+    const topic = topicsRef.current.find((t) => t.id === selectedTopicId);
     if (topic) expand(revealKeys(topicsRef.current, topic));
     else if (selectedKey) expand([selectedKey]);
     setFocusKey(selectedKey);
-  }, [selectedKey, expand]);
+  }, [selectedKey, selectedTopicId, expand]);
 
   // A topic you just added appears where you added it. (A whole deck arriving at once,
   // from an import or a sync, is left folded.)

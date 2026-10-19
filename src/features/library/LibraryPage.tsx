@@ -36,7 +36,7 @@ import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { CourseDialog, TopicDialog } from './dialogs';
 import { TopicTree } from './TopicTree';
-import { courseKey, subtreeItemCount, type TreeRow, topicKey } from './tree';
+import { subtreeItemCount, type TreeRow } from './tree';
 
 type Filter = 'all' | 'new' | 'due' | 'suspended' | 'leech';
 const PAGE = 50;
@@ -395,9 +395,7 @@ export default function LibraryPage() {
                 courses={data.courses}
                 topics={data.topics}
                 itemCounts={itemCounts}
-                selectedKey={
-                  selectedTopic ? topicKey(selectedTopic.id) : course ? courseKey(course.id) : ''
-                }
+                selected={course && { courseId: course.id, topicId: selectedTopic?.id }}
                 onSelect={showFromTree}
                 onAddTopic={() =>
                   course && openDialog({ kind: 'topic', courseId: course.id, parent: null })

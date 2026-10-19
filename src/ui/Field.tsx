@@ -16,6 +16,11 @@ export const fieldControl =
 /** The small explanatory text under a label or control. */
 export const hintText = 'text-[13px] leading-5 text-muted';
 
+/** A number input's value as a whole number in [min, max]; blank or invalid gives `fallback`. */
+export function intValue(value: string, min: number, max: number, fallback = min): number {
+  return Math.max(min, Math.min(max, Math.round(Number(value) || fallback)));
+}
+
 /** Ids that tie a control to its label, hint and error (for aria-describedby). */
 export function useFieldIds(hint: unknown, error?: unknown) {
   const id = useId();

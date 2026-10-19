@@ -194,15 +194,6 @@ export default function StudyPage() {
   const [help, setHelp] = useState(false);
   const [hintSeen, setHintSeen] = useState(() => readLocal(HINT_KEY) === '1');
   const answerRef = useRef<HTMLDivElement>(null);
-  // The footer is fixed, so the content reserves its measured height (it differs between
-  // the question and rating footers, and with the safe area).
-  const [footerHeight, setFooterHeight] = useState(0);
-  const footerRef = useCallback((el: HTMLElement | null) => {
-    if (!el) return;
-    const ro = new ResizeObserver(() => setFooterHeight(el.offsetHeight));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const { current, phase } = s;
@@ -290,7 +281,7 @@ export default function StudyPage() {
       }
       if (mod || e.altKey) return;
 
-      switch (e.key) {
+      switch (e.key.length === 1 ? e.key.toLowerCase() : e.key) {
         case ' ':
         case 'Enter':
           if (phase === 'question') {
@@ -308,27 +299,21 @@ export default function StudyPage() {
           if (phase === 'answer') rate(Number(e.key) as RatingValue);
           break;
         case 'u':
-        case 'U':
           void undo();
           break;
         case 'e':
-        case 'E':
           if (current) setEditing(true);
           break;
         case 's':
-        case 'S':
           if (current) void suspend();
           break;
         case 'i':
-        case 'I':
           if (phase === 'answer') toggleWhy();
           break;
         case 't':
-        case 'T':
           if (phase === 'question') toggleMode('typed');
           break;
         case 'd':
-        case 'D':
           if (phase === 'question') toggleMode('drawn');
           break;
         case '?':
@@ -401,10 +386,9 @@ export default function StudyPage() {
           // biome-ignore lint/a11y/noStaticElementInteractions: tap anywhere on the card to reveal
           <div
             className={cn(
-              'mx-auto flex w-full max-w-[720px] flex-1 flex-col px-5 pt-4 sm:pt-8',
+              'mx-auto flex w-full max-w-[720px] flex-1 flex-col px-5 pt-4 pb-6 sm:pt-8',
               phase === 'question' && mode === 'reveal' && 'cursor-pointer',
             )}
-            style={{ paddingBottom: (footerHeight || 184) + 24 }}
             onClick={(e) => {
               if (
                 phase === 'question' &&
@@ -465,14 +449,14 @@ export default function StudyPage() {
                 aria-label="Question"
                 className="text-[22px] leading-normal font-medium sm:text-[26px]"
               >
-                {faces.clozeOrdinal !== undefined ? (
-                  <RichText
-                    source={faces.prompt}
-                    cloze={{ ordinal: faces.clozeOrdinal, reveal: phase === 'answer' }}
-                  />
-                ) : (
-                  <RichText source={faces.prompt} />
-                )}
+                <RichText
+                  source={faces.prompt}
+                  cloze={
+                    faces.clozeOrdinal === undefined
+                      ? undefined
+                      : { ordinal: faces.clozeOrdinal, reveal: phase === 'answer' }
+                  }
+                />
               </article>
 
               {mode === 'typed' && phase === 'question' && (
@@ -576,10 +560,9 @@ export default function StudyPage() {
       </main>
 
       {current && (phase === 'question' || phase === 'answer') && (
-        <footer
-          ref={footerRef}
-          className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-line bg-bg"
-        >
+        // In flow and sticky: it stays at the bottom of the screen, and the content above
+        // always ends clear of it, whatever its height.
+        <footer className="pb-safe sticky bottom-0 z-20 border-t border-line bg-bg">
           <div className="mx-auto max-w-[720px] px-4 pt-4">
             {phase === 'question' ? (
               <div className="flex items-center gap-3">

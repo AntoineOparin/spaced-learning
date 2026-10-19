@@ -120,6 +120,7 @@ describe('validation', () => {
       fields: { prompt: '', answer: '', explanation: '$\\bad$' },
     });
     expect(errors.map((e) => e.field)).toEqual(['prompt', 'answer', 'explanation']);
+    expect(errors.map((e) => e.required)).toEqual([true, true, undefined]);
   });
 
   it('warns about overloaded answers', () => {

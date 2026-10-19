@@ -12,7 +12,7 @@ import { db, repo } from '../../db/instance';
 import { LAST_EXPORT_AT_KEY } from '../../db/metaKeys';
 import { stripCloze } from '../../domain/cloze';
 import { DAY, MINUTE, startOfStudyDay } from '../../domain/day';
-import { queueCounts } from '../../domain/queue';
+import { type QueueCounts, queueCounts } from '../../domain/queue';
 import {
   daySummary,
   forecast,
@@ -139,16 +139,10 @@ function greeting(now: number): string {
 const QUEUE = [
   { key: 'learning', label: 'learning', dot: 'bg-streak' },
   { key: 'review', label: 'due', dot: 'bg-accent' },
-  { key: 'fresh', label: 'new', dot: 'bg-xp' },
+  { key: 'new', label: 'new', dot: 'bg-xp' },
 ] as const;
 
-function QueueBreakdown({
-  counts,
-  className,
-}: {
-  counts: { learning: number; review: number; fresh: number };
-  className?: string;
-}) {
+function QueueBreakdown({ counts, className }: { counts: QueueCounts; className?: string }) {
   return (
     <ul className={cn('flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted', className)}>
       {QUEUE.map((q) => (
@@ -373,10 +367,7 @@ export function DashboardPage() {
                 <Icon name="clock" size={16} /> {minutes(estimate)}
               </span>
             </div>
-            <QueueBreakdown
-              counts={{ learning: all.learning, review: all.review, fresh: all.new }}
-              className="mt-3"
-            />
+            <QueueBreakdown counts={all} className="mt-3" />
             <div className="mt-7">
               <ProgressBar value={today.reviewed / (today.reviewed + toStudy)} label="Today" />
               <p className="mt-2 text-[13px] text-muted">

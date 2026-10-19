@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { repo } from '../../db/instance';
-import type { Course, Topic } from '../../domain/types';
+import { type Course, NEW_PER_DAY_MAX, type Topic } from '../../domain/types';
 import { Button } from '../../ui/Button';
 import { Dialog } from '../../ui/Dialog';
-import { Field, Input, Textarea } from '../../ui/Field';
+import { Field, Input, intValue, Textarea } from '../../ui/Field';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 
@@ -30,8 +30,7 @@ export function CourseDialog({
     if (!name.trim()) return;
     const overrides = {
       desiredRetention: retention ? Number(retention) : undefined,
-      newPerDay:
-        newPerDay === '' ? undefined : Math.max(0, Math.min(500, Math.round(Number(newPerDay)))),
+      newPerDay: newPerDay === '' ? undefined : intValue(newPerDay, 0, NEW_PER_DAY_MAX),
     };
     if (course) {
       await repo.updateCourse(course.id, {
@@ -120,7 +119,7 @@ export function CourseDialog({
                 aria-describedby={d}
                 type="number"
                 min={0}
-                max={500}
+                max={NEW_PER_DAY_MAX}
                 inputMode="numeric"
                 value={newPerDay}
                 onChange={(e) => setNewPerDay(e.target.value)}

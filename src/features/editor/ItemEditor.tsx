@@ -88,7 +88,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
 
   const [loaded, setLoaded] = useState(!itemId);
   const [type, setType] = useState<ItemType>('basic');
-  const [topicId, setTopicId] = useState(defaultTopicId ?? '');
+  const [chosenTopicId, setTopicId] = useState(defaultTopicId ?? '');
   const [fields, setFields] = useState<ItemFields>(EMPTY_FIELDS);
   const [reverse, setReverse] = useState(false);
   const [tags, setTags] = useState('');
@@ -115,14 +115,6 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
     setLoaded(true);
   }, [itemId, existing, loaded]);
 
-  // Default to the first topic when none is chosen.
-  useEffect(() => {
-    if (topicId || !topics?.length || !courses?.length) return;
-    const first = courses.flatMap((c) => curriculumOrder(topics, c.id))[0];
-    if (first) setTopicId(first.id);
-  }, [topicId, topics, courses]);
-
-  // KaTeX results are cached, so validating on every keystroke is cheap.
   // Validation renders KaTeX for every cloze variant: let it trail typing by a frame. (Saving
   // re-validates the current fields, so a stale result can never let bad content through.)
   const deferredType = useDeferredValue(type);
@@ -134,7 +126,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
   const ordinals = type === 'cloze' ? clozeOrdinals(fields.prompt) : [];
   const activeOrdinal = ordinals.includes(previewOrdinal) ? previewOrdinal : (ordinals[0] ?? 1);
   const errorFor = (key: FieldKey) => {
-    const list = errors.filter((e) => e.field === key && (touched || !/empty/.test(e.message)));
+    const list = errors.filter((e) => e.field === key && (touched || !e.required));
     return list.length ? list.map((e) => <div key={e.message}>{e.message}</div>) : undefined;
   };
 
@@ -172,6 +164,8 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
       topics: curriculumOrder(topics, c.id),
     }));
   }, [courses, topics]);
+  // Until one is chosen, the item goes in the first topic.
+  const topicId = chosenTopicId || (topicOptions.find((o) => o.topics[0])?.topics[0]?.id ?? '');
 
   const save = async (addAnother = false) => {
     setTouched(true);
@@ -476,11 +470,10 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
           )}
         </div>
         <PreviewCard label="Front">
-          {type === 'cloze' ? (
-            <RichText source={fields.prompt} cloze={{ ordinal: activeOrdinal, reveal: false }} />
-          ) : (
-            <RichText source={fields.prompt} />
-          )}
+          <RichText
+            source={fields.prompt}
+            cloze={type === 'cloze' ? { ordinal: activeOrdinal, reveal: false } : undefined}
+          />
         </PreviewCard>
         <PreviewCard label="Back">
           {type === 'cloze' ? (

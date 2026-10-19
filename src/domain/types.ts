@@ -165,6 +165,9 @@ export const DEFAULT_SETTINGS: Omit<Settings, 'updatedAt' | 'dirty'> = {
   leechThreshold: 5,
 };
 
+/** Upper bound of the new-cards-per-day inputs (global and per course). */
+export const NEW_PER_DAY_MAX = 500;
+
 /** Names of the synced tables (also used as the `tbl` column on the server). */
 export const SYNCED_TABLES = [
   'courses',
