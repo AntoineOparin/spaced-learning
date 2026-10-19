@@ -1,6 +1,6 @@
 /** Dashboard metrics. Pure functions over cards and review logs. */
 import { studyDayStartOffset } from './day';
-import { alive, type Card, CardState, Rating, type ReviewLog } from './types';
+import { alive, type Card, CardState, type Item, Rating, type ReviewLog } from './types';
 
 const MATURE_DAYS = 21;
 
@@ -44,6 +44,30 @@ export function daySummary(logs: readonly ReviewLog[], dayStart: number): DaySum
     summary.timeMs += log.durationMs;
   }
   return summary;
+}
+
+export interface SessionStats {
+  reviewed: number;
+  again: number;
+  timeMs: number;
+  /** Items forgotten (Again) during the session, in the order they were first forgotten. */
+  forgotten: Item[];
+}
+
+/** A study session's totals from its review logs (an undone review leaves no log behind). */
+export function sessionStats(logs: readonly ReviewLog[], items: readonly Item[]): SessionStats {
+  const byId = new Map(items.map((i) => [i.id, i]));
+  const forgotten = new Map<string, Item>();
+  let again = 0;
+  let timeMs = 0;
+  for (const log of logs) {
+    timeMs += log.durationMs;
+    if (log.rating !== Rating.Again) continue;
+    again++;
+    const item = byId.get(log.itemId);
+    if (item && !forgotten.has(item.id)) forgotten.set(item.id, item);
+  }
+  return { reviewed: logs.length, again, timeMs, forgotten: [...forgotten.values()] };
 }
 
 export interface Retention {

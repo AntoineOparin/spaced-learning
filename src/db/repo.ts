@@ -251,6 +251,7 @@ export class Repo {
       if (!topic || topic.deletedAt !== undefined) throw new Error('Topic not found');
 
       const existing = draft.id ? await items.get(draft.id) : undefined;
+      if (existing?.deletedAt !== undefined) throw new Error('This item was deleted');
       let item: Item;
       if (existing) {
         item = {

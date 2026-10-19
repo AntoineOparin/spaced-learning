@@ -1,4 +1,3 @@
-import { useLiveQuery } from 'dexie-react-hooks';
 import {
   type ReactNode,
   useDeferredValue,
@@ -10,8 +9,8 @@ import {
 } from 'react';
 import { RichText } from '../../content/RichText';
 import { itemErrors, qualityWarnings } from '../../content/validate';
-import { useCourses, useTopics } from '../../db/hooks';
-import { db, repo } from '../../db/instance';
+import { useCourses, useItem, useTopics } from '../../db/hooks';
+import { repo } from '../../db/instance';
 import { clozeOrdinals } from '../../domain/cloze';
 import { curriculumOrder } from '../../domain/topics';
 import type { Item, ItemFields, ItemType } from '../../domain/types';
@@ -84,7 +83,9 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
   const confirm = useConfirm();
   const courses = useCourses();
   const topics = useTopics();
-  const existing = useLiveQuery(() => (itemId ? db.items.get(itemId) : undefined), [itemId]);
+  // null when missing; a deleted item can't be edited either (saving would not bring it back).
+  const item = useItem(itemId);
+  const existing = item?.deletedAt === undefined ? item : null;
 
   const [loaded, setLoaded] = useState(!itemId);
   const [type, setType] = useState<ItemType>('basic');

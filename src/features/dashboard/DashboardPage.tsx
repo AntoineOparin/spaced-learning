@@ -1,5 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import {
   buildQueueInput,
@@ -12,7 +12,7 @@ import { db, repo } from '../../db/instance';
 import { LAST_EXPORT_AT_KEY } from '../../db/metaKeys';
 import { stripCloze } from '../../domain/cloze';
 import { DAY, MINUTE, startOfStudyDay } from '../../domain/day';
-import { type QueueCounts, queueCounts } from '../../domain/queue';
+import { LEARN_AHEAD_MS, type QueueCounts, queueCounts } from '../../domain/queue';
 import {
   daySummary,
   forecast,
@@ -52,7 +52,8 @@ interface DashboardData {
   now: number;
 }
 
-function useDashboardData(): DashboardData | undefined {
+/** `refresh` re-reads the data (and the clock) when it changes. */
+function useDashboardData(refresh: number): DashboardData | undefined {
   return useLiveQuery(async () => {
     const now = Date.now();
     const settings = await repo.getSettings();
@@ -78,7 +79,7 @@ function useDashboardData(): DashboardData | undefined {
       streak = studyStreak(times as number[], now, settings.dayStartHour);
     }
     return { data, recentLogs, streak, now };
-  }, []);
+  }, [refresh]);
 }
 
 /** null when never exported; undefined while loading. */
@@ -273,11 +274,23 @@ function Welcome() {
 }
 
 export function DashboardPage() {
-  const dash = useDashboardData();
+  const [refresh, setRefresh] = useState(0);
+  const dash = useDashboardData(refresh);
   const sync = useSyncState();
   const lastExportAt = useLastExportAt();
   const navigate = useNavigate();
   const view = useMemo(() => (dash ? deriveDashboard(dash) : null), [dash]);
+
+  // A learning card waiting for later today becomes studyable once it's within learn-ahead.
+  const nextLearningDue = view?.all.nextLearningDue;
+  useEffect(() => {
+    if (!nextLearningDue) return;
+    const t = window.setTimeout(
+      () => setRefresh((n) => n + 1),
+      nextLearningDue - LEARN_AHEAD_MS - Date.now(),
+    );
+    return () => window.clearTimeout(t);
+  }, [nextLearningDue]);
 
   if (!dash || !view) return <DashboardSkeleton />;
   const { data, now, streak } = dash;
@@ -288,10 +301,8 @@ export function DashboardPage() {
   const totalDue = all.review + all.learning;
   const toStudy = totalDue + all.new;
   const target = Math.round(settings.desiredRetention * 100);
-  const lastBackup = Math.max(
-    lastExportAt ?? 0,
-    sync.status === 'idle' ? (sync.lastSyncAt ?? 0) : 0,
-  );
+  // The server copy from the last successful sync counts as a backup too.
+  const lastBackup = Math.max(lastExportAt ?? 0, sync.lastSyncAt ?? 0);
   const backupStale = lastExportAt !== undefined && now - lastBackup > BACKUP_STALE_DAYS * DAY;
 
   const courseTile = ({ course, counts, maturity: m }: (typeof view.courses)[number]) => {

@@ -77,6 +77,8 @@ test.describe('local study flow', () => {
 
   test('install the Calculus 2 deck, study with undo, and see progress', async ({ page }) => {
     await installDeck(page);
+    // New local changes count as unsynced at once (what the periodic sync waits for).
+    await expect(page.getByRole('link', { name: /Offline · \d+ unsynced/ })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Calculus 2' })).toBeVisible();
     await shot(page, 'dashboard');
     await expectAccessible(page);
@@ -154,9 +156,116 @@ test.describe('local study flow', () => {
 
     await page.getByRole('button', { name: 'Study this topic' }).click();
     await expect(page.locator('article .cloze-blank').first()).toBeVisible();
-    await answerCards(page, 1, [3]);
-    // The new card goes into its learning step (due in 10 min) — learned ahead or session done.
+    const rate = (name: RegExp) =>
+      page
+        .getByRole('group', { name: 'How well did you recall it?' })
+        .getByRole('button', { name })
+        .click();
+    await page.getByRole('button', { name: /^Type/ }).click();
+    const answer = page.getByLabel('Your answer');
+    await answer.fill('no idea');
+    await page.getByRole('button', { name: /^Check answer/ }).click();
+    await rate(/^Again/);
+    // The card comes straight back (its 1-minute step) as a fresh question: nothing carried over.
+    await expect(answer).toHaveValue('');
+    await answer.fill('$\\neg p \\lor \\neg q$');
+    await page.getByRole('button', { name: /^Check answer/ }).click();
+    await rate(/^Good/);
+    // Next learning step (due in 10 min) — learned ahead or session done.
     await expect(page.getByText(/Session complete|Fill in the blank/)).toBeVisible();
+  });
+
+  test('a missing or deleted item cannot be edited, and Cancel stays in the app', async ({
+    page,
+  }) => {
+    await installDeck(page);
+    await page.goto('/library');
+    const href = await page.locator('a[href^="/items/"]').first().getAttribute('href');
+    if (!href) throw new Error('no item link');
+
+    // Opened directly after another page: Cancel goes to the library, not back to that page.
+    await page.goto('/settings');
+    await expect(page.getByRole('heading', { name: 'Settings', level: 1 })).toBeVisible();
+    await page.goto(href);
+    await expect(page.getByRole('heading', { name: 'Edit item' })).toBeVisible();
+    await page.getByRole('button', { name: 'Cancel' }).click();
+    await expect(page).toHaveURL(/\/library$/);
+
+    await page.goto(href);
+    await page.getByRole('button', { name: 'Delete' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Delete item' }).click();
+    await expect(page.getByRole('heading', { name: 'Library', level: 1 })).toBeVisible();
+    await page.goto(href);
+    await expect(page.getByText('This item no longer exists')).toBeVisible();
+    await page.goto('/items/no-such-item');
+    await expect(page.getByText('This item no longer exists')).toBeVisible();
+  });
+
+  test('a learning card due later today is announced, then offered once it comes due', async ({
+    page,
+  }) => {
+    await page.clock.install({ time: new Date('2026-10-14T10:00:00') });
+    await page.goto('/settings');
+    const steps = page.getByLabel('Learning steps', { exact: true });
+    await steps.fill('1h');
+    await steps.blur();
+    await page.goto('/library?new=course');
+    await page.getByRole('dialog').getByLabel('Name').fill('Logic');
+    await page.getByRole('dialog').getByRole('button', { name: 'Create course' }).click();
+    await page.getByRole('button', { name: 'Add a topic' }).click();
+    await page.getByRole('dialog').getByLabel('Name').fill('Connectives');
+    await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
+    await page.getByRole('button', { name: 'New item' }).click();
+    await page.getByLabel('Question').fill('What is ¬(p ∧ q)?');
+    await page.getByLabel('Answer').fill('¬p ∨ ¬q');
+    await page.getByRole('button', { name: 'Create', exact: true }).click();
+    await expect(page).toHaveURL(/\/library\?topic=/);
+
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Start studying' }).click();
+    await page.getByRole('button', { name: 'Show answer' }).click();
+    await page
+      .getByRole('group', { name: 'How well did you recall it?' })
+      .getByRole('button', { name: /^Again/ })
+      .click();
+    await page.getByRole('button', { name: 'Back to Today' }).click();
+    // Due in an hour, beyond learn-ahead: not counted as studyable yet.
+    await expect(page.getByRole('heading', { name: 'All caught up' })).toBeVisible();
+    await expect(page.getByText(/Your next card is due at 11:00/)).toBeVisible();
+    // Within 20 minutes of due, the dashboard offers it without a reload, and the session has it.
+    await page.clock.runFor('41:00');
+    await page.getByRole('button', { name: 'Start studying' }).click();
+    const question = page.getByRole('article', { name: 'Question' });
+    await expect(question).toBeVisible();
+
+    // Suspending the last card ends the session; Undo brings the card back into it.
+    await page.getByRole('button', { name: 'Suspend card (S)' }).click();
+    await expect(page.getByRole('heading', { name: 'Nothing due right now' })).toBeVisible();
+    await page.getByRole('button', { name: 'Undo', exact: true }).click();
+    await expect(question).toBeVisible();
+  });
+
+  test('settings: two-digit numbers can be typed, and deep links land on their section', async ({
+    page,
+  }) => {
+    await page.goto('/settings#backup');
+    const backup = page.getByRole('heading', { name: 'Backup', exact: true });
+    await expect(backup).toBeVisible();
+    await settle(page);
+    const top = (await backup.boundingBox())?.y ?? -1;
+    expect(top).toBeGreaterThanOrEqual(0);
+    expect(top).toBeLessThan(120);
+
+    const leech = page.getByLabel('Leech threshold');
+    await leech.fill('');
+    await leech.pressSequentially('12');
+    await leech.blur();
+    await expect(leech).toHaveValue('12');
+    await leech.fill('0');
+    await leech.blur();
+    await expect(leech).toHaveValue('5');
+    await page.reload();
+    await expect(page.getByLabel('Leech threshold')).toHaveValue('5');
   });
 
   test('draw an answer, then compare it with the key', async ({ page }) => {

@@ -112,6 +112,20 @@ describe('items and cards', () => {
     expect(after.find((c) => c.key === 'c2')?.deletedAt).toBe(T0 + DAY);
   });
 
+  it('refuses to save over a deleted item (an edit would be lost in the tombstone)', async () => {
+    const { topic } = await setup();
+    const item = await repo.saveItem({
+      topicId: topic.id,
+      type: 'basic',
+      fields: { prompt: 'Q', answer: 'A' },
+    });
+    await repo.deleteItem(item.id);
+    await expect(repo.saveItem({ ...item, fields: { prompt: 'Q2', answer: 'A' } })).rejects.toThrow(
+      'This item was deleted',
+    );
+    expect((await db.items.get(item.id))?.fields.prompt).toBe('Q');
+  });
+
   it('moving an item to another course topic moves its cards', async () => {
     const { topic } = await setup();
     const other = await repo.createCourse({ name: 'Discrete' });

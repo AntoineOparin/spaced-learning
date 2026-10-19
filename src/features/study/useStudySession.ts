@@ -15,14 +15,8 @@ import type { ReviewResult } from '../../db/repo';
 import { MINUTE } from '../../domain/day';
 import { pickNext, type QueueKind, queueCounts } from '../../domain/queue';
 import { type ReviewOutcome, schedulerForCourse } from '../../domain/scheduler';
-import {
-  type AnswerMode,
-  alive,
-  type Card,
-  type Item,
-  Rating,
-  type RatingValue,
-} from '../../domain/types';
+import { sessionStats } from '../../domain/stats';
+import { type AnswerMode, alive, type Card, type Item, type RatingValue } from '../../domain/types';
 import { syncManager } from '../../sync/manager';
 
 /** Long pauses (walked away) shouldn't distort recorded answer times. */
@@ -40,20 +34,14 @@ interface UndoEntry {
   session: SessionState;
 }
 
-export interface SessionStats {
-  reviewed: number;
-  again: number;
-  timeMs: number;
-  /** Items forgotten (Again) during this session. */
-  forgotten: Item[];
-}
-
 export type Phase = 'loading' | 'question' | 'answer' | 'done';
 
 export function useStudySession(scope: Scope) {
   const [data, setData] = useState<StudyData | null>(null);
   const [current, setCurrent] = useState<Current | null>(null);
   const [revealed, setRevealed] = useState(false);
+  // Counts the questions shown: a card that comes straight back (after Again) is a new one.
+  const [turn, setTurn] = useState(0);
   const [session, setSession] = useState<SessionState>(() => ({
     reviewsSinceNew: 0,
     lastTopicId: null,
@@ -62,17 +50,23 @@ export function useStudySession(scope: Scope) {
   const [history, setHistory] = useState<UndoEntry[]>([]);
   // This session's reviews are the day's logs from this index on (undo removes them again).
   const [firstLog, setFirstLog] = useState(0);
-  const [forgotten, setForgotten] = useState<Item[]>([]);
   const [busy, setBusy] = useState(false);
   const shownAt = useRef(Date.now());
   const initialSession = useRef(session);
 
   const phase: Phase = !data ? 'loading' : !current ? 'done' : revealed ? 'answer' : 'question';
 
+  // For callbacks that run later (a toast's Undo), after more answers may have been given.
+  const latest = useRef({ data, current, session });
+  useEffect(() => {
+    latest.current = { data, current, session };
+  });
+
   /** Shows a card's question (or the end of the session for null). */
   const show = useCallback((next: Current | null) => {
     setCurrent(next);
     setRevealed(false);
+    setTurn((t) => t + 1);
     shownAt.current = Date.now();
   }, []);
 
@@ -135,8 +129,6 @@ export function useStudySession(scope: Scope) {
           lastTopicId: current.card.topicId,
         };
         setHistory((h) => [...h.slice(-49), { result, kind: current.kind, session }]);
-        if (rating === Rating.Again)
-          setForgotten((f) => (f.some((i) => i.id === current.item.id) ? f : [...f, current.item]));
         setData(nextData);
         setSession(nextSession);
         choose(nextData, nextSession);
@@ -183,11 +175,15 @@ export function useStudySession(scope: Scope) {
     choose(nextData, session);
     return async () => {
       await repo.setSuspended([card.id], false);
-      setData((d) =>
-        d
-          ? { ...d, cards: d.cards.map((c) => (c.id === card.id ? { ...c, suspended: false } : c)) }
-          : d,
-      );
+      const { data: d, current: c, session: s } = latest.current;
+      if (!d) return;
+      const restored = {
+        ...d,
+        cards: d.cards.map((x) => (x.id === card.id ? { ...x, suspended: false } : x)),
+      };
+      setData(restored);
+      // Suspending the last card ended the session: undoing it carries on with that card.
+      if (!c) choose(restored, s);
     };
   }, [data, current, session, choose]);
 
@@ -215,27 +211,23 @@ export function useStudySession(scope: Scope) {
     [data, current, session, choose],
   );
 
-  // Counts don't depend on the clock within a study day (learning cards count whether due now or
-  // later today), so they only need recomputing when the data or session changes.
+  // Recomputed after each answer. (A learning card entering the learn-ahead window between
+  // answers shows up in the count with the next one.)
   const counts = useMemo(
     () => (data ? queueCounts(buildQueueInput(data, scope, session, Date.now())) : null),
     [data, scope, session],
   );
 
-  const stats = useMemo((): SessionStats => {
-    const logs = data?.todayLogs.slice(firstLog) ?? [];
-    return {
-      reviewed: logs.length,
-      again: logs.filter((l) => l.rating === Rating.Again).length,
-      timeMs: logs.reduce((sum, l) => sum + l.durationMs, 0),
-      forgotten,
-    };
-  }, [data, firstLog, forgotten]);
+  const stats = useMemo(
+    () => sessionStats(data?.todayLogs.slice(firstLog) ?? [], data?.items ?? []),
+    [data, firstLog],
+  );
 
   return {
     data,
     phase,
     current,
+    turn,
     counts,
     stats,
     busy,

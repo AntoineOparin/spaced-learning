@@ -3,6 +3,7 @@
  * Triggers: app start, coming back online, the tab being hidden, every few minutes while
  * visible and there are local changes, the end of a study session, and "Sync now".
  */
+import { liveQuery } from 'dexie';
 import { useSyncExternalStore } from 'react';
 import { db, repo } from '../db/instance';
 import { LAST_SYNC_AT_KEY } from '../db/metaKeys';
@@ -49,12 +50,8 @@ class SyncManager {
     for (const l of this.listeners) l();
   }
 
-  async refreshPending(): Promise<void> {
-    const [pending, last] = await Promise.all([
-      countDirty(db),
-      repo.getMeta<number>(LAST_SYNC_AT_KEY),
-    ]);
-    this.set({ pending, lastSyncAt: last ?? null });
+  private async loadLastSyncAt(): Promise<void> {
+    this.set({ lastSyncAt: (await repo.getMeta<number>(LAST_SYNC_AT_KEY)) ?? null });
   }
 
   /** Runs a sync; concurrent calls coalesce into one follow-up run. */
@@ -85,14 +82,20 @@ class SyncManager {
         this.set({ status: 'unavailable', error: err.message });
       else this.set({ status: 'error', error: errorMessage(err) });
     } finally {
-      await this.refreshPending();
+      await this.loadLastSyncAt();
     }
   }
 
   start(): void {
     if (this.started) return;
     this.started = true;
-    void this.refreshPending();
+    // Every local write marks rows dirty: a live count keeps the indicator and the periodic
+    // sync below up to date without each write having to report in.
+    liveQuery(() => countDirty(db)).subscribe({
+      next: (pending) => this.set({ pending }),
+      error: (err) => console.warn('Could not count unsynced changes', err),
+    });
+    void this.loadLastSyncAt();
     void this.sync();
     window.addEventListener('online', () => void this.sync());
     document.addEventListener('visibilitychange', () => {

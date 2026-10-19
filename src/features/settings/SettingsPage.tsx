@@ -171,6 +171,47 @@ function StepsRow({
   );
 }
 
+/**
+ * A whole-number input. Values in range save as you type; anything else (a first digit below
+ * the minimum, say) waits for the field to lose focus and is then clamped.
+ */
+function IntInput({
+  value,
+  min,
+  max,
+  fallback = min,
+  onSave,
+  ...props
+}: Omit<ComponentProps<typeof Input>, 'value' | 'onChange' | 'onBlur' | 'min' | 'max'> & {
+  value: number;
+  min: number;
+  max: number;
+  fallback?: number;
+  onSave: (n: number) => void;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  return (
+    <Input
+      {...props}
+      type="number"
+      inputMode="numeric"
+      min={min}
+      max={max}
+      value={draft ?? value}
+      onChange={(e) => {
+        const text = e.target.value;
+        setDraft(text);
+        const n = Number(text);
+        if (text.trim() && Number.isInteger(n) && n >= min && n <= max) onSave(n);
+      }}
+      onBlur={() => {
+        if (draft !== null) onSave(intValue(draft, min, max, fallback));
+        setDraft(null);
+      }}
+    />
+  );
+}
+
 /** A button that opens the file picker for one JSON file. */
 function JsonFileButton({
   onPick,
@@ -238,18 +279,14 @@ function StudySettings({ settings }: { settings: Settings }) {
       </Row>
       <Row label="New cards per day" hint="Per course.">
         {(id, d) => (
-          <Input
+          <IntInput
             id={id}
             aria-describedby={d}
-            type="number"
             min={0}
             max={NEW_PER_DAY_MAX}
-            inputMode="numeric"
             value={settings.newPerDay}
             className="w-28 text-right tabular-nums"
-            onChange={(e) =>
-              void update({ newPerDay: intValue(e.target.value, 0, NEW_PER_DAY_MAX) })
-            }
+            onSave={(n) => void update({ newPerDay: n })}
           />
         )}
       </Row>
@@ -281,19 +318,15 @@ function StudySettings({ settings }: { settings: Settings }) {
       />
       <Row label="Leech threshold" hint="Flag a card after this many lapses.">
         {(id, d) => (
-          <Input
+          <IntInput
             id={id}
             aria-describedby={d}
-            type="number"
             min={2}
             max={20}
+            fallback={DEFAULT_SETTINGS.leechThreshold}
             value={settings.leechThreshold}
             className="w-28 text-right tabular-nums"
-            onChange={(e) =>
-              void update({
-                leechThreshold: intValue(e.target.value, 2, 20, DEFAULT_SETTINGS.leechThreshold),
-              })
-            }
+            onSave={(n) => void update({ leechThreshold: n })}
           />
         )}
       </Row>
@@ -321,7 +354,6 @@ function DataSections() {
 
   useEffect(() => {
     void storageStatus().then(setStorage);
-    void syncManager.refreshPending();
   }, []);
 
   const doExport = async () => {
@@ -551,10 +583,12 @@ export default function SettingsPage() {
   const toast = useToast();
   const confirm = useConfirm();
 
+  // Scroll once the study settings have rendered: they push the later sections down.
+  const loaded = settings !== undefined;
   useEffect(() => {
-    if (location.hash)
+    if (location.hash && loaded)
       document.getElementById(location.hash.slice(1))?.scrollIntoView({ block: 'start' });
-  }, [location.hash]);
+  }, [location.hash, loaded]);
 
   const resetDevice = async () => {
     const ok = await confirm({

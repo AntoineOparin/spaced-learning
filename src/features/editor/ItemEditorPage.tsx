@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router';
 import { buttonClass } from '../../ui/Button';
 import { Icon } from '../../ui/Icon';
 import { PageHeader } from '../../ui/misc';
@@ -8,6 +8,8 @@ export default function ItemEditorPage() {
   const { id } = useParams();
   const [params] = useSearchParams();
   const navigate = useNavigate();
+  // The first page of this visit has the default key: nothing in the app to go back to.
+  const cameFromApp = useLocation().key !== 'default';
   const topic = params.get('topic') ?? undefined;
 
   return (
@@ -29,7 +31,7 @@ export default function ItemEditorPage() {
         itemId={id}
         defaultTopicId={topic}
         onDone={(item, action) => {
-          if (action === 'cancelled' && window.history.length > 1) navigate(-1);
+          if (action === 'cancelled' && cameFromApp) navigate(-1);
           else navigate(item ? `/library?topic=${item.topicId}` : '/library');
         }}
       />

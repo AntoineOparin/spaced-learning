@@ -14,7 +14,8 @@
 import { MINUTE } from './day';
 import { type Card, CardState } from './types';
 
-const LEARN_AHEAD_MS = 20 * MINUTE;
+/** How early a learning card is shown when nothing else is left. */
+export const LEARN_AHEAD_MS = 20 * MINUTE;
 
 export interface QueueInput {
   now: number;
@@ -164,6 +165,7 @@ export function pickNext(input: QueueInput): QueuePick | null {
 }
 
 export interface QueueCounts {
+  /** Learning cards a session would show now: due, or due within the learn-ahead window. */
   learning: number;
   review: number;
   new: number;
@@ -173,10 +175,12 @@ export interface QueueCounts {
 
 export function queueCounts(input: QueueInput): QueueCounts {
   const snap = classify(input, { ordered: false });
+  const horizon = input.now + LEARN_AHEAD_MS;
+  const beyond = snap.learningLater.filter((c) => c.due > horizon);
   return {
-    learning: snap.learningDue.length + snap.learningLater.length,
+    learning: snap.learningDue.length + snap.learningLater.length - beyond.length,
     review: snap.reviews.length,
     new: snap.news.length,
-    nextLearningDue: snap.learningLater[0]?.due ?? null,
+    nextLearningDue: beyond[0]?.due ?? null,
   };
 }

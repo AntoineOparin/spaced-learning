@@ -5,6 +5,7 @@ import { RichText } from '../../content/RichText';
 import { stripCloze } from '../../domain/cloze';
 import { MINUTE } from '../../domain/day';
 import { describeInterval, formatInterval, RATINGS } from '../../domain/scheduler';
+import type { SessionStats } from '../../domain/stats';
 import { TRAIL_SEPARATOR, topicTrail } from '../../domain/topics';
 import type { AnswerMode, RatingValue } from '../../domain/types';
 import { readLocal, writeLocal } from '../../lib/storage';
@@ -21,7 +22,7 @@ import { ItemEditor } from '../editor/ItemEditor';
 import { cardFaces, isExactMatch } from './answer';
 import { SketchPreview, Sketchpad } from './Sketchpad';
 import type { Stroke } from './sketch';
-import { type SessionStats, useStudySession } from './useStudySession';
+import { useStudySession } from './useStudySession';
 
 /** Each rating owns one signal hue; tiles stay neutral until touched, so no answer is nudged. */
 const RATING_META: Record<
@@ -205,14 +206,15 @@ export default function StudyPage() {
   const previews = phase === 'answer' ? s.preview() : null;
   const exit = useCallback(() => navigate('/'), [navigate]);
 
-  // New card → clear the previous attempt and focus the input in typed mode.
-  const cardId = current?.card.id;
+  // Each question (even the same card coming straight back) starts blank, and typed mode
+  // puts the cursor in the input.
+  const { turn } = s;
   useEffect(() => {
-    if (!cardId) return;
+    if (!turn) return;
     setTyped('');
     setStrokes((s) => (s.length ? [] : s)); // a fresh [] would re-render for nothing
     if (mode === 'typed') requestAnimationFrame(() => inputRef.current?.focus());
-  }, [cardId, mode]);
+  }, [turn, mode]);
 
   // Move focus to the answer for screen readers and keyboard users.
   useEffect(() => {

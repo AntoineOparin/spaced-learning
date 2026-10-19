@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { DAY, HOUR, makeCard, makeLog, makeReviewCard, T0 } from '../test/factories';
+import { DAY, HOUR, makeCard, makeItem, makeLog, makeReviewCard, T0 } from '../test/factories';
 import { startOfStudyDay, studyDaysBetween } from './day';
 import {
   daySummary,
   forecast,
   leeches,
   maturity,
+  sessionStats,
   studyStreak,
   trueRetention,
   weakestTopics,
@@ -41,6 +42,36 @@ describe('daySummary', () => {
       again: 1,
       timeMs: 10_000,
     });
+  });
+});
+
+describe('sessionStats', () => {
+  it('totals the session and lists each forgotten item once, in order', () => {
+    const a = makeItem();
+    const b = makeItem();
+    const logs = [
+      makeLog({ itemId: b.id, rating: 3, durationMs: 1000 }),
+      makeLog({ itemId: a.id, rating: 1, durationMs: 2000 }),
+      makeLog({ itemId: a.id, rating: 1, durationMs: 3000 }),
+    ];
+    expect(sessionStats(logs, [a, b])).toEqual({
+      reviewed: 3,
+      again: 2,
+      timeMs: 6000,
+      forgotten: [a],
+    });
+  });
+
+  it('drops an item from the forgotten list when its Again review is undone', () => {
+    const a = makeItem();
+    const again = makeLog({ itemId: a.id, rating: 1 });
+    expect(sessionStats([again], [a]).forgotten).toEqual([a]);
+    // Undo removes the log; rating Good afterwards leaves nothing forgotten.
+    expect(sessionStats([makeLog({ itemId: a.id, rating: 3 })], [a]).forgotten).toEqual([]);
+  });
+
+  it('leaves out items deleted during the session', () => {
+    expect(sessionStats([makeLog({ itemId: 'gone', rating: 1 })], []).forgotten).toEqual([]);
   });
 });
 

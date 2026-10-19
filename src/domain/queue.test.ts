@@ -131,9 +131,10 @@ describe('pickNext', () => {
 });
 
 describe('queueCounts', () => {
-  it('counts learning (all today), reviews and introducible new cards', () => {
+  it('counts what a session would show now: learning within learn-ahead, reviews, new', () => {
     const cards = [
       makeCard({ state: 1, due: NOW - MIN }),
+      makeCard({ state: 1, due: NOW + 15 * MIN }),
       makeCard({ state: 3, due: NOW + 2 * HOUR }),
       makeReviewCard(NOW - DAY, 10),
       makeReviewCard(NOW + 2 * DAY, 10),
