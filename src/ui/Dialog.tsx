@@ -167,7 +167,8 @@ export function Dialog({
           </header>
           <div
             className={cn(
-              'min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-1 pb-5 sm:px-6',
+              // A stable gutter: content that grows past the height doesn't shift sideways.
+              'min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-1 pb-5 [scrollbar-gutter:stable] sm:px-6',
               !view.footer && 'max-sm:pb-[max(env(safe-area-inset-bottom),1.25rem)]',
             )}
           >

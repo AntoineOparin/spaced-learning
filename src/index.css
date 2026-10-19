@@ -273,6 +273,9 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Always reserve the scrollbar's space, so switching between long and short pages
+     doesn't shift the layout sideways (no-op with overlay scrollbars). */
+  scrollbar-gutter: stable;
 }
 
 body {
