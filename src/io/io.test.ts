@@ -39,7 +39,8 @@ async function seed() {
   });
   const card = await db.cards.where('itemId').equals(item.id).first();
   if (!card) throw new Error('missing card');
-  await repo.recordReview({ cardId: card.id, rating: 3, durationMs: 3000, mode: 'reveal' });
+  // 'drawn' is the newest answer mode; backups must round-trip it.
+  await repo.recordReview({ cardId: card.id, rating: 3, durationMs: 3000, mode: 'drawn' });
   await repo.updateSettings({ newPerDay: 12 });
   await repo.deleteItem(
     (

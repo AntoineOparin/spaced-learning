@@ -525,9 +525,9 @@ const PRINCIPLES: [string, ReactNode][] = [
   [
     'Recall first.',
     <>
-      Try to answer from memory before revealing — that effort is what strengthens memory. Typing
-      your answer (press <kbd className="font-mono">T</kbd> in a session) makes the attempt
-      concrete.
+      Try to answer from memory before revealing — that effort is what strengthens memory. Typing or
+      drawing your answer (press <kbd className="font-mono">T</kbd> or{' '}
+      <kbd className="font-mono">D</kbd> in a session) makes the attempt concrete.
     </>,
   ],
   [

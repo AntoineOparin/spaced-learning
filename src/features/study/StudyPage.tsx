@@ -10,11 +10,14 @@ import { Button, IconButton } from '../../ui/Button';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
 import { Textarea } from '../../ui/Field';
+import type { IconName } from '../../ui/Icon';
 import { Icon } from '../../ui/Icon';
 import { Badge, Dot, Kbd, ProgressBar, Skeleton } from '../../ui/misc';
 import { useToast } from '../../ui/Toast';
 import { ItemEditor } from '../editor/ItemEditor';
 import { cardFaces, isExactMatch } from './answer';
+import { SketchPreview, Sketchpad } from './Sketchpad';
+import type { Stroke } from './sketch';
 import { type SessionStats, useStudySession } from './useStudySession';
 
 /** Each rating owns one signal hue; tiles stay neutral until touched, so no answer is nudged. */
@@ -48,7 +51,8 @@ const RATING_META: Record<
   },
 };
 
-const TYPED_KEY = 'answerMode';
+/** The personal answer mode (per device): reveal, typed or drawn. */
+const MODE_KEY = 'answerMode';
 const EXPLAIN_KEY = 'showExplanations';
 const HINT_KEY = 'ratingHintSeen';
 
@@ -76,9 +80,42 @@ const SHORTCUTS: [string[], string][] = [
   [['S'], 'Suspend this card'],
   [['I'], 'Show / hide explanation'],
   [['T'], 'Toggle typing answers'],
+  [['D'], 'Toggle drawing answers'],
   [['Esc'], 'End session'],
   [['?'], 'This help'],
 ];
+
+/** Footer toggle for an answer mode. The label stays constant; aria-pressed carries state. */
+function ModeToggle({
+  on,
+  onClick,
+  icon,
+  label,
+  shortcut,
+}: {
+  on: boolean;
+  onClick: () => void;
+  icon: IconName;
+  label: string;
+  shortcut: string;
+}) {
+  return (
+    <Button
+      size="lg"
+      onClick={onClick}
+      aria-pressed={on}
+      title={`${label} answers before revealing (${shortcut})`}
+      className={cn(
+        'px-4 sm:px-5',
+        on &&
+          'border-accent bg-accent-soft text-accent-text [--lip-color:var(--accent-deep)] hover:bg-accent-soft',
+      )}
+    >
+      <Icon name={icon} />
+      <span className="hidden sm:inline">{label}</span>
+    </Button>
+  );
+}
 
 function Summary({ stats, onExit }: { stats: SessionStats; onExit: () => void }) {
   const mins = Math.max(1, Math.round(stats.timeMs / 60_000));
@@ -162,27 +199,43 @@ export default function StudyPage() {
   const toast = useToast();
   const s = useStudySession(scope);
 
-  const [typedMode, setTypedMode] = useState(() => readLocal(TYPED_KEY) === 'typed');
+  const [inputMode, setInputMode] = useState<AnswerMode>(() => {
+    const saved = readLocal(MODE_KEY);
+    return saved === 'typed' || saved === 'drawn' ? saved : 'reveal';
+  });
   const [typed, setTyped] = useState('');
+  const [strokes, setStrokes] = useState<Stroke[]>([]);
   const [showWhy, setShowWhy] = useState(() => readLocal(EXPLAIN_KEY) === '1');
   const [editing, setEditing] = useState(false);
   const [help, setHelp] = useState(false);
   const [hintSeen, setHintSeen] = useState(() => readLocal(HINT_KEY) === '1');
   const answerRef = useRef<HTMLDivElement>(null);
+  // The footer is fixed, so the content reserves its measured height (it differs between
+  // the question and rating footers, and with the safe area).
+  const [footerHeight, setFooterHeight] = useState(0);
+  const footerRef = useCallback((el: HTMLElement | null) => {
+    if (!el) return;
+    const ro = new ResizeObserver(() => setFooterHeight(el.offsetHeight));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const { current, phase } = s;
   const item = current?.item;
   const faces = current && item ? cardFaces(item, current.card) : null;
-  const mode: AnswerMode = typedMode || item?.options.answerMode === 'typed' ? 'typed' : 'reveal';
+  // Your own choice wins; otherwise an item can suggest typing.
+  const mode: AnswerMode =
+    inputMode !== 'reveal' ? inputMode : item?.options.answerMode === 'typed' ? 'typed' : 'reveal';
   const previews = phase === 'answer' ? s.preview() : null;
   const exit = useCallback(() => navigate('/'), [navigate]);
 
-  // New card → clear the typed answer and focus the input in typed mode.
+  // New card → clear the previous attempt and focus the input in typed mode.
   const cardId = current?.card.id;
   useEffect(() => {
     if (!cardId) return;
     setTyped('');
+    setStrokes([]);
     if (mode === 'typed') requestAnimationFrame(() => inputRef.current?.focus());
   }, [cardId, mode]);
 
@@ -215,10 +268,11 @@ export default function StudyPage() {
       });
   }, [s, toast]);
 
-  const toggleTyped = useCallback(() => {
-    setTypedMode((v) => {
-      writeLocal(TYPED_KEY, v ? 'reveal' : 'typed');
-      return !v;
+  const toggleMode = useCallback((m: Exclude<AnswerMode, 'reveal'>) => {
+    setInputMode((v) => {
+      const next = v === m ? 'reveal' : m;
+      writeLocal(MODE_KEY, next);
+      return next;
     });
   }, []);
 
@@ -287,7 +341,11 @@ export default function StudyPage() {
           break;
         case 't':
         case 'T':
-          if (phase === 'question') toggleTyped();
+          if (phase === 'question') toggleMode('typed');
+          break;
+        case 'd':
+        case 'D':
+          if (phase === 'question') toggleMode('drawn');
           break;
         case '?':
           setHelp(true);
@@ -299,7 +357,7 @@ export default function StudyPage() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [editing, help, phase, s, rate, undo, suspend, toggleWhy, toggleTyped, exit, current]);
+  }, [editing, help, phase, s, rate, undo, suspend, toggleWhy, toggleMode, exit, current]);
 
   const breadcrumb = useMemo(() => {
     if (!s.data || !current) return '';
@@ -361,9 +419,10 @@ export default function StudyPage() {
           // biome-ignore lint/a11y/noStaticElementInteractions: tap anywhere on the card to reveal
           <div
             className={cn(
-              'mx-auto flex w-full max-w-[720px] flex-1 flex-col px-5 pt-4 pb-52 sm:pt-8',
+              'mx-auto flex w-full max-w-[720px] flex-1 flex-col px-5 pt-4 sm:pt-8',
               phase === 'question' && mode === 'reveal' && 'cursor-pointer',
             )}
+            style={{ paddingBottom: (footerHeight || 184) + 24 }}
             onClick={(e) => {
               if (
                 phase === 'question' &&
@@ -374,7 +433,14 @@ export default function StudyPage() {
             }}
           >
             {/* Keyed by card: each new card slides in from the direction of travel. */}
-            <div key={current.card.id} className="animate-card">
+            {/* While drawing, it stretches so the pad can fill the space above the footer. */}
+            <div
+              key={current.card.id}
+              className={cn(
+                'animate-card',
+                mode === 'drawn' && phase === 'question' && 'flex flex-1 flex-col',
+              )}
+            >
               <div className="mb-8 flex items-center justify-between gap-4 text-[13px]">
                 <p className="min-w-0 truncate text-muted">
                   <span className="hidden sm:inline">{breadcrumb}</span>
@@ -446,6 +512,12 @@ export default function StudyPage() {
                 </div>
               )}
 
+              {mode === 'drawn' && phase === 'question' && (
+                <div className="mt-8 flex flex-1 flex-col">
+                  <Sketchpad strokes={strokes} onChange={setStrokes} />
+                </div>
+              )}
+
               {phase === 'answer' && (
                 <div
                   ref={answerRef}
@@ -454,23 +526,6 @@ export default function StudyPage() {
                   className="mt-8 animate-rise outline-none"
                 >
                   <hr className="mb-8 border-line" />
-                  {mode === 'typed' && (
-                    <div className="mb-8 rounded-xl border border-line bg-bg-alt px-4 py-3">
-                      <div className="mb-1 flex items-center justify-between text-[13px] text-muted">
-                        <span className="font-semibold">Your answer</span>
-                        {typed.trim() && isExactMatch(typed, faces.expected) && (
-                          <span className="flex items-center gap-1 font-bold text-accent-text">
-                            <Icon name="checkCircle" size={16} /> Matches the key
-                          </span>
-                        )}
-                      </div>
-                      {typed.trim() ? (
-                        <RichText source={typed} className="text-lg" />
-                      ) : (
-                        <p className="text-sm text-muted">(no answer)</p>
-                      )}
-                    </div>
-                  )}
                   {faces.clozeOrdinal === undefined ? (
                     <section
                       aria-label="Answer"
@@ -486,6 +541,30 @@ export default function StudyPage() {
                     )
                   )}
 
+                  {/* The key keeps the same place in every mode; your attempt follows it. */}
+                  {mode !== 'reveal' && (
+                    <div className="mt-8 rounded-xl border border-line bg-bg-alt px-4 py-3">
+                      <div className="mb-1 flex items-center justify-between text-[13px] text-muted">
+                        <span className="font-semibold">Your answer</span>
+                        {mode === 'typed' &&
+                          typed.trim() &&
+                          isExactMatch(typed, faces.expected) && (
+                            <span className="flex items-center gap-1 font-bold text-accent-text">
+                              <Icon name="checkCircle" size={16} /> Matches the key
+                            </span>
+                          )}
+                      </div>
+                      {mode === 'drawn' && strokes.length ? (
+                        <div className="py-1">
+                          <SketchPreview strokes={strokes} />
+                        </div>
+                      ) : mode === 'typed' && typed.trim() ? (
+                        <RichText source={typed} className="text-lg" />
+                      ) : (
+                        <p className="text-sm text-muted">(no answer)</p>
+                      )}
+                    </div>
+                  )}
                   {hasWhy && (
                     <div className="mt-10">
                       <button
@@ -528,30 +607,33 @@ export default function StudyPage() {
       </main>
 
       {current && (phase === 'question' || phase === 'answer') && (
-        <footer className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-line bg-bg">
+        <footer
+          ref={footerRef}
+          className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-line bg-bg"
+        >
           <div className="mx-auto max-w-[720px] px-4 pt-4">
             {phase === 'question' ? (
               <div className="flex items-center gap-3">
                 <Button variant="primary" size="lg" className="flex-1" onClick={s.reveal}>
-                  {mode === 'typed' ? 'Check answer' : 'Show answer'}
+                  {mode === 'reveal' ? 'Show answer' : 'Check answer'}
                   <span className="ml-2 hidden sm:inline-flex">
                     <Kbd onAccent>{mode === 'typed' ? 'Enter' : 'Space'}</Kbd>
                   </span>
                 </Button>
-                <Button
-                  size="lg"
-                  onClick={toggleTyped}
-                  aria-pressed={typedMode}
-                  title="Type answers before revealing (T)"
-                  className={cn(
-                    'px-4 sm:px-5',
-                    typedMode &&
-                      'border-accent bg-accent-soft text-accent-text [--lip-color:var(--accent-deep)] hover:bg-accent-soft',
-                  )}
-                >
-                  <Icon name="keyboard" />
-                  <span className="hidden sm:inline">{typedMode ? 'Typing on' : 'Type'}</span>
-                </Button>
+                <ModeToggle
+                  on={inputMode === 'drawn'}
+                  onClick={() => toggleMode('drawn')}
+                  icon="scribble"
+                  label="Draw"
+                  shortcut="D"
+                />
+                <ModeToggle
+                  on={inputMode === 'typed'}
+                  onClick={() => toggleMode('typed')}
+                  icon="keyboard"
+                  label="Type"
+                  shortcut="T"
+                />
               </div>
             ) : (
               <>

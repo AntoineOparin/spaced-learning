@@ -159,6 +159,60 @@ test.describe('local study flow', () => {
     await expect(page.getByText(/Session complete|Fill in the blank/)).toBeVisible();
   });
 
+  test('draw an answer, then compare it with the key', async ({ page }) => {
+    await installDeck(page);
+    await page.getByRole('button', { name: 'Start studying' }).click();
+    await expect(page.getByRole('article', { name: 'Question' })).toBeVisible();
+
+    const draw = page.getByRole('button', { name: /^Draw/ });
+    await draw.click();
+    await expect(draw).toHaveAttribute('aria-pressed', 'true');
+    const pad = page.getByRole('img', { name: /^Drawing pad/ });
+    await expect(pad).toHaveAccessibleName('Drawing pad, empty');
+
+    await settle(page);
+    const box = await pad.boundingBox();
+    const footer = await page.locator('footer').boundingBox();
+    if (!box || !footer) throw new Error('pad or footer not laid out');
+    // The pad fills the screen down to the footer: no dead space before checking the answer.
+    expect(footer.y - (box.y + box.height)).toBeGreaterThanOrEqual(16);
+    expect(footer.y - (box.y + box.height)).toBeLessThanOrEqual(32);
+    expect(box.height).toBeGreaterThanOrEqual(240);
+    const stroke = async (from: [number, number], to: [number, number]) => {
+      await page.mouse.move(box.x + from[0], box.y + from[1]);
+      await page.mouse.down();
+      await page.mouse.move(box.x + to[0], box.y + to[1], { steps: 12 });
+      await page.mouse.up();
+    };
+    // A tall stroke spanning the pad, then a short one that gets undone.
+    await stroke([40, 20], [90, box.height - 20]);
+    await stroke([60, 140], [200, 60]);
+    await expect(pad).toHaveAccessibleName('Drawing pad, 2 strokes drawn');
+    await page.getByRole('button', { name: 'Undo last stroke' }).click();
+    await expect(pad).toHaveAccessibleName('Drawing pad, 1 stroke drawn');
+    await shot(page, 'study-draw');
+    await expectAccessible(page);
+
+    await page.getByRole('button', { name: /^Check answer/ }).click();
+    const drawing = page.getByRole('img', { name: 'Your drawing' });
+    await expect(drawing).toBeVisible();
+    await expect(drawing.locator('path')).toHaveCount(1);
+    // The key comes first, above the rating buttons; a big drawing below it is scaled down.
+    await settle(page);
+    const drawingBox = await drawing.boundingBox();
+    const answerBox = await page.getByRole('region', { name: 'Answer' }).boundingBox();
+    const ratingBar = await page.locator('footer').boundingBox();
+    if (!drawingBox || !answerBox || !ratingBar) throw new Error('answer not laid out');
+    expect(drawingBox.height).toBeLessThanOrEqual(160);
+    expect(answerBox.y + answerBox.height).toBeLessThanOrEqual(ratingBar.y);
+    expect(drawingBox.y).toBeGreaterThan(answerBox.y + answerBox.height);
+    await shot(page, 'study-draw-answer');
+
+    await page.getByRole('button', { name: /^Good/ }).click();
+    // Draw mode persists; the next card starts with a blank pad.
+    await expect(page.getByRole('img', { name: 'Drawing pad, empty' })).toBeVisible();
+  });
+
   test('export a backup, reset the device, and restore it', async ({ page }) => {
     await installDeck(page);
     await page.goto('/settings');
