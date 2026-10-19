@@ -8,9 +8,12 @@ import { clozeOrdinals } from '../../domain/cloze';
 import { curriculumOrder } from '../../domain/topics';
 import type { Item, ItemFields, ItemType } from '../../domain/types';
 import { Button } from '../../ui/Button';
+import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
-import { Field, Input, Select, Switch, Textarea } from '../../ui/Field';
-import { Kbd } from '../../ui/misc';
+import { Field, Input, Segmented, Switch, Textarea } from '../../ui/Field';
+import { Icon } from '../../ui/Icon';
+import { Callout, EmptyState, Kbd, Skeleton } from '../../ui/misc';
+import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 
 type FieldKey = keyof ItemFields;
@@ -68,6 +71,7 @@ export interface ItemEditorProps {
 
 export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: ItemEditorProps) {
   const toast = useToast();
+  const confirm = useConfirm();
   const courses = useCourses();
   const topics = useTopics();
   const existing = useLiveQuery(() => (itemId ? db.items.get(itemId) : undefined), [itemId]);
@@ -196,7 +200,12 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
 
   const remove = async () => {
     if (!itemId) return;
-    if (!window.confirm('Delete this item and its cards? Review history is kept.')) return;
+    const ok = await confirm({
+      title: 'Delete this item?',
+      body: 'Its cards are deleted too. Your review history is kept.',
+      confirmLabel: 'Delete item',
+    });
+    if (!ok) return;
     await repo.deleteItem(itemId);
     toast({ message: 'Item deleted' });
     onDone(null, 'deleted');
@@ -213,17 +222,30 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
     }
   };
 
-  if (!loaded || !courses || !topics) return <p className="text-sm text-muted">Loading…</p>;
+  if (!loaded || !courses || !topics)
+    return (
+      <div className="space-y-5" role="status">
+        <span className="sr-only">Loading…</span>
+        <Skeleton className="h-11 w-full" />
+        <Skeleton className="h-28 w-full" />
+        <Skeleton className="h-28 w-full" />
+      </div>
+    );
   if (itemId && existing === null)
-    return <p className="text-sm text-muted">This item no longer exists.</p>;
+    return <EmptyState title="This item no longer exists" icon="trash" />;
   if (!topicOptions.some((o) => o.topics.length)) {
-    return <p className="text-sm text-muted">Create a course and a topic in the Library first.</p>;
+    return (
+      <EmptyState title="No topics yet" icon="folder">
+        Create a course and a topic in the Library first.
+      </EmptyState>
+    );
   }
 
   const textarea = (key: FieldKey, label: ReactNode, hint?: ReactNode, rows = 3) => (
     <Field label={label} hint={hint} error={errorFor(key)}>
       {(id, describedBy) => (
         <Textarea
+          mono
           id={id}
           aria-describedby={describedBy}
           ref={(el) => {
@@ -243,37 +265,52 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
 
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: keyboard shortcuts for the whole form
-    <div onKeyDown={onKeyDown} className={cn('grid gap-6', !compact && 'lg:grid-cols-2')}>
+    <div
+      onKeyDown={onKeyDown}
+      className={cn(
+        'grid gap-8',
+        !compact && 'xl:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] xl:items-start',
+      )}
+    >
       <form
         id={formId}
-        className="space-y-4"
+        className="space-y-5"
         onSubmit={(e) => {
           e.preventDefault();
           void save();
         }}
       >
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Type">
-            {(id) => (
-              <Select id={id} value={type} onChange={(e) => setType(e.target.value as ItemType)}>
-                <option value="basic">Question → answer</option>
-                <option value="cloze">Cloze (fill in the blank)</option>
-              </Select>
-            )}
-          </Field>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <p className="text-sm font-semibold" aria-hidden>
+              Type
+            </p>
+            <Segmented<ItemType>
+              legend="Type"
+              value={type}
+              onChange={setType}
+              options={[
+                { value: 'basic', label: 'Basic' },
+                { value: 'cloze', label: 'Cloze' },
+              ]}
+            />
+            <p className="text-[13px] leading-5 text-muted">
+              {type === 'basic'
+                ? 'A question on the front, its answer on the back.'
+                : 'Hide parts of a sentence or formula to fill in.'}
+            </p>
+          </div>
           <Field label="Topic">
             {(id) => (
-              <Select id={id} value={topicId} onChange={(e) => setTopicId(e.target.value)}>
-                {topicOptions.map(({ course, topics: ts }) => (
-                  <optgroup key={course.id} label={course.name}>
-                    {ts.map((t) => (
-                      <option key={t.id} value={t.id}>
-                        {t.parentId ? ` ${t.name}` : t.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </Select>
+              <Select
+                id={id}
+                value={topicId}
+                onChange={setTopicId}
+                groups={topicOptions.map(({ course, topics: ts }) => ({
+                  label: course.name,
+                  options: ts.map((t) => ({ value: t.id, label: t.name, indent: !!t.parentId })),
+                }))}
+              />
             )}
           </Field>
         </div>
@@ -286,7 +323,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
               title={s.title}
               onMouseDown={(e) => e.preventDefault()} // keep the textarea selection
               onClick={() => insert(s.insert)}
-              className="h-8 min-w-8 rounded-md border border-line bg-surface px-2 font-mono text-xs text-muted hover:border-line-strong hover:text-fg"
+              className="h-8 min-w-8 rounded-lg border border-line bg-bg px-2 font-mono text-xs text-muted transition-[color,border-color,transform] duration-150 hover:border-line-strong hover:text-fg active:scale-95"
             >
               {s.label}
             </button>
@@ -296,7 +333,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
               type="button"
               onMouseDown={(e) => e.preventDefault()}
               onClick={wrapCloze}
-              className="h-8 rounded-md border border-accent/40 bg-accent-soft px-2.5 text-xs font-medium text-accent"
+              className="h-8 rounded-lg border border-xp/40 bg-xp-soft px-2.5 text-xs font-bold text-xp-text transition-transform duration-150 active:scale-95"
               title="Wrap selection in a cloze deletion (Ctrl/⌘ + Shift + C)"
             >
               {'{{c::}}'} Cloze
@@ -334,15 +371,23 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
         <div>
           <button
             type="button"
-            className="text-sm font-medium text-accent hover:underline"
+            className="-ml-1 flex items-center gap-1 rounded-lg px-1 py-0.5 text-sm font-bold text-accent-text"
             onClick={() => setShowMore((v) => !v)}
             aria-expanded={showMore}
           >
+            <Icon
+              name="chevronRight"
+              size={16}
+              className={cn(
+                'transition-transform duration-(--spring-fast) ease-spring',
+                showMore && 'rotate-90',
+              )}
+            />
             {showMore ? 'Hide' : 'Add'} explanation, mnemonic & source
           </button>
         </div>
         {showMore && (
-          <div className="space-y-4">
+          <div className="animate-rise space-y-5">
             {textarea(
               'explanation',
               'Why / derivation',
@@ -368,14 +413,16 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
         </Field>
 
         {warnings.length > 0 && (
-          <ul className="space-y-1 rounded-lg bg-hard-soft px-3 py-2 text-xs text-hard">
-            {warnings.map((w) => (
-              <li key={w}>{w}</li>
-            ))}
-          </ul>
+          <Callout icon="alert" tone="streak">
+            <ul className="space-y-1">
+              {warnings.map((w) => (
+                <li key={w}>{w}</li>
+              ))}
+            </ul>
+          </Callout>
         )}
 
-        <div className="flex flex-wrap items-center gap-2 border-t border-line pt-4">
+        <div className="flex flex-wrap items-center gap-3 border-t border-line pt-5">
           <Button type="submit" variant="primary" disabled={saving}>
             {itemId ? 'Save' : 'Create'}
           </Button>
@@ -387,20 +434,26 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
           <Button variant="ghost" onClick={() => onDone(null, 'cancelled')}>
             Cancel
           </Button>
-          <span className="ml-auto hidden text-xs text-faint sm:inline">
-            <Kbd>⌘/Ctrl</Kbd> + <Kbd>Enter</Kbd> to save
-          </span>
           {itemId && (
-            <Button variant="danger" size="sm" onClick={() => void remove()}>
-              Delete
+            <Button variant="danger" size="sm" className="ml-auto" onClick={() => void remove()}>
+              <Icon name="trash" size={16} /> Delete
             </Button>
           )}
         </div>
+        <p className="-mt-2 hidden items-center gap-1 text-[13px] text-muted lg:flex">
+          <Kbd>⌘/Ctrl</Kbd> <Kbd>Enter</Kbd> to save
+          {!itemId && (
+            <>
+              {' '}
+              · add <Kbd>Shift</Kbd> to create another
+            </>
+          )}
+        </p>
       </form>
 
-      <aside aria-label="Preview" className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xs font-medium uppercase tracking-wide text-muted">Preview</h3>
+      <aside aria-label="Preview" className={cn('space-y-3', !compact && 'xl:sticky xl:top-12')}>
+        <div className="flex h-7 items-center justify-between">
+          <h3 className="text-sm font-bold text-muted">Preview</h3>
           {ordinals.length > 1 && (
             <div className="flex gap-1">
               {ordinals.map((n) => (
@@ -408,9 +461,10 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
                   key={n}
                   type="button"
                   onClick={() => setPreviewOrdinal(n)}
+                  aria-pressed={n === activeOrdinal}
                   className={cn(
-                    'h-6 min-w-6 rounded px-1.5 text-xs',
-                    n === activeOrdinal ? 'bg-accent text-accent-fg' : 'bg-surface-2 text-muted',
+                    'h-7 min-w-8 rounded-full px-2 text-xs font-bold transition-colors',
+                    n === activeOrdinal ? 'bg-fg text-bg' : 'bg-surface text-muted hover:text-fg',
                   )}
                 >
                   c{n}
@@ -450,9 +504,9 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
 
 function PreviewCard({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="rounded-xl border border-line bg-surface p-4">
-      <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-faint">{label}</div>
-      <div className="min-h-8 text-lg">{children}</div>
+    <div className="rounded-2xl border border-line bg-bg-alt p-5">
+      <div className="mb-2 text-xs font-bold text-muted">{label}</div>
+      <div className="min-h-8 text-lg font-medium">{children}</div>
     </div>
   );
 }

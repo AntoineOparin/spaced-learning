@@ -5,6 +5,7 @@ import { installContentPack } from '../../io/contentPack';
 import type { ContentPack } from '../../io/schema';
 import { Button } from '../../ui/Button';
 import { Dialog } from '../../ui/Dialog';
+import { Skeleton } from '../../ui/misc';
 import { useToast } from '../../ui/Toast';
 
 /**
@@ -95,49 +96,60 @@ export function InstallDeckDialog({
         </>
       }
     >
-      {error && <p className="text-sm text-again">Could not load the deck: {error}</p>}
-      {!pack && !error && <p className="text-sm text-muted">Loading…</p>}
+      {error && <p className="text-sm text-danger-text">Could not load the deck: {error}</p>}
+      {!pack && !error && (
+        <div className="space-y-2" role="status">
+          <span className="sr-only">Loading…</span>
+          {[0, 1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-14" />
+          ))}
+        </div>
+      )}
       {pack && (
         <fieldset>
           <legend className="sr-only">Topics to activate</legend>
-          <div className="mb-3 flex gap-2 text-xs">
-            <button
-              type="button"
-              className="text-accent hover:underline"
-              onClick={() => setSelected(new Set(topLevel.map((t) => t.key)))}
-            >
-              Select all
-            </button>
-            <span className="text-faint">·</span>
-            <button
-              type="button"
-              className="text-accent hover:underline"
-              onClick={() => setSelected(new Set())}
-            >
-              None
-            </button>
+          <div className="mb-3 flex items-center justify-between gap-2 text-[13px]">
+            <span className="font-medium text-muted tabular-nums">
+              {selected.size} of {topLevel.length} topics active
+            </span>
+            <span className="flex gap-1">
+              <button
+                type="button"
+                className="rounded-lg px-2 py-1 font-bold text-accent-text hover:bg-accent-soft"
+                onClick={() => setSelected(new Set(topLevel.map((t) => t.key)))}
+              >
+                Select all
+              </button>
+              <button
+                type="button"
+                className="rounded-lg px-2 py-1 font-bold text-accent-text hover:bg-accent-soft"
+                onClick={() => setSelected(new Set())}
+              >
+                None
+              </button>
+            </span>
           </div>
-          <ul className="space-y-1">
+          <ul className="space-y-2">
             {topLevel.map((t) => {
               const subs = pack.topics.filter((s) => s.parentKey === t.key);
               return (
                 <li key={t.key}>
-                  <label className="flex cursor-pointer items-start gap-3 rounded-lg px-2 py-2 hover:bg-surface-2">
+                  <label className="flex cursor-pointer items-start gap-3 rounded-xl border-2 border-line px-3.5 py-3 transition-colors hover:border-line-strong has-[:checked]:border-accent has-[:checked]:bg-accent-soft has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-(--ring)">
                     <input
                       type="checkbox"
-                      className="mt-1 size-4 accent-[var(--accent)]"
+                      className="mt-0.5 size-[18px] shrink-0 accent-(--accent-deep) focus-visible:outline-none"
                       checked={selected.has(t.key)}
                       onChange={() => toggle(t.key)}
                     />
                     <span className="flex-1">
-                      <span className="flex justify-between gap-2 text-sm font-medium">
+                      <span className="flex justify-between gap-2 text-[15px] font-bold">
                         {t.name}
-                        <span className="tabular-nums text-xs font-normal text-muted">
+                        <span className="shrink-0 text-xs font-medium text-muted tabular-nums">
                           {countFor(t.key)} items
                         </span>
                       </span>
                       {subs.length > 0 && (
-                        <span className="block text-xs text-muted">
+                        <span className="mt-0.5 block text-[13px] text-muted">
                           {subs.map((s) => s.name).join(' · ')}
                         </span>
                       )}

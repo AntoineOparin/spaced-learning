@@ -105,7 +105,7 @@ export const reviewLogSchema = z.object({
   learning_steps: z.number().int().nonnegative(),
   review: ts,
   durationMs: z.number().nonnegative(),
-  mode: z.enum(['reveal', 'typed']),
+  mode: z.enum(['reveal', 'typed', 'drawn']),
   ...sync,
 });
 

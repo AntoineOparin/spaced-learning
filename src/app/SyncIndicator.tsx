@@ -25,7 +25,7 @@ export function describeSync(state: SyncState): { label: string; tone: 'ok' | 'w
   }
 }
 
-export function SyncIndicator() {
+export function SyncIndicator({ variant = 'bar' }: { variant?: 'bar' | 'rail' }) {
   const state = useSyncState();
   const { label, tone } = describeSync(state);
   const offline = state.status === 'offline' || state.status === 'unavailable';
@@ -33,13 +33,22 @@ export function SyncIndicator() {
     <Link
       to="/settings#sync"
       className={cn(
-        'flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs transition-colors hover:bg-surface-2',
-        tone === 'warn' ? 'text-hard' : 'text-muted',
+        'flex items-center gap-2 rounded-xl text-[13px] font-medium transition-colors hover:bg-surface',
+        variant === 'rail' ? 'h-10 px-3' : 'h-9 px-2.5',
+        tone === 'warn' ? 'text-streak-text' : 'text-muted',
       )}
       title={state.error ?? label}
     >
-      <Icon name={offline ? 'cloudOff' : 'cloud'} size={16} />
-      <span className={cn(tone === 'ok' && 'hidden sm:inline')}>{label}</span>
+      <span className="relative">
+        <Icon name={offline ? 'cloudOff' : 'cloud'} size={18} />
+        {tone === 'ok' && (
+          <span
+            aria-hidden
+            className="absolute -right-0.5 -bottom-0.5 size-2 rounded-full bg-accent ring-2 ring-bg-alt"
+          />
+        )}
+      </span>
+      <span className={cn(variant === 'bar' && tone === 'ok' && 'sr-only')}>{label}</span>
     </Link>
   );
 }

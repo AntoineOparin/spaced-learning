@@ -4,7 +4,7 @@
 import { writeFileSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
 
-const BG = [67, 56, 202]; // indigo-700
+const BG = [88, 204, 2]; // leaf green (--accent)
 const FG = [255, 255, 255];
 
 // Bars on a 512 grid: [x, width, height], bottom-aligned at y = 384.

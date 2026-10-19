@@ -25,7 +25,9 @@ export function setThemePref(pref: ThemePref): void {
   } catch {
     // ignore: the choice just won't persist
   }
-  applyTheme(pref);
+  // Cross-fade instead of an abrupt brightness jump, where the browser supports it.
+  if (document.startViewTransition) document.startViewTransition(() => applyTheme(pref));
+  else applyTheme(pref);
 }
 
 /** Follow OS changes while the preference is "system". Returns an unsubscribe function. */

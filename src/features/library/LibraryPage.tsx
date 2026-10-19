@@ -1,5 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { RichText } from '../../content/RichText';
 import { db, repo } from '../../db/instance';
@@ -7,18 +7,35 @@ import { stripCloze } from '../../domain/cloze';
 import { endOfStudyDay } from '../../domain/day';
 import { formatInterval } from '../../domain/scheduler';
 import { isLeech } from '../../domain/stats';
-import { childTopics, curriculumOrder, subtreeIds, topicPath } from '../../domain/topics';
+import { curriculumOrder, subtreeIds, topicPath } from '../../domain/topics';
 import { type Card, CardState, type Course, type Item, type Topic } from '../../domain/types';
 import { Button, IconButton } from '../../ui/Button';
+import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
-import { Input, Select } from '../../ui/Field';
+import { Input, Switch } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
-import { Badge, EmptyState, PageHeader } from '../../ui/misc';
+import { Menu, type MenuItem } from '../../ui/Menu';
+import { Badge, type BadgeTone, EmptyState, PageHeader, Skeleton } from '../../ui/misc';
+import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { CourseDialog, TopicDialog } from './dialogs';
+import { TopicTree } from './TopicTree';
+import { courseKey, type TreeRow, topicKey } from './tree';
 
 type Filter = 'all' | 'new' | 'due' | 'suspended' | 'leech';
 const PAGE = 50;
+
+const FILTERS: { value: Filter; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'due', label: 'Due today' },
+  { value: 'new', label: 'New' },
+  { value: 'suspended', label: 'Suspended' },
+  { value: 'leech', label: 'Leeches' },
+];
+
+type DialogState =
+  | { kind: 'course'; course?: Course }
+  | { kind: 'topic'; courseId: string; parent?: Topic | null; topic?: Topic };
 
 const alive = <T extends { deletedAt?: number }>(rows: T[]) =>
   rows.filter((r) => r.deletedAt === undefined);
@@ -56,17 +73,17 @@ function CardBadges({
   return (
     <span className="flex flex-wrap gap-1">
       {cards.map((c) => {
-        let tone: Parameters<typeof Badge>[0]['tone'] = 'neutral';
+        let tone: BadgeTone = 'neutral';
         let label: string;
         if (c.suspended) label = 'Suspended';
         else if (c.state === CardState.New) {
-          tone = 'easy';
+          tone = 'xp';
           label = 'New';
         } else if (c.state !== CardState.Review) {
-          tone = 'hard';
+          tone = 'streak';
           label = 'Learning';
         } else if (c.due < dayEnd) {
-          tone = 'good';
+          tone = 'accent';
           label = 'Due';
         } else label = `in ${formatInterval(c.due - now)}`;
         const leech = isLeech(c, leechThreshold);
@@ -74,59 +91,11 @@ function CardBadges({
           <span key={c.id} className="flex gap-1">
             {cards.length > 1 && <Badge>{c.key}</Badge>}
             <Badge tone={tone}>{label}</Badge>
-            {leech && <Badge tone="again">Leech</Badge>}
+            {leech && <Badge tone="danger">Leech</Badge>}
           </span>
         );
       })}
     </span>
-  );
-}
-
-function TreeNode({
-  topic,
-  topics,
-  counts,
-  selected,
-  onSelect,
-}: {
-  topic: Topic;
-  topics: Topic[];
-  counts: Map<string, number>;
-  selected: string | null;
-  onSelect: (id: string) => void;
-}) {
-  const children = childTopics(topics, topic.id);
-  const count = [...subtreeIds(topics, topic.id)].reduce((n, id) => n + (counts.get(id) ?? 0), 0);
-  return (
-    <li>
-      <button
-        type="button"
-        onClick={() => onSelect(topic.id)}
-        aria-current={selected === topic.id ? 'true' : undefined}
-        className={cn(
-          'flex w-full items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-left text-sm',
-          selected === topic.id ? 'bg-accent-soft font-medium text-accent' : 'hover:bg-surface-2',
-          !topic.active && 'text-faint',
-        )}
-      >
-        <span className="truncate">{topic.name}</span>
-        <span className="text-xs tabular-nums text-faint">{count}</span>
-      </button>
-      {children.length > 0 && (
-        <ul className="ml-3 border-l border-line pl-2">
-          {children.map((c) => (
-            <TreeNode
-              key={c.id}
-              topic={c}
-              topics={topics}
-              counts={counts}
-              selected={selected}
-              onSelect={onSelect}
-            />
-          ))}
-        </ul>
-      )}
-    </li>
   );
 }
 
@@ -135,20 +104,28 @@ export default function LibraryPage() {
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
   const toast = useToast();
+  const confirm = useConfirm();
   const [query, setQuery] = useState(params.get('q') ?? '');
   const [filter, setFilter] = useState<Filter>('all');
   const [limit, setLimit] = useState(PAGE);
-  const [dialog, setDialog] = useState<
-    | { kind: 'course'; course?: Course }
-    | { kind: 'topic'; courseId: string; parent?: Topic | null; topic?: Topic }
-    | null
-  >(() => (params.get('new') === 'course' ? { kind: 'course' } : null));
+  // The dialog's content stays mounted while it animates closed; the key resets its form.
+  const [dialog, setDialog] = useState<DialogState | null>(() =>
+    params.get('new') === 'course' ? { kind: 'course' } : null,
+  );
+  const [dialogOpen, setDialogOpen] = useState(dialog !== null);
+  const [dialogKey, setDialogKey] = useState(0);
+  const openDialog = (next: DialogState) => {
+    setDialog(next);
+    setDialogKey((k) => k + 1);
+    setDialogOpen(true);
+  };
 
   const topicParam = params.get('topic');
   const selectedTopic = data?.topics.find((t) => t.id === topicParam) ?? null;
   const courseId = selectedTopic?.courseId ?? params.get('course') ?? data?.courses[0]?.id ?? null;
   const course = data?.courses.find((c) => c.id === courseId) ?? null;
 
+  const contentRef = useRef<HTMLElement>(null);
   const select = (next: { course?: string; topic?: string }) => {
     setLimit(PAGE);
     setParams(
@@ -224,7 +201,15 @@ export default function LibraryPage() {
       );
   }, [data, course, selectedTopic, query, filter, cardsByItem, dayEnd]);
 
-  if (!data) return <p className="py-12 text-center text-sm text-muted">Loading…</p>;
+  if (!data)
+    return (
+      <div className="space-y-6" role="status">
+        <span className="sr-only">Loading…</span>
+        <Skeleton className="h-9 w-40" />
+        <Skeleton className="h-11 w-full" />
+        <Skeleton className="h-72 w-full" />
+      </div>
+    );
 
   const toggleSuspend = async (item: Item) => {
     const cards = cardsByItem.get(item.id) ?? [];
@@ -241,31 +226,98 @@ export default function LibraryPage() {
       (s, id) => s + (itemCounts.get(id) ?? 0),
       0,
     );
-    if (
-      !window.confirm(
-        `Delete “${t.name}”${n ? ` and its ${n} items` : ''}? Review history is kept.`,
-      )
-    )
-      return;
+    const ok = await confirm({
+      title: `Delete “${t.name}”?`,
+      body: `${n ? `Its ${n} ${n === 1 ? 'item goes' : 'items go'} with it. ` : ''}Your review history is kept.`,
+      confirmLabel: 'Delete topic',
+    });
+    if (!ok) return;
     await repo.deleteTopic(t.id);
     select({ course: t.courseId });
   };
 
   const deleteCourse = async (c: Course) => {
-    if (
-      !window.confirm(
-        `Delete the course “${c.name}” with all its topics and items? Review history is kept.`,
-      )
-    )
-      return;
+    const ok = await confirm({
+      title: `Delete “${c.name}”?`,
+      body: 'All of its topics and items are deleted. Your review history is kept.',
+      confirmLabel: 'Delete course',
+    });
+    if (!ok) return;
     await repo.deleteCourse(c.id);
     select({});
   };
 
-  const roots = course
-    ? childTopics(data.topics, null).filter((t) => t.courseId === course.id)
-    : [];
+  /** Picking from the tree shows the new list from its top, even when scrolled far down. */
+  const showFromTree = (row: TreeRow) => {
+    select(row.kind === 'course' ? { course: row.id } : { topic: row.id });
+    const top = contentRef.current?.getBoundingClientRect().top ?? 0;
+    if (top < 0) window.scrollTo({ top: window.scrollY + top - 24 });
+  };
   const flatTopics = course ? curriculumOrder(data.topics, course.id) : [];
+  const newItem = () => navigate(`/items/new${selectedTopic ? `?topic=${selectedTopic.id}` : ''}`);
+
+  const topicActions: MenuItem[] = selectedTopic
+    ? [
+        ...(!selectedTopic.parentId && course
+          ? [
+              {
+                label: 'Add subtopic',
+                icon: 'plus' as const,
+                onSelect: () =>
+                  openDialog({ kind: 'topic', courseId: course.id, parent: selectedTopic }),
+              },
+            ]
+          : []),
+        {
+          label: 'Rename',
+          icon: 'edit',
+          onSelect: () =>
+            openDialog({ kind: 'topic', courseId: selectedTopic.courseId, topic: selectedTopic }),
+        },
+        {
+          label: 'Move up',
+          icon: 'chevronUp',
+          onSelect: () => void repo.moveTopic(selectedTopic.id, -1),
+        },
+        {
+          label: 'Move down',
+          icon: 'chevronDown',
+          onSelect: () => void repo.moveTopic(selectedTopic.id, 1),
+        },
+        {
+          label: 'Delete topic',
+          icon: 'trash',
+          danger: true,
+          onSelect: () => void deleteTopic(selectedTopic),
+        },
+      ]
+    : [];
+
+  const courseActions: MenuItem[] = course
+    ? [
+        {
+          label: 'Add topic',
+          icon: 'plus',
+          onSelect: () => openDialog({ kind: 'topic', courseId: course.id, parent: null }),
+        },
+        {
+          label: 'Course settings',
+          icon: 'settings',
+          onSelect: () => openDialog({ kind: 'course', course }),
+        },
+        {
+          label: course.archived ? 'Unarchive' : 'Archive',
+          icon: 'folder',
+          onSelect: () => void repo.updateCourse(course.id, { archived: !course.archived }),
+        },
+        {
+          label: 'Delete course',
+          icon: 'trash',
+          danger: true,
+          onSelect: () => void deleteCourse(course),
+        },
+      ]
+    : [];
 
   return (
     <div>
@@ -273,18 +325,12 @@ export default function LibraryPage() {
         title="Library"
         actions={
           <>
-            <Button onClick={() => setDialog({ kind: 'course' })}>
-              <Icon name="plus" /> Course
+            <Button onClick={() => openDialog({ kind: 'course' })}>
+              <Icon name="plus" /> New course
             </Button>
             {course && (
-              <Button
-                variant="primary"
-                disabled={flatTopics.length === 0}
-                onClick={() =>
-                  navigate(`/items/new${selectedTopic ? `?topic=${selectedTopic.id}` : ''}`)
-                }
-              >
-                <Icon name="plus" /> Item
+              <Button variant="primary" disabled={flatTopics.length === 0} onClick={newItem}>
+                <Icon name="plus" /> New item
               </Button>
             )}
           </>
@@ -294,233 +340,165 @@ export default function LibraryPage() {
       {data.courses.length === 0 ? (
         <EmptyState
           title="No courses yet"
+          icon="library"
           action={
-            <Button variant="primary" onClick={() => setDialog({ kind: 'course' })}>
+            <Button variant="primary" onClick={() => openDialog({ kind: 'course' })}>
               Create a course
             </Button>
           }
         >
-          Courses contain topics and subtopics, which contain your learning items.
+          Courses hold topics and subtopics, and topics hold your cards.
         </EmptyState>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[16rem_1fr]">
-          {/* Tree (desktop) / selectors (mobile) */}
-          <nav aria-label="Courses and topics" className="space-y-4">
-            <div className="flex gap-2 lg:hidden">
+        <div className="grid gap-8 xl:grid-cols-[16rem_minmax(0,1fr)]">
+          {/* Tree (wide screens) / pickers (everything else) */}
+          <nav aria-label="Library">
+            <div className="grid grid-cols-2 gap-3 xl:hidden">
               <Select
                 aria-label="Course"
                 value={course?.id ?? ''}
-                onChange={(e) => select({ course: e.target.value })}
-              >
-                {data.courses.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </Select>
+                onChange={(v) => select({ course: v })}
+                options={data.courses.map((c) => ({ value: c.id, label: c.name }))}
+              />
               <Select
                 aria-label="Topic"
                 value={selectedTopic?.id ?? ''}
-                onChange={(e) =>
-                  select(e.target.value ? { topic: e.target.value } : { course: course?.id })
-                }
-              >
-                <option value="">All topics</option>
-                {flatTopics.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.parentId ? ` ${t.name}` : t.name}
-                  </option>
-                ))}
-              </Select>
+                onChange={(v) => select(v ? { topic: v } : { course: course?.id })}
+                options={[
+                  { value: '', label: 'All topics' },
+                  ...flatTopics.map((t) => ({ value: t.id, label: t.name, indent: !!t.parentId })),
+                ]}
+              />
             </div>
 
-            <div className="hidden space-y-4 lg:block">
-              {data.courses.map((c) => (
-                <div key={c.id}>
-                  <button
-                    type="button"
-                    onClick={() => select({ course: c.id })}
-                    className={cn(
-                      'flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm font-semibold',
-                      c.id === course?.id && !selectedTopic
-                        ? 'bg-accent-soft text-accent'
-                        : 'hover:bg-surface-2',
-                    )}
-                  >
-                    <Icon name="folder" size={16} className="text-muted" />
-                    <span className="truncate">{c.name}</span>
-                    {c.archived && <Badge>archived</Badge>}
-                  </button>
-                  {c.id === course?.id && (
-                    <ul className="mt-1 space-y-0.5">
-                      {roots.map((t) => (
-                        <TreeNode
-                          key={t.id}
-                          topic={t}
-                          topics={data.topics}
-                          counts={itemCounts}
-                          selected={selectedTopic?.id ?? null}
-                          onSelect={(id) => select({ topic: id })}
-                        />
-                      ))}
-                      <li>
-                        <button
-                          type="button"
-                          onClick={() => setDialog({ kind: 'topic', courseId: c.id, parent: null })}
-                          className="flex items-center gap-1.5 px-2 py-1.5 text-sm text-muted hover:text-fg"
-                        >
-                          <Icon name="plus" size={14} /> Add topic
-                        </button>
-                      </li>
-                    </ul>
-                  )}
-                </div>
-              ))}
+            {/* The tree stays in view with its own scrolling while the item list scrolls. */}
+            <div className="sticky top-6 hidden xl:block">
+              <TopicTree
+                courses={data.courses}
+                topics={data.topics}
+                itemCounts={itemCounts}
+                selectedKey={
+                  selectedTopic ? topicKey(selectedTopic.id) : course ? courseKey(course.id) : ''
+                }
+                onSelect={showFromTree}
+                onAddTopic={() =>
+                  course && openDialog({ kind: 'topic', courseId: course.id, parent: null })
+                }
+                addTopicLabel={course ? `New topic in ${course.name}` : 'New topic'}
+              />
             </div>
           </nav>
 
-          <section className="min-w-0">
-            {/* Context toolbar for the selected course / topic */}
+          <section ref={contentRef} className="min-w-0">
+            {/* The selected course or topic, with its actions */}
             {course && (
-              <div className="mb-4 flex flex-wrap items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2">
-                <div className="w-full min-w-0 sm:w-auto sm:flex-1">
-                  <p className="truncate text-sm font-medium">
-                    {selectedTopic
-                      ? topicPath(data.topics, selectedTopic.id)
-                          .map((t) => t.name)
-                          .join(' › ')
-                      : course.name}
+              <div className="mb-6">
+                {selectedTopic && (
+                  <p className="mb-1 truncate text-[13px] font-medium text-muted">
+                    {[
+                      course.name,
+                      ...topicPath(data.topics, selectedTopic.id)
+                        .slice(0, -1)
+                        .map((t) => t.name),
+                    ].join(' › ')}
                   </p>
-                  {selectedTopic && (
-                    <p className="text-xs text-muted">
-                      {selectedTopic.active
-                        ? 'Active — new cards are introduced'
-                        : 'Inactive — no new cards until you activate it'}
-                    </p>
-                  )}
-                </div>
-                {selectedTopic ? (
-                  <>
-                    <Button
-                      size="sm"
-                      variant={selectedTopic.active ? 'secondary' : 'primary'}
-                      onClick={() =>
-                        void repo.setTopicActive(selectedTopic.id, !selectedTopic.active)
-                      }
-                    >
-                      {selectedTopic.active ? 'Deactivate' : 'Activate'}
-                    </Button>
-                    {!selectedTopic.parentId && (
-                      <Button
-                        size="sm"
-                        onClick={() =>
-                          setDialog({ kind: 'topic', courseId: course.id, parent: selectedTopic })
-                        }
-                      >
-                        <Icon name="plus" size={14} /> Subtopic
-                      </Button>
+                )}
+                <div className="flex items-start gap-2">
+                  <div className="min-w-0 flex-1">
+                    <h2 className="truncate text-2xl font-bold">
+                      {selectedTopic ? selectedTopic.name : course.name}
+                    </h2>
+                    {!selectedTopic && course.description && (
+                      <p className="mt-1 text-sm text-muted">{course.description}</p>
                     )}
-                    <IconButton
-                      label="Rename"
-                      onClick={() =>
-                        setDialog({ kind: 'topic', courseId: course.id, topic: selectedTopic })
+                  </div>
+                  <Button
+                    size="sm"
+                    aria-label={selectedTopic ? 'Study this topic' : 'Study this course'}
+                    onClick={() =>
+                      navigate(
+                        selectedTopic
+                          ? `/study?topic=${selectedTopic.id}`
+                          : `/study?course=${course.id}`,
+                      )
+                    }
+                  >
+                    <Icon name="play" size={16} fill="currentColor" /> Study
+                  </Button>
+                  <Menu
+                    label={selectedTopic ? 'Topic actions' : 'Course actions'}
+                    items={selectedTopic ? topicActions : courseActions}
+                  />
+                </div>
+                {selectedTopic && (
+                  <div className="mt-4 rounded-xl border border-line bg-bg-alt px-4 py-3.5">
+                    <Switch
+                      checked={selectedTopic.active}
+                      onChange={(v) => void repo.setTopicActive(selectedTopic.id, v)}
+                      label="Introduce new cards"
+                      description={
+                        selectedTopic.active
+                          ? 'New cards from this topic join your daily sessions.'
+                          : 'Paused: reviews continue, but no new cards are introduced.'
                       }
-                    >
-                      <Icon name="edit" />
-                    </IconButton>
-                    <IconButton
-                      label="Move up"
-                      onClick={() => void repo.moveTopic(selectedTopic.id, -1)}
-                    >
-                      <Icon name="chevronUp" />
-                    </IconButton>
-                    <IconButton
-                      label="Move down"
-                      onClick={() => void repo.moveTopic(selectedTopic.id, 1)}
-                    >
-                      <Icon name="chevronDown" />
-                    </IconButton>
-                    <IconButton
-                      label="Delete topic"
-                      onClick={() => void deleteTopic(selectedTopic)}
-                    >
-                      <Icon name="trash" />
-                    </IconButton>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      size="sm"
-                      onClick={() =>
-                        setDialog({ kind: 'topic', courseId: course.id, parent: null })
-                      }
-                      className="lg:hidden"
-                    >
-                      <Icon name="plus" size={14} /> Topic
-                    </Button>
-                    <Button size="sm" onClick={() => setDialog({ kind: 'course', course })}>
-                      Settings
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() =>
-                        void repo.updateCourse(course.id, { archived: !course.archived })
-                      }
-                    >
-                      {course.archived ? 'Unarchive' : 'Archive'}
-                    </Button>
-                    <IconButton label="Delete course" onClick={() => void deleteCourse(course)}>
-                      <Icon name="trash" />
-                    </IconButton>
-                  </>
+                    />
+                  </div>
                 )}
               </div>
             )}
 
-            <div className="mb-3 flex gap-2">
-              <div className="relative flex-1">
-                <Icon
-                  name="search"
-                  className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-faint"
-                />
-                <Input
-                  type="search"
-                  aria-label="Search items"
-                  placeholder="Search questions, answers, LaTeX, tags…"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
+            <div className="relative">
+              <Icon
+                name="search"
+                className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-dim"
+              />
+              <Input
+                type="search"
+                aria-label="Search items"
+                placeholder="Search questions, answers, LaTeX, tags…"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setLimit(PAGE);
+                }}
+                className="pl-10"
+              />
+            </div>
+            <fieldset className="-mx-4 mt-3 flex min-w-0 gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0">
+              <legend className="sr-only">Filter</legend>
+              {FILTERS.map((f) => (
+                <button
+                  key={f.value}
+                  type="button"
+                  aria-pressed={filter === f.value}
+                  onClick={() => {
+                    setFilter(f.value);
                     setLimit(PAGE);
                   }}
-                  className="pl-9"
-                />
-              </div>
-              <div className="w-32 shrink-0 sm:w-36">
-                <Select
-                  aria-label="Filter"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value as Filter)}
+                  className={cn(
+                    'h-9 shrink-0 rounded-full border px-3.5 text-sm font-semibold transition-colors',
+                    filter === f.value
+                      ? 'border-fg bg-fg text-bg'
+                      : 'border-line bg-bg text-muted hover:border-line-strong hover:text-fg',
+                  )}
                 >
-                  <option value="all">All</option>
-                  <option value="due">Due today</option>
-                  <option value="new">New</option>
-                  <option value="suspended">Suspended</option>
-                  <option value="leech">Leeches</option>
-                </Select>
-              </div>
-            </div>
+                  {f.label}
+                </button>
+              ))}
+            </fieldset>
 
-            <p className="mb-2 text-xs text-muted">
-              {visibleItems.length} item{visibleItems.length === 1 ? '' : 's'}
+            <p className="mt-5 mb-2 text-[13px] font-medium text-muted tabular-nums">
+              {visibleItems.length} {visibleItems.length === 1 ? 'item' : 'items'}
             </p>
 
             {flatTopics.length === 0 && course ? (
               <EmptyState
                 title="No topics yet"
+                icon="folder"
                 action={
                   <Button
                     variant="primary"
-                    onClick={() => setDialog({ kind: 'topic', courseId: course.id, parent: null })}
+                    onClick={() => openDialog({ kind: 'topic', courseId: course.id, parent: null })}
                   >
                     Add a topic
                   </Button>
@@ -529,20 +507,40 @@ export default function LibraryPage() {
                 Organise the course into topics (e.g. “Integration Techniques”), then add items.
               </EmptyState>
             ) : visibleItems.length === 0 ? (
-              <EmptyState
-                title={query || filter !== 'all' ? 'No matching items' : 'No items here yet'}
-              />
+              query || filter !== 'all' ? (
+                <EmptyState title="No matching items" icon="search">
+                  Try a different search or filter.
+                </EmptyState>
+              ) : (
+                <EmptyState
+                  title="No items here yet"
+                  icon="plus"
+                  action={
+                    <Button variant="primary" onClick={newItem}>
+                      Add an item
+                    </Button>
+                  }
+                >
+                  Write one card per idea — small cards are quicker to review.
+                </EmptyState>
+              )
             ) : (
-              <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
+              <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-bg-alt">
                 {visibleItems.slice(0, limit).map((item) => {
                   const cards = cardsByItem.get(item.id) ?? [];
                   const allSuspended = cards.length > 0 && cards.every((c) => c.suspended);
                   return (
-                    <li key={item.id} className="group flex gap-3 px-4 py-3">
-                      <Link to={`/items/${item.id}`} className="min-w-0 flex-1">
+                    <li
+                      key={item.id}
+                      className="group flex items-start transition-colors hover:bg-surface/50"
+                    >
+                      <Link to={`/items/${item.id}`} className="min-w-0 flex-1 px-4 py-3.5">
                         <RichText
                           source={stripCloze(item.fields.prompt)}
-                          className="line-clamp-3 text-sm"
+                          className={cn(
+                            'line-clamp-3 text-[15px] font-medium',
+                            allSuspended && 'text-muted',
+                          )}
                         />
                         {item.type === 'basic' && (
                           <RichText
@@ -550,7 +548,7 @@ export default function LibraryPage() {
                             className="mt-1 line-clamp-2 text-sm text-muted"
                           />
                         )}
-                        <div className="mt-2 flex flex-wrap items-center gap-2">
+                        <div className="mt-2.5 flex flex-wrap items-center gap-2">
                           <CardBadges
                             cards={cards}
                             now={now}
@@ -564,7 +562,7 @@ export default function LibraryPage() {
                           ))}
                         </div>
                       </Link>
-                      <div className="flex shrink-0 flex-col gap-1 sm:opacity-60 sm:group-hover:opacity-100">
+                      <div className="shrink-0 py-2 pr-2 transition-opacity [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-focus-within:opacity-100 [@media(hover:hover)]:group-hover:opacity-100">
                         <IconButton
                           label={allSuspended ? 'Unsuspend' : 'Suspend'}
                           onClick={() => void toggleSuspend(item)}
@@ -578,18 +576,8 @@ export default function LibraryPage() {
               </ul>
             )}
             {visibleItems.length > limit && (
-              <div className="mt-4 text-center">
-                <Button onClick={() => setLimit((l) => l + PAGE)}>Show more</Button>
-              </div>
-            )}
-            {selectedTopic && (
               <div className="mt-6 text-center">
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate(`/study?topic=${selectedTopic.id}`)}
-                >
-                  <Icon name="play" /> Study this topic
-                </Button>
+                <Button onClick={() => setLimit((l) => l + PAGE)}>Show more</Button>
               </div>
             )}
           </section>
@@ -598,19 +586,21 @@ export default function LibraryPage() {
 
       {dialog?.kind === 'course' && (
         <CourseDialog
-          open
+          key={dialogKey}
+          open={dialogOpen}
           course={dialog.course}
-          onClose={() => setDialog(null)}
+          onClose={() => setDialogOpen(false)}
           onCreated={(c) => select({ course: c.id })}
         />
       )}
       {dialog?.kind === 'topic' && (
         <TopicDialog
-          open
+          key={dialogKey}
+          open={dialogOpen}
           courseId={dialog.courseId}
           parent={dialog.parent}
           topic={dialog.topic}
-          onClose={() => setDialog(null)}
+          onClose={() => setDialogOpen(false)}
         />
       )}
     </div>

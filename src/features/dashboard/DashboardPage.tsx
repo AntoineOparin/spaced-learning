@@ -12,17 +12,20 @@ import {
   forecast,
   leeches,
   maturity,
+  type Streak,
+  studyStreak,
   trueRetention,
   weakestTopics,
 } from '../../domain/stats';
 import { topicPath } from '../../domain/topics';
 import type { Course, ReviewLog } from '../../domain/types';
 import { useSyncState } from '../../sync/manager';
-import { Button } from '../../ui/Button';
+import { Button, buttonClass } from '../../ui/Button';
+import { cn } from '../../ui/cn';
 import { Icon } from '../../ui/Icon';
-import { EmptyState, Kbd, Panel } from '../../ui/misc';
+import { Callout, Dot, EmptyState, Kbd, Panel, ProgressBar, Skeleton } from '../../ui/misc';
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
-import { ForecastChart, MaturityBar } from './charts';
+import { ForecastChart, MaturityBar, MaturityLegend } from './charts';
 
 const DAY = 86_400_000;
 const BACKUP_STALE_DAYS = 14;
@@ -30,6 +33,7 @@ const BACKUP_STALE_DAYS = 14;
 interface DashboardData {
   data: StudyData;
   recentLogs: ReviewLog[];
+  streak: Streak;
   now: number;
   lastExportAt: number | null;
   lastSyncAt: number | null;
@@ -46,9 +50,24 @@ function useDashboardData(): DashboardData | undefined {
         .aboveOrEqual(now - 30 * DAY)
         .toArray()
     ).filter((l) => l.deletedAt === undefined);
+    let streak = studyStreak(
+      recentLogs.map((l) => l.review),
+      now,
+      settings.dayStartHour,
+    );
+    if (streak.days >= 29) {
+      // Long streaks outrun the 30-day window: read just the review index keys. Undone
+      // reviews are counted here, which only matters on a day whose every review was undone.
+      const times = await db.reviewLogs
+        .where('review')
+        .aboveOrEqual(now - 3 * 365 * DAY)
+        .keys();
+      streak = studyStreak(times as number[], now, settings.dayStartHour);
+    }
     return {
       data,
       recentLogs,
+      streak,
       now,
       lastExportAt: (await repo.getMeta<number>(LAST_EXPORT_AT_KEY)) ?? null,
       lastSyncAt: (await repo.getMeta<number>(LAST_SYNC_AT_KEY)) ?? null,
@@ -61,61 +80,148 @@ function minutes(ms: number): string {
   return m < 1 ? '< 1 min' : `${m} min`;
 }
 
-function CountPills({
-  learning,
-  review,
-  fresh,
+function greeting(now: number): string {
+  const h = new Date(now).getHours();
+  if (h >= 5 && h < 12) return 'Good morning';
+  if (h >= 12 && h < 18) return 'Good afternoon';
+  return 'Good evening';
+}
+
+const QUEUE = [
+  { key: 'learning', label: 'learning', dot: 'bg-streak' },
+  { key: 'review', label: 'due', dot: 'bg-accent' },
+  { key: 'fresh', label: 'new', dot: 'bg-xp' },
+] as const;
+
+function QueueBreakdown({
+  counts,
+  className,
 }: {
-  learning: number;
-  review: number;
-  fresh: number;
+  counts: { learning: number; review: number; fresh: number };
+  className?: string;
 }) {
   return (
-    <span className="flex gap-3 text-sm tabular-nums">
-      <span title="Learning / relearning" className="text-hard">
-        {learning}
-        <span className="sr-only"> learning</span>
-      </span>
-      <span title="Reviews due" className="text-good">
-        {review}
-        <span className="sr-only"> reviews due</span>
-      </span>
-      <span title="New cards available today" className="text-easy">
-        {fresh}
-        <span className="sr-only"> new</span>
+    <ul className={cn('flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted', className)}>
+      {QUEUE.map((q) => (
+        <li key={q.key} className="flex items-center gap-1.5">
+          <Dot className={q.dot} />
+          <span className="font-bold text-fg tabular-nums">{counts[q.key]}</span>
+          {q.label}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function StreakBadge({ streak }: { streak: Streak }) {
+  if (streak.days === 0) return null;
+  return (
+    <span
+      title={streak.today ? 'You studied today' : 'Study today to keep your streak'}
+      className={cn(
+        'inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full pr-4 pl-3 text-[15px] font-extrabold tabular-nums',
+        streak.today ? 'bg-streak-soft text-streak-text' : 'bg-surface text-muted',
+      )}
+    >
+      <Icon
+        name="flame"
+        size={20}
+        fill="currentColor"
+        className={streak.today ? 'text-streak' : 'text-dim'}
+      />
+      {streak.days}
+      <span className="font-semibold">{streak.days === 1 ? 'day' : 'days'}</span>
+      <span className="sr-only">
+        study streak{streak.today ? '' : ' — study today to keep it going'}
       </span>
     </span>
   );
 }
 
+function Stat({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div>
+      <dt className="text-[13px] font-medium text-muted">{label}</dt>
+      <dd className="mt-0.5 text-2xl font-extrabold tabular-nums">{value}</dd>
+    </div>
+  );
+}
+
+/** Retention against target on a 50–100% scale, where the interesting differences live. */
+function RetentionMeter({ rate, target }: { rate: number; target: number }) {
+  const pos = (v: number) => `${Math.min(100, Math.max(0, ((v - 0.5) / 0.5) * 100))}%`;
+  return (
+    <div className="relative mt-4 h-2 rounded-full bg-surface" aria-hidden>
+      <div
+        className="absolute inset-y-0 left-0 rounded-full bg-accent"
+        style={{ width: pos(rate) }}
+      />
+      <div
+        className="absolute -top-1 -bottom-1 w-0.5 -translate-x-1/2 rounded-full bg-fg"
+        style={{ left: pos(target) }}
+      />
+    </div>
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div className="space-y-8" role="status">
+      <span className="sr-only">Loading…</span>
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-32" />
+        <Skeleton className="h-9 w-64" />
+      </div>
+      <Skeleton className="h-64 rounded-2xl" />
+      <Skeleton className="h-28" />
+    </div>
+  );
+}
+
 function Welcome() {
   const [installing, setInstalling] = useState(false);
+  const steps = [
+    ['Recall', 'Try to answer from memory before you look. The effort is what makes it stick.'],
+    ['Check', 'Reveal the answer and compare it with what you remembered.'],
+    ['Rate', 'Say how it went. FSRS schedules the card for just before you’d forget it.'],
+  ];
   return (
-    <div className="mx-auto max-w-2xl py-6">
-      <h1 className="text-3xl font-semibold tracking-tight">Welcome</h1>
-      <p className="mt-3 text-muted">
-        This app schedules reviews with <strong className="text-fg">FSRS</strong> so you study each
-        item just before you'd forget it. You recall the answer first, check it, then rate how well
-        you remembered.
+    <div className="mx-auto max-w-2xl md:py-4">
+      <img src="/favicon.svg" alt="" className="size-14 animate-pop" />
+      <h1 className="mt-6 text-4xl font-bold">Welcome to Spaced</h1>
+      <p className="mt-3 text-lg text-muted">
+        A few minutes a day keeps a whole course in memory. Here is how a review works:
       </p>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <Panel>
-          <h2 className="font-semibold">Start with Calculus 2</h2>
-          <p className="mt-1 text-sm text-muted">
-            About 200 curated items covering identities, integration techniques, convergence tests
-            and series.
+      <ol className="mt-8 space-y-5">
+        {steps.map(([title, body], i) => (
+          <li key={title} className="flex gap-4">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-extrabold text-accent-text">
+              {i + 1}
+            </span>
+            <p className="pt-1 text-[15px] text-muted">
+              <strong className="font-bold text-fg">{title}.</strong> {body}
+            </p>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <Panel className="flex flex-col">
+          <h2 className="text-lg font-bold">Start with Calculus 2</h2>
+          <p className="mt-1 mb-6 text-sm text-muted">
+            About 200 curated cards: identities, integration techniques, convergence tests and
+            series.
           </p>
-          <Button variant="primary" className="mt-4" onClick={() => setInstalling(true)}>
+          <Button variant="primary" className="mt-auto" onClick={() => setInstalling(true)}>
             Install starter deck
           </Button>
         </Panel>
-        <Panel>
-          <h2 className="font-semibold">Build your own</h2>
-          <p className="mt-1 text-sm text-muted">
-            Create a course, organise topics, and write your own cards.
+        <Panel className="flex flex-col">
+          <h2 className="text-lg font-bold">Build your own</h2>
+          <p className="mt-1 mb-6 text-sm text-muted">
+            Create a course, organise it into topics, and write your own cards.
           </p>
-          <Link to="/library?new=course" className="mt-4 inline-flex">
-            <Button tabIndex={-1}>Create a course</Button>
+          <Link to="/library?new=course" className={buttonClass('secondary', 'md', 'mt-auto')}>
+            Create a course
           </Link>
         </Panel>
       </div>
@@ -129,8 +235,8 @@ export function DashboardPage() {
   const sync = useSyncState();
   const navigate = useNavigate();
 
-  if (!dash) return <div className="py-12 text-center text-sm text-muted">Loading…</div>;
-  const { data, recentLogs, now } = dash;
+  if (!dash) return <DashboardSkeleton />;
+  const { data, recentLogs, now, streak } = dash;
   const { settings } = data;
   const activeCourses = data.courses.filter((c) => !c.archived).sort((a, b) => a.order - b.order);
   if (data.courses.length === 0) return <Welcome />;
@@ -149,6 +255,8 @@ export function DashboardPage() {
   // New cards typically need ~3 exposures on their first day (learning steps).
   const estimate = (all.review + all.learning + all.new * 3) * avgMs;
   const totalDue = all.review + all.learning;
+  const toStudy = totalDue + all.new;
+  const target = Math.round(settings.desiredRetention * 100);
 
   const leechList = leeches(liveCards, settings.leechThreshold).slice(0, 5);
   const itemById = new Map(data.items.map((i) => [i.id, i]));
@@ -158,250 +266,304 @@ export function DashboardPage() {
     sync.status === 'idle' ? (dash.lastSyncAt ?? 0) : 0,
   );
   const backupStale = now - lastBackup > BACKUP_STALE_DAYS * DAY;
+  const timeFormat = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' });
 
-  const courseRow = (course: Course) => {
+  const courseTile = (course: Course) => {
     const counts = queueCounts(buildQueueInput(data, { courseId: course.id }, IDLE_SESSION, now));
     const m = maturity(data.cards.filter((c) => c.courseId === course.id));
-    const empty = counts.review + counts.learning + counts.new === 0;
+    const parts = [
+      counts.learning && `${counts.learning} learning`,
+      counts.review && `${counts.review} due`,
+      counts.new && `${counts.new} new`,
+    ].filter(Boolean);
     return (
       <li
         key={course.id}
-        className="flex flex-col gap-3 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center"
+        className="rounded-xl border border-line bg-bg-alt p-4 transition-colors hover:border-line-strong sm:p-5"
       >
-        <div className="min-w-0 flex-1">
-          <div className="flex items-baseline justify-between gap-3">
+        <div className="flex items-center gap-4">
+          <div className="min-w-0 flex-1">
             <Link
               to={`/library?course=${course.id}`}
-              className="truncate font-medium hover:underline"
+              className="block truncate text-base font-bold decoration-line-strong decoration-2 underline-offset-4 hover:underline"
             >
               {course.name}
             </Link>
-            <CountPills learning={counts.learning} review={counts.review} fresh={counts.new} />
+            <p className="mt-0.5 text-[13px] text-muted">
+              {parts.length ? parts.join(' · ') : 'Nothing left today'}
+            </p>
           </div>
-          <div className="mt-2">
-            <MaturityBar m={m} showLegend={false} />
-          </div>
+          {parts.length ? (
+            <Button size="sm" onClick={() => navigate(`/study?course=${course.id}`)}>
+              Study
+            </Button>
+          ) : (
+            <span className="flex items-center gap-1 text-sm font-bold text-accent-text">
+              <Icon name="check" size={18} /> Done
+            </span>
+          )}
         </div>
-        <Button
-          size="sm"
-          variant={empty ? 'secondary' : 'primary'}
-          disabled={empty}
-          onClick={() => navigate(`/study?course=${course.id}`)}
-          className="sm:w-24"
-        >
-          {empty ? 'Done' : 'Study'}
-        </Button>
+        <div className="mt-4">
+          <MaturityBar m={m} showLegend={false} />
+        </div>
       </li>
     );
   };
 
   return (
-    <div className="space-y-6">
-      {/* Headline: what to do now */}
-      <section className="flex flex-col gap-5 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-muted">
+    <div className="space-y-8">
+      <header className="flex items-end justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-muted">
             {new Intl.DateTimeFormat(undefined, {
               weekday: 'long',
               month: 'long',
               day: 'numeric',
             }).format(now)}
           </p>
-          {totalDue + all.new > 0 ? (
-            <>
-              <p className="mt-1 text-5xl font-semibold tracking-tight">{totalDue + all.new}</p>
-              <p className="mt-1 text-sm text-muted">
-                cards to study · {totalDue} due · {all.new} new · about {minutes(estimate)}
+          <h1 className="mt-1 text-3xl font-bold">{greeting(now)}</h1>
+        </div>
+        <StreakBadge streak={streak} />
+      </header>
+
+      {/* The one thing to do now */}
+      <section
+        aria-labelledby="session-heading"
+        className="rounded-2xl border border-line bg-bg-alt p-6 sm:p-8"
+      >
+        {toStudy > 0 ? (
+          <>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 id="session-heading" className="text-sm font-semibold text-muted">
+                  Today’s session
+                </h2>
+                <p className="mt-2 flex items-baseline gap-2">
+                  <span className="text-5xl font-extrabold tabular-nums">{toStudy}</span>
+                  <span className="text-xl font-bold text-muted">
+                    {toStudy === 1 ? 'card' : 'cards'}
+                  </span>
+                </p>
+              </div>
+              <span className="flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-surface px-3 text-[13px] font-semibold text-muted">
+                <Icon name="clock" size={16} /> {minutes(estimate)}
+              </span>
+            </div>
+            <QueueBreakdown
+              counts={{ learning: all.learning, review: all.review, fresh: all.new }}
+              className="mt-3"
+            />
+            <div className="mt-7">
+              <ProgressBar value={today.reviewed / (today.reviewed + toStudy)} label="Today" />
+              <p className="mt-2 text-[13px] text-muted">
+                <span className="font-semibold text-fg tabular-nums">{today.reviewed}</span> of{' '}
+                {today.reviewed + toStudy} done today
               </p>
-            </>
-          ) : (
-            <>
-              <p className="mt-1 text-2xl font-semibold tracking-tight">All caught up</p>
-              <p className="mt-1 text-sm text-muted">
+            </div>
+            <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => navigate('/study')}
+                className="w-full sm:w-auto sm:min-w-56"
+              >
+                Start studying
+              </Button>
+              <span className="hidden items-center gap-1.5 text-[13px] text-muted lg:flex">
+                <Kbd>Space</Kbd> reveal <span className="text-dim">·</span> <Kbd>1</Kbd>–
+                <Kbd>4</Kbd> rate
+              </span>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-start gap-4">
+            <span className="flex size-12 shrink-0 animate-pop items-center justify-center rounded-2xl bg-accent-soft text-accent-text">
+              <Icon name="check" size={26} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 id="session-heading" className="text-2xl font-bold">
+                All caught up
+              </h2>
+              <p className="mt-1 text-muted">
                 {all.nextLearningDue
-                  ? `Next learning card at ${new Date(all.nextLearningDue).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}.`
-                  : `Tomorrow: ${upcoming[1] ?? 0} reviews.`}
+                  ? `Your next card is due at ${timeFormat.format(all.nextLearningDue)}.`
+                  : upcoming[1]
+                    ? `Come back tomorrow for ${upcoming[1]} ${upcoming[1] === 1 ? 'review' : 'reviews'}.`
+                    : 'Nothing is scheduled for tomorrow.'}
               </p>
-            </>
-          )}
-        </div>
-        <div className="flex flex-col items-stretch gap-2 sm:items-end">
-          <Button
-            variant="primary"
-            size="lg"
-            disabled={totalDue + all.new === 0}
-            onClick={() => navigate('/study')}
-            className="sm:min-w-44"
-          >
-            <Icon name="play" />
-            Study all
-          </Button>
-          <span className="hidden text-xs text-faint sm:block">
-            Shortcuts in session: <Kbd>Space</Kbd> reveal · <Kbd>1</Kbd>–<Kbd>4</Kbd> rate
-          </span>
-        </div>
+              {today.reviewed > 0 && (
+                <div className="mt-6">
+                  <ProgressBar value={1} label="Today" />
+                  <p className="mt-2 text-[13px] text-muted">
+                    <span className="font-semibold text-fg tabular-nums">{today.reviewed}</span>{' '}
+                    reviewed today
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </section>
 
       {backupStale &&
         (sync.status === 'unavailable' || sync.status === 'error' || sync.status === 'auth') && (
-          <div className="flex flex-wrap items-center gap-3 rounded-xl border border-hard/30 bg-hard-soft px-4 py-3 text-sm">
-            <Icon name="alert" className="text-hard" />
-            <span className="flex-1">
+          <Callout
+            icon="alert"
+            tone="streak"
+            action={
+              <Link to="/settings#backup" className={buttonClass('secondary', 'sm')}>
+                Back up now
+              </Link>
+            }
+          >
+            <p className="pt-0.5">
               {lastBackup
                 ? `No backup in the last ${BACKUP_STALE_DAYS} days.`
                 : 'Your progress has never been backed up.'}{' '}
-              {sync.status === 'auth'
-                ? 'Sign in to sync, or export a backup file.'
-                : 'Export a backup file to be safe.'}
-            </span>
-            <Link to="/settings#backup" className="font-medium text-accent hover:underline">
-              Back up now
-            </Link>
-          </div>
+              <span className="text-muted">
+                {sync.status === 'auth'
+                  ? 'Sign in to sync, or export a backup file.'
+                  : 'Export a backup file to be safe.'}
+              </span>
+            </p>
+          </Callout>
         )}
 
-      <div className="grid gap-6 lg:grid-cols-5">
-        <Panel
-          title="Courses"
-          className="lg:col-span-3"
-          action={
-            <span className="flex gap-3 text-xs text-muted">
-              <span className="text-hard">learning</span>
-              <span className="text-good">review</span>
-              <span className="text-easy">new</span>
-            </span>
-          }
-        >
-          {activeCourses.length ? (
-            <ul className="divide-y divide-line">{activeCourses.map(courseRow)}</ul>
-          ) : (
-            <EmptyState title="No active courses" />
-          )}
-        </Panel>
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_18rem]">
+        <div className="min-w-0 space-y-8">
+          <section aria-labelledby="courses-heading">
+            <h2 id="courses-heading" className="mb-3 text-xl font-bold">
+              Courses
+            </h2>
+            {activeCourses.length ? (
+              <>
+                <ul className="space-y-3">{activeCourses.map(courseTile)}</ul>
+                <MaturityLegend />
+              </>
+            ) : (
+              <EmptyState title="No active courses" icon="folder">
+                Archived courses live in the Library.
+              </EmptyState>
+            )}
+          </section>
 
-        <Panel title="Today" className="lg:col-span-2">
-          <dl className="grid grid-cols-2 gap-x-4 gap-y-4">
-            <div>
-              <dt className="text-xs text-muted">Reviewed</dt>
-              <dd className="text-2xl font-semibold">{today.reviewed}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-muted">Time</dt>
-              <dd className="text-2xl font-semibold">{minutes(today.timeMs)}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-muted">New learned</dt>
-              <dd className="text-2xl font-semibold">{today.newIntroduced}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-muted">Forgotten (Again)</dt>
-              <dd className="text-2xl font-semibold">{today.again}</dd>
-            </div>
-          </dl>
-        </Panel>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-5">
-        <Panel title="Upcoming reviews · 14 days" className="lg:col-span-3">
-          {upcoming.some((c) => c > 0) ? (
-            <ForecastChart counts={upcoming} start={dayStart} />
-          ) : (
-            <p className="text-sm text-muted">
-              Nothing scheduled yet. Cards you study will appear here when they come due.
-            </p>
-          )}
-        </Panel>
-
-        <Panel title="Retention · last 30 days" className="lg:col-span-2">
-          {retention.rate === null || retention.total < 10 ? (
-            <p className="text-sm text-muted">
-              Shown after about 10 reviews of graduated cards. Target:{' '}
-              {Math.round(settings.desiredRetention * 100)}%.
-            </p>
-          ) : (
-            <div>
-              <p className="text-4xl font-semibold">{Math.round(retention.rate * 100)}%</p>
-              <p className="mt-1 text-sm text-muted">
-                recalled in {retention.total} reviews · target{' '}
-                {Math.round(settings.desiredRetention * 100)}%
+          <Panel title="Coming up" action={<span className="text-xs text-muted">14 days</span>}>
+            {upcoming.some((c) => c > 0) ? (
+              <ForecastChart counts={upcoming} start={dayStart} />
+            ) : (
+              <p className="text-sm text-muted">
+                Nothing scheduled yet. Cards you study will show up here when they come due.
               </p>
-              <p className="mt-3 text-sm">
-                {retention.rate < settings.desiredRetention - 0.05
-                  ? 'Below target. Check the trouble spots below — rewriting or splitting hard cards helps more than extra reviews.'
-                  : retention.rate > settings.desiredRetention + 0.05
-                    ? 'Above target. You are remembering more than planned; intervals will grow accordingly.'
-                    : 'On target — the scheduler is calibrated for you.'}
-              </p>
-            </div>
-          )}
-        </Panel>
-      </div>
+            )}
+          </Panel>
 
-      {(leechList.length > 0 || weak.length > 0) && (
-        <Panel title="Trouble spots">
-          <div className="grid gap-6 md:grid-cols-2">
-            {leechList.length > 0 && (
+          {(leechList.length > 0 || weak.length > 0) && (
+            <Panel title="Trouble spots">
+              <div className="grid gap-8 md:grid-cols-2">
+                {leechList.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold">
+                      Forgotten {settings.leechThreshold}+ times
+                    </h3>
+                    <p className="mt-0.5 text-[13px] text-muted">
+                      Rewrite or split these — repetition alone isn’t working.
+                    </p>
+                    <ul className="mt-3 divide-y divide-line">
+                      {leechList.map((card) => {
+                        const item = itemById.get(card.itemId);
+                        return (
+                          <li
+                            key={card.id}
+                            className="flex items-center justify-between gap-3 py-2 text-sm"
+                          >
+                            <span className="truncate">
+                              {item ? stripCloze(item.fields.prompt).slice(0, 90) : '—'}
+                            </span>
+                            <Link
+                              to={`/items/${card.itemId}`}
+                              className="shrink-0 font-semibold text-accent-text hover:underline"
+                            >
+                              Edit · {card.fsrs.lapses}×
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+                {weak.length > 0 && (
+                  <div>
+                    <h3 className="text-sm font-bold">Weakest topics</h3>
+                    <p className="mt-0.5 text-[13px] text-muted">
+                      Highest share of forgotten reviews this month.
+                    </p>
+                    <ul className="mt-3 divide-y divide-line">
+                      {weak.map((t) => {
+                        const path = topicPath(data.topics, t.topicId);
+                        return (
+                          <li
+                            key={t.topicId}
+                            className="flex items-center justify-between gap-3 py-2 text-sm"
+                          >
+                            <Link
+                              to={`/library?topic=${t.topicId}`}
+                              className="truncate hover:underline"
+                            >
+                              {path.map((p) => p.name).join(' › ') || 'Unknown topic'}
+                            </Link>
+                            <span className="shrink-0 text-muted tabular-nums">
+                              {Math.round(t.lapseRate * 100)}% of {t.reviews}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </Panel>
+          )}
+        </div>
+
+        <aside className="grid content-start gap-6 sm:grid-cols-2 xl:grid-cols-1">
+          <Panel title="Today">
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-5">
+              <Stat label="Reviewed" value={today.reviewed} />
+              <Stat label="Time" value={minutes(today.timeMs)} />
+              <Stat label="New learned" value={today.newIntroduced} />
+              <Stat label="Forgotten" value={today.again} />
+            </dl>
+          </Panel>
+
+          <Panel title="Retention" action={<span className="text-xs text-muted">30 days</span>}>
+            {retention.rate === null || retention.total < 10 ? (
+              <p className="text-sm text-muted">
+                Appears after about 10 reviews of graduated cards. Your target is {target}%.
+              </p>
+            ) : (
               <div>
-                <h3 className="text-xs font-medium uppercase tracking-wide text-muted">
-                  Leeches (forgotten {settings.leechThreshold}+ times)
-                </h3>
-                <p className="mt-1 text-xs text-muted">
-                  Rewrite or split these — repetition alone isn't working.
+                <p className="flex items-baseline gap-2">
+                  <span className="text-4xl font-extrabold tabular-nums">
+                    {Math.round(retention.rate * 100)}%
+                  </span>
+                  <span className="text-sm text-muted">target {target}%</span>
                 </p>
-                <ul className="mt-3 space-y-2">
-                  {leechList.map((card) => {
-                    const item = itemById.get(card.itemId);
-                    return (
-                      <li key={card.id} className="flex items-center justify-between gap-3 text-sm">
-                        <span className="truncate">
-                          {item ? stripCloze(item.fields.prompt).slice(0, 90) : '—'}
-                        </span>
-                        <Link
-                          to={`/items/${card.itemId}`}
-                          className="shrink-0 text-accent hover:underline"
-                        >
-                          Edit · {card.fsrs.lapses}×
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <RetentionMeter rate={retention.rate} target={settings.desiredRetention} />
+                <p className="mt-4 text-sm text-muted">
+                  {retention.rate < settings.desiredRetention - 0.05
+                    ? 'Below target. Rewriting or splitting hard cards helps more than extra reviews.'
+                    : retention.rate > settings.desiredRetention + 0.05
+                      ? 'Above target. You remember more than planned, so intervals will grow.'
+                      : 'On target — the scheduler is calibrated for you.'}
+                </p>
+                <p className="mt-2 text-xs text-muted tabular-nums">
+                  Based on {retention.total} reviews
+                </p>
               </div>
             )}
-            {weak.length > 0 && (
-              <div>
-                <h3 className="text-xs font-medium uppercase tracking-wide text-muted">
-                  Weakest topics
-                </h3>
-                <p className="mt-1 text-xs text-muted">
-                  Highest share of forgotten reviews this month.
-                </p>
-                <ul className="mt-3 space-y-2">
-                  {weak.map((t) => {
-                    const path = topicPath(data.topics, t.topicId);
-                    return (
-                      <li
-                        key={t.topicId}
-                        className="flex items-center justify-between gap-3 text-sm"
-                      >
-                        <Link
-                          to={`/library?topic=${t.topicId}`}
-                          className="truncate hover:underline"
-                        >
-                          {path.map((p) => p.name).join(' › ') || 'Unknown topic'}
-                        </Link>
-                        <span className="shrink-0 tabular-nums text-muted">
-                          {Math.round(t.lapseRate * 100)}% of {t.reviews}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
-        </Panel>
-      )}
+          </Panel>
+        </aside>
+      </div>
     </div>
   );
 }

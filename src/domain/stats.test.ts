@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { DAY, HOUR, makeCard, makeLog, makeReviewCard, T0 } from '../test/factories';
 import { startOfStudyDay } from './day';
-import { daySummary, forecast, leeches, maturity, trueRetention, weakestTopics } from './stats';
+import {
+  daySummary,
+  forecast,
+  leeches,
+  maturity,
+  studyStreak,
+  trueRetention,
+  weakestTopics,
+} from './stats';
 
 describe('forecast', () => {
   it('buckets due cards by study day, folding overdue into today and skipping new/suspended', () => {
@@ -82,5 +90,35 @@ describe('weakestTopics', () => {
     const ranked = weakestTopics(logs, T0 - DAY);
     expect(ranked.map((t) => t.topicId)).toEqual(['hard', 'ok']);
     expect(ranked[0]?.lapseRate).toBe(0.5);
+  });
+});
+
+describe('studyStreak', () => {
+  const today = startOfStudyDay(T0, 4) + HOUR;
+
+  it('counts consecutive study days ending today', () => {
+    const times = [today, today - DAY, today - DAY + 60_000, today - 2 * DAY, today - 4 * DAY];
+    expect(studyStreak(times, today, 4)).toEqual({ days: 3, today: true });
+  });
+
+  it('keeps yesterday’s streak alive until today ends', () => {
+    expect(studyStreak([today - DAY, today - 2 * DAY], today, 4)).toEqual({
+      days: 2,
+      today: false,
+    });
+  });
+
+  it('is broken by a whole day without reviews', () => {
+    expect(studyStreak([today - 2 * DAY, today - 3 * DAY], today, 4)).toEqual({
+      days: 0,
+      today: false,
+    });
+    expect(studyStreak([], today, 4)).toEqual({ days: 0, today: false });
+  });
+
+  it('counts late-night reviews toward the previous study day', () => {
+    const start = startOfStudyDay(T0, 4);
+    // 3am belongs to yesterday's study day when the day starts at 4am.
+    expect(studyStreak([start - HOUR], start + HOUR, 4)).toEqual({ days: 1, today: false });
   });
 });

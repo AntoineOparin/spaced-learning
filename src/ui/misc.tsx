@@ -1,21 +1,25 @@
 import type { ReactNode } from 'react';
 import { cn } from './cn';
+import { Icon, type IconName } from './Icon';
 
 export function Kbd({
   children,
   className,
   onAccent = false,
+  small = false,
 }: {
   children: ReactNode;
   className?: string;
   /** For use inside an accent-coloured (primary) button. */
   onAccent?: boolean;
+  small?: boolean;
 }) {
   return (
     <kbd
       className={cn(
-        'inline-flex min-w-5 items-center justify-center rounded border px-1 font-mono text-[11px] leading-5',
-        onAccent ? 'border-accent-fg/40 text-accent-fg' : 'border-line bg-surface-2 text-muted',
+        'inline-flex items-center justify-center rounded-md border border-b-2 px-1 font-mono font-medium leading-none',
+        small ? 'h-4 min-w-4 text-[10px]' : 'h-5 min-w-5 text-[11px]',
+        onAccent ? 'border-on-accent/25 text-on-accent' : 'border-line-strong bg-bg text-muted',
         className,
       )}
     >
@@ -24,6 +28,7 @@ export function Kbd({
   );
 }
 
+/** A flat document surface (Notion): border-only depth, never a tactile shadow. */
 export function Panel({
   title,
   action,
@@ -36,10 +41,10 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <section className={cn('rounded-2xl border border-line bg-surface p-5', className)}>
+    <section className={cn('rounded-xl border border-line bg-bg-alt p-5 sm:p-6', className)}>
       {(title || action) && (
         <div className="mb-4 flex items-center justify-between gap-3">
-          {title && <h2 className="text-sm font-semibold">{title}</h2>}
+          {title && <h2 className="text-[15px] font-bold">{title}</h2>}
           {action}
         </div>
       )}
@@ -48,43 +53,78 @@ export function Panel({
   );
 }
 
-export function EmptyState({
-  title,
+/** A Notion callout: a quiet inline message with an icon. */
+export function Callout({
+  icon = 'info',
+  tone = 'neutral',
   children,
   action,
+  className,
 }: {
-  title: string;
-  children?: ReactNode;
+  icon?: IconName;
+  tone?: 'neutral' | 'streak' | 'accent';
+  children: ReactNode;
   action?: ReactNode;
+  className?: string;
 }) {
+  const iconTone = {
+    neutral: 'text-muted',
+    streak: 'text-streak-text',
+    accent: 'text-accent-text',
+  };
   return (
-    <div className="rounded-2xl border border-dashed border-line-strong px-6 py-10 text-center">
-      <p className="font-medium">{title}</p>
-      {children && <div className="mx-auto mt-1 max-w-md text-sm text-muted">{children}</div>}
-      {action && <div className="mt-4 flex justify-center gap-2">{action}</div>}
+    <div
+      className={cn(
+        'flex flex-wrap items-start gap-x-3 gap-y-2 rounded-xl border border-line bg-bg-alt px-4 py-3 text-sm',
+        className,
+      )}
+    >
+      <Icon name={icon} className={cn('mt-0.5 shrink-0', iconTone[tone])} />
+      <div className="min-w-0 flex-1">{children}</div>
+      {action && <div className="flex shrink-0 items-center gap-2">{action}</div>}
     </div>
   );
 }
 
-export function Badge({
+export function EmptyState({
+  title,
+  icon,
   children,
-  tone = 'neutral',
+  action,
 }: {
-  children: ReactNode;
-  tone?: 'neutral' | 'accent' | 'again' | 'hard' | 'good' | 'easy';
+  title: string;
+  icon?: IconName;
+  children?: ReactNode;
+  action?: ReactNode;
 }) {
-  const tones = {
-    neutral: 'bg-surface-2 text-muted',
-    accent: 'bg-accent-soft text-accent',
-    again: 'bg-again-soft text-again',
-    hard: 'bg-hard-soft text-hard',
-    good: 'bg-good-soft text-good',
-    easy: 'bg-easy-soft text-easy',
+  return (
+    <div className="rounded-xl border border-line bg-bg-alt px-6 py-12 text-center">
+      {icon && (
+        <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-2xl bg-surface text-muted">
+          <Icon name={icon} size={22} />
+        </div>
+      )}
+      <p className="text-base font-bold">{title}</p>
+      {children && <div className="mx-auto mt-1 max-w-sm text-sm text-muted">{children}</div>}
+      {action && <div className="mt-5 flex flex-wrap justify-center gap-3">{action}</div>}
+    </div>
+  );
+}
+
+export type BadgeTone = 'neutral' | 'accent' | 'danger' | 'streak' | 'xp';
+
+export function Badge({ children, tone = 'neutral' }: { children: ReactNode; tone?: BadgeTone }) {
+  const tones: Record<BadgeTone, string> = {
+    neutral: 'bg-surface text-muted',
+    accent: 'bg-accent-soft text-accent-text',
+    danger: 'bg-danger-soft text-danger-text',
+    streak: 'bg-streak-soft text-streak-text',
+    xp: 'bg-xp-soft text-xp-text',
   };
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium',
+        'inline-flex h-5 items-center rounded-md px-1.5 text-xs font-semibold',
         tones[tone],
       )}
     >
@@ -93,22 +133,80 @@ export function Badge({
   );
 }
 
+/** A coloured dot that carries identity next to a text label (never colour alone). */
+export function Dot({ className }: { className: string }) {
+  return (
+    <span aria-hidden className={cn('inline-block size-2 shrink-0 rounded-full', className)} />
+  );
+}
+
 export function PageHeader({
   title,
   subtitle,
   actions,
+  back,
 }: {
   title: ReactNode;
   subtitle?: ReactNode;
   actions?: ReactNode;
+  back?: ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-muted">{subtitle}</p>}
+    <div className="mb-8">
+      {back && <div className="mb-3">{back}</div>}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-3xl font-bold">{title}</h1>
+          {subtitle && <p className="mt-1.5 max-w-prose text-[15px] text-muted">{subtitle}</p>}
+        </div>
+        {actions && <div className="flex flex-wrap gap-3">{actions}</div>}
       </div>
-      {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
+    </div>
+  );
+}
+
+export function ProgressBar({
+  value,
+  label,
+  size = 'md',
+  className,
+}: {
+  /** 0–1 */
+  value: number;
+  label: string;
+  size?: 'sm' | 'md';
+  className?: string;
+}) {
+  const pct = Math.min(1, Math.max(0, Number.isFinite(value) ? value : 0));
+  return (
+    <div
+      role="progressbar"
+      aria-label={label}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(pct * 100)}
+      className={cn('progress', size === 'md' ? 'h-3' : 'h-2', className)}
+    >
+      <div className="progress-fill" style={{ transform: `translateX(${(pct - 1) * 100}%)` }} />
+    </div>
+  );
+}
+
+export function Skeleton({ className }: { className?: string }) {
+  return <div aria-hidden className={cn('skeleton', className)} />;
+}
+
+/** Generic page placeholder while a route or its data loads. */
+export function PageSkeleton() {
+  return (
+    <div className="space-y-6" role="status">
+      <span className="sr-only">Loading…</span>
+      <Skeleton className="h-9 w-48" />
+      <Skeleton className="h-40 w-full" />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Skeleton className="h-28" />
+        <Skeleton className="h-28" />
+      </div>
     </div>
   );
 }

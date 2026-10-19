@@ -43,7 +43,8 @@ export interface Topic extends SyncFields {
 }
 
 export type ItemType = 'basic' | 'cloze';
-export type AnswerMode = 'reveal' | 'typed';
+/** How the answer was attempted before revealing it. */
+export type AnswerMode = 'reveal' | 'typed' | 'drawn';
 
 export interface ItemFields {
   /** basic: the question. cloze: text containing {{cN::...}} deletions. */
@@ -68,7 +69,8 @@ export interface Item extends SyncFields {
   topicId: Id;
   type: ItemType;
   fields: ItemFields;
-  options: { reverse?: boolean; answerMode?: AnswerMode };
+  /** answerMode is an item's suggested default; drawing is only ever a personal choice. */
+  options: { reverse?: boolean; answerMode?: Exclude<AnswerMode, 'drawn'> };
   tags: string[];
   order: number;
   origin?: ItemOrigin;

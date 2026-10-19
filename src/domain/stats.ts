@@ -128,3 +128,31 @@ export function weakestTopics(
     .map(([topicId, e]) => ({ topicId, ...e, lapseRate: e.lapses / e.reviews }))
     .sort((a, b) => b.lapseRate - a.lapseRate);
 }
+
+export interface Streak {
+  /** Consecutive study days with at least one review, ending today or yesterday. */
+  days: number;
+  /** Whether today already counts. If not, the streak is alive until today ends. */
+  today: boolean;
+}
+
+/**
+ * The current study streak from review timestamps (pass only non-deleted reviews). A streak
+ * survives until a whole study day passes without a review, so it isn't "broken" in the
+ * morning before you've had a chance to study.
+ */
+export function studyStreak(
+  reviewTimes: Iterable<number>,
+  now: number,
+  dayStartHour: number,
+): Streak {
+  const daysAgo = new Set<number>();
+  for (const t of reviewTimes) {
+    const d = studyDaysBetween(t, now, dayStartHour);
+    if (d >= 0) daysAgo.add(d);
+  }
+  const today = daysAgo.has(0);
+  let days = 0;
+  for (let d = today ? 0 : 1; daysAgo.has(d); d++) days++;
+  return { days, today };
+}
