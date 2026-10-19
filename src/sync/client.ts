@@ -116,28 +116,39 @@ export async function countDirty(db: AppDB): Promise<number> {
 }
 
 async function pushAll(db: AppDB, transport: SyncTransport): Promise<number> {
-  const dirty: WireRecord[] = [];
-  for (const name of SYNCED_TABLES) {
-    const rows = await table(db, name).where('dirty').equals(1).toArray();
-    for (const row of rows) dirty.push(toWire(name, row));
-  }
+  const perTable = await Promise.all(
+    SYNCED_TABLES.map((name) => table(db, name).where('dirty').equals(1).toArray()),
+  );
+  const dirty = SYNCED_TABLES.flatMap((name, i) =>
+    (perTable[i] ?? []).map((row) => toWire(name, row)),
+  );
 
   for (let i = 0; i < dirty.length; i += PUSH_BATCH) {
     const batch = dirty.slice(i, i + PUSH_BATCH);
     await transport.push(batch);
-    const tables = SYNCED_TABLES.map((t) => table(db, t));
-    await db.transaction('rw', tables, async () => {
-      for (const rec of batch) {
-        const t = table(db, rec.tbl);
-        const current = await t.get(rec.id);
-        // Only mark clean if nothing changed while the request was in flight.
-        if (current && current.updatedAt === rec.updatedAt && current.dirty === 1) {
-          await t.update(rec.id, { dirty: 0 });
-        }
-      }
-    });
+    await markClean(db, batch);
   }
   return dirty.length;
+}
+
+/** Clears `dirty` on pushed rows, unless they changed while the request was in flight. */
+async function markClean(db: AppDB, batch: readonly WireRecord[]): Promise<void> {
+  const tables = SYNCED_TABLES.map((t) => table(db, t));
+  await db.transaction('rw', tables, async () => {
+    for (const name of SYNCED_TABLES) {
+      const pushed = batch.filter((r) => r.tbl === name);
+      if (!pushed.length) continue;
+      const t = table(db, name);
+      const current = await t.bulkGet(pushed.map((r) => r.id));
+      const clean = current
+        .filter(
+          (row, j): row is SyncRow =>
+            !!row && row.dirty === 1 && row.updatedAt === pushed[j]?.updatedAt,
+        )
+        .map((row) => ({ ...row, dirty: 0 as const }));
+      if (clean.length) await t.bulkPut(clean);
+    }
+  });
 }
 
 export interface SyncResult {

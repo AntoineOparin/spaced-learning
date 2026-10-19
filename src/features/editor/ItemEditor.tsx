@@ -1,5 +1,13 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
+import {
+  type ReactNode,
+  useDeferredValue,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { RichText } from '../../content/RichText';
 import { itemErrors, qualityWarnings } from '../../content/validate';
 import { useCourses, useTopics } from '../../db/hooks';
@@ -114,9 +122,14 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
   }, [topicId, topics, courses]);
 
   // KaTeX results are cached, so validating on every keystroke is cheap.
-  const draft = { type, fields: cleanFields(fields) };
-  const errors = itemErrors(draft);
-  const warnings = qualityWarnings(draft);
+  // Validation renders KaTeX for every cloze variant: let it trail typing by a frame. (Saving
+  // re-validates the current fields, so a stale result can never let bad content through.)
+  const deferredType = useDeferredValue(type);
+  const deferredFields = useDeferredValue(fields);
+  const { errors, warnings } = useMemo(() => {
+    const draft = { type: deferredType, fields: cleanFields(deferredFields) };
+    return { errors: itemErrors(draft), warnings: qualityWarnings(draft) };
+  }, [deferredType, deferredFields]);
   const ordinals = type === 'cloze' ? clozeOrdinals(fields.prompt) : [];
   const activeOrdinal = ordinals.includes(previewOrdinal) ? previewOrdinal : (ordinals[0] ?? 1);
   const errorFor = (key: FieldKey) => {
@@ -161,6 +174,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
 
   const save = async (addAnother = false) => {
     setTouched(true);
+    const errors = itemErrors({ type, fields: cleanFields(fields) });
     if (errors.length || !topicId) {
       toast({
         tone: 'error',

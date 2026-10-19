@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DAY, HOUR, makeCard, makeLog, makeReviewCard, T0 } from '../test/factories';
-import { startOfStudyDay } from './day';
+import { startOfStudyDay, studyDaysBetween } from './day';
 import {
   daySummary,
   forecast,
@@ -120,5 +120,59 @@ describe('studyStreak', () => {
     const start = startOfStudyDay(T0, 4);
     // 3am belongs to yesterday's study day when the day starts at 4am.
     expect(studyStreak([start - HOUR], start + HOUR, 4)).toEqual({ days: 1, today: false });
+  });
+});
+
+describe('fast streak and forecast agree with the per-timestamp definitions', () => {
+  // The original, obviously-correct versions: one calendar computation per timestamp.
+  const refStreak = (times: number[], now: number, h: number) => {
+    const daysAgo = new Set(times.map((t) => studyDaysBetween(t, now, h)).filter((d) => d >= 0));
+    const today = daysAgo.has(0);
+    let days = 0;
+    for (let d = today ? 0 : 1; daysAgo.has(d); d++) days++;
+    return { days, today };
+  };
+  const refForecast = (dues: number[], now: number, h: number, days: number) => {
+    const out = new Array<number>(days).fill(0);
+    for (const due of dues) {
+      const offset = Math.max(0, studyDaysBetween(now, due, h));
+      if (offset < days) out[offset] = (out[offset] ?? 0) + 1;
+    }
+    return out;
+  };
+  let seed = 7;
+  const rand = () => {
+    seed = (seed * 16807) % 2147483647;
+    return seed / 2147483647;
+  };
+  // Around both 2026 daylight-saving changes, plus a late-night "now".
+  const nows = [
+    new Date(2026, 2, 30, 9).getTime(),
+    new Date(2026, 9, 27, 2).getTime(),
+    new Date(2026, 10, 3, 23).getTime(),
+  ];
+
+  it('studyStreak', () => {
+    for (const now of nows)
+      for (let trial = 0; trial < 60; trial++) {
+        const times: number[] = [];
+        for (let d = -1; d < 45; d++) if (rand() < 0.85) times.push(now - d * DAY - rand() * DAY);
+        expect(studyStreak(times, now, 4)).toEqual(refStreak(times, now, 4));
+      }
+  });
+
+  it('forecast', () => {
+    for (const now of nows)
+      for (let trial = 0; trial < 20; trial++) {
+        const dues = Array.from({ length: 80 }, () => now + (rand() * 24 - 4) * DAY);
+        expect(
+          forecast(
+            dues.map((d) => makeReviewCard(d)),
+            now,
+            4,
+            14,
+          ),
+        ).toEqual(refForecast(dues, now, 4, 14));
+      }
   });
 });

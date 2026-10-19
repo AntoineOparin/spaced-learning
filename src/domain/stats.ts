@@ -1,5 +1,5 @@
 /** Dashboard metrics. Pure functions over cards and review logs. */
-import { studyDaysBetween } from './day';
+import { studyDayStartOffset } from './day';
 import { alive, type Card, CardState, Rating, type ReviewLog } from './types';
 
 const MATURE_DAYS = 21;
@@ -15,10 +15,14 @@ export function forecast(
   days: number,
 ): number[] {
   const out = new Array<number>(days).fill(0);
+  // Day boundaries once (start of tomorrow, the day after, …) instead of date maths per card.
+  const bounds = Array.from({ length: days }, (_, k) =>
+    studyDayStartOffset(now, dayStartHour, k + 1),
+  );
   for (const card of alive(cards)) {
     if (card.suspended || card.state === CardState.New) continue;
-    const offset = Math.max(0, studyDaysBetween(now, card.due, dayStartHour));
-    if (offset < days) out[offset] = (out[offset] ?? 0) + 1;
+    const offset = bounds.findIndex((b) => card.due < b);
+    if (offset !== -1) out[offset] = (out[offset] ?? 0) + 1;
   }
   return out;
 }
@@ -142,13 +146,25 @@ export function studyStreak(
   now: number,
   dayStartHour: number,
 ): Streak {
-  const daysAgo = new Set<number>();
-  for (const t of reviewTimes) {
-    const d = studyDaysBetween(t, now, dayStartHour);
-    if (d >= 0) daysAgo.add(d);
-  }
-  const today = daysAgo.has(0);
+  // Walk back from the newest review, one study day at a time, and stop at the first gap. Day
+  // boundaries come from the same calendar arithmetic as everywhere else (DST-safe).
+  const end = studyDayStartOffset(now, dayStartHour, 1);
+  const times = Array.from(reviewTimes)
+    .filter((t) => t < end)
+    .sort((a, b) => b - a); // input is usually sorted already, which makes this linear
+  let day = 0; // days ago of the window [start, previous start)
+  let start = studyDayStartOffset(now, dayStartHour, 0);
+  let expected = 0; // the next day the streak needs
   let days = 0;
-  for (let d = today ? 0 : 1; daysAgo.has(d); d++) days++;
+  let today = false;
+  for (const t of times) {
+    while (t < start) start = studyDayStartOffset(now, dayStartHour, -++day);
+    if (day < expected) continue; // another review on a day already counted
+    if (day === expected || (expected === 0 && day === 1)) {
+      if (day === 0) today = true;
+      days++;
+      expected = day + 1;
+    } else break;
+  }
   return { days, today };
 }

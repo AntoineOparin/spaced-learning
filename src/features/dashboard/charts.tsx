@@ -2,7 +2,14 @@
  * Small hand-built charts. Single-series columns (no legend; the title names it) and a stacked
  * maturity bar (ordinal green ramp + legend). Every chart has a screen-reader table.
  */
-import { type KeyboardEvent, type PointerEvent, useLayoutEffect, useRef, useState } from 'react';
+import {
+  type KeyboardEvent,
+  type PointerEvent,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { DAY } from '../../domain/day';
 import type { Maturity } from '../../domain/stats';
 import { cn } from '../../ui/cn';
@@ -60,17 +67,23 @@ export function ForecastChart({ counts, start }: { counts: number[]; start: numb
   const barW = Math.max(6, Math.min(24, slot * 0.6));
   const max = Math.max(1, ...counts);
   const peak = counts.indexOf(Math.max(...counts));
-  const dates = counts.map((_, i) => new Date(start + i * DAY));
+  const dates = useMemo(() => counts.map((_, i) => new Date(start + i * DAY)), [counts, start]);
   const nameFor = (i: number) =>
     i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : FULL_DATE.format(dates[i]);
 
-  const family = ref.current ? getComputedStyle(ref.current).fontFamily : 'system-ui';
-  const days: AxisDay[] = dates.map((d, i) => ({
-    short: SHORT.format(d),
-    narrow: NARROW.format(d),
-    isToday: i === 0,
-  }));
-  const labels = axisLabels(days, slot, (text, bold) => measureLabel(text, bold, family));
+  // Label text and fit only change with the days or the width, not on hover.
+  const [family, setFamily] = useState('system-ui');
+  useLayoutEffect(() => {
+    if (ref.current) setFamily(getComputedStyle(ref.current).fontFamily);
+  }, [ref]);
+  const labels = useMemo(() => {
+    const days: AxisDay[] = dates.map((d, i) => ({
+      short: SHORT.format(d),
+      narrow: NARROW.format(d),
+      isToday: i === 0,
+    }));
+    return axisLabels(days, slot, (text, bold) => measureLabel(text, bold, family));
+  }, [dates, slot, family]);
 
   const columnAt = (clientX: number, el: Element) => {
     const x = clientX - el.getBoundingClientRect().left;

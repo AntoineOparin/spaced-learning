@@ -11,9 +11,20 @@ export function getThemePref(): ThemePref {
   return v === 'light' || v === 'dark' ? v : 'system';
 }
 
+const themeListeners = new Set<() => void>();
+
+/** Called after every theme application (e.g. a canvas re-reading its colours). */
+export function onThemeChange(listener: () => void): () => void {
+  themeListeners.add(listener);
+  return () => {
+    themeListeners.delete(listener);
+  };
+}
+
 export function applyTheme(pref: ThemePref = getThemePref()): void {
   const dark = pref === 'dark' || (pref === 'system' && media().matches);
   document.documentElement.classList.toggle('dark', dark);
+  for (const l of themeListeners) l();
 }
 
 export function setThemePref(pref: ThemePref): void {

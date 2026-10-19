@@ -221,7 +221,7 @@ export default function StudyPage() {
   useEffect(() => {
     if (!cardId) return;
     setTyped('');
-    setStrokes([]);
+    setStrokes((s) => (s.length ? [] : s)); // a fresh [] would re-render for nothing
     if (mode === 'typed') requestAnimationFrame(() => inputRef.current?.focus());
   }, [cardId, mode]);
 

@@ -109,28 +109,32 @@ ON CONFLICT (tbl, id) DO UPDATE SET
   data = excluded.data
 WHERE excluded.updated_at > records.updated_at`;
 
-function chunk(records: WireRecord[]): string[] {
-  const chunks: string[] = [];
-  let current: unknown[] = [];
+/**
+ * Splits rows into JSON arrays under MAX_CHUNK_BYTES. Each row is serialised once; a chunk is
+ * `[` + rows joined by `,` + `]`, byte-identical to JSON.stringify of the array.
+ */
+function chunk(records: WireRecord[]): { json: string; count: number }[] {
+  const chunks: { json: string; count: number }[] = [];
+  let rows: string[] = [];
   let size = 2;
+  const flush = () => {
+    chunks.push({ json: `[${rows.join(',')}]`, count: rows.length });
+    rows = [];
+    size = 2;
+  };
   for (const r of records) {
-    const row = {
+    const row = JSON.stringify({
       tbl: r.tbl,
       id: r.id,
       updatedAt: r.updatedAt,
       deleted: r.deleted ? 1 : 0,
       data: JSON.stringify(r.data),
-    };
-    const rowSize = JSON.stringify(row).length + 1;
-    if (current.length && size + rowSize > MAX_CHUNK_BYTES) {
-      chunks.push(JSON.stringify(current));
-      current = [];
-      size = 2;
-    }
-    current.push(row);
-    size += rowSize;
+    });
+    if (rows.length && size + row.length + 1 > MAX_CHUNK_BYTES) flush();
+    rows.push(row);
+    size += row.length + 1;
   }
-  if (current.length) chunks.push(JSON.stringify(current));
+  if (rows.length) flush();
   return chunks;
 }
 
@@ -140,8 +144,7 @@ export async function pushRecords(db: SqlDb, records: WireRecord[]): Promise<voi
   const statements: SqlStatement[] = [
     db.prepare(`INSERT OR IGNORE INTO meta (k, v) VALUES ('seq', 0)`),
   ];
-  for (const json of chunk(records)) {
-    const count = (JSON.parse(json) as unknown[]).length;
+  for (const { json, count } of chunk(records)) {
     statements.push(db.prepare(UPSERT_SQL).bind(json));
     statements.push(db.prepare(`UPDATE meta SET v = v + ?1 WHERE k = 'seq'`).bind(count));
   }

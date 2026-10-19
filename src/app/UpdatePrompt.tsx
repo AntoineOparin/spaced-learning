@@ -1,20 +1,40 @@
-import { useRegisterSW } from 'virtual:pwa-register/react';
+import { registerSW } from 'virtual:pwa-register';
+import { useSyncExternalStore } from 'react';
+import { HOUR } from '../domain/day';
 import { Button } from '../ui/Button';
 import { Callout } from '../ui/misc';
 
-/** Offers to reload when a new app version is ready (never forced mid-session). */
-export function UpdatePrompt() {
-  const {
-    needRefresh: [needRefresh, setNeedRefresh],
-    updateServiceWorker,
-  } = useRegisterSW({
+/*
+ * The service worker is registered once for the app's lifetime, not per mount: the shell remounts
+ * after every study session, and each registration used to add another hourly update timer.
+ */
+let needRefresh = false;
+let updateSW: ((reloadPage?: boolean) => Promise<void>) | undefined;
+const listeners = new Set<() => void>();
+
+function setNeedRefresh(value: boolean) {
+  needRefresh = value;
+  for (const l of listeners) l();
+}
+
+function subscribe(listener: () => void) {
+  updateSW ??= registerSW({
+    onNeedRefresh: () => setNeedRefresh(true),
     onRegisteredSW(_url, registration) {
       // Check for updates hourly while the app stays open.
-      if (registration) setInterval(() => void registration.update(), 60 * 60 * 1000);
+      if (registration) setInterval(() => void registration.update(), HOUR);
     },
   });
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
 
-  if (!needRefresh) return null;
+/** Offers to reload when a new app version is ready (never forced mid-session). */
+export function UpdatePrompt() {
+  const show = useSyncExternalStore(subscribe, () => needRefresh);
+  if (!show) return null;
   return (
     <Callout
       icon="sparkles"
@@ -24,7 +44,7 @@ export function UpdatePrompt() {
           <Button size="sm" variant="ghost" onClick={() => setNeedRefresh(false)}>
             Later
           </Button>
-          <Button size="sm" variant="primary" onClick={() => void updateServiceWorker(true)}>
+          <Button size="sm" variant="primary" onClick={() => void updateSW?.(true)}>
             Reload
           </Button>
         </>

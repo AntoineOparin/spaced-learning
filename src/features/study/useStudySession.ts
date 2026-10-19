@@ -2,7 +2,7 @@
  * Study session state machine: question → (reveal) → answer → (rate) → next question.
  * Data is loaded once per session; the queue is recomputed after every answer.
  */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   buildQueueInput,
   loadStudyData,
@@ -234,7 +234,12 @@ export function useStudySession(scope: Scope) {
     [data, current, session, choose],
   );
 
-  const counts = data ? queueCounts(buildQueueInput(data, scope, session, Date.now())) : null;
+  // Counts don't depend on the clock within a study day (learning cards count whether due now or
+  // later today), so they only need recomputing when the data or session changes.
+  const counts = useMemo(
+    () => (data ? queueCounts(buildQueueInput(data, scope, session, Date.now())) : null),
+    [data, scope, session],
+  );
 
   return {
     data,

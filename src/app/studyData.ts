@@ -48,14 +48,24 @@ export async function loadStudyData(
   return db.transaction(
     'r',
     [db.courses, db.topics, db.items, db.cards, db.reviewLogs],
-    async () => ({
-      settings,
-      courses: alive(await db.courses.toArray()),
-      topics: alive(await db.topics.toArray()),
-      items: alive(await db.items.toArray()),
-      cards: alive(await db.cards.toArray()),
-      todayLogs: alive(await db.reviewLogs.where('review').aboveOrEqual(dayStart).toArray()),
-    }),
+    async () => {
+      // Independent reads, issued together so IndexedDB can pipeline them.
+      const [courses, topics, items, cards, todayLogs] = await Promise.all([
+        db.courses.toArray(),
+        db.topics.toArray(),
+        db.items.toArray(),
+        db.cards.toArray(),
+        db.reviewLogs.where('review').aboveOrEqual(dayStart).toArray(),
+      ]);
+      return {
+        settings,
+        courses: alive(courses),
+        topics: alive(topics),
+        items: alive(items),
+        cards: alive(cards),
+        todayLogs: alive(todayLogs),
+      };
+    },
   );
 }
 
@@ -98,12 +108,18 @@ export function buildQueueInput(
     return s;
   };
 
+  // The curriculum ranking sorts every item, and only ordered queues need it: build it lazily.
+  let rank: ((card: Card) => number) | undefined;
+
   return {
     now,
     dayEnd: endOfStudyDay(now, settings.dayStartHour),
     cards: scopeCards(data, scope),
     isTopicActive: (topicId) => active.has(topicId),
-    newRank: buildNewRank(data.courses, data.topics, data.items),
+    newRank: (card) => {
+      rank ??= buildNewRank(data.courses, data.topics, data.items);
+      return rank(card);
+    },
     newRemaining: (courseId) => {
       const limit = courseById.get(courseId)?.newPerDay ?? settings.newPerDay;
       return Math.max(0, limit - (introduced.get(courseId) ?? 0));

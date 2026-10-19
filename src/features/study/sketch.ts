@@ -12,7 +12,7 @@ export type Stroke = Point[];
 
 export const STROKE_WIDTH = 2.5;
 
-const mid = (a: Point, b: Point): Point => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
+export const mid = (a: Point, b: Point): Point => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
 const fmt = (p: Point) => `${round(p.x)} ${round(p.y)}`;
 const round = (n: number) => Math.round(n * 10) / 10;
 
@@ -30,6 +30,25 @@ export function strokePath(points: readonly Point[]): string {
     d += `Q${fmt(p)} ${fmt(mid(p, next))}`;
   }
   return `${d}L${fmt(points[points.length - 1] as Point)}`;
+}
+
+/**
+ * The piece of `strokePath(points)` added when the stroke reached `n` samples (2 ≤ n), so a live
+ * canvas can draw incrementally and still match the full path exactly.
+ */
+export function strokeSegment(points: readonly Point[], n: number): string {
+  const a = points[n - 3];
+  const b = points[n - 2] as Point;
+  const c = points[n - 1] as Point;
+  if (!a) return `M${fmt(b)}L${fmt(mid(b, c))}`;
+  return `M${fmt(mid(a, b))}Q${fmt(b)} ${fmt(mid(b, c))}`;
+}
+
+/** The final piece of `strokePath(points)`: from the last midpoint to the last sample. */
+export function strokeEnd(points: readonly Point[]): string {
+  const b = points[points.length - 2];
+  const c = points[points.length - 1];
+  return b && c ? `M${fmt(mid(b, c))}L${fmt(c)}` : '';
 }
 
 /** Bounding box of all strokes, or null when there is nothing drawn. */

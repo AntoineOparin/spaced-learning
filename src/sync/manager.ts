@@ -4,7 +4,7 @@
  * visible and there are local changes, the end of a study session, and "Sync now".
  */
 import { useSyncExternalStore } from 'react';
-import { db } from '../db/instance';
+import { db, repo } from '../db/instance';
 import { LAST_SYNC_AT_KEY } from '../db/metaKeys';
 import { MINUTE } from '../domain/day';
 import { errorMessage } from '../lib/errors';
@@ -50,8 +50,11 @@ class SyncManager {
   }
 
   async refreshPending(): Promise<void> {
-    const [pending, last] = await Promise.all([countDirty(db), db.meta.get(LAST_SYNC_AT_KEY)]);
-    this.set({ pending, lastSyncAt: (last?.value as number | undefined) ?? null });
+    const [pending, last] = await Promise.all([
+      countDirty(db),
+      repo.getMeta<number>(LAST_SYNC_AT_KEY),
+    ]);
+    this.set({ pending, lastSyncAt: last ?? null });
   }
 
   /** Runs a sync; concurrent calls coalesce into one follow-up run. */

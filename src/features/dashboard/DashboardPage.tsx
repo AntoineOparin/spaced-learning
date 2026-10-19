@@ -1,9 +1,15 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { buildQueueInput, IDLE_SESSION, loadStudyData, type StudyData } from '../../app/studyData';
+import {
+  buildQueueInput,
+  IDLE_SESSION,
+  loadStudyData,
+  type StudyData,
+  scopeCards,
+} from '../../app/studyData';
 import { db, repo } from '../../db/instance';
-import { LAST_EXPORT_AT_KEY, LAST_SYNC_AT_KEY } from '../../db/metaKeys';
+import { LAST_EXPORT_AT_KEY } from '../../db/metaKeys';
 import { stripCloze } from '../../domain/cloze';
 import { DAY, MINUTE, startOfStudyDay } from '../../domain/day';
 import { queueCounts } from '../../domain/queue';
@@ -18,7 +24,7 @@ import {
   weakestTopics,
 } from '../../domain/stats';
 import { TRAIL_SEPARATOR, topicTrail } from '../../domain/topics';
-import { alive, type Course, type ReviewLog } from '../../domain/types';
+import { alive, type ReviewLog } from '../../domain/types';
 import { useSyncState } from '../../sync/manager';
 import { Button, buttonClass } from '../../ui/Button';
 import { cn } from '../../ui/cn';
@@ -34,8 +40,6 @@ interface DashboardData {
   recentLogs: ReviewLog[];
   streak: Streak;
   now: number;
-  lastExportAt: number | null;
-  lastSyncAt: number | null;
 }
 
 function useDashboardData(): DashboardData | undefined {
@@ -63,15 +67,51 @@ function useDashboardData(): DashboardData | undefined {
         .keys();
       streak = studyStreak(times as number[], now, settings.dayStartHour);
     }
-    return {
-      data,
-      recentLogs,
-      streak,
-      now,
-      lastExportAt: (await repo.getMeta<number>(LAST_EXPORT_AT_KEY)) ?? null,
-      lastSyncAt: (await repo.getMeta<number>(LAST_SYNC_AT_KEY)) ?? null,
-    };
+    return { data, recentLogs, streak, now };
   }, []);
+}
+
+/** null when never exported; undefined while loading. */
+function useLastExportAt(): number | null | undefined {
+  return useLiveQuery(async () => (await repo.getMeta<number>(LAST_EXPORT_AT_KEY)) ?? null, []);
+}
+
+const TIME_FORMAT = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' });
+const DATE_FORMAT = new Intl.DateTimeFormat(undefined, {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+});
+
+/** Everything the page shows, computed once per data change rather than on every render. */
+function deriveDashboard({ data, recentLogs, now }: DashboardData) {
+  const { settings } = data;
+  const all = queueCounts(buildQueueInput(data, {}, IDLE_SESSION, now));
+  const dayStart = startOfStudyDay(now, settings.dayStartHour);
+  const liveCards = scopeCards(data, {});
+  const durations = recentLogs.filter((l) => l.durationMs > 0).map((l) => l.durationMs);
+  const avgMs = durations.length ? durations.reduce((a, b) => a + b, 0) / durations.length : 10_000;
+  const courses = data.courses
+    .filter((c) => !c.archived)
+    .sort((a, b) => a.order - b.order)
+    .map((course) => ({
+      course,
+      counts: queueCounts(buildQueueInput(data, { courseId: course.id }, IDLE_SESSION, now)),
+      maturity: maturity(data.cards.filter((c) => c.courseId === course.id)),
+    }));
+  return {
+    all,
+    dayStart,
+    courses,
+    today: daySummary(data.todayLogs, dayStart),
+    upcoming: forecast(liveCards, now, settings.dayStartHour, 14),
+    retention: trueRetention(recentLogs, now - 30 * DAY),
+    // New cards typically need ~3 exposures on their first day (learning steps).
+    estimate: (all.review + all.learning + all.new * 3) * avgMs,
+    leechList: leeches(liveCards, settings.leechThreshold).slice(0, 5),
+    itemById: new Map(data.items.map((i) => [i.id, i])),
+    weak: weakestTopics(recentLogs, now - 30 * DAY).slice(0, 3),
+  };
 }
 
 function minutes(ms: number): string {
@@ -232,44 +272,26 @@ function Welcome() {
 export function DashboardPage() {
   const dash = useDashboardData();
   const sync = useSyncState();
+  const lastExportAt = useLastExportAt();
   const navigate = useNavigate();
+  const view = useMemo(() => (dash ? deriveDashboard(dash) : null), [dash]);
 
-  if (!dash) return <DashboardSkeleton />;
-  const { data, recentLogs, now, streak } = dash;
+  if (!dash || !view) return <DashboardSkeleton />;
+  const { data, now, streak } = dash;
   const { settings } = data;
-  const activeCourses = data.courses.filter((c) => !c.archived).sort((a, b) => a.order - b.order);
   if (data.courses.length === 0) return <Welcome />;
 
-  const all = queueCounts(buildQueueInput(data, {}, IDLE_SESSION, now));
-  const dayStart = startOfStudyDay(now, settings.dayStartHour);
-  const today = daySummary(data.todayLogs, dayStart);
-  const archived = new Set(data.courses.filter((c) => c.archived).map((c) => c.id));
-  const liveCards = data.cards.filter((c) => !archived.has(c.courseId));
-  const upcoming = forecast(liveCards, now, settings.dayStartHour, 14);
-  const retention = trueRetention(recentLogs, now - 30 * DAY);
-  const reviewDurations = recentLogs.filter((l) => l.durationMs > 0).map((l) => l.durationMs);
-  const avgMs = reviewDurations.length
-    ? reviewDurations.reduce((a, b) => a + b, 0) / reviewDurations.length
-    : 10_000;
-  // New cards typically need ~3 exposures on their first day (learning steps).
-  const estimate = (all.review + all.learning + all.new * 3) * avgMs;
+  const { all, dayStart, today, upcoming, retention, estimate, leechList, itemById, weak } = view;
   const totalDue = all.review + all.learning;
   const toStudy = totalDue + all.new;
   const target = Math.round(settings.desiredRetention * 100);
-
-  const leechList = leeches(liveCards, settings.leechThreshold).slice(0, 5);
-  const itemById = new Map(data.items.map((i) => [i.id, i]));
-  const weak = weakestTopics(recentLogs, now - 30 * DAY).slice(0, 3);
   const lastBackup = Math.max(
-    dash.lastExportAt ?? 0,
-    sync.status === 'idle' ? (dash.lastSyncAt ?? 0) : 0,
+    lastExportAt ?? 0,
+    sync.status === 'idle' ? (sync.lastSyncAt ?? 0) : 0,
   );
-  const backupStale = now - lastBackup > BACKUP_STALE_DAYS * DAY;
-  const timeFormat = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' });
+  const backupStale = lastExportAt !== undefined && now - lastBackup > BACKUP_STALE_DAYS * DAY;
 
-  const courseTile = (course: Course) => {
-    const counts = queueCounts(buildQueueInput(data, { courseId: course.id }, IDLE_SESSION, now));
-    const m = maturity(data.cards.filter((c) => c.courseId === course.id));
+  const courseTile = ({ course, counts, maturity: m }: (typeof view.courses)[number]) => {
     const parts = [
       counts.learning && `${counts.learning} learning`,
       counts.review && `${counts.review} due`,
@@ -313,13 +335,7 @@ export function DashboardPage() {
     <div className="space-y-8">
       <header className="flex items-end justify-between gap-4">
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-muted">
-            {new Intl.DateTimeFormat(undefined, {
-              weekday: 'long',
-              month: 'long',
-              day: 'numeric',
-            }).format(now)}
-          </p>
+          <p className="text-sm font-semibold text-muted">{DATE_FORMAT.format(now)}</p>
           <h1 className="mt-1 text-3xl font-bold">{greeting(now)}</h1>
         </div>
         <StreakBadge streak={streak} />
@@ -385,7 +401,7 @@ export function DashboardPage() {
               </h2>
               <p className="mt-1 text-muted">
                 {all.nextLearningDue
-                  ? `Your next card is due at ${timeFormat.format(all.nextLearningDue)}.`
+                  ? `Your next card is due at ${TIME_FORMAT.format(all.nextLearningDue)}.`
                   : upcoming[1]
                     ? `Come back tomorrow for ${upcoming[1]} ${upcoming[1] === 1 ? 'review' : 'reviews'}.`
                     : 'Nothing is scheduled for tomorrow.'}
@@ -434,9 +450,9 @@ export function DashboardPage() {
             <h2 id="courses-heading" className="mb-3 text-xl font-bold">
               Courses
             </h2>
-            {activeCourses.length ? (
+            {view.courses.length ? (
               <>
-                <ul className="space-y-3">{activeCourses.map(courseTile)}</ul>
+                <ul className="space-y-3">{view.courses.map(courseTile)}</ul>
                 <MaturityLegend />
               </>
             ) : (

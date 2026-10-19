@@ -70,7 +70,12 @@ function isLearning(card: Card): boolean {
   return card.state === CardState.Learning || card.state === CardState.Relearning;
 }
 
-export function classify(input: QueueInput): QueueSnapshot {
+/**
+ * Buckets the cards in scope. With `ordered: false` (enough for counts) the review and new-card
+ * lists come back unsorted: their lengths don't depend on order, and skipping the ordering saves
+ * a retrievability computation per review and the curriculum ranking.
+ */
+export function classify(input: QueueInput, { ordered = true } = {}): QueueSnapshot {
   const { now, dayEnd, answeredToday } = input;
   const learningDue: Card[] = [];
   const learningLater: Card[] = [];
@@ -96,15 +101,19 @@ export function classify(input: QueueInput): QueueSnapshot {
   learningDue.sort((a, b) => a.due - b.due);
   learningLater.sort((a, b) => a.due - b.due);
 
-  const keyed = reviewCandidates.map((card) => ({
-    card,
-    bucket: Math.floor(input.retrievability(card) * R_BUCKET),
-    tie: hash(`${input.seed}:${card.id}`),
-  }));
-  keyed.sort((a, b) => a.bucket - b.bucket || a.tie - b.tie);
-  const reviews = keyed.map((k) => k.card);
+  let reviews = reviewCandidates;
+  if (ordered) {
+    const keyed = reviewCandidates.map((card) => ({
+      card,
+      bucket: Math.floor(input.retrievability(card) * R_BUCKET),
+      tie: hash(`${input.seed}:${card.id}`),
+    }));
+    keyed.sort((a, b) => a.bucket - b.bucket || a.tie - b.tie);
+    reviews = keyed.map((k) => k.card);
 
-  newCandidates.sort((a, b) => input.newRank(a) - input.newRank(b));
+    const rank = new Map(newCandidates.map((c) => [c.id, input.newRank(c)] as const));
+    newCandidates.sort((a, b) => (rank.get(a.id) ?? 0) - (rank.get(b.id) ?? 0));
+  }
   const used = new Map<string, number>();
   const news: Card[] = [];
   // Siblings of an item must not both be introduced today: keep only the first card per item.
@@ -163,7 +172,7 @@ export interface QueueCounts {
 }
 
 export function queueCounts(input: QueueInput): QueueCounts {
-  const snap = classify(input);
+  const snap = classify(input, { ordered: false });
   return {
     learning: snap.learningDue.length + snap.learningLater.length,
     review: snap.reviews.length,
