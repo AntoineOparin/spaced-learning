@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { describeSync } from '../../app/SyncIndicator';
 import { BUNDLED_DECKS } from '../../content/decks';
@@ -9,6 +9,7 @@ import type { Settings, StepUnit } from '../../domain/types';
 import { backupFileName, exportBackup, restoreBackup, summarizeBackup } from '../../io/backup';
 import { installContentPack } from '../../io/contentPack';
 import { type BackupFile, backupSchema, contentPackSchema, parseJson } from '../../io/schema';
+import { errorMessage } from '../../lib/errors';
 import { downloadJson } from '../../lib/files';
 import {
   formatBytes,
@@ -22,7 +23,7 @@ import { Button, buttonClass } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
-import { Input, Segmented, Switch } from '../../ui/Field';
+import { hintText, Input, Segmented, Switch, useFieldIds } from '../../ui/Field';
 import { Icon, type IconName } from '../../ui/Icon';
 import { PageHeader } from '../../ui/misc';
 import { Select } from '../../ui/Select';
@@ -75,17 +76,14 @@ function Row({
   hint,
   children,
   stacked = false,
-  className,
 }: {
   label: ReactNode;
   hint?: ReactNode;
   /** Receives the id to put on the control and the id of the hint for aria-describedby. */
   children?: ReactNode | ((id: string, describedBy: string | undefined) => ReactNode);
   stacked?: boolean;
-  className?: string;
 }) {
-  const id = useId();
-  const hintId = hint ? `${id}-hint` : undefined;
+  const { id, hintId } = useFieldIds(hint);
   const control = typeof children === 'function' ? children(id, hintId) : children;
   const labelled = typeof children === 'function';
   return (
@@ -93,7 +91,6 @@ function Row({
       className={cn(
         'flex flex-col gap-3 px-5 py-4',
         !stacked && 'sm:flex-row sm:items-center sm:justify-between sm:gap-6',
-        className,
       )}
     >
       <div className="min-w-0">
@@ -105,7 +102,7 @@ function Row({
           <p className="text-[15px] font-semibold">{label}</p>
         )}
         {hint && (
-          <p id={hintId} className="mt-0.5 text-[13px] leading-5 text-muted">
+          <p id={hintId} className={cn('mt-0.5', hintText)}>
             {hint}
           </p>
         )}
@@ -157,7 +154,6 @@ function StudySettings({ settings }: { settings: Settings }) {
           </span>
         }
         hint="The chance of recalling a card when it comes due. 90% is a good default; each extra point costs noticeably more reviews. Courses can override this."
-        className="[&>div:first-child]:w-full"
       >
         {(id, d) => (
           <input
@@ -353,7 +349,7 @@ function DataSections() {
     } catch (err) {
       toast({
         tone: 'error',
-        message: `Import failed: ${err instanceof Error ? err.message : err}`,
+        message: `Import failed: ${errorMessage(err)}`,
       });
     }
   };
@@ -388,7 +384,7 @@ function DataSections() {
             {sync.error}
           </p>
         )}
-        <p className="px-5 py-4 text-[13px] leading-5 text-muted">
+        <p className={cn('px-5 py-4', hintText)}>
           Your data lives on this device first. Sync copies changes to your private Cloudflare
           database, so your other devices — and a reinstalled app — get them too. Studying works
           offline.

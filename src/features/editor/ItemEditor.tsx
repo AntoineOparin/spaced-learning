@@ -7,10 +7,11 @@ import { db, repo } from '../../db/instance';
 import { clozeOrdinals } from '../../domain/cloze';
 import { curriculumOrder } from '../../domain/topics';
 import type { Item, ItemFields, ItemType } from '../../domain/types';
+import { errorMessage } from '../../lib/errors';
 import { Button } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
-import { Field, Input, Segmented, Switch, Textarea } from '../../ui/Field';
+import { Field, hintText, Input, Segmented, Switch, Textarea } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
 import { Callout, EmptyState, Kbd, Skeleton } from '../../ui/misc';
 import { Select } from '../../ui/Select';
@@ -191,7 +192,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
     } catch (err) {
       toast({
         tone: 'error',
-        message: `Could not save: ${err instanceof Error ? err.message : err}`,
+        message: `Could not save: ${errorMessage(err)}`,
       });
     } finally {
       setSaving(false);
@@ -294,7 +295,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
                 { value: 'cloze', label: 'Cloze' },
               ]}
             />
-            <p className="text-[13px] leading-5 text-muted">
+            <p className={hintText}>
               {type === 'basic'
                 ? 'A question on the front, its answer on the back.'
                 : 'Hide parts of a sentence or formula to fill in.'}

@@ -11,7 +11,3 @@ export function downloadJson(filename: string, data: unknown): void {
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
-
-export function readFileText(file: File): Promise<string> {
-  return file.text();
-}

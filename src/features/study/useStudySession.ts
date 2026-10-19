@@ -9,17 +9,17 @@ import {
   type Scope,
   type SessionState,
   type StudyData,
-  schedulerForCourse,
 } from '../../app/studyData';
 import { db, repo } from '../../db/instance';
 import type { ReviewResult } from '../../db/repo';
+import { MINUTE } from '../../domain/day';
 import { pickNext, type QueueKind, queueCounts } from '../../domain/queue';
-import type { ReviewOutcome } from '../../domain/scheduler';
+import { type ReviewOutcome, schedulerForCourse } from '../../domain/scheduler';
 import type { AnswerMode, Card, Item, RatingValue } from '../../domain/types';
 import { syncManager } from '../../sync/manager';
 
 /** Long pauses (walked away) shouldn't distort recorded answer times. */
-const MAX_DURATION_MS = 60_000;
+const MAX_DURATION_MS = MINUTE;
 
 export interface Current {
   card: Card;

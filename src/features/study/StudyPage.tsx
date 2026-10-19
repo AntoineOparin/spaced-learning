@@ -3,9 +3,11 @@ import { Link, useNavigate, useSearchParams } from 'react-router';
 import type { Scope } from '../../app/studyData';
 import { RichText } from '../../content/RichText';
 import { stripCloze } from '../../domain/cloze';
+import { MINUTE } from '../../domain/day';
 import { describeInterval, formatInterval, RATINGS } from '../../domain/scheduler';
-import { topicPath } from '../../domain/topics';
+import { TRAIL_SEPARATOR, topicTrail } from '../../domain/topics';
 import type { AnswerMode, RatingValue } from '../../domain/types';
+import { readLocal, writeLocal } from '../../lib/storage';
 import { Button, IconButton } from '../../ui/Button';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
@@ -56,22 +58,6 @@ const MODE_KEY = 'answerMode';
 const EXPLAIN_KEY = 'showExplanations';
 const HINT_KEY = 'ratingHintSeen';
 
-function readLocal(key: string): string | null {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
-
-function writeLocal(key: string, value: string) {
-  try {
-    localStorage.setItem(key, value);
-  } catch {
-    // ignore
-  }
-}
-
 const SHORTCUTS: [string[], string][] = [
   [['Space', 'Enter'], 'Show answer, then rate Good'],
   [['1', '2', '3', '4'], 'Again · Hard · Good · Easy'],
@@ -118,7 +104,7 @@ function ModeToggle({
 }
 
 function Summary({ stats, onExit }: { stats: SessionStats; onExit: () => void }) {
-  const mins = Math.max(1, Math.round(stats.timeMs / 60_000));
+  const mins = Math.max(1, Math.round(stats.timeMs / MINUTE));
   const tiles = [
     { label: 'Reviewed', value: stats.reviewed, tone: 'text-accent-text' },
     { label: 'Minutes', value: mins, tone: 'text-xp-text' },
@@ -359,11 +345,10 @@ export default function StudyPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [editing, help, phase, s, rate, undo, suspend, toggleWhy, toggleMode, exit, current]);
 
-  const breadcrumb = useMemo(() => {
-    if (!s.data || !current) return '';
+  const trail = useMemo(() => {
+    if (!s.data || !current) return [];
     const course = s.data.courses.find((c) => c.id === current.card.courseId);
-    const path = topicPath(s.data.topics, current.card.topicId).map((t) => t.name);
-    return [course?.name, ...path].filter(Boolean).join(' › ');
+    return topicTrail(s.data.topics, current.card.topicId, course);
   }, [s.data, current]);
 
   const counts = s.counts;
@@ -443,8 +428,8 @@ export default function StudyPage() {
             >
               <div className="mb-8 flex items-center justify-between gap-4 text-[13px]">
                 <p className="min-w-0 truncate text-muted">
-                  <span className="hidden sm:inline">{breadcrumb}</span>
-                  <span className="sm:hidden">{breadcrumb.split(' › ').pop()}</span>
+                  <span className="hidden sm:inline">{trail.join(TRAIL_SEPARATOR)}</span>
+                  <span className="sm:hidden">{trail.at(-1)}</span>
                 </p>
                 {counts && (
                   <p className="flex shrink-0 gap-3 font-bold tabular-nums">

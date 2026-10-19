@@ -4,12 +4,10 @@ import { Icon, type IconName } from './Icon';
 
 export function Kbd({
   children,
-  className,
   onAccent = false,
   small = false,
 }: {
   children: ReactNode;
-  className?: string;
   /** For use inside an accent-coloured (primary) button. */
   onAccent?: boolean;
   small?: boolean;
@@ -20,7 +18,6 @@ export function Kbd({
         'inline-flex items-center justify-center rounded-md border border-b-2 px-1 font-mono font-medium leading-none',
         small ? 'h-4 min-w-4 text-[10px]' : 'h-5 min-w-5 text-[11px]',
         onAccent ? 'border-on-accent/25 text-on-accent' : 'border-line-strong bg-bg text-muted',
-        className,
       )}
     >
       {children}
@@ -55,30 +52,19 @@ export function Panel({
 
 /** A Notion callout: a quiet inline message with an icon. */
 export function Callout({
-  icon = 'info',
-  tone = 'neutral',
+  icon,
+  tone,
   children,
   action,
-  className,
 }: {
-  icon?: IconName;
-  tone?: 'neutral' | 'streak' | 'accent';
+  icon: IconName;
+  tone: 'streak' | 'accent';
   children: ReactNode;
   action?: ReactNode;
-  className?: string;
 }) {
-  const iconTone = {
-    neutral: 'text-muted',
-    streak: 'text-streak-text',
-    accent: 'text-accent-text',
-  };
+  const iconTone = { streak: 'text-streak-text', accent: 'text-accent-text' };
   return (
-    <div
-      className={cn(
-        'flex flex-wrap items-start gap-x-3 gap-y-2 rounded-xl border border-line bg-bg-alt px-4 py-3 text-sm',
-        className,
-      )}
-    >
+    <div className="flex flex-wrap items-start gap-x-3 gap-y-2 rounded-xl border border-line bg-bg-alt px-4 py-3 text-sm">
       <Icon name={icon} className={cn('mt-0.5 shrink-0', iconTone[tone])} />
       <div className="min-w-0 flex-1">{children}</div>
       {action && <div className="flex shrink-0 items-center gap-2">{action}</div>}
@@ -168,13 +154,11 @@ export function PageHeader({
 export function ProgressBar({
   value,
   label,
-  size = 'md',
   className,
 }: {
   /** 0–1 */
   value: number;
   label: string;
-  size?: 'sm' | 'md';
   className?: string;
 }) {
   const pct = Math.min(1, Math.max(0, Number.isFinite(value) ? value : 0));
@@ -185,7 +169,7 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(pct * 100)}
-      className={cn('progress', size === 'md' ? 'h-3' : 'h-2', className)}
+      className={cn('progress h-3', className)}
     >
       <div className="progress-fill" style={{ transform: `translateX(${(pct - 1) * 100}%)` }} />
     </div>

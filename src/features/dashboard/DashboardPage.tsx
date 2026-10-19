@@ -5,7 +5,7 @@ import { buildQueueInput, IDLE_SESSION, loadStudyData, type StudyData } from '..
 import { db, repo } from '../../db/instance';
 import { LAST_EXPORT_AT_KEY, LAST_SYNC_AT_KEY } from '../../db/metaKeys';
 import { stripCloze } from '../../domain/cloze';
-import { startOfStudyDay } from '../../domain/day';
+import { DAY, MINUTE, startOfStudyDay } from '../../domain/day';
 import { queueCounts } from '../../domain/queue';
 import {
   daySummary,
@@ -17,8 +17,8 @@ import {
   trueRetention,
   weakestTopics,
 } from '../../domain/stats';
-import { topicPath } from '../../domain/topics';
-import type { Course, ReviewLog } from '../../domain/types';
+import { TRAIL_SEPARATOR, topicTrail } from '../../domain/topics';
+import { alive, type Course, type ReviewLog } from '../../domain/types';
 import { useSyncState } from '../../sync/manager';
 import { Button, buttonClass } from '../../ui/Button';
 import { cn } from '../../ui/cn';
@@ -27,7 +27,6 @@ import { Callout, Dot, EmptyState, Kbd, Panel, ProgressBar, Skeleton } from '../
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
 import { ForecastChart, MaturityBar, MaturityLegend } from './charts';
 
-const DAY = 86_400_000;
 const BACKUP_STALE_DAYS = 14;
 
 interface DashboardData {
@@ -44,12 +43,12 @@ function useDashboardData(): DashboardData | undefined {
     const now = Date.now();
     const settings = await repo.getSettings();
     const data = await loadStudyData(db, settings, now);
-    const recentLogs = (
+    const recentLogs = alive(
       await db.reviewLogs
         .where('review')
         .aboveOrEqual(now - 30 * DAY)
-        .toArray()
-    ).filter((l) => l.deletedAt === undefined);
+        .toArray(),
+    );
     let streak = studyStreak(
       recentLogs.map((l) => l.review),
       now,
@@ -76,7 +75,7 @@ function useDashboardData(): DashboardData | undefined {
 }
 
 function minutes(ms: number): string {
-  const m = Math.round(ms / 60_000);
+  const m = Math.round(ms / MINUTE);
   return m < 1 ? '< 1 min' : `${m} min`;
 }
 
@@ -304,7 +303,7 @@ export function DashboardPage() {
           )}
         </div>
         <div className="mt-4">
-          <MaturityBar m={m} showLegend={false} />
+          <MaturityBar m={m} />
         </div>
       </li>
     );
@@ -499,7 +498,6 @@ export function DashboardPage() {
                     </p>
                     <ul className="mt-3 divide-y divide-line">
                       {weak.map((t) => {
-                        const path = topicPath(data.topics, t.topicId);
                         return (
                           <li
                             key={t.topicId}
@@ -509,7 +507,8 @@ export function DashboardPage() {
                               to={`/library?topic=${t.topicId}`}
                               className="truncate hover:underline"
                             >
-                              {path.map((p) => p.name).join(' › ') || 'Unknown topic'}
+                              {topicTrail(data.topics, t.topicId).join(TRAIL_SEPARATOR) ||
+                                'Unknown topic'}
                             </Link>
                             <span className="shrink-0 text-muted tabular-nums">
                               {Math.round(t.lapseRate * 100)}% of {t.reviews}

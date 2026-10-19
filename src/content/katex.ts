@@ -1,5 +1,6 @@
 /** KaTeX configuration and a small render cache. */
 import katex, { type KatexOptions } from 'katex';
+import { errorMessage } from '../lib/errors';
 
 export const KATEX_MACROS: Record<string, string> = {
   '\\R': '\\mathbb{R}',
@@ -38,7 +39,7 @@ export function renderMath(tex: string, display: boolean): MathResult {
   try {
     result = { ok: true, html: katex.renderToString(tex, options(display)) };
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
+    const message = errorMessage(err);
     result = { ok: false, error: message.replace(/^KaTeX parse error: /, '') };
   }
   if (cache.size >= CACHE_LIMIT) {

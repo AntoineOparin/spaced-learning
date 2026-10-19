@@ -4,7 +4,7 @@
  */
 import { reconcileCards } from '../domain/cardgen';
 import { newId } from '../domain/ids';
-import { getScheduler, schedulerConfig } from '../domain/scheduler';
+import { schedulerForCourse } from '../domain/scheduler';
 import { subtreeIds } from '../domain/topics';
 import {
   type AnswerMode,
@@ -327,7 +327,7 @@ export class Repo {
         courses.get(previous.courseId),
         this.getSettings(),
       ]);
-      const scheduler = getScheduler(schedulerConfig(globalSettings, course));
+      const scheduler = schedulerForCourse(globalSettings, course);
       const outcome = scheduler.rate(previous.fsrs, now, args.rating);
 
       const card: Card = {

@@ -21,7 +21,6 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
     options: ConfirmOptions;
     resolve: (ok: boolean) => void;
   } | null>(null);
-  const [open, setOpen] = useState(false);
   const [typed, setTyped] = useState('');
 
   const confirm = useCallback(
@@ -29,7 +28,6 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
       new Promise<boolean>((resolve) => {
         setTyped('');
         setRequest({ options, resolve });
-        setOpen(true);
       }),
     [],
   );
@@ -37,7 +35,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
   // Resolving twice is harmless: the dialog's close event follows every settle.
   const settle = (ok: boolean) => {
     request?.resolve(ok);
-    setOpen(false);
+    setRequest(null);
   };
 
   const options = request?.options;
@@ -48,7 +46,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
     <ConfirmContext.Provider value={confirm}>
       {children}
       <Dialog
-        open={open}
+        open={request !== null}
         onClose={() => settle(false)}
         title={options?.title ?? ''}
         size="sm"

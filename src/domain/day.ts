@@ -4,6 +4,10 @@
  * Uses local-time Date arithmetic, so DST transitions are handled by the platform.
  */
 
+export const MINUTE = 60_000;
+export const HOUR = 60 * MINUTE;
+export const DAY = 24 * HOUR;
+
 export function startOfStudyDay(now: number, dayStartHour: number): number {
   const d = new Date(now);
   const start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), dayStartHour, 0, 0, 0);
@@ -29,5 +33,5 @@ export function studyDaysBetween(from: number, to: number, dayStartHour: number)
   const a = new Date(startOfStudyDay(from, dayStartHour));
   const b = new Date(startOfStudyDay(to, dayStartHour));
   // Round to absorb the ±1h of a DST transition.
-  return Math.round((b.getTime() - a.getTime()) / 86_400_000);
+  return Math.round((b.getTime() - a.getTime()) / DAY);
 }

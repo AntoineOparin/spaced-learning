@@ -13,6 +13,7 @@ import {
   useState,
 } from 'react';
 import type { Course, Topic } from '../../domain/types';
+import { readLocal, writeLocal } from '../../lib/storage';
 import { IconButton } from '../../ui/Button';
 import { cn } from '../../ui/cn';
 import { Icon } from '../../ui/Icon';
@@ -27,18 +28,10 @@ const GUIDE = 8;
 
 function loadExpanded(): Set<string> | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = readLocal(STORAGE_KEY);
     return raw ? new Set(JSON.parse(raw) as string[]) : null;
   } catch {
-    return null;
-  }
-}
-
-function saveExpanded(keys: Set<string>) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...keys]));
-  } catch {
-    // Per-device convenience only; fine if it doesn't persist.
+    return null; // unreadable JSON: start fresh
   }
 }
 
@@ -77,7 +70,7 @@ export function TopicTree({
   // Focus falls back to the selection, then its course, when its row gets folded away.
   const focus = [focusKey, selectedKey, selectedCourseKey].find(visible) ?? rows[0]?.key ?? '';
 
-  useEffect(() => saveExpanded(expanded), [expanded]);
+  useEffect(() => writeLocal(STORAGE_KEY, JSON.stringify([...expanded])), [expanded]);
 
   const expand = useCallback(
     (keys: string[]) =>

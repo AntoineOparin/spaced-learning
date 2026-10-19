@@ -6,6 +6,8 @@
 import { useSyncExternalStore } from 'react';
 import { db } from '../db/instance';
 import { LAST_SYNC_AT_KEY } from '../db/metaKeys';
+import { MINUTE } from '../domain/day';
+import { errorMessage } from '../lib/errors';
 import {
   AuthRequiredError,
   countDirty,
@@ -25,7 +27,7 @@ export interface SyncState {
   error: string | null;
 }
 
-const PERIOD_MS = 5 * 60_000;
+const PERIOD_MS = 5 * MINUTE;
 
 class SyncManager {
   private state: SyncState = { status: 'idle', lastSyncAt: null, pending: 0, error: null };
@@ -78,7 +80,7 @@ class SyncManager {
       else if (err instanceof AuthRequiredError) this.set({ status: 'auth' });
       else if (err instanceof SyncUnavailableError)
         this.set({ status: 'unavailable', error: err.message });
-      else this.set({ status: 'error', error: err instanceof Error ? err.message : String(err) });
+      else this.set({ status: 'error', error: errorMessage(err) });
     } finally {
       await this.refreshPending();
     }

@@ -1,5 +1,5 @@
 /** Minimal toast notifications with an optional action (e.g. "Undo"). */
-import { createContext, type ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useState } from 'react';
 import { cn } from './cn';
 import { Icon } from './Icon';
 
@@ -40,10 +40,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     [dismiss],
   );
 
-  const value = useMemo(() => show, [show]);
-
   return (
-    <ToastContext.Provider value={value}>
+    <ToastContext.Provider value={show}>
       {children}
       <div
         aria-live="polite"

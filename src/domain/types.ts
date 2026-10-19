@@ -176,6 +176,7 @@ export const SYNCED_TABLES = [
 ] as const;
 export type SyncedTable = (typeof SYNCED_TABLES)[number];
 
-export function isAlive<T extends { deletedAt?: number }>(record: T): boolean {
-  return record.deletedAt === undefined;
+/** Records that aren't soft-deleted (tombstoned). */
+export function alive<T extends { deletedAt?: number }>(rows: readonly T[]): T[] {
+  return rows.filter((r) => r.deletedAt === undefined);
 }

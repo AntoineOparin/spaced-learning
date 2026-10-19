@@ -6,9 +6,10 @@ let seq = 0;
 const nextId = (prefix: string) => `${prefix}-${++seq}`;
 
 export const T0 = new Date(2026, 9, 1, 12, 0, 0).getTime(); // 1 Oct 2026, 12:00 local
-export const MIN = 60_000;
-export const HOUR = 60 * MIN;
-export const DAY = 24 * HOUR;
+
+import { DAY } from '../domain/day';
+
+export { DAY, HOUR, MINUTE as MIN } from '../domain/day';
 
 export function makeCourse(over: Partial<Course> = {}): Course {
   return {

@@ -1,23 +1,20 @@
 /** Course → Topic → Subtopic tree helpers. */
-import type { Card, Course, Item, Topic } from './types';
+import { cardKeyRank } from './cardgen';
+import { alive, type Card, type Course, type Item, type Topic } from './types';
 
 function byOrder<T extends { order: number; name?: string }>(a: T, b: T): number {
   return a.order - b.order || (a.name ?? '').localeCompare(b.name ?? '');
 }
 
-export function aliveTopics(topics: readonly Topic[]): Topic[] {
-  return topics.filter((t) => t.deletedAt === undefined);
-}
-
 export function childTopics(topics: readonly Topic[], parentId: string | null): Topic[] {
-  return aliveTopics(topics)
+  return alive(topics)
     .filter((t) => t.parentId === parentId)
     .sort(byOrder);
 }
 
 /** Topics of a course in depth-first curriculum order (topic, its subtopics, next topic, …). */
 export function curriculumOrder(topics: readonly Topic[], courseId: string): Topic[] {
-  const own = aliveTopics(topics).filter((t) => t.courseId === courseId);
+  const own = alive(topics).filter((t) => t.courseId === courseId);
   const out: Topic[] = [];
   const visit = (parentId: string | null) => {
     for (const t of own.filter((x) => x.parentId === parentId).sort(byOrder)) {
@@ -31,19 +28,13 @@ export function curriculumOrder(topics: readonly Topic[], courseId: string): Top
 
 /** A topic is effectively active when it and all its ancestors are active. */
 export function effectiveActiveTopicIds(topics: readonly Topic[]): Set<string> {
-  const byId = new Map(aliveTopics(topics).map((t) => [t.id, t]));
+  const byId = new Map(alive(topics).map((t) => [t.id, t]));
   const active = new Set<string>();
   for (const t of byId.values()) {
+    // Climb while active; reaching past the root means every ancestor was active.
     let cur: Topic | undefined = t;
-    let ok = true;
-    while (cur) {
-      if (!cur.active) {
-        ok = false;
-        break;
-      }
-      cur = cur.parentId ? byId.get(cur.parentId) : undefined;
-    }
-    if (ok) active.add(t.id);
+    while (cur?.active) cur = cur.parentId ? byId.get(cur.parentId) : undefined;
+    if (!cur) active.add(t.id);
   }
   return active;
 }
@@ -54,7 +45,7 @@ export function subtreeIds(topics: readonly Topic[], rootId: string): Set<string
   let grew = true;
   while (grew) {
     grew = false;
-    for (const t of aliveTopics(topics)) {
+    for (const t of alive(topics)) {
       if (t.parentId && ids.has(t.parentId) && !ids.has(t.id)) {
         ids.add(t.id);
         grew = true;
@@ -62,6 +53,19 @@ export function subtreeIds(topics: readonly Topic[], rootId: string): Set<string
     }
   }
   return ids;
+}
+
+/** Separator for breadcrumb trails ("Calculus 2 › Integration › By parts"). */
+export const TRAIL_SEPARATOR = ' › ';
+
+/** Names from the course (when given) down to the topic itself. */
+export function topicTrail(
+  topics: readonly Topic[],
+  topicId: string,
+  course?: Pick<Course, 'name'>,
+): string[] {
+  const names = topicPath(topics, topicId).map((t) => t.name);
+  return course ? [course.name, ...names] : names;
 }
 
 export function topicPath(topics: readonly Topic[], topicId: string): Topic[] {
@@ -91,24 +95,16 @@ export function buildNewRank(
       topicRank.set(t.id, i);
     });
   }
-  const rankOf = (it: Item) => [
-    courseRank.get(it.courseId) ?? Number.MAX_SAFE_INTEGER,
-    topicRank.get(it.topicId) ?? Number.MAX_SAFE_INTEGER,
-    it.order,
-    it.createdAt,
-  ];
-  const sorted = [...items].sort((a, b) => {
-    const ra = rankOf(a);
-    const rb = rankOf(b);
-    for (let i = 0; i < ra.length; i++) {
-      const d = (ra[i] ?? 0) - (rb[i] ?? 0);
-      if (d !== 0) return d;
-    }
-    return 0;
-  });
+  const last = Number.MAX_SAFE_INTEGER;
+  const courseOf = (it: Item) => courseRank.get(it.courseId) ?? last;
+  const topicOf = (it: Item) => topicRank.get(it.topicId) ?? last;
+  const sorted = [...items].sort(
+    (a, b) =>
+      courseOf(a) - courseOf(b) ||
+      topicOf(a) - topicOf(b) ||
+      a.order - b.order ||
+      a.createdAt - b.createdAt,
+  );
   const itemIndex = new Map(sorted.map((it, i) => [it.id, i] as const));
-  const keyRank = (key: string) =>
-    key === 'fwd' ? 0 : key === 'rev' ? 1 : Math.min(Number(key.slice(1)) || 0, 999);
-
-  return (card) => (itemIndex.get(card.itemId) ?? sorted.length) * 1000 + keyRank(card.key);
+  return (card) => (itemIndex.get(card.itemId) ?? sorted.length) * 1000 + cardKeyRank(card.key);
 }

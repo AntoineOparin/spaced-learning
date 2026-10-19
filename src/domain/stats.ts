@@ -1,12 +1,8 @@
 /** Dashboard metrics. Pure functions over cards and review logs. */
 import { studyDaysBetween } from './day';
-import { type Card, CardState, type ReviewLog } from './types';
+import { alive, type Card, CardState, Rating, type ReviewLog } from './types';
 
 const MATURE_DAYS = 21;
-
-function alive<T extends { deletedAt?: number }>(rows: readonly T[]): T[] {
-  return rows.filter((r) => r.deletedAt === undefined);
-}
 
 /**
  * Number of (non-new, unsuspended) cards due per study day for the next `days` days.
@@ -40,7 +36,7 @@ export function daySummary(logs: readonly ReviewLog[], dayStart: number): DaySum
     if (log.review < dayStart) continue;
     summary.reviewed++;
     if (log.state === CardState.New) summary.newIntroduced++;
-    if (log.rating === 1) summary.again++;
+    if (log.rating === Rating.Again) summary.again++;
     summary.timeMs += log.durationMs;
   }
   return summary;
@@ -63,7 +59,7 @@ export function trueRetention(logs: readonly ReviewLog[], since: number): Retent
   for (const log of alive(logs)) {
     if (log.review < since || log.state !== CardState.Review) continue;
     total++;
-    if (log.rating > 1) passed++;
+    if (log.rating !== Rating.Again) passed++;
   }
   return { passed, total, rate: total ? passed / total : null };
 }
@@ -120,7 +116,7 @@ export function weakestTopics(
     if (log.review < since || log.state !== CardState.Review) continue;
     const entry = byTopic.get(log.topicId) ?? { reviews: 0, lapses: 0 };
     entry.reviews++;
-    if (log.rating === 1) entry.lapses++;
+    if (log.rating === Rating.Again) entry.lapses++;
     byTopic.set(log.topicId, entry);
   }
   return [...byTopic.entries()]

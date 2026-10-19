@@ -21,6 +21,15 @@ export function clozeOrdinalFromKey(key: string): number | null {
   return m ? Number(m[1]) : null;
 }
 
+/** Order of an item's cards: fwd before rev, c1 before c2 (capped at 999 for ranking). */
+export function cardKeyRank(key: string): number {
+  if (key === 'fwd') return 0;
+  if (key === 'rev') return 1;
+  return Math.min(clozeOrdinalFromKey(key) ?? 0, 999);
+}
+
+export const compareCardKeys = (a: string, b: string) => cardKeyRank(a) - cardKeyRank(b);
+
 export function newCard(item: Item, key: string, now: number): Card {
   const fsrs = newFsrsCard(now);
   return {

@@ -3,6 +3,7 @@ import { BUNDLED_DECKS, type BundledDeck } from '../../content/decks';
 import { repo } from '../../db/instance';
 import { installContentPack } from '../../io/contentPack';
 import type { ContentPack } from '../../io/schema';
+import { errorMessage } from '../../lib/errors';
 import { Button } from '../../ui/Button';
 import { Dialog } from '../../ui/Dialog';
 import { Skeleton } from '../../ui/misc';
@@ -36,7 +37,7 @@ export function InstallDeckDialog({
         const top = p.topics.filter((t) => t.parentKey === null);
         setSelected(new Set(top.slice(0, 2).map((t) => t.key)));
       })
-      .catch((err: unknown) => setError(err instanceof Error ? err.message : String(err)));
+      .catch((err: unknown) => setError(errorMessage(err)));
   }, [open, deck, pack]);
 
   if (!deck) return null;
@@ -72,7 +73,7 @@ export function InstallDeckDialog({
     } catch (err) {
       toast({
         tone: 'error',
-        message: `Install failed: ${err instanceof Error ? err.message : err}`,
+        message: `Install failed: ${errorMessage(err)}`,
       });
     } finally {
       setBusy(false);

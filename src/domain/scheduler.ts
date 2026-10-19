@@ -12,14 +12,16 @@ import {
   type Grade,
   generatorParameters,
 } from 'ts-fsrs';
-import type {
-  CardStateValue,
-  Course,
-  RatingValue,
-  ReviewLog,
-  Settings,
-  StepUnit,
-  StoredFsrsCard,
+import { DAY, HOUR, MINUTE } from './day';
+import {
+  CardState,
+  type CardStateValue,
+  type Course,
+  type RatingValue,
+  type ReviewLog,
+  type Settings,
+  type StepUnit,
+  type StoredFsrsCard,
 } from './types';
 
 export interface SchedulerConfig {
@@ -159,12 +161,17 @@ export class Scheduler {
 
   /** Probability of recall at `now` (0 for never-reviewed cards). */
   retrievability(card: StoredFsrsCard, now: number): number {
-    if (card.state === 0) return 0;
+    if (card.state === CardState.New) return 0;
     return this.f.get_retrievability(toFsrsCard(card), new Date(now), false);
   }
 }
 
 const cache = new Map<string, Scheduler>();
+
+/** The scheduler for a course: its own retention / limits, falling back to the settings. */
+export function schedulerForCourse(settings: Settings, course: Course | undefined): Scheduler {
+  return getScheduler(schedulerConfig(settings, course));
+}
 
 /** Memoised scheduler per configuration (schedulers are stateless). */
 export function getScheduler(config: SchedulerConfig): Scheduler {
@@ -176,10 +183,6 @@ export function getScheduler(config: SchedulerConfig): Scheduler {
   }
   return scheduler;
 }
-
-const MINUTE = 60_000;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
 
 function trimFixed(n: number): string {
   return n.toFixed(1).replace(/\.0$/, '');

@@ -3,12 +3,20 @@ import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { RichText } from '../../content/RichText';
 import { db, repo } from '../../db/instance';
+import { compareCardKeys } from '../../domain/cardgen';
 import { stripCloze } from '../../domain/cloze';
 import { endOfStudyDay } from '../../domain/day';
 import { formatInterval } from '../../domain/scheduler';
 import { isLeech } from '../../domain/stats';
-import { curriculumOrder, subtreeIds, topicPath } from '../../domain/topics';
-import { type Card, CardState, type Course, type Item, type Topic } from '../../domain/types';
+import { curriculumOrder, subtreeIds, TRAIL_SEPARATOR, topicTrail } from '../../domain/topics';
+import {
+  alive,
+  type Card,
+  CardState,
+  type Course,
+  type Item,
+  type Topic,
+} from '../../domain/types';
 import { Button, IconButton } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
@@ -20,7 +28,7 @@ import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { CourseDialog, TopicDialog } from './dialogs';
 import { TopicTree } from './TopicTree';
-import { courseKey, type TreeRow, topicKey } from './tree';
+import { courseKey, subtreeItemCount, type TreeRow, topicKey } from './tree';
 
 type Filter = 'all' | 'new' | 'due' | 'suspended' | 'leech';
 const PAGE = 50;
@@ -36,9 +44,6 @@ const FILTERS: { value: Filter; label: string }[] = [
 type DialogState =
   | { kind: 'course'; course?: Course }
   | { kind: 'topic'; courseId: string; parent?: Topic | null; topic?: Topic };
-
-const alive = <T extends { deletedAt?: number }>(rows: T[]) =>
-  rows.filter((r) => r.deletedAt === undefined);
 
 function useLibraryData() {
   return useLiveQuery(async () => {
@@ -150,8 +155,7 @@ export default function LibraryPage() {
       list.push(c);
       m.set(c.itemId, list);
     }
-    for (const list of m.values())
-      list.sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }));
+    for (const list of m.values()) list.sort((a, b) => compareCardKeys(a.key, b.key));
     return m;
   }, [data]);
 
@@ -222,10 +226,7 @@ export default function LibraryPage() {
   };
 
   const deleteTopic = async (t: Topic) => {
-    const n = [...subtreeIds(data.topics, t.id)].reduce(
-      (s, id) => s + (itemCounts.get(id) ?? 0),
-      0,
-    );
+    const n = subtreeItemCount(data.topics, itemCounts, t.id);
     const ok = await confirm({
       title: `Delete “${t.name}”?`,
       body: `${n ? `Its ${n} ${n === 1 ? 'item goes' : 'items go'} with it. ` : ''}Your review history is kept.`,
@@ -395,12 +396,9 @@ export default function LibraryPage() {
               <div className="mb-6">
                 {selectedTopic && (
                   <p className="mb-1 truncate text-[13px] font-medium text-muted">
-                    {[
-                      course.name,
-                      ...topicPath(data.topics, selectedTopic.id)
-                        .slice(0, -1)
-                        .map((t) => t.name),
-                    ].join(' › ')}
+                    {topicTrail(data.topics, selectedTopic.id, course)
+                      .slice(0, -1)
+                      .join(TRAIL_SEPARATOR)}
                   </p>
                 )}
                 <div className="flex items-start gap-2">

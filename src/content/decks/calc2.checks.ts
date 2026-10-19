@@ -20,7 +20,7 @@ export type NumericCheck =
       start: number;
       f: Fn1;
       domain: [number, number];
-      terms?: number;
+      terms: number;
     };
 
 const { sin, cos, tan, exp, log, sqrt, abs, asin, acos, atan } = Math;

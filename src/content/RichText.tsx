@@ -1,5 +1,6 @@
 import { type ReactNode, useMemo } from 'react';
 import { renderCloze } from '../domain/cloze';
+import { cn } from '../ui/cn';
 import { renderMath } from './katex';
 import { type Block, type Inline, parseMarkup } from './markup';
 
@@ -68,23 +69,17 @@ function renderBlock(block: Block, i: number): ReactNode {
       return <Tag key={i}>{renderInline(block.c)}</Tag>;
     }
     case 'ul':
+    case 'ol': {
+      const List = block.t;
       return (
-        <ul key={i}>
+        <List key={i}>
           {block.items.map((it, j) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: static parsed content
             <li key={j}>{renderInline(it)}</li>
           ))}
-        </ul>
+        </List>
       );
-    case 'ol':
-      return (
-        <ol key={i}>
-          {block.items.map((it, j) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: static parsed content
-            <li key={j}>{renderInline(it)}</li>
-          ))}
-        </ol>
-      );
+    }
     default:
       return null;
   }
@@ -105,9 +100,5 @@ export function RichText({ source, cloze, className }: RichTextProps) {
     return parseMarkup(text);
   }, [source, ordinal, reveal]);
 
-  return (
-    <div className={['rich-text', className].filter(Boolean).join(' ')}>
-      {blocks.map(renderBlock)}
-    </div>
-  );
+  return <div className={cn('rich-text', className)}>{blocks.map(renderBlock)}</div>;
 }

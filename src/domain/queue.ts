@@ -11,9 +11,10 @@
  *  4. Learning cards due within the learn-ahead window, when nothing else is left.
  * Siblings (other cards of an item answered today) are buried until tomorrow.
  */
+import { MINUTE } from './day';
 import { type Card, CardState } from './types';
 
-export const DEFAULT_LEARN_AHEAD_MS = 20 * 60_000;
+const LEARN_AHEAD_MS = 20 * MINUTE;
 
 export interface QueueInput {
   now: number;
@@ -32,7 +33,6 @@ export interface QueueInput {
   reviewsSinceNew: number;
   /** Session seed for deterministic tie-breaking among similarly-at-risk cards. */
   seed: number;
-  learnAheadMs?: number;
 }
 
 export type QueueKind = 'learning' | 'review' | 'new';
@@ -149,9 +149,8 @@ export function pickNext(input: QueueInput): QueuePick | null {
   const fresh = snap.news[0];
   if (fresh) return { card: fresh, kind: 'new' };
 
-  const learnAhead = input.learnAheadMs ?? DEFAULT_LEARN_AHEAD_MS;
   const soon = snap.learningLater[0];
-  if (soon && soon.due <= input.now + learnAhead) return { card: soon, kind: 'learning' };
+  if (soon && soon.due <= input.now + LEARN_AHEAD_MS) return { card: soon, kind: 'learning' };
   return null;
 }
 

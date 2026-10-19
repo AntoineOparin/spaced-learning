@@ -14,10 +14,10 @@ export interface DialogProps {
   description?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'xl';
 }
 
-const WIDTHS = { sm: 'sm:max-w-sm', md: 'sm:max-w-lg', lg: 'sm:max-w-2xl', xl: 'sm:max-w-4xl' };
+const WIDTHS = { sm: 'sm:max-w-sm', md: 'sm:max-w-lg', xl: 'sm:max-w-4xl' };
 /** Longest exit transition (see dialog.panel in index.css). */
 const EXIT_MS = 450;
 

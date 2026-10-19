@@ -48,8 +48,7 @@ function evaluate(check: NumericCheck, x: number, y: number): [number, number, n
       return [centralDiff(check.F, x), check.f(x), TOL_DIFF];
     case 'series': {
       let sum = 0;
-      const terms = check.terms ?? 60;
-      for (let n = check.start; n < check.start + terms; n++) sum += check.term(n, x);
+      for (let n = check.start; n < check.start + check.terms; n++) sum += check.term(n, x);
       return [sum, check.f(x), TOL_EXACT];
     }
   }
