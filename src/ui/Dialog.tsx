@@ -3,8 +3,8 @@
  * Desktop: a centered panel. Phones: a bottom sheet that can be dragged down to dismiss.
  */
 import { type PointerEvent, type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { cn } from '../lib/cn';
 import { IconButton } from './Button';
-import { cn } from './cn';
 import { Icon } from './Icon';
 
 export interface DialogProps {

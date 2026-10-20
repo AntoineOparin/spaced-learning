@@ -1,6 +1,6 @@
 import { type ReactNode, useMemo } from 'react';
 import { renderCloze } from '../domain/cloze';
-import { cn } from '../ui/cn';
+import { cn } from '../lib/cn';
 import { renderMath } from './katex';
 import { type Block, type Inline, parseMarkup } from './markup';
 

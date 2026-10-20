@@ -5,9 +5,9 @@
  */
 
 import { type PointerEvent, useCallback, useEffect, useRef } from 'react';
+import { cn } from '../../lib/cn';
 import { onThemeChange } from '../../lib/theme';
 import { IconButton } from '../../ui/Button';
-import { cn } from '../../ui/cn';
 import { Icon } from '../../ui/Icon';
 import { surface } from '../../ui/misc';
 import {

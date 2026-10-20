@@ -3,21 +3,34 @@
  * SQL (node:sqlite). Covers the Phase 3 acceptance criteria.
  */
 import 'fake-indexeddb/auto';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AppDB } from '../../src/db/db.ts';
+import { SYNC_CURSOR_KEY } from '../../src/db/metaKeys.ts';
 import { Repo } from '../../src/db/repo.ts';
-import { countDirty, type SyncTransport, syncOnce } from '../../src/sync/client.ts';
+import { MINUTE } from '../../src/domain/day.ts';
+import { SCHEMA_VERSION } from '../../src/domain/types.ts';
+import {
+  countDirty,
+  OutdatedClientError,
+  type SyncTransport,
+  syncOnce,
+} from '../../src/sync/client.ts';
 import { parsePushBody, pullRecords, pushRecords, type SqlDb } from '../sync.ts';
 import { createTestDb } from './sqlite.ts';
 
+type ServerClock = () => number;
+
 /** Round-trips through JSON like the real HTTP API. */
-function transportFor(server: SqlDb): SyncTransport {
+function transportFor(server: SqlDb, serverNow: ServerClock = Date.now): SyncTransport {
   return {
     async push(records) {
-      await pushRecords(server, parsePushBody(JSON.parse(JSON.stringify({ records }))));
+      const body = parsePushBody(
+        JSON.parse(JSON.stringify({ schemaVersion: SCHEMA_VERSION, records })),
+      );
+      await pushRecords(server, body.records, body.schemaVersion);
     },
     async pull(since, limit) {
-      return JSON.parse(JSON.stringify(await pullRecords(server, since, limit)));
+      return JSON.parse(JSON.stringify(await pullRecords(server, since, limit, serverNow)));
     },
   };
 }
@@ -25,12 +38,13 @@ function transportFor(server: SqlDb): SyncTransport {
 let n = 0;
 const open: AppDB[] = [];
 
-function device(server: SqlDb, start = 1_000) {
+function device(server: SqlDb, start = 1_000, serverNow?: ServerClock) {
   const db = new AppDB(`sync-e2e-${++n}`);
   open.push(db);
   const clock = { now: start };
   const repo = new Repo(db, () => clock.now);
-  const transport = transportFor(server);
+  // By default the server's clock agrees with the device's.
+  const transport = transportFor(server, serverNow ?? (() => clock.now));
   return { db, repo, clock, sync: () => syncOnce(db, transport, () => clock.now) };
 }
 
@@ -170,6 +184,34 @@ describe('two-device sync', () => {
     expect(await countDirty(laptop.db)).toBe(0);
   });
 
+  it('counts unpushed local changes that a newer remote version replaced', async () => {
+    const server = createTestDb();
+    const laptop = device(server);
+    const { item } = await seed(laptop.repo);
+    await laptop.sync();
+    const phone = device(server);
+    await phone.sync();
+
+    phone.clock.now = 20_000;
+    await phone.repo.saveItem({ ...item, fields: { prompt: 'phone version', answer: 'x' } });
+    await phone.sync();
+    laptop.clock.now = 15_000;
+    await laptop.repo.saveItem({ ...item, fields: { prompt: 'laptop version', answer: 'y' } });
+
+    expect((await laptop.sync()).superseded).toBe(1);
+    expect((await laptop.sync()).superseded).toBe(0);
+  });
+
+  it('measures the device clock against the server clock', async () => {
+    const server = createTestDb();
+    const laptop = device(server);
+    await seed(laptop.repo);
+    expect((await laptop.sync()).clockSkewMs).toBe(0);
+
+    const slow = device(server, 1_000, () => 1_000 + 10 * MINUTE);
+    expect((await slow.sync()).clockSkewMs).toBe(10 * MINUTE);
+  });
+
   it('propagates deletions (tombstones) including cascaded cards', async () => {
     const server = createTestDb();
     const laptop = device(server);
@@ -238,6 +280,86 @@ describe('two-device sync', () => {
     const phone = device(server);
     await phone.sync();
     expect((await phone.db.courses.get(course.id))?.name).toBe('Renamed mid-sync');
+  });
+
+  it('skips records it cannot read, counts them, and still advances the cursor', async () => {
+    const server = createTestDb();
+    const laptop = device(server);
+    await seed(laptop.repo);
+    await laptop.sync();
+    await pushRecords(server, [
+      {
+        tbl: 'courses',
+        id: 'bad',
+        updatedAt: 1,
+        deleted: false,
+        data: { id: 'bad', updatedAt: 1, name: 123, order: 0, createdAt: 1 },
+      },
+    ]);
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const phone = device(server);
+    const result = await phone.sync();
+    expect(result.invalid).toBe(1);
+    expect(result.pulled).toBeGreaterThan(0);
+    expect(await phone.db.courses.get('bad')).toBeUndefined();
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]?.[1]).toEqual([expect.stringMatching(/^courses\/bad: name/)]);
+
+    // The cursor moved past it: the next sync has nothing to pull and nothing to complain about.
+    const again = await phone.sync();
+    expect(again).toMatchObject({ pulled: 0, invalid: 0 });
+    expect(warn).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores rows for tables it does not know, without failing the page', async () => {
+    const server = createTestDb();
+    const laptop = device(server);
+    await seed(laptop.repo);
+    await laptop.sync();
+    // Bypasses parsePushBody: a future table name reaching an older client.
+    server.raw.exec(`
+      INSERT INTO records (tbl, id, updated_at, deleted, seq, data, schema_version)
+      VALUES ('users', 'u1', 1, 0, (SELECT v FROM meta WHERE k = 'seq') + 1, '{"id":"u1"}', 1);
+      UPDATE meta SET v = v + 1 WHERE k = 'seq';
+    `);
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const phone = device(server);
+    const result = await phone.sync();
+    expect(result.invalid).toBe(1);
+    expect(await snapshot(phone.db)).toEqual(await snapshot(laptop.db));
+  });
+
+  it('stops before writing anything when the server holds newer-schema records', async () => {
+    const server = createTestDb();
+    const laptop = device(server);
+    await seed(laptop.repo);
+    await laptop.sync();
+    const phone = device(server);
+    await phone.sync();
+    const cursor = (await phone.db.meta.get(SYNC_CURSOR_KEY))?.value;
+    await phone.repo.updateSettings({ newPerDay: 7 });
+    const dirty = await countDirty(phone.db);
+
+    await pushRecords(
+      server,
+      [
+        {
+          tbl: 'courses',
+          id: 'future',
+          updatedAt: 2,
+          deleted: false,
+          data: { id: 'future', updatedAt: 2, name: 'From the future', order: 9, createdAt: 2 },
+        },
+      ],
+      SCHEMA_VERSION + 1,
+    );
+
+    await expect(phone.sync()).rejects.toBeInstanceOf(OutdatedClientError);
+    expect((await phone.db.meta.get(SYNC_CURSOR_KEY))?.value).toBe(cursor);
+    expect(await phone.db.courses.get('future')).toBeUndefined();
+    expect(await countDirty(phone.db)).toBe(dirty);
   });
 
   it('undoing a review propagates (the log becomes a tombstone)', async () => {

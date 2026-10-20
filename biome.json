@@ -25,9 +25,25 @@
         "useHookAtTopLevel": "error"
       },
       "style": {
-        "noNonNullAssertion": "warn"
+        "noNonNullAssertion": "warn",
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "dexie": "Only src/db and src/sync touch Dexie; read through db/queries.ts or db/hooks.ts and write through Repo (see CLAUDE.md).",
+              "dexie-react-hooks": "Use the hooks in src/db/hooks.ts.",
+              "ts-fsrs": "Only src/domain/scheduler.ts talks to ts-fsrs."
+            }
+          }
+        }
       }
     }
   },
+  "overrides": [
+    {
+      "includes": ["src/db/**", "src/sync/**", "src/domain/scheduler.ts", "**/*.test.*"],
+      "linter": { "rules": { "style": { "noRestrictedImports": "off" } } }
+    }
+  ],
   "assist": { "actions": { "source": { "organizeImports": "on" } } }
 }

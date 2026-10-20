@@ -3,20 +3,22 @@
  * Data is loaded once per session; the queue is recomputed after every answer.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { AppDB } from '../../db/db';
+import { db as appDb, repo as appRepo } from '../../db/instance';
 import {
   buildQueueInput,
+  loadItemWithCards,
   loadStudyData,
   type Scope,
   type SessionState,
   type StudyData,
-} from '../../app/studyData';
-import { db, repo } from '../../db/instance';
-import type { ReviewResult } from '../../db/repo';
+} from '../../db/queries';
+import type { Repo, ReviewResult } from '../../db/repo';
 import { MINUTE } from '../../domain/day';
 import { pickNext, type QueueKind, queueCounts } from '../../domain/queue';
 import { type ReviewOutcome, schedulerForCourse } from '../../domain/scheduler';
 import { sessionStats } from '../../domain/stats';
-import { type AnswerMode, alive, type Card, type Item, type RatingValue } from '../../domain/types';
+import type { AnswerMode, Card, Item, RatingValue } from '../../domain/types';
 import { syncManager } from '../../sync/manager';
 
 /** Long pauses (walked away) shouldn't distort recorded answer times. */
@@ -36,7 +38,24 @@ interface UndoEntry {
 
 export type Phase = 'loading' | 'question' | 'answer' | 'done';
 
-export function useStudySession(scope: Scope) {
+/** The session's collaborators; tests pass their own database and clock. */
+export interface SessionDeps {
+  db: AppDB;
+  repo: Repo;
+  /** Called when the session unmounts, to push its reviews. */
+  onLeave: () => void;
+  now: () => number;
+}
+
+const APP_DEPS: SessionDeps = {
+  db: appDb,
+  repo: appRepo,
+  onLeave: () => void syncManager.sync(),
+  now: Date.now,
+};
+
+export function useStudySession(scope: Scope, deps: SessionDeps = APP_DEPS) {
+  const { db, repo, now } = deps;
   const [data, setData] = useState<StudyData | null>(null);
   const [current, setCurrent] = useState<Current | null>(null);
   const [revealed, setRevealed] = useState(false);
@@ -51,7 +70,7 @@ export function useStudySession(scope: Scope) {
   // This session's reviews are the day's logs from this index on (undo removes them again).
   const [firstLog, setFirstLog] = useState(0);
   const [busy, setBusy] = useState(false);
-  const shownAt = useRef(Date.now());
+  const shownAt = useRef(now());
   const initialSession = useRef(session);
 
   const phase: Phase = !data ? 'loading' : !current ? 'done' : revealed ? 'answer' : 'question';
@@ -63,20 +82,23 @@ export function useStudySession(scope: Scope) {
   });
 
   /** Shows a card's question (or the end of the session for null). */
-  const show = useCallback((next: Current | null) => {
-    setCurrent(next);
-    setRevealed(false);
-    setTurn((t) => t + 1);
-    shownAt.current = Date.now();
-  }, []);
+  const show = useCallback(
+    (next: Current | null) => {
+      setCurrent(next);
+      setRevealed(false);
+      setTurn((t) => t + 1);
+      shownAt.current = now();
+    },
+    [now],
+  );
 
   const choose = useCallback(
     (d: StudyData, s: SessionState) => {
-      const pick = pickNext(buildQueueInput(d, scope, s, Date.now()));
+      const pick = pickNext(buildQueueInput(d, scope, s, now()));
       const item = pick && d.items.find((i) => i.id === pick.card.itemId);
       show(pick && item ? { card: pick.card, item, kind: pick.kind } : null);
     },
-    [scope, show],
+    [scope, show, now],
   );
 
   // Initial load.
@@ -84,7 +106,7 @@ export function useStudySession(scope: Scope) {
     let cancelled = false;
     (async () => {
       const settings = await repo.getSettings();
-      const loaded = await loadStudyData(db, settings, Date.now());
+      const loaded = await loadStudyData(db, settings, now());
       if (cancelled) return;
       setData(loaded);
       setFirstLog(loaded.todayLogs.length);
@@ -93,30 +115,32 @@ export function useStudySession(scope: Scope) {
     return () => {
       cancelled = true;
     };
-  }, [choose]);
+  }, [choose, db, repo, now]);
 
   // Push progress to the server when leaving the session.
-  useEffect(() => () => void syncManager.sync(), []);
+  const { onLeave } = deps;
+  useEffect(() => () => onLeave(), [onLeave]);
 
   const reveal = useCallback(() => setRevealed(true), []);
 
   const preview = useCallback((): Record<RatingValue, ReviewOutcome> | null => {
     if (!data || !current) return null;
     const course = data.courses.find((c) => c.id === current.card.courseId);
-    return schedulerForCourse(data.settings, course).preview(current.card.fsrs, Date.now());
-  }, [data, current]);
+    return schedulerForCourse(data.settings, course).preview(current.card.fsrs, now());
+  }, [data, current, now]);
 
   const rate = useCallback(
     async (rating: RatingValue, mode: AnswerMode) => {
       if (!data || !current || busy || phase !== 'answer') return;
       setBusy(true);
       try {
-        const durationMs = Math.min(Date.now() - shownAt.current, MAX_DURATION_MS);
+        const durationMs = Math.min(now() - shownAt.current, MAX_DURATION_MS);
         const result = await repo.recordReview({
           cardId: current.card.id,
           rating,
           durationMs,
           mode,
+          now: now(),
         });
         const nextData: StudyData = {
           ...data,
@@ -136,7 +160,7 @@ export function useStudySession(scope: Scope) {
         setBusy(false);
       }
     },
-    [data, current, busy, phase, session, choose],
+    [data, current, busy, phase, session, choose, repo, now],
   );
 
   const undo = useCallback(async () => {
@@ -160,7 +184,7 @@ export function useStudySession(scope: Scope) {
     } finally {
       setBusy(false);
     }
-  }, [data, history, busy, show]);
+  }, [data, history, busy, show, repo]);
 
   /** Suspends the current card and moves on. Returns a function that reverses it. */
   const suspend = useCallback(async () => {
@@ -185,21 +209,18 @@ export function useStudySession(scope: Scope) {
       // Suspending the last card ended the session: undoing it carries on with that card.
       if (!c) choose(restored, s);
     };
-  }, [data, current, session, choose]);
+  }, [data, current, session, choose, repo]);
 
   /** Reloads an item (and its cards) after it was edited during the session. */
   const reloadItem = useCallback(
     async (itemId: string) => {
       if (!data) return;
-      const [item, cards] = await Promise.all([
-        db.items.get(itemId),
-        db.cards.where('itemId').equals(itemId).toArray(),
-      ]);
-      const fresh = item && !item.deletedAt ? item : null;
+      const loaded = await loadItemWithCards(db, itemId);
+      const fresh = loaded?.item ?? null;
       const nextData: StudyData = {
         ...data,
         items: [...data.items.filter((i) => i.id !== itemId), ...(fresh ? [fresh] : [])],
-        cards: [...data.cards.filter((c) => c.itemId !== itemId), ...(fresh ? alive(cards) : [])],
+        cards: [...data.cards.filter((c) => c.itemId !== itemId), ...(loaded?.cards ?? [])],
       };
       setData(nextData);
       if (current?.item.id === itemId) {
@@ -208,14 +229,14 @@ export function useStudySession(scope: Scope) {
         else choose(nextData, session);
       }
     },
-    [data, current, session, choose],
+    [data, current, session, choose, db],
   );
 
   // Recomputed after each answer. (A learning card entering the learn-ahead window between
   // answers shows up in the count with the next one.)
   const counts = useMemo(
-    () => (data ? queueCounts(buildQueueInput(data, scope, session, Date.now())) : null),
-    [data, scope, session],
+    () => (data ? queueCounts(buildQueueInput(data, scope, session, now())) : null),
+    [data, scope, session, now],
   );
 
   const stats = useMemo(

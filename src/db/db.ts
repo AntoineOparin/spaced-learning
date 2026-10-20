@@ -23,6 +23,8 @@ export class AppDB extends Dexie {
 
   constructor(name = 'spaced-learning') {
     super(name);
+    // The latest version number here must equal SCHEMA_VERSION (src/domain/types.ts). A new
+    // version's upgrade should call the matching per-table function in ./upgrades.ts.
     this.version(1).stores({
       courses: 'id, dirty',
       topics: 'id, courseId, parentId, dirty',

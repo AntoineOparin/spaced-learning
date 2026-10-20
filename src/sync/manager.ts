@@ -14,24 +14,48 @@ import {
   countDirty,
   httpTransport,
   OfflineError,
+  OutdatedClientError,
   type SyncTransport,
   SyncUnavailableError,
   syncOnce,
 } from './client';
 
-export type SyncStatus = 'idle' | 'syncing' | 'offline' | 'auth' | 'unavailable' | 'error';
+export type SyncStatus =
+  | 'idle'
+  | 'syncing'
+  | 'offline'
+  | 'auth'
+  | 'unavailable'
+  | 'outdated'
+  | 'error';
 
 export interface SyncState {
   status: SyncStatus;
   lastSyncAt: number | null;
   pending: number;
   error: string | null;
+  /** From the last successful run: records skipped as unreadable. */
+  invalid: number;
+  /** From the last successful run: local edits replaced by newer ones from another device. */
+  superseded: number;
+  /** From the last run that reached the server: `serverTime - Date.now()`, or null if unknown. */
+  clockSkewMs: number | null;
 }
+
+const INITIAL: SyncState = {
+  status: 'idle',
+  lastSyncAt: null,
+  pending: 0,
+  error: null,
+  invalid: 0,
+  superseded: 0,
+  clockSkewMs: null,
+};
 
 const PERIOD_MS = 5 * MINUTE;
 
 class SyncManager {
-  private state: SyncState = { status: 'idle', lastSyncAt: null, pending: 0, error: null };
+  private state: SyncState = INITIAL;
   private readonly listeners = new Set<() => void>();
   private running: Promise<void> | null = null;
   private again = false;
@@ -73,11 +97,17 @@ class SyncManager {
   private async run(): Promise<void> {
     this.set({ status: 'syncing', error: null });
     try {
-      await syncOnce(db, this.transport);
-      this.set({ status: 'idle' });
+      const r = await syncOnce(db, this.transport);
+      this.set({
+        status: 'idle',
+        invalid: r.invalid,
+        superseded: r.superseded,
+        clockSkewMs: r.clockSkewMs,
+      });
     } catch (err) {
       if (err instanceof OfflineError) this.set({ status: 'offline' });
       else if (err instanceof AuthRequiredError) this.set({ status: 'auth' });
+      else if (err instanceof OutdatedClientError) this.set({ status: 'outdated' });
       else if (err instanceof SyncUnavailableError)
         this.set({ status: 'unavailable', error: err.message });
       else this.set({ status: 'error', error: errorMessage(err) });
@@ -102,6 +132,8 @@ class SyncManager {
       if (document.visibilityState === 'hidden') void this.sync();
     });
     window.setInterval(() => {
+      // An outdated app can't push; retrying every few minutes would only repeat the refusal.
+      if (this.state.status === 'outdated') return;
       if (document.visibilityState === 'visible' && this.state.pending > 0) void this.sync();
     }, PERIOD_MS);
   }

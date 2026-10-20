@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from './cn';
+import { cn } from '../lib/cn';
 import { Icon, type IconName } from './Icon';
 
 export function Kbd({

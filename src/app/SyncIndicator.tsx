@@ -1,29 +1,8 @@
 import { Link } from 'react-router';
-import { type SyncState, useSyncState } from '../sync/manager';
-import { cn } from '../ui/cn';
+import { cn } from '../lib/cn';
+import { useSyncState } from '../sync/manager';
+import { describeSync } from '../sync/status';
 import { Icon } from '../ui/Icon';
-
-export function describeSync(state: SyncState): { label: string; tone: 'ok' | 'warn' | 'muted' } {
-  switch (state.status) {
-    case 'syncing':
-      return { label: 'Syncing…', tone: 'muted' };
-    case 'offline':
-      return {
-        label: state.pending ? `Offline · ${state.pending} unsynced` : 'Offline',
-        tone: 'muted',
-      };
-    case 'auth':
-      return { label: 'Sign in to sync', tone: 'warn' };
-    case 'unavailable':
-      return { label: 'Sync unavailable', tone: 'muted' };
-    case 'error':
-      return { label: 'Sync error', tone: 'warn' };
-    default:
-      return state.pending
-        ? { label: `${state.pending} unsynced`, tone: 'muted' }
-        : { label: 'Synced', tone: 'ok' };
-  }
-}
 
 export function SyncIndicator({ variant = 'bar' }: { variant?: 'bar' | 'rail' }) {
   const state = useSyncState();

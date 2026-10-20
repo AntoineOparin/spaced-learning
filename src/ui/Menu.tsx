@@ -3,8 +3,8 @@
  * out of its trigger and supports arrow-key navigation.
  */
 import { type KeyboardEvent, useId, useRef } from 'react';
+import { cn } from '../lib/cn';
 import { IconButton } from './Button';
-import { cn } from './cn';
 import { Icon, type IconName } from './Icon';
 import { placePopover } from './popover';
 

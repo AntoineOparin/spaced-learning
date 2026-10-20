@@ -1,5 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { BadRequest, parsePushBody, pullRecords, pushRecords, type WireRecord } from '../sync.ts';
+import { SYNCED_TABLES as APP_SYNCED_TABLES } from '../../src/domain/types.ts';
+import {
+  BadRequest,
+  OutdatedClient,
+  parsePushBody,
+  pullRecords,
+  pushRecords,
+  SYNCED_TABLES,
+  serverSchemaVersion,
+  type WireRecord,
+} from '../sync.ts';
 import { createTestDb } from './sqlite.ts';
 
 function rec(
@@ -21,7 +31,7 @@ describe('pushRecords / pullRecords', () => {
       ['cards', 'b', 2, 'B'],
     ]);
     expect(page).toMatchObject({ cursor: 2, hasMore: false });
-    expect(await pullRecords(db, 2, 100)).toEqual({ records: [], cursor: 2, hasMore: false });
+    expect(await pullRecords(db, 2, 100)).toMatchObject({ records: [], cursor: 2, hasMore: false });
   });
 
   it('last write wins: older updates are ignored, newer ones replace and get a new seq', async () => {
@@ -44,7 +54,7 @@ describe('pushRecords / pullRecords', () => {
     await pushRecords(db, [rec('a', 10)]);
     const before = await pullRecords(db, 0, 100);
     await pushRecords(db, [rec('a', 10)]);
-    expect(await pullRecords(db, 0, 100)).toEqual(before);
+    expect((await pullRecords(db, 0, 100)).records).toEqual(before.records);
   });
 
   it('propagates tombstones', async () => {
@@ -86,6 +96,11 @@ describe('pushRecords / pullRecords', () => {
     expect(records[records.length - 1]?.id).toBe('after');
   });
 
+  it('returns the server time with every page', async () => {
+    const db = createTestDb();
+    expect((await pullRecords(db, 0, 100, () => 42)).serverTime).toBe(42);
+  });
+
   it('is atomic: a failing batch writes nothing', async () => {
     const db = createTestDb();
     db.raw.exec(
@@ -96,9 +111,43 @@ describe('pushRecords / pullRecords', () => {
   });
 });
 
+describe('schema versions', () => {
+  it('stores each record’s version and remembers the newest client', async () => {
+    const db = createTestDb();
+    expect(await serverSchemaVersion(db)).toBe(1);
+    await pushRecords(db, [rec('a', 1)], 1);
+    await pushRecords(db, [rec('b', 1)], 2);
+    expect(await serverSchemaVersion(db)).toBe(2);
+    const { records } = await pullRecords(db, 0, 100);
+    expect(records.map((r) => [r.id, r.schemaVersion])).toEqual([
+      ['a', 1],
+      ['b', 2],
+    ]);
+  });
+
+  it('refuses a client older than records already on the server', async () => {
+    const db = createTestDb();
+    await pushRecords(db, [rec('a', 1)], 2);
+    const err = await pushRecords(db, [rec('b', 1)], 1).catch((e: unknown) => e);
+    expect(err).toBeInstanceOf(OutdatedClient);
+    expect((err as OutdatedClient).required).toBe(2);
+    expect((await pullRecords(db, 0, 100)).records).toHaveLength(1);
+    // Even an empty push is refused, so the client learns before doing anything else.
+    await expect(pushRecords(db, [], 1)).rejects.toBeInstanceOf(OutdatedClient);
+  });
+
+  it('matches the client’s list of synced tables', () => {
+    expect(SYNCED_TABLES).toEqual(APP_SYNCED_TABLES);
+  });
+});
+
 describe('parsePushBody', () => {
-  it('accepts valid records', () => {
-    expect(parsePushBody({ records: [rec('a', 1)] })).toHaveLength(1);
+  it('accepts valid records and defaults the schema version to 1', () => {
+    expect(parsePushBody({ records: [rec('a', 1)] })).toMatchObject({
+      schemaVersion: 1,
+      records: [{ id: 'a' }],
+    });
+    expect(parsePushBody({ schemaVersion: 3, records: [] }).schemaVersion).toBe(3);
   });
 
   it.each([
@@ -111,6 +160,9 @@ describe('parsePushBody', () => {
     [{ records: [{ ...rec('a', 1), data: [] }] }, /data/],
     [{ records: [{ ...rec('a', 1), data: { id: 'other' } }] }, /does not match/],
     [{ records: Array.from({ length: 501 }, (_, i) => rec(`r${i}`, 1)) }, /At most/],
+    [{ schemaVersion: 0, records: [] }, /schemaVersion/],
+    [{ schemaVersion: '2', records: [] }, /schemaVersion/],
+    [{ schemaVersion: 1.5, records: [] }, /schemaVersion/],
   ])('rejects %j', (body, message) => {
     expect(() => parsePushBody(body)).toThrow(BadRequest);
     expect(() => parsePushBody(body)).toThrow(message);

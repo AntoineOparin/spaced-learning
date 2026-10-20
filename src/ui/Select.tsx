@@ -14,7 +14,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { cn } from './cn';
+import { cn } from '../lib/cn';
 import { fieldControl } from './Field';
 import { Icon } from './Icon';
 import { placePopover } from './popover';

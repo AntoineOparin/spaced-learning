@@ -7,5 +7,12 @@
     /* Worker tests import app modules, including JSON. */
     "resolveJsonModule": true
   },
-  "include": ["vite.config.ts", "vitest.config.ts", "playwright.config.ts", "e2e", "worker/test"]
+  "include": [
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "e2e",
+    "test",
+    "worker/test"
+  ]
 }

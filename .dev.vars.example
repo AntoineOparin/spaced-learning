@@ -6,4 +6,4 @@ DEV_USER_EMAIL=dev@localhost
 # Production values are set with `npx wrangler secret put <NAME>`:
 #   ACCESS_TEAM_DOMAIN  e.g. https://your-team.cloudflareaccess.com
 #   ACCESS_AUD          the Application Audience (AUD) tag of the Access application
-#   ALLOWED_EMAIL       the single email address allowed to use the API
+#   ALLOWED_EMAIL       exactly one email address (a comma-separated list is rejected)

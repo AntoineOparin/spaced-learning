@@ -33,12 +33,16 @@ Browser / installed PWA                     Cloudflare (free tier)
 |---|---|
 | `src/domain/` | Pure TypeScript with no React or Dexie: entities, the ts-fsrs adapter (`scheduler.ts`), the study queue (`queue.ts`), card generation and cloze parsing, study-day boundaries, stats |
 | `src/content/` | Markdown-lite + LaTeX parser, KaTeX rendering, content validation, curated decks (`decks/calc2.json`) |
-| `src/db/` | Dexie schema and the repository. Every write goes through `repo.ts`, which stamps `updatedAt` and `dirty` and writes tombstones instead of deleting |
+| `src/db/` | Dexie schema, the repository and the read-side queries/hooks. Every write goes through `repo.ts`, which stamps `updatedAt` and `dirty` and writes tombstones instead of deleting |
 | `src/io/` | Versioned, Zod-validated file formats: full backup and content packs |
 | `src/sync/` | Delta push/pull client and the background sync manager |
+| `src/app/` | The app shell: navigation, error boundary, sync and update indicators |
 | `src/features/` | Screens: dashboard, study, library, editor, settings |
 | `worker/` | Cloudflare Worker: Access JWT verification, sync API, D1 migrations |
 | `e2e/` | Playwright tests (desktop Chromium and iPhone WebKit, with axe accessibility checks) |
+| `docs/decisions/` | Short records of the architectural decisions behind the above |
+
+The import directions between layers are listed in `CLAUDE.md` and enforced by a test.
 
 ## Develop
 
@@ -53,7 +57,7 @@ npm run dev                       # SPA + Worker + local D1 on http://localhost:
 
 | Command | |
 |---|---|
-| `npm test` | Unit and integration tests (Vitest): domain, persistence, import/export, Worker SQL, two-device sync, deck checks |
+| `npm test` | Unit and integration tests (Vitest): domain, persistence, import/export, Worker SQL, two-device sync, deck checks, layer rules. `npm run test:coverage` adds a coverage report |
 | `npm run test:e2e` | Playwright end-to-end tests. Uses a throwaway local D1 database. Run `npx playwright install chromium webkit` once first |
 | `npm run typecheck` / `npm run lint` / `npm run format` | TypeScript (strict) and Biome |
 | `npm run build` | Production build into `dist/` (client, Worker, service worker) |
@@ -66,6 +70,9 @@ npm run dev                       # SPA + Worker + local D1 on http://localhost:
 3. **Create the tables:** `npm run db:migrate:remote`
 4. **Deploy:** `npm run deploy`. The app is published at `https://spaced-learning.<your-subdomain>.workers.dev`.
    **It is public until you finish step 5**, so do that right away.
+
+   For every later release, run `npm run db:migrate:remote` **before** `npm run deploy` when the
+   release adds a file under `worker/migrations/`: the Worker's SQL expects the new columns.
 5. **Lock it down with Cloudflare Access.** The Zero Trust free plan allows up to 50 users.
    1. In the Cloudflare dashboard, open **Workers & Pages → spaced-learning → Settings → Domains & Routes**.
    2. Enable **Cloudflare Access** for both **workers.dev** and **Preview URLs**.
@@ -78,7 +85,7 @@ npm run dev                       # SPA + Worker + local D1 on http://localhost:
    ```sh
    npx wrangler secret put ACCESS_TEAM_DOMAIN   # https://<team-name>.cloudflareaccess.com
    npx wrangler secret put ACCESS_AUD           # Application Audience (AUD) tag, from the Access application's overview
-   npx wrangler secret put ALLOWED_EMAIL        # your email address
+   npx wrangler secret put ALLOWED_EMAIL        # exactly one email address (a list is rejected)
    ```
 7. **Verify:**
    - `curl -sI https://spaced-learning.<sub>.workers.dev | grep -i location` should point to

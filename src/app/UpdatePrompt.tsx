@@ -31,6 +31,12 @@ function subscribe(listener: () => void) {
   };
 }
 
+/** Activates a waiting service worker if there is one, then reloads to the newest build. */
+export function reloadToUpdate(): void {
+  if (updateSW) void updateSW(true);
+  else window.location.reload();
+}
+
 /** Offers to reload when a new app version is ready (never forced mid-session). */
 export function UpdatePrompt() {
   const show = useSyncExternalStore(subscribe, () => needRefresh);
@@ -44,7 +50,7 @@ export function UpdatePrompt() {
           <Button size="sm" variant="ghost" onClick={() => setNeedRefresh(false)}>
             Later
           </Button>
-          <Button size="sm" variant="primary" onClick={() => void updateSW?.(true)}>
+          <Button size="sm" variant="primary" onClick={reloadToUpdate}>
             Reload
           </Button>
         </>

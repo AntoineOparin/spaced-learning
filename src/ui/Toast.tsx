@@ -1,6 +1,6 @@
 /** Minimal toast notifications with an optional action (e.g. "Undo"). */
 import { createContext, type ReactNode, useCallback, useContext, useState } from 'react';
-import { cn } from './cn';
+import { cn } from '../lib/cn';
 import { Icon } from './Icon';
 
 export interface ToastOptions {

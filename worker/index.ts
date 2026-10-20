@@ -3,7 +3,14 @@
  * this code (see `run_worker_first` in wrangler.jsonc). Cloudflare Access sits in front of all of it.
  */
 import { type AuthEnv, authenticate } from './access';
-import { BadRequest, MAX_PULL_LIMIT, parsePushBody, pullRecords, pushRecords } from './sync';
+import {
+  BadRequest,
+  MAX_PULL_LIMIT,
+  OutdatedClient,
+  parsePushBody,
+  pullRecords,
+  pushRecords,
+} from './sync';
 
 type WorkerEnv = Env & AuthEnv;
 
@@ -49,11 +56,14 @@ async function handleApi(request: Request, env: WorkerEnv, url: URL): Promise<Re
         return json({ error: 'invalid JSON' }, 400);
       }
       try {
-        const records = parsePushBody(body);
-        await pushRecords(env.DB, records);
+        const { records, schemaVersion } = parsePushBody(body);
+        await pushRecords(env.DB, records, schemaVersion);
         return json({ accepted: records.length });
       } catch (err) {
         if (err instanceof BadRequest) return json({ error: err.message }, 400);
+        // 426 Upgrade Required: the app must update before it can write.
+        if (err instanceof OutdatedClient)
+          return json({ error: 'client outdated', required: err.required }, 426);
         throw err;
       }
     }

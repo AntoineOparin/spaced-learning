@@ -13,9 +13,9 @@ import {
   useState,
 } from 'react';
 import type { Course, Topic } from '../../domain/types';
+import { cn } from '../../lib/cn';
 import { readLocal, writeLocal } from '../../lib/storage';
 import { IconButton } from '../../ui/Button';
-import { cn } from '../../ui/cn';
 import { DisclosureChevron } from '../../ui/Disclosure';
 import { Icon } from '../../ui/Icon';
 import { Badge } from '../../ui/misc';

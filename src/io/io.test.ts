@@ -4,7 +4,7 @@ import { AppDB } from '../db/db';
 import { SYNC_CURSOR_KEY } from '../db/metaKeys';
 import { Repo } from '../db/repo';
 import { T0 } from '../test/factories';
-import { exportBackup, restoreBackup, summarizeBackup } from './backup';
+import { exportBackup, summarizeBackup } from './backup';
 import { installContentPack } from './contentPack';
 import { backupSchema, type ContentPack, contentPackSchema, parseJson } from './schema';
 
@@ -56,15 +56,16 @@ async function seed() {
 describe('backup export / restore', () => {
   it('round-trips losslessly through JSON (apart from the restore stamp)', async () => {
     await seed();
-    const backup = await exportBackup(db, T0 + 10);
+    const backup = await exportBackup(repo, T0 + 10);
     const parsed = parseJson(JSON.stringify(backup), backupSchema);
     if (!parsed.ok) throw new Error(parsed.errors.join('\n'));
     expect(parsed.data).toEqual(backup);
 
     await repo.setMeta(SYNC_CURSOR_KEY, 42);
     const other = new AppDB(`io-test-restore-${n}`);
-    await restoreBackup(other, parsed.data, T0 + 20);
-    const roundTrip = await exportBackup(other, T0 + 10);
+    const otherRepo = new Repo(other, () => T0 + 20);
+    await otherRepo.restoreSnapshot(parsed.data);
+    const roundTrip = await exportBackup(otherRepo, T0 + 10);
     const unstamp = (b: typeof backup) =>
       Object.fromEntries(
         Object.entries(b).map(([k, v]) => [
@@ -82,17 +83,18 @@ describe('backup export / restore', () => {
 
   it('restore replaces existing data and resets the sync cursor', async () => {
     await seed();
-    const backup = await exportBackup(db, T0);
+    const backup = await exportBackup(repo, T0);
     await repo.createCourse({ name: 'Created after backup' });
     await repo.setMeta(SYNC_CURSOR_KEY, 99);
-    await restoreBackup(db, backup, T0 + 1);
+    now = T0 + 1;
+    await repo.restoreSnapshot(backup);
     expect((await db.courses.toArray()).map((c) => c.name)).toEqual(['Calc 2']);
     expect(await repo.getMeta(SYNC_CURSOR_KEY)).toBeUndefined();
   });
 
   it('summarizes alive records', async () => {
     await seed();
-    expect(summarizeBackup(await exportBackup(db, T0))).toEqual({
+    expect(summarizeBackup(await exportBackup(repo, T0))).toEqual({
       exportedAt: T0,
       courses: 1,
       items: 1,
@@ -111,12 +113,13 @@ describe('backup export / restore', () => {
     if (!bad.ok) expect(bad.errors[0]).toMatch(/exportedAt/);
 
     await seed();
-    const backup = await exportBackup(db, T0);
+    const backup = await exportBackup(repo, T0);
     // A record that violates a constraint aborts the whole restore.
     const corrupt = { ...backup, cards: [...backup.cards, ...backup.cards] }; // duplicate primary key
     const target = new AppDB(`io-test-corrupt-${n}`);
-    await new Repo(target, () => now).createCourse({ name: 'Existing' });
-    await expect(restoreBackup(target, corrupt, T0)).rejects.toThrow();
+    const targetRepo = new Repo(target, () => now);
+    await targetRepo.createCourse({ name: 'Existing' });
+    await expect(targetRepo.restoreSnapshot(corrupt)).rejects.toThrow();
     expect((await target.courses.toArray()).map((c) => c.name)).toEqual(['Existing']);
     target.close();
     await target.delete();
