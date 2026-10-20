@@ -12,7 +12,7 @@ const MIN_ITEMS: Record<string, number> = {
   'calc2-core': 180,
   'comp352-core': 200,
   'comp232-core': 200,
-  'econ203-core': 180,
+  'econ203-core': 280,
 };
 
 const packs = await Promise.all(

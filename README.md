@@ -190,12 +190,15 @@ lectures progress. Each deck's outline, sources and open questions are in `docs/
 | Calculus 2 | 214 | 8 | Stewart-style course; 125 numeric spot-checks verify the formulas (`calc2.checks.ts`) |
 | COMP 352 · Data Structures & Algorithms | 221 | 10 | Fall 2026 slides and midterm prep for weeks 1–3; later units (102 items tagged `ahead`) from Goodrich–Tamassia |
 | COMP 232 · Mathematics for Computer Science | 230 | 10 | Fall 2026 slides for weeks 1–5; later units (60 items tagged `ahead`) from Rosen |
-| ECON 203 · Introduction to Macroeconomics | 208 | 10 | Fall 2026 chapter slides 4–10; chapters 11–19 (56 items tagged `ahead`) from Ragan |
+| ECON 203 · Introduction to Macroeconomics | 310 | 14 | Fall 2026 chapter slides 4–16 and 19, one unit per chapter; all but 8 general-knowledge items cite a slide |
 
 Items written ahead of the lectures carry the `ahead` tag and no `source`; when those slides
 arrive, verify them, add sources and drop the tag. Every item in every deck is checked by
 `npm test`: schema, topic tree, KaTeX rendering and the editor's quality rules. To check one
 file while editing it: `DECK=src/content/decks/comp352.json npx vitest run test/deck-file.test.ts`.
+
+Installing a deck merges by item and topic key and never updates or removes items already
+installed, so a renamed key arrives as a duplicate card. Once a deck has reached `main`, keep its keys.
 
 Calculus 2 conventions worth a look against your textbook:
 
