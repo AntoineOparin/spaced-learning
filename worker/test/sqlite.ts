@@ -1,13 +1,23 @@
 /** Test adapter: runs the Worker's SQL against node:sqlite with D1-like semantics. */
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 import { DatabaseSync, type SQLInputValue } from 'node:sqlite';
 import type { SqlDb, SqlStatement } from '../sync.ts';
 
-const MIGRATION = new URL('../migrations/0001_init.sql', import.meta.url);
+const MIGRATIONS = path.join(import.meta.dirname, '..', 'migrations');
+
+/** Applies every migration in order, like `wrangler d1 migrations apply`. */
+export function applyMigrations(raw: DatabaseSync): void {
+  for (const file of readdirSync(MIGRATIONS)
+    .filter((f) => f.endsWith('.sql'))
+    .sort()) {
+    raw.exec(readFileSync(path.join(MIGRATIONS, file), 'utf8'));
+  }
+}
 
 export function createTestDb(): SqlDb & { raw: DatabaseSync } {
   const raw = new DatabaseSync(':memory:');
-  raw.exec(readFileSync(MIGRATION, 'utf8'));
+  applyMigrations(raw);
 
   class Statement implements SqlStatement {
     private readonly sql: string;

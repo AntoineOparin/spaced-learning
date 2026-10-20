@@ -2,7 +2,9 @@
  * Delta sync between IndexedDB and the Worker (D1).
  *
  * 1. Pull every server record with `seq > cursor`; apply last-write-wins per record (a local
- *    record that is dirty and at least as new is kept — it will be pushed).
+ *    record that is dirty and at least as new is kept — it will be pushed). Records are
+ *    validated against the file-format schemas first; ones the app can't read are skipped and
+ *    counted, never written. Records from a newer app version stop the sync (`outdated`).
  * 2. Push every dirty record; clear `dirty` only if the record didn't change while in flight.
  *
  * Review logs are immutable (union merge); tombstones propagate deletions.
@@ -10,7 +12,10 @@
 import type { Table } from 'dexie';
 import type { AppDB } from '../db/db';
 import { LAST_SYNC_AT_KEY, SYNC_CURSOR_KEY } from '../db/metaKeys';
-import { SYNCED_TABLES, type SyncedTable } from '../domain/types';
+import { upgradeRecord } from '../db/upgrades';
+import { MINUTE } from '../domain/day';
+import { SCHEMA_VERSION, SYNCED_TABLES, type SyncedTable } from '../domain/types';
+import { wireRecordSchema } from '../io/schema';
 
 export interface WireRecord {
   tbl: SyncedTable;
@@ -22,12 +27,16 @@ export interface WireRecord {
 
 export interface PulledRecord extends WireRecord {
   seq: number;
+  /** Absent from Workers deployed before versioning; those records are version 1. */
+  schemaVersion?: number;
 }
 
 export interface PullPage {
   records: PulledRecord[];
   cursor: number;
   hasMore: boolean;
+  /** Server clock when the page was built; absent from older Workers. */
+  serverTime?: number;
 }
 
 export interface SyncTransport {
@@ -59,10 +68,21 @@ export class SyncUnavailableError extends Error {
   }
 }
 
+/** The server holds records written by a newer app version; this app must update first. */
+export class OutdatedClientError extends Error {
+  constructor() {
+    super('Update the app to sync');
+    this.name = 'OutdatedClientError';
+  }
+}
+
 type SyncRow = { id: string; updatedAt: number; deletedAt?: number; dirty: 0 | 1 };
 
 export const PUSH_BATCH = 500;
 export const PULL_LIMIT = 1000;
+/** Device clocks further than this from the server make last-write-wins unreliable. */
+export const CLOCK_SKEW_WARN_MS = 5 * MINUTE;
+const MAX_SAMPLES = 3;
 
 function table(db: AppDB, name: SyncedTable): Table<SyncRow, string> {
   return db.table(name);
@@ -73,39 +93,111 @@ export function toWire(tbl: SyncedTable, row: SyncRow): WireRecord {
   return { tbl, id: row.id, updatedAt: row.updatedAt, deleted: row.deletedAt !== undefined, data };
 }
 
-async function applyPage(db: AppDB, page: PullPage): Promise<number> {
-  let applied = 0;
-  const tables = SYNCED_TABLES.map((t) => table(db, t));
-  await db.transaction('rw', [...tables, db.meta], async () => {
-    for (const name of SYNCED_TABLES) {
-      const incoming = page.records.filter((r) => r.tbl === name);
-      if (!incoming.length) continue;
-      const t = table(db, name);
-      const locals = await t.bulkGet(incoming.map((r) => r.id));
-      const writes: SyncRow[] = [];
-      incoming.forEach((remote, i) => {
-        const local = locals[i];
-        if (local && local.updatedAt >= remote.updatedAt) return; // local is same or newer
-        writes.push({ ...(remote.data as Omit<SyncRow, 'dirty'>), dirty: 0 });
-      });
-      if (writes.length) await t.bulkPut(writes);
-      applied += writes.length;
-    }
-    await db.meta.put({ key: SYNC_CURSOR_KEY, value: page.cursor });
-  });
-  return applied;
+export interface SyncResult {
+  pulled: number;
+  pushed: number;
+  /** Pulled records the app could not read (skipped). */
+  invalid: number;
+  /** Unpushed local changes discarded because the server had a newer version. */
+  superseded: number;
+  /** `serverTime - Date.now()` measured on the first pull, or null when the server didn't say. */
+  clockSkewMs: number | null;
 }
 
-async function pullAll(db: AppDB, transport: SyncTransport): Promise<number> {
+interface PullStats {
+  applied: number;
+  invalid: number;
+  superseded: number;
+  samples: string[];
+  clockSkewMs: number | null;
+}
+
+type Prepared = { ok: true; row: SyncRow } | { ok: false; reason: string };
+
+/** Validates (and if needed upgrades) one pulled record into a row the app can store. */
+export function prepareRecord(remote: PulledRecord): Prepared {
+  const schema = wireRecordSchema(remote.tbl);
+  if (!schema) return { ok: false, reason: `unknown table ${remote.tbl}` };
+  const version = remote.schemaVersion ?? 1;
+  const data =
+    version < SCHEMA_VERSION ? upgradeRecord(remote.tbl, remote.data, version) : remote.data;
+  const parsed = schema.safeParse(data);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    return {
+      ok: false,
+      reason: issue ? `${issue.path.join('.') || '(root)'}: ${issue.message}` : 'invalid',
+    };
+  }
+  if (data.id !== remote.id) return { ok: false, reason: 'data.id does not match id' };
+  if (remote.deleted !== (data.deletedAt !== undefined)) {
+    return { ok: false, reason: 'deleted flag does not match deletedAt' };
+  }
+  // The raw object is stored (not Zod's stripped copy) so optional fields added by a same-version
+  // newer client survive a round trip instead of being pushed back without them.
+  return { ok: true, row: { ...(data as Omit<SyncRow, 'dirty'>), dirty: 0 } };
+}
+
+async function applyPage(db: AppDB, page: PullPage, stats: PullStats): Promise<void> {
+  if (page.records.some((r) => (r.schemaVersion ?? 1) > SCHEMA_VERSION)) {
+    throw new OutdatedClientError();
+  }
+  const skip = (remote: PulledRecord, reason: string) => {
+    stats.invalid++;
+    if (stats.samples.length < MAX_SAMPLES)
+      stats.samples.push(`${remote.tbl}/${remote.id}: ${reason}`);
+  };
+  const byTable = new Map<SyncedTable, { remote: PulledRecord; row: SyncRow }[]>();
+  for (const remote of page.records) {
+    const prepared = prepareRecord(remote);
+    if (!prepared.ok) {
+      skip(remote, prepared.reason);
+      continue;
+    }
+    const list = byTable.get(remote.tbl) ?? [];
+    list.push({ remote, row: prepared.row });
+    byTable.set(remote.tbl, list);
+  }
+
+  const tables = SYNCED_TABLES.map((t) => table(db, t));
+  await db.transaction('rw', [...tables, db.meta], async () => {
+    for (const [name, incoming] of byTable) {
+      const t = table(db, name);
+      const locals = await t.bulkGet(incoming.map((r) => r.remote.id));
+      const writes: SyncRow[] = [];
+      incoming.forEach(({ remote, row }, i) => {
+        const local = locals[i];
+        if (local && local.updatedAt >= remote.updatedAt) return; // local is same or newer
+        if (local?.dirty === 1) stats.superseded++; // an unpushed local edit loses
+        writes.push(row);
+      });
+      if (writes.length) await t.bulkPut(writes);
+      stats.applied += writes.length;
+    }
+    // Advance past skipped records too, so one bad record can never wedge sync.
+    await db.meta.put({ key: SYNC_CURSOR_KEY, value: page.cursor });
+  });
+}
+
+async function pullAll(
+  db: AppDB,
+  transport: SyncTransport,
+  now: () => number,
+  stats: PullStats,
+): Promise<void> {
   let cursor = ((await db.meta.get(SYNC_CURSOR_KEY))?.value as number | undefined) ?? 0;
-  let applied = 0;
+  let first = true;
   for (;;) {
     const page = await transport.pull(cursor, PULL_LIMIT);
-    applied += await applyPage(db, page);
+    if (first && typeof page.serverTime === 'number') stats.clockSkewMs = page.serverTime - now();
+    first = false;
+    await applyPage(db, page, stats);
     if (!page.hasMore || page.cursor === cursor) break;
     cursor = page.cursor;
   }
-  return applied;
+  if (stats.invalid) {
+    console.warn(`Sync skipped ${stats.invalid} record(s) this app could not read`, stats.samples);
+  }
 }
 
 export async function countDirty(db: AppDB): Promise<number> {
@@ -151,20 +243,39 @@ async function markClean(db: AppDB, batch: readonly WireRecord[]): Promise<void>
   });
 }
 
-export interface SyncResult {
-  pulled: number;
-  pushed: number;
-}
-
 export async function syncOnce(
   db: AppDB,
   transport: SyncTransport,
   now: () => number = Date.now,
 ): Promise<SyncResult> {
-  const pulled = await pullAll(db, transport);
+  const stats: PullStats = {
+    applied: 0,
+    invalid: 0,
+    superseded: 0,
+    samples: [],
+    clockSkewMs: null,
+  };
+  await pullAll(db, transport, now, stats);
   const pushed = await pushAll(db, transport);
   await db.meta.put({ key: LAST_SYNC_AT_KEY, value: now() });
-  return { pulled, pushed };
+  return {
+    pulled: stats.applied,
+    pushed,
+    invalid: stats.invalid,
+    superseded: stats.superseded,
+    clockSkewMs: stats.clockSkewMs,
+  };
+}
+
+function isPullPage(body: unknown): body is PullPage {
+  const b = body as Partial<PullPage> | null;
+  return (
+    !!b &&
+    typeof b === 'object' &&
+    Array.isArray(b.records) &&
+    Number.isSafeInteger(b.cursor) &&
+    typeof b.hasMore === 'boolean'
+  );
 }
 
 /** Fetch-based transport for the Worker API. */
@@ -188,6 +299,7 @@ export function httpTransport(base = ''): SyncTransport {
     }
     if (res.status === 404 || res.status === 405)
       throw new SyncUnavailableError(`HTTP ${res.status}`);
+    if (res.status === 426) throw new OutdatedClientError();
     if (!res.ok) throw new Error(`Sync request failed (HTTP ${res.status})`);
     if (!res.headers.get('content-type')?.includes('application/json')) {
       throw new SyncUnavailableError('unexpected response');
@@ -200,11 +312,13 @@ export function httpTransport(base = ''): SyncTransport {
       await call('/api/sync/push', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ records }),
+        body: JSON.stringify({ schemaVersion: SCHEMA_VERSION, records }),
       });
     },
-    pull(since, limit) {
-      return call<PullPage>(`/api/sync/pull?since=${since}&limit=${limit}`);
+    async pull(since, limit) {
+      const page = await call<unknown>(`/api/sync/pull?since=${since}&limit=${limit}`);
+      if (!isPullPage(page)) throw new SyncUnavailableError('unexpected response');
+      return page;
     },
   };
 }

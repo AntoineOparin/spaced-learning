@@ -1,0 +1,17 @@
+# Weekly npm updates, grouped so routine bumps arrive as one PR; majors come separately.
+# Versions stay pinned exactly (.npmrc has save-exact).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

@@ -168,6 +168,13 @@ export const DEFAULT_SETTINGS: Omit<Settings, 'updatedAt' | 'dirty'> = {
 /** Upper bound of the new-cards-per-day inputs (global and per course). */
 export const NEW_PER_DAY_MAX = 500;
 
+/**
+ * Version of the synced record shapes. It equals the latest Dexie version in `src/db/db.ts`:
+ * bump both together and add an entry to `RECORD_UPGRADES` in `src/db/upgrades.ts`. Every push
+ * carries it; the server stores it per record and refuses pushes from older clients.
+ */
+export const SCHEMA_VERSION = 1;
+
 /** Names of the synced tables (also used as the `tbl` column on the server). */
 export const SYNCED_TABLES = [
   'courses',

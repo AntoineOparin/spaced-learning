@@ -1,6 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { cn } from '../lib/cn';
 import { buttonClass } from '../ui/Button';
-import { cn } from '../ui/cn';
 import { surface } from '../ui/misc';
 
 interface State {

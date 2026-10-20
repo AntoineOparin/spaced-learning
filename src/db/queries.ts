@@ -1,11 +1,14 @@
 /**
- * Loads everything the queue needs and builds `QueueInput`s. Shared by the dashboard and the
- * study session so the counts shown on the dashboard always match what a session will serve.
+ * Read-side queries. Pages read through these (or the hooks in `hooks.ts`) rather than touching
+ * Dexie tables directly; writes go through `Repo`.
+ *
+ * `loadStudyData` + `buildQueueInput` are shared by the dashboard and the study session so the
+ * counts shown on the dashboard always match what a session will serve.
  */
-import type { AppDB } from '../db/db';
-import { endOfStudyDay, startOfStudyDay } from '../domain/day';
+import { DAY, endOfStudyDay, startOfStudyDay } from '../domain/day';
 import type { QueueInput } from '../domain/queue';
 import { type Scheduler, schedulerForCourse } from '../domain/scheduler';
+import { type Streak, studyStreak } from '../domain/stats';
 import { buildNewRank, effectiveActiveTopicIds, subtreeIds } from '../domain/topics';
 import {
   alive,
@@ -17,6 +20,7 @@ import {
   type Settings,
   type Topic,
 } from '../domain/types';
+import type { AppDB } from './db';
 
 export interface StudyData {
   settings: Settings;
@@ -136,3 +140,77 @@ export function buildQueueInput(
 }
 
 export const IDLE_SESSION: SessionState = { reviewsSinceNew: 0, lastTopicId: null, seed: 1 };
+
+export interface LibraryData {
+  courses: Course[];
+  topics: Topic[];
+  items: Item[];
+  cards: Card[];
+}
+
+/** Everything the library shows: alive records, courses in display order. */
+export async function loadLibraryData(db: AppDB): Promise<LibraryData> {
+  const [courses, topics, items, cards] = await Promise.all([
+    db.courses.toArray(),
+    db.topics.toArray(),
+    db.items.toArray(),
+    db.cards.toArray(),
+  ]);
+  return {
+    courses: alive(courses).sort((a, b) => a.order - b.order),
+    topics: alive(topics),
+    items: alive(items),
+    cards: alive(cards),
+  };
+}
+
+export interface DashboardData {
+  data: StudyData;
+  /** Alive review logs from the last 30 days. */
+  recentLogs: ReviewLog[];
+  streak: Streak;
+  now: number;
+}
+
+const RECENT_DAYS = 30;
+
+export async function loadDashboardData(
+  db: AppDB,
+  settings: Settings,
+  now: number,
+): Promise<DashboardData> {
+  const data = await loadStudyData(db, settings, now);
+  const recentLogs = alive(
+    await db.reviewLogs
+      .where('review')
+      .aboveOrEqual(now - RECENT_DAYS * DAY)
+      .toArray(),
+  );
+  let streak = studyStreak(
+    recentLogs.map((l) => l.review),
+    now,
+    settings.dayStartHour,
+  );
+  if (streak.days >= RECENT_DAYS - 1) {
+    // Long streaks outrun the window: read just the review index keys. Undone reviews are
+    // counted here, which only matters on a day whose every review was undone.
+    const times = await db.reviewLogs
+      .where('review')
+      .aboveOrEqual(now - 3 * 365 * DAY)
+      .keys();
+    streak = studyStreak(times as number[], now, settings.dayStartHour);
+  }
+  return { data, recentLogs, streak, now };
+}
+
+/** An item and its alive cards, or null when the item is missing or deleted. */
+export async function loadItemWithCards(
+  db: AppDB,
+  itemId: string,
+): Promise<{ item: Item; cards: Card[] } | null> {
+  const [item, cards] = await Promise.all([
+    db.items.get(itemId),
+    db.cards.where('itemId').equals(itemId).toArray(),
+  ]);
+  return item && item.deletedAt === undefined ? { item, cards: alive(cards) } : null;
+}

@@ -12,7 +12,7 @@ import {
 } from 'react';
 import { DAY } from '../../domain/day';
 import type { Maturity } from '../../domain/stats';
-import { cn } from '../../ui/cn';
+import { cn } from '../../lib/cn';
 import { type AxisDay, axisLabels } from './axis';
 
 const SHORT = new Intl.DateTimeFormat(undefined, { weekday: 'short' });

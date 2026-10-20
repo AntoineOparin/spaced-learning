@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from './cn';
+import { cn } from '../lib/cn';
 import { Icon } from './Icon';
 
 /** A chevron that turns to point down when its section is open. */

@@ -21,6 +21,7 @@ import {
   type Topic,
 } from '../domain/types';
 import type { AppDB } from './db';
+import { SYNC_CURSOR_KEY } from './metaKeys';
 
 export type Clock = () => number;
 
@@ -35,6 +36,16 @@ export interface ItemDraft {
 }
 
 export type SettingsPatch = Partial<Omit<Settings, 'id' | 'updatedAt' | 'dirty' | 'deletedAt'>>;
+
+/** Every table's rows, including tombstones: the payload of a backup file. */
+export interface Snapshot {
+  courses: Course[];
+  topics: Topic[];
+  items: Item[];
+  cards: Card[];
+  reviewLogs: ReviewLog[];
+  settings: Settings[];
+}
 
 export interface ReviewResult {
   previous: Card;
@@ -363,6 +374,55 @@ export class Repo {
       const log = await this.db.reviewLogs.get(result.log.id);
       if (log) await this.db.reviewLogs.put({ ...log, deletedAt: now, ...stamp(now) });
     });
+  }
+
+  // ── Backup ──────────────────────────────────────────────────────────────────
+
+  /** Every record, including tombstones and review history, read in one transaction. */
+  async exportSnapshot(): Promise<Snapshot> {
+    const { courses, topics, items, cards, reviewLogs, settings } = this.db;
+    return this.db.transaction(
+      'r',
+      [courses, topics, items, cards, reviewLogs, settings],
+      async () => ({
+        courses: await courses.toArray(),
+        topics: await topics.toArray(),
+        items: await items.toArray(),
+        cards: await cards.toArray(),
+        reviewLogs: await reviewLogs.toArray(),
+        settings: await settings.toArray(),
+      }),
+    );
+  }
+
+  /**
+   * Replaces all local data with the snapshot, in one transaction (all or nothing).
+   *
+   * Every record is re-stamped (`updatedAt = now`, dirty) so the restored state wins on the next
+   * sync, and the sync cursor is reset so records created on other devices after the backup are
+   * pulled back rather than lost.
+   */
+  async restoreSnapshot(backup: Snapshot): Promise<void> {
+    const now = this.clock();
+    const { courses, topics, items, cards, reviewLogs, settings, meta } = this.db;
+    const tables = [courses, topics, items, cards, reviewLogs, settings];
+    await this.db.transaction('rw', [...tables, meta], async () => {
+      const restamp = <T extends object>(rows: T[]) => rows.map((r) => ({ ...r, ...stamp(now) }));
+      await Promise.all(tables.map((t) => t.clear()));
+      await courses.bulkAdd(restamp(backup.courses));
+      await topics.bulkAdd(restamp(backup.topics));
+      await items.bulkAdd(restamp(backup.items));
+      await cards.bulkAdd(restamp(backup.cards));
+      await reviewLogs.bulkAdd(restamp(backup.reviewLogs));
+      await settings.bulkAdd(restamp(backup.settings));
+      await meta.delete(SYNC_CURSOR_KEY);
+    });
+  }
+
+  /** Wipes this device's database (the next launch starts empty and re-syncs). */
+  async resetDevice(): Promise<void> {
+    this.db.close();
+    await this.db.delete();
   }
 
   // ── helpers ─────────────────────────────────────────────────────────────────

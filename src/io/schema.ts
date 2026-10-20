@@ -3,6 +3,7 @@
  * outlive the app — so changes need a new version number plus a migration.
  */
 import { z } from 'zod';
+import type { SyncedTable } from '../domain/types';
 
 const ts = z.number().int().nonnegative();
 const id = z.string().min(1).max(100);
@@ -122,6 +123,21 @@ export const settingsSchema = z.object({
   fsrsWeights: z.array(z.number()).optional(),
   ...sync,
 });
+
+/** Record shapes on the sync wire: the stored record minus the device-local `dirty` flag. */
+export const syncRecordSchemas = {
+  courses: courseSchema.omit({ dirty: true }),
+  topics: topicSchema.omit({ dirty: true }),
+  items: itemSchema.omit({ dirty: true }),
+  cards: cardSchema.omit({ dirty: true }),
+  reviewLogs: reviewLogSchema.omit({ dirty: true }),
+  settings: settingsSchema.omit({ dirty: true }),
+} satisfies Record<SyncedTable, z.ZodType>;
+
+/** The schema for a table name, or undefined when the name isn't a synced table. */
+export function wireRecordSchema(tbl: string): z.ZodType | undefined {
+  return Object.hasOwn(syncRecordSchemas, tbl) ? syncRecordSchemas[tbl as SyncedTable] : undefined;
+}
 
 export const BACKUP_FORMAT = 'spaced-learning-backup';
 export const CONTENT_FORMAT = 'spaced-learning-content';

@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
-import { cn } from '../ui/cn';
+import { cn } from '../lib/cn';
 import { Icon, type IconName } from '../ui/Icon';
 import { PageSkeleton } from '../ui/misc';
 import { InstallHint } from './InstallHint';

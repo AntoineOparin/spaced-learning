@@ -1,6 +1,6 @@
 import { createLocalJWKSet, exportJWK, generateKeyPair, SignJWT } from 'jose';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { type AuthEnv, authenticate } from '../access.ts';
+import { type AuthEnv, allowedEmail, authenticate } from '../access.ts';
 
 const ISSUER = 'https://team.cloudflareaccess.com';
 const AUD = 'aud-tag-123';
@@ -78,6 +78,22 @@ describe('authenticate', () => {
     expect(await authenticate(request(forged), env, getKey)).toMatchObject({ ok: false });
   });
 
+  it('rejects a list of addresses even for one that is listed (single tenant)', async () => {
+    const list = { ...env, ALLOWED_EMAIL: 'me@example.com, other@example.com' };
+    expect(await authenticate(request(await token()), list, getKey)).toEqual({
+      ok: false,
+      reason: 'ALLOWED_EMAIL must be exactly one address',
+    });
+  });
+
+  it('trims and lower-cases the configured address', async () => {
+    const padded = { ...env, ALLOWED_EMAIL: '  Me@Example.COM ' };
+    expect(await authenticate(request(await token()), padded, getKey)).toEqual({
+      ok: true,
+      email: 'me@example.com',
+    });
+  });
+
   it('fails closed when not configured', async () => {
     expect(await authenticate(request(await token()), {}, getKey)).toMatchObject({
       ok: false,
@@ -98,5 +114,21 @@ describe('authenticate', () => {
     ).toMatchObject({
       ok: false,
     });
+  });
+});
+
+describe('allowedEmail', () => {
+  it.each([
+    ['me@example.com', 'me@example.com'],
+    [' Me@Example.com ', 'me@example.com'],
+    ['', null],
+    ['   ', null],
+    ['a@b.c,d@e.f', null],
+    ['a@b.c;d@e.f', null],
+    ['a@b.c d@e.f', null],
+    ['not-an-email', null],
+    [undefined, null],
+  ])('%j → %j', (value, expected) => {
+    expect(allowedEmail({ ALLOWED_EMAIL: value })).toBe(expected);
   });
 });

@@ -5,7 +5,7 @@ import {
   type TextareaHTMLAttributes,
   useId,
 } from 'react';
-import { cn } from './cn';
+import { cn } from '../lib/cn';
 import { Icon, type IconName } from './Icon';
 
 /** Shared look of text inputs, textareas and the Select trigger. */
