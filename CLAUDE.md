@@ -47,8 +47,11 @@ Only `src/db` and `src/sync` import `dexie`; only `src/domain/scheduler.ts` impo
   `SCHEMA_VERSION` in `src/domain/types.ts` with an entry in `src/db/upgrades.ts`.
 - **The Worker is schema-agnostic and single-tenant.** It stores client records as JSON by
   `(tbl, id)` with last-write-wins on `updatedAt`; exactly one email is allowed.
-- **Curated decks are data.** `src/content/decks/*.json` are content packs validated by tests
-  (`calc2.checks.ts` holds numeric spot-checks); don't hand-edit formulas without a check.
+- **Curated decks are data.** `src/content/decks/*.json` are content packs validated by
+  `decks.test.ts` (schema, topic tree, KaTeX, quality rules; `calc2.checks.ts` adds numeric
+  spot-checks). Each deck has a plan in `docs/content-plans/` listing sources and conventions;
+  items tagged `ahead` were written before the lecture slides existed and need verifying.
+  Check one file with `DECK=<path> npx vitest run test/deck-file.test.ts`.
 
 ## Working conventions
 

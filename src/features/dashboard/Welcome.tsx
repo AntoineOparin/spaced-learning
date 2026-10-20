@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { BUNDLED_DECKS, type BundledDeck } from '../../content/decks';
 import { Button, buttonClass } from '../../ui/Button';
+import { Icon } from '../../ui/Icon';
 import { Panel } from '../../ui/misc';
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
 
@@ -12,7 +14,7 @@ const STEPS = [
 
 /** First-run screen, shown until the first course exists. */
 export function Welcome() {
-  const [installing, setInstalling] = useState(false);
+  const [deck, setDeck] = useState<BundledDeck | null>(null);
   return (
     <div className="mx-auto max-w-2xl md:py-4">
       <img src="/favicon.svg" alt="" className="size-14 animate-pop" />
@@ -34,14 +36,26 @@ export function Welcome() {
       </ol>
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         <Panel className="flex flex-col">
-          <h2 className="text-lg font-bold">Start with Calculus 2</h2>
-          <p className="mt-1 mb-6 text-sm text-muted">
-            About 200 curated cards: identities, integration techniques, convergence tests and
-            series.
+          <h2 className="text-lg font-bold">Start with a curated deck</h2>
+          <p className="mt-1 mb-4 text-sm text-muted">
+            Each has 150–250 cards written from the course material. Pick the topics your course has
+            covered so far.
           </p>
-          <Button variant="primary" className="mt-auto" onClick={() => setInstalling(true)}>
-            Install starter deck
-          </Button>
+          <ul className="mt-auto space-y-2">
+            {BUNDLED_DECKS.map((d) => (
+              <li key={d.id}>
+                <Button
+                  variant={d === BUNDLED_DECKS[0] ? 'primary' : 'secondary'}
+                  className="w-full justify-between"
+                  aria-label={`Install ${d.title}`}
+                  onClick={() => setDeck(d)}
+                >
+                  <span className="truncate">{d.title}</span>
+                  <Icon name="download" size={16} className="shrink-0" />
+                </Button>
+              </li>
+            ))}
+          </ul>
         </Panel>
         <Panel className="flex flex-col">
           <h2 className="text-lg font-bold">Build your own</h2>
@@ -53,7 +67,12 @@ export function Welcome() {
           </Link>
         </Panel>
       </div>
-      <InstallDeckDialog open={installing} onClose={() => setInstalling(false)} />
+      <InstallDeckDialog
+        key={deck?.id}
+        deck={deck ?? undefined}
+        open={deck !== null}
+        onClose={() => setDeck(null)}
+      />
     </div>
   );
 }

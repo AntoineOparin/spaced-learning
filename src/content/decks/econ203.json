@@ -1,0 +1,2801 @@
+{
+  "format": "spaced-learning-content",
+  "version": 1,
+  "deck": {
+    "id": "econ203-core",
+    "version": 1,
+    "title": "ECON 203 · Introduction to Macroeconomics"
+  },
+  "courses": [
+    {
+      "key": "econ203",
+      "name": "ECON 203 · Introduction to Macroeconomics",
+      "description": "Concordia ECON 203 (Ragan, Macroeconomics, 18th Canadian ed.): key macro variables, national income accounting, the Keynesian AE model and multipliers, AD/AS and factor-price adjustment, long-run growth, money and banking, Bank of Canada monetary policy, inflation and the NAIRU, government debt, exchange rates and the balance of payments. Chapters without slides yet are tagged 'ahead'."
+    }
+  ],
+  "topics": [
+    {
+      "key": "macro",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "What Macroeconomics Is About (Ch. 4)"
+    },
+    {
+      "key": "macro-output",
+      "courseKey": "econ203",
+      "parentKey": "macro",
+      "name": "Output, Output Gap & Business Cycle"
+    },
+    {
+      "key": "macro-labour",
+      "courseKey": "econ203",
+      "parentKey": "macro",
+      "name": "Employment, Unemployment & Productivity"
+    },
+    {
+      "key": "macro-inflation",
+      "courseKey": "econ203",
+      "parentKey": "macro",
+      "name": "Inflation & Interest Rates"
+    },
+    {
+      "key": "macro-fx",
+      "courseKey": "econ203",
+      "parentKey": "macro",
+      "name": "Exchange Rates & Trade Flows"
+    },
+    {
+      "key": "gdp",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "Measuring National Income (Ch. 5)"
+    },
+    {
+      "key": "gdp-value-added",
+      "courseKey": "econ203",
+      "parentKey": "gdp",
+      "name": "Value Added & Double Counting"
+    },
+    {
+      "key": "gdp-expenditure",
+      "courseKey": "econ203",
+      "parentKey": "gdp",
+      "name": "GDP from the Expenditure Side"
+    },
+    {
+      "key": "gdp-income",
+      "courseKey": "econ203",
+      "parentKey": "gdp",
+      "name": "GDP from the Income Side"
+    },
+    {
+      "key": "gdp-real",
+      "courseKey": "econ203",
+      "parentKey": "gdp",
+      "name": "Real vs Nominal GDP & the Deflator"
+    },
+    {
+      "key": "gdp-omissions",
+      "courseKey": "econ203",
+      "parentKey": "gdp",
+      "name": "Omissions & Living Standards"
+    },
+    {
+      "key": "ae",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "The Simplest Short-Run Macro Model (Ch. 6)"
+    },
+    {
+      "key": "ae-consumption",
+      "courseKey": "econ203",
+      "parentKey": "ae",
+      "name": "Consumption & Saving Functions"
+    },
+    {
+      "key": "ae-investment",
+      "courseKey": "econ203",
+      "parentKey": "ae",
+      "name": "Investment & the AE Function"
+    },
+    {
+      "key": "ae-equilibrium",
+      "courseKey": "econ203",
+      "parentKey": "ae",
+      "name": "Equilibrium Income & the Simple Multiplier"
+    },
+    {
+      "key": "open",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "Adding Government & Trade (Ch. 7)"
+    },
+    {
+      "key": "open-government",
+      "courseKey": "econ203",
+      "parentKey": "open",
+      "name": "Government: Net Taxes & Budget Balance"
+    },
+    {
+      "key": "open-trade",
+      "courseKey": "econ203",
+      "parentKey": "open",
+      "name": "The Net Export Function"
+    },
+    {
+      "key": "open-multiplier",
+      "courseKey": "econ203",
+      "parentKey": "open",
+      "name": "Multiplier with Taxes & Imports; Fiscal Policy"
+    },
+    {
+      "key": "adas",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "Real GDP & the Price Level in the Short Run (Ch. 8)"
+    },
+    {
+      "key": "adas-ad",
+      "courseKey": "econ203",
+      "parentKey": "adas",
+      "name": "The Aggregate Demand Curve"
+    },
+    {
+      "key": "adas-as",
+      "courseKey": "econ203",
+      "parentKey": "adas",
+      "name": "The Aggregate Supply Curve"
+    },
+    {
+      "key": "adas-shocks",
+      "courseKey": "econ203",
+      "parentKey": "adas",
+      "name": "Macro Equilibrium & AD/AS Shocks"
+    },
+    {
+      "key": "adjust",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "From the Short Run to the Long Run (Ch. 9)"
+    },
+    {
+      "key": "adjust-states",
+      "courseKey": "econ203",
+      "parentKey": "adjust",
+      "name": "Three Macroeconomic States"
+    },
+    {
+      "key": "adjust-wages",
+      "courseKey": "econ203",
+      "parentKey": "adjust",
+      "name": "Factor-Price Adjustment & the Phillips Curve"
+    },
+    {
+      "key": "adjust-longrun",
+      "courseKey": "econ203",
+      "parentKey": "adjust",
+      "name": "Shocks & Long-Run Equilibrium"
+    },
+    {
+      "key": "adjust-fiscal",
+      "courseKey": "econ203",
+      "parentKey": "adjust",
+      "name": "Fiscal Stabilization Policy"
+    },
+    {
+      "key": "growth",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "Long-Run Economic Growth (Ch. 10)"
+    },
+    {
+      "key": "growth-basics",
+      "courseKey": "econ203",
+      "parentKey": "growth",
+      "name": "Nature & Sources of Growth"
+    },
+    {
+      "key": "growth-saving",
+      "courseKey": "econ203",
+      "parentKey": "growth",
+      "name": "Saving, Investment & the Financial-Capital Market"
+    },
+    {
+      "key": "growth-neoclassical",
+      "courseKey": "econ203",
+      "parentKey": "growth",
+      "name": "The Neoclassical Growth Model"
+    },
+    {
+      "key": "growth-advanced",
+      "courseKey": "econ203",
+      "parentKey": "growth",
+      "name": "Endogenous Growth & Limits to Growth"
+    },
+    {
+      "key": "money",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "Money, Banking & Interest Rates (Ch. 11–12)"
+    },
+    {
+      "key": "money-nature",
+      "courseKey": "econ203",
+      "parentKey": "money",
+      "name": "Nature & Measures of Money"
+    },
+    {
+      "key": "money-banking",
+      "courseKey": "econ203",
+      "parentKey": "money",
+      "name": "Fractional-Reserve Banking & Money Creation"
+    },
+    {
+      "key": "money-interest",
+      "courseKey": "econ203",
+      "parentKey": "money",
+      "name": "Money Demand, Bonds & Interest Rates"
+    },
+    {
+      "key": "money-transmission",
+      "courseKey": "econ203",
+      "parentKey": "money",
+      "name": "The Monetary Transmission Mechanism"
+    },
+    {
+      "key": "policy",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "Monetary Policy, Inflation & Unemployment (Ch. 13–15)"
+    },
+    {
+      "key": "policy-boc",
+      "courseKey": "econ203",
+      "parentKey": "policy",
+      "name": "Monetary Policy in Canada"
+    },
+    {
+      "key": "policy-inflation",
+      "courseKey": "econ203",
+      "parentKey": "policy",
+      "name": "Inflation & Disinflation"
+    },
+    {
+      "key": "policy-nairu",
+      "courseKey": "econ203",
+      "parentKey": "policy",
+      "name": "Unemployment Fluctuations & the NAIRU"
+    },
+    {
+      "key": "debt-fx",
+      "courseKey": "econ203",
+      "parentKey": null,
+      "name": "Government Debt & the Open Economy (Ch. 16, 19)"
+    },
+    {
+      "key": "debt-deficits",
+      "courseKey": "econ203",
+      "parentKey": "debt-fx",
+      "name": "Government Debt & Deficits"
+    },
+    {
+      "key": "fx-bop",
+      "courseKey": "econ203",
+      "parentKey": "debt-fx",
+      "name": "The Balance of Payments"
+    },
+    {
+      "key": "fx-exchange",
+      "courseKey": "econ203",
+      "parentKey": "debt-fx",
+      "name": "Exchange-Rate Determination"
+    }
+  ],
+  "items": [
+    {
+      "key": "macro-output-nominal-real",
+      "topicKey": "macro-output",
+      "type": "cloze",
+      "prompt": "National income measured in current dollars is **{{c1::nominal}}** national income; measured in constant (base-period) dollars it is **{{c2::real}}** national income.",
+      "answer": "",
+      "explanation": "Real national income changes only when *quantities* change; nominal income also moves when prices change.",
+      "source": "Ch. 4 slide 3",
+      "tags": [
+        "definition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "macro-output-potential-def",
+      "topicKey": "macro-output",
+      "type": "cloze",
+      "prompt": "**Potential output** ($Y^*$) is the level of real GDP the economy would produce if all productive resources were {{c1::fully employed}}.",
+      "answer": "",
+      "explanation": "$Y^*$ is not a maximum: some unemployment (frictional and structural) still exists at $Y^*$. It is the 'normal capacity' level that actual output fluctuates around.",
+      "source": "Ch. 4 slide 4",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "macro-output-gap-formula",
+      "topicKey": "macro-output",
+      "type": "cloze",
+      "prompt": "The **output gap** is $\\text{Output gap} = {{c1::Y - Y^*}}$, actual output minus potential output.",
+      "answer": "",
+      "explanation": "Sign convention matters: a *negative* gap means output is below potential (recessionary); a *positive* gap means output is above potential (inflationary).",
+      "source": "Ch. 4 slide 4",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "macro-output-gap-names",
+      "topicKey": "macro-output",
+      "type": "basic",
+      "prompt": "If $Y < Y^*$ the economy has which kind of gap? And if $Y > Y^*$?",
+      "answer": "$Y < Y^*$: a **recessionary gap**. $Y > Y^*$: an **inflationary gap**.",
+      "explanation": "Below potential, resources are idle and output is lost (recession). Above potential, factor markets are over-stretched, which pushes wages and prices up (inflation).",
+      "source": "Ch. 4 slide 4",
+      "tags": [
+        "definition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "macro-output-cycle-phases",
+      "topicKey": "macro-output",
+      "type": "basic",
+      "prompt": "Name the four phases of the business cycle in order, starting from the bottom.",
+      "answer": "Trough, recovery, peak, recession.",
+      "explanation": "Real GDP shows a clear positive long-run trend (almost 300% growth since 1975) with short-term fluctuations around it; the cycle describes those fluctuations.",
+      "source": "Ch. 4 slide 6",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "macro-output-growth-vs-fluct",
+      "topicKey": "macro-output",
+      "type": "basic",
+      "prompt": "Most macroeconomic issues fall into which two categories, and which one matters more for generation-to-generation living standards?",
+      "answer": "Long-run trends (growth) and short-run fluctuations (business cycles). Long-term growth matters more for living standards across generations, though it gets less media attention.",
+      "explanation": "Economists debate how much policy can affect long-run growth, and whether governments should try to 'fine-tune' short-run fluctuations with frequent spending and tax changes.",
+      "source": "Ch. 4 slides 25–26",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "macro-labour-lf-identity",
+      "topicKey": "macro-labour",
+      "type": "cloze",
+      "prompt": "The **labour force** is everyone employed or unemployed: $LF = {{c1::E + U}}$.",
+      "answer": "",
+      "explanation": "People who are neither working nor looking for work (students, retirees, discouraged workers) are *not* in the labour force, so they do not count as unemployed.",
+      "source": "Ch. 4 slide 8",
+      "tags": [
+        "formula",
+        "definition"
+      ]
+    },
+    {
+      "key": "macro-labour-unemployment-rate",
+      "topicKey": "macro-labour",
+      "type": "cloze",
+      "prompt": "The **unemployment rate** is $u = \\dfrac{{{c1::U}}}{{{c2::LF}}} \\times 100$ (unemployed as a percentage of the labour force).",
+      "answer": "",
+      "explanation": "Example: 1.2 million unemployed in a labour force of 20 million gives $u = 6\\%$. Dividing by the whole population would be a classic mistake.",
+      "source": "Ch. 4 slide 8",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "macro-labour-participation-rate",
+      "topicKey": "macro-labour",
+      "type": "basic",
+      "prompt": "How is the **labour force participation rate** defined?",
+      "answer": "The labour force as a percentage of the working-age population (in Canada, people aged 15 and over).",
+      "explanation": "$\\text{Participation rate} = \\dfrac{LF}{\\text{Working-age population}} \\times 100$. It can fall when discouraged workers stop searching, which lowers the measured unemployment rate without anyone finding a job.",
+      "tags": [
+        "formula",
+        "definition"
+      ]
+    },
+    {
+      "key": "macro-labour-full-employment",
+      "topicKey": "macro-labour",
+      "type": "basic",
+      "prompt": "Is the unemployment rate zero when the economy is at potential output $Y^*$? Why or why not?",
+      "answer": "No. At $Y^*$ (full employment) there is still **frictional** unemployment (normal labour-market turnover) and **structural** unemployment (mismatch between jobs and workers).",
+      "explanation": "Full employment means zero *cyclical* unemployment, not zero unemployment.",
+      "source": "Ch. 4 slide 8",
+      "tags": [
+        "concept",
+        "mistake"
+      ]
+    },
+    {
+      "key": "macro-labour-types",
+      "topicKey": "macro-labour",
+      "type": "basic",
+      "prompt": "Distinguish frictional, structural and cyclical unemployment.",
+      "answer": "**Frictional**: normal turnover as people move between jobs. **Structural**: mismatch between the skills/location of workers and available jobs. **Cyclical**: extra unemployment when $Y < Y^*$.",
+      "explanation": "Frictional and structural exist even at $Y^*$; cyclical unemployment is positive only during a recessionary gap.",
+      "source": "Ch. 4 slide 8",
+      "tags": [
+        "confusable",
+        "definition"
+      ]
+    },
+    {
+      "key": "macro-labour-productivity",
+      "topicKey": "macro-labour",
+      "type": "cloze",
+      "prompt": "**Labour productivity** $= \\dfrac{\\text{Real GDP}}{{{c1::\\text{Employment (or total hours worked)}}}}$; productivity growth is the single largest cause of rising {{c2::material living standards}} over long periods.",
+      "answer": "",
+      "explanation": "Productivity in general is output per unit of input; labour productivity picks labour as the input.",
+      "source": "Ch. 4 slide 12",
+      "tags": [
+        "definition",
+        "formula"
+      ]
+    },
+    {
+      "key": "macro-inflation-price-level",
+      "topicKey": "macro-inflation",
+      "type": "cloze",
+      "prompt": "The **price level** is the average level of all prices in the economy expressed as an {{c1::index number}}; **inflation** is the {{c2::percentage change}} in the price level from one period to the next.",
+      "answer": "",
+      "explanation": "The most used measure for calculating inflation is the Consumer Price Index (CPI).",
+      "source": "Ch. 4 slide 14",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "macro-inflation-rate-formula",
+      "topicKey": "macro-inflation",
+      "type": "cloze",
+      "prompt": "Inflation rate from a price index: $\\pi = \\dfrac{{{c1::P_t - P_{t-1}}}}{{{c2::P_{t-1}}}} \\times 100$",
+      "answer": "",
+      "explanation": "Example: CPI goes from 125 to 130, so $\\pi = \\frac{5}{125} \\times 100 = 4\\%$. Divide by the *earlier* level, not the later one.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "macro-inflation-purchasing-power",
+      "topicKey": "macro-inflation",
+      "type": "basic",
+      "prompt": "What does inflation do to the purchasing power of money and to sums fixed in nominal terms?",
+      "answer": "It reduces the purchasing power of money and reduces the real value of any sum fixed in nominal (dollar) terms, such as a fixed pension or a loan.",
+      "explanation": "We value money for what it buys; purchasing power is the amount of goods and services one unit of money can buy.",
+      "source": "Ch. 4 slide 15",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "macro-inflation-anticipated",
+      "topicKey": "macro-inflation",
+      "type": "basic",
+      "prompt": "Why does *unanticipated* inflation matter more than fully anticipated inflation?",
+      "answer": "If inflation is fully anticipated, households and firms adjust nominal prices and wages to keep their real values; unanticipated inflation changes real values and redistributes.",
+      "explanation": "In practice inflation is rarely fully anticipated or fully unanticipated, so some but not all adjustments are made and the allocation of resources is affected.",
+      "source": "Ch. 4 slide 16",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "macro-inflation-real-interest",
+      "topicKey": "macro-inflation",
+      "type": "cloze",
+      "prompt": "The **real interest rate** equals the nominal interest rate {{c1::minus the inflation rate}}.",
+      "answer": "",
+      "explanation": "Example: nominal rate 6% with 4% inflation gives a real rate of 2%. The real rate is the return adjusted for the change in the purchasing power of money.",
+      "source": "Ch. 4 slide 18",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "macro-inflation-bank-vs-prime",
+      "topicKey": "macro-inflation",
+      "type": "cloze",
+      "prompt": "The **bank rate** is the rate the {{c1::Bank of Canada}} charges on short-term loans to commercial banks; the **prime rate** is the rate banks charge their {{c2::best customers}}.",
+      "answer": "",
+      "source": "Ch. 4 slide 18",
+      "tags": [
+        "confusable",
+        "canada"
+      ]
+    },
+    {
+      "key": "macro-inflation-real-rate-direction",
+      "topicKey": "macro-inflation",
+      "type": "basic",
+      "prompt": "If inflation rises while the nominal interest rate stays fixed, what happens to the real interest rate and to borrowers?",
+      "answer": "The real interest rate falls; borrowers repay in money that buys less, so they gain at the lender's expense.",
+      "explanation": "Real rate $= i - \\pi$: higher $\\pi$ with fixed $i$ means a lower real rate. This is why unanticipated inflation redistributes from lenders to borrowers.",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "macro-fx-exchange-rate-def",
+      "topicKey": "macro-fx",
+      "type": "cloze",
+      "prompt": "The **exchange rate** is the amount of one currency needed to purchase one unit of another; in this course it is units of {{c1::domestic currency (C\\$)}} per unit of {{c2::foreign currency}}.",
+      "answer": "",
+      "explanation": "January 2024: 1 euro cost 1.47 Canadian dollars, so the C\\$/euro exchange rate was 1.47. The slide's appreciation/depreciation definition fixes the direction: C\\$ *per* unit of foreign money, not the reverse.",
+      "source": "Ch. 4 slide 20",
+      "tags": [
+        "definition",
+        "canada"
+      ]
+    },
+    {
+      "key": "macro-fx-appreciation",
+      "topicKey": "macro-fx",
+      "type": "basic",
+      "prompt": "Under the course's definition of the exchange rate, is an **appreciation** of the Canadian dollar a rise or a fall in the exchange rate?",
+      "answer": "A **fall**: it takes *fewer* Canadian dollars to buy one unit of foreign currency. A depreciation is a *rise* in the exchange rate.",
+      "explanation": "Counter-intuitive but exam-critical. If the C\\$/US\\$ rate goes from 1.35 to 1.30, the C\\$ has appreciated.",
+      "source": "Ch. 4 slide 20",
+      "tags": [
+        "confusable",
+        "mistake"
+      ]
+    },
+    {
+      "key": "macro-fx-net-exports",
+      "topicKey": "macro-fx",
+      "type": "cloze",
+      "prompt": "**Net exports** (the **trade balance**) $= {{c1::\\text{exports} - \\text{imports}}}$, written $NX = X - IM$.",
+      "answer": "",
+      "explanation": "Canada's exports and imports have grown closely in step, so the trade balance has stayed relatively small as a share of GDP.",
+      "source": "Ch. 4 slide 23",
+      "tags": [
+        "formula",
+        "definition"
+      ]
+    },
+    {
+      "key": "gdp-value-added-double-counting",
+      "topicKey": "gdp-value-added",
+      "type": "basic",
+      "prompt": "Why would adding up the sales of *all* firms overstate national output?",
+      "answer": "Double counting: production occurs in stages, so intermediate goods sold between firms would be counted again inside the price of the final good.",
+      "explanation": "Only **final goods** (sold for consumption, investment, government or export in the period) should be counted.",
+      "source": "Ch. 5 slide 3",
+      "tags": [
+        "concept",
+        "mistake"
+      ]
+    },
+    {
+      "key": "gdp-value-added-intermediate-final",
+      "topicKey": "gdp-value-added",
+      "type": "basic",
+      "prompt": "Intermediate good vs final good?",
+      "answer": "**Intermediate**: output used as an input by another firm. **Final**: not used as an input by other firms; produced to be sold for consumption, investment, government or export in the period.",
+      "explanation": "The same physical good can be either: flour sold to a bakery is intermediate; flour sold to a household is final.",
+      "source": "Ch. 5 slide 3",
+      "tags": [
+        "confusable",
+        "definition"
+      ]
+    },
+    {
+      "key": "gdp-value-added-formula",
+      "topicKey": "gdp-value-added",
+      "type": "cloze",
+      "prompt": "$\\text{Value added} = \\text{Sales revenue} - {{c1::\\text{Cost of intermediate goods}}}$, which also equals the {{c2::payments owed to the firm's factors of production}}.",
+      "answer": "",
+      "explanation": "Summing value added across all firms avoids double counting and gives GDP.",
+      "source": "Ch. 5 slide 4",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-value-added-example",
+      "topicKey": "gdp-value-added",
+      "type": "basic",
+      "prompt": "A mining company sells ore for \\$1000, a steel producer turns it into steel sold for \\$1500, and a fabricator sells the metal product for \\$1800. What is total value added?",
+      "answer": "\\$1800: $1000 + 500 + 300$. Total sales would be \\$4300, but \\$2500 of that is interfirm sales of intermediate goods.",
+      "explanation": "Value added equals the value of the final product (\\$1800), which is also the sum of all payments to factors of production.",
+      "source": "Ch. 5 slide 5",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "gdp-expenditure-three-ways",
+      "topicKey": "gdp-expenditure",
+      "type": "cloze",
+      "prompt": "Three ways of measuring national income, all yielding GDP: sum all {{c1::value added}}, sum all {{c2::expenditure on final domestic output}}, or sum all {{c3::income generated by domestic production}}.",
+      "answer": "",
+      "explanation": "GDP is the total market value of all final goods and services produced in an economy during a given period. In practice a *statistical discrepancy* reconciles the measures.",
+      "source": "Ch. 5 slide 6",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "gdp-expenditure-identity",
+      "topicKey": "gdp-expenditure",
+      "type": "cloze",
+      "prompt": "Expenditure side (actual values, subscript $a$): $GDP = C_a + I_a + G_a + {{c1::NX_a}}$, where $NX_a = X_a - IM_a$.",
+      "answer": "",
+      "explanation": "Consumption + investment + government purchases + net exports. Imports are subtracted because they were counted inside $C$, $I$ and $G$ but were not produced here.",
+      "source": "Ch. 5 slide 10",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-expenditure-investment-components",
+      "topicKey": "gdp-expenditure",
+      "type": "basic",
+      "prompt": "What three things make up investment expenditure ($I$) in GDP?",
+      "answer": "Changes in inventories, additions to plant and equipment, and new residential housing construction.",
+      "explanation": "Investment is expenditure on goods *not for present consumption*. Buying shares or bonds is not investment in the GDP sense.",
+      "source": "Ch. 5 slide 9",
+      "tags": [
+        "definition",
+        "mistake"
+      ]
+    },
+    {
+      "key": "gdp-expenditure-net-investment",
+      "topicKey": "gdp-expenditure",
+      "type": "cloze",
+      "prompt": "$\\text{Net investment} = \\text{Gross investment} - {{c1::\\text{Depreciation}}}$",
+      "answer": "",
+      "explanation": "Gross investment creates new capital goods (fixed investment); depreciation is the part of output that merely replaces worn-out capital, so net investment is the actual change in the capital stock.",
+      "source": "Ch. 5 slide 9",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-expenditure-g-transfers",
+      "topicKey": "gdp-expenditure",
+      "type": "basic",
+      "prompt": "Are government transfer payments (e.g., Old Age Security, EI benefits) included in $G$?",
+      "answer": "No. $G$ is government purchases of *currently produced* goods and services only; transfers are excluded because nothing is produced in exchange.",
+      "explanation": "Transfers reappear in GDP only when the recipient spends them (as $C$).",
+      "source": "Ch. 5 slide 10",
+      "tags": [
+        "mistake",
+        "condition"
+      ]
+    },
+    {
+      "key": "gdp-expenditure-imports-sign",
+      "topicKey": "gdp-expenditure",
+      "type": "basic",
+      "prompt": "A Canadian household buys a \\$30,000 car made in Germany. What happens to Canadian GDP?",
+      "answer": "Nothing: $C$ rises by \\$30,000 and $IM$ rises by \\$30,000, so $C + I + G + (X - IM)$ is unchanged.",
+      "explanation": "That is the whole point of subtracting imports: to leave only spending on *domestically produced* output.",
+      "tags": [
+        "example",
+        "mistake"
+      ]
+    },
+    {
+      "key": "gdp-income-components",
+      "topicKey": "gdp-income",
+      "type": "basic",
+      "prompt": "From the income side, GDP is the sum of which three groups of items?",
+      "answer": "Factor incomes (wages and salaries, interest, business profits) + indirect taxes net of subsidies + depreciation.",
+      "explanation": "Plus a statistical discrepancy 'fudge factor' so the income and expenditure totals match.",
+      "source": "Ch. 5 slide 14",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-income-factor-incomes",
+      "topicKey": "gdp-income",
+      "type": "cloze",
+      "prompt": "The three main components of factor incomes are {{c1::wages and salaries}}, {{c2::interest}}, and {{c3::business profits (including rent)}}.",
+      "answer": "",
+      "explanation": "In 2023 wages were about 51% of Canadian GDP, interest and investment income about 9%, profits about 13%.",
+      "source": "Ch. 5 slides 13, 15",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "gdp-income-indirect-taxes",
+      "topicKey": "gdp-income",
+      "type": "basic",
+      "prompt": "Why are indirect taxes added, and subsidies subtracted, when measuring GDP from the income side?",
+      "answer": "Indirect taxes (on production and sale, e.g., GST) are part of the market price but go to government, not to factors; subsidies act like negative taxes, lowering market price below factor payments.",
+      "explanation": "Factor incomes alone give *net domestic income at factor cost*; adding indirect taxes less subsidies and depreciation converts it to GDP at market prices.",
+      "source": "Ch. 5 slides 13–15",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "gdp-income-depreciation",
+      "topicKey": "gdp-income",
+      "type": "cloze",
+      "prompt": "**Depreciation** is the portion of current output that {{c1::replaces worn-out physical capital}}.",
+      "answer": "",
+      "explanation": "It is a non-factor payment: it is part of the value of output but is not income to any factor.",
+      "source": "Ch. 5 slide 14",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "gdp-real-definitions",
+      "topicKey": "gdp-real",
+      "type": "cloze",
+      "prompt": "**Nominal GDP** is GDP valued at {{c1::current}} prices; **real GDP** is GDP valued at {{c2::base-period}} prices.",
+      "answer": "",
+      "explanation": "If nominal and real GDP change by different amounts, prices must have changed.",
+      "source": "Ch. 5 slide 17",
+      "tags": [
+        "definition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "gdp-real-deflator-formula",
+      "topicKey": "gdp-real",
+      "type": "cloze",
+      "prompt": "$\\text{GDP deflator} = \\dfrac{\\text{Nominal GDP}}{{{c1::\\text{Real GDP}}}} \\times {{c2::100}}$",
+      "answer": "",
+      "explanation": "It is an index equal to 100 in the base year. Its change measures the average change in the price of all items in GDP.",
+      "source": "Ch. 5 slide 17",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-real-from-nominal",
+      "topicKey": "gdp-real",
+      "type": "cloze",
+      "prompt": "$\\text{Real GDP} = \\dfrac{\\text{Nominal GDP}}{{{c1::\\text{GDP deflator}}}} \\times 100$",
+      "answer": "",
+      "explanation": "Canada 2023: nominal \\$2888.9b, deflator 122.9, so real GDP (2017 prices) $= 2888.9 / 122.9 \\times 100 \\approx 2351$ billion.",
+      "source": "Ch. 5 slide 18",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-real-example",
+      "topicKey": "gdp-real",
+      "type": "basic",
+      "prompt": "Year 1: 100 bushels of wheat at \\$10 and 20 tonnes of steel at \\$50. Year 2 prices: wheat \\$12, steel \\$55. Nominal GDP in year 1 and real GDP in year 1 at year-2 prices?",
+      "answer": "Nominal: $100 \\times 10 + 20 \\times 50 = \\$2000$. Real (year-2 prices): $100 \\times 12 + 20 \\times 55 = \\$2300$.",
+      "explanation": "Deflator for year 1 with year 2 as base: $\\frac{2000}{2300} \\times 100 = 86.96$. In the base year itself nominal = real and the deflator is 100.",
+      "source": "Ch. 5 slide 19",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "gdp-real-base-year",
+      "topicKey": "gdp-real",
+      "type": "basic",
+      "prompt": "In the base year, how do nominal GDP, real GDP and the GDP deflator compare?",
+      "answer": "Nominal GDP equals real GDP and the deflator is exactly 100.",
+      "explanation": "Canada's current base is 2017: nominal and real GDP were both \\$2140.6 billion that year.",
+      "source": "Ch. 5 slide 18",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "gdp-real-which-grew",
+      "topicKey": "gdp-real",
+      "type": "basic",
+      "prompt": "Nominal GDP rose 6% while the GDP deflator rose 4%. Roughly what happened to real GDP?",
+      "answer": "Real GDP rose about 2% (approximately $6\\% - 4\\%$).",
+      "explanation": "Growth of nominal $\\approx$ growth of real + inflation. If prices rise faster than nominal GDP, real GDP actually falls.",
+      "tags": [
+        "effect",
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-real-deflator-vs-cpi",
+      "topicKey": "gdp-real",
+      "type": "basic",
+      "prompt": "GDP deflator vs CPI: what does each measure?",
+      "answer": "**CPI**: the average price of goods and services bought by *consumers* (including imports). **GDP deflator**: the average price of goods and services *produced in Canada* (including exports and capital goods).",
+      "explanation": "So they need not move together: a jump in the price of imported oil hits the CPI, while a jump in the price of exported lumber hits the deflator.",
+      "source": "Ch. 5 slide 20",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "gdp-real-growth-rate",
+      "topicKey": "gdp-real",
+      "type": "cloze",
+      "prompt": "Growth rate of real GDP: $g = \\dfrac{Y_t - Y_{t-1}}{{{c1::Y_{t-1}}}} \\times 100$",
+      "answer": "",
+      "explanation": "Example: real GDP goes from 2000 to 2050, growth $= \\frac{50}{2000} \\times 100 = 2.5\\%$.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "gdp-omissions-list",
+      "topicKey": "gdp-omissions",
+      "type": "basic",
+      "prompt": "Name the main kinds of economic activity omitted from official GDP.",
+      "answer": "Illegal activities, the underground economy, home production/volunteering/leisure, and free digital products. GDP also fails to subtract economic 'bads' like pollution.",
+      "explanation": "GDP measures the flow of activity in *organized markets*, so non-market activity is missed.",
+      "source": "Ch. 5 slide 21",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "gdp-omissions-living-standards",
+      "topicKey": "gdp-omissions",
+      "type": "basic",
+      "prompt": "Is real per capita GDP a good measure of well-being?",
+      "answer": "It is a good measure of *average material living standards* but an incomplete measure of overall well-being (leisure, environment, distribution are left out).",
+      "source": "Ch. 5 slide 23",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "gdp-omissions-gdp-vs-gnp",
+      "topicKey": "gdp-omissions",
+      "type": "basic",
+      "prompt": "GDP vs GNP: what is the difference?",
+      "answer": "**GDP** counts production within Canada's borders regardless of who owns the factors; **GNP** counts income earned by Canadian-owned factors wherever they are located.",
+      "explanation": "GNP = GDP + net factor income from abroad. A US-owned plant in Ontario adds to Canadian GDP but its profits add to US GNP.",
+      "tags": [
+        "confusable",
+        "definition"
+      ]
+    },
+    {
+      "key": "ae-consumption-desired-vs-actual",
+      "topicKey": "ae-consumption",
+      "type": "basic",
+      "prompt": "Desired expenditure vs actual expenditure: what is the notation difference and the meaning?",
+      "answer": "Actual values carry a subscript $a$ ($C_a, I_a, G_a, X_a - IM_a$); desired (planned) values have no subscript ($C, I, G, X - IM$). Desired is what agents *would like* to buy given income and prices.",
+      "explanation": "Desired is not unconstrained wishful spending; it already reflects real-world income and price constraints.",
+      "source": "Ch. 6 slides 3–4",
+      "tags": [
+        "definition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "ae-consumption-ae-identity",
+      "topicKey": "ae-consumption",
+      "type": "cloze",
+      "prompt": "Desired aggregate expenditure: $AE = {{c1::C + I + G + (X - IM)}}$, the sum of desired spending by all four groups.",
+      "answer": "",
+      "source": "Ch. 6 slide 4",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-consumption-autonomous-induced",
+      "topicKey": "ae-consumption",
+      "type": "cloze",
+      "prompt": "Expenditure that does *not* change systematically with national income is **{{c1::autonomous}}**; expenditure that does is **{{c2::induced}}**.",
+      "answer": "",
+      "explanation": "In the simplest model, investment is autonomous while consumption has an induced part ($MPC \\times Y_D$) and an autonomous part (the intercept).",
+      "source": "Ch. 6 slide 5",
+      "tags": [
+        "confusable",
+        "definition"
+      ]
+    },
+    {
+      "key": "ae-consumption-model-assumptions",
+      "topicKey": "ae-consumption",
+      "type": "cloze",
+      "prompt": "The *simplest* short-run macro model assumes no {{c1::government (so no taxes)}}, no {{c2::foreign sector (closed economy)}}, and a constant {{c3::price level}}.",
+      "answer": "",
+      "source": "Ch. 6 slide 5",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "ae-consumption-disposable-saving",
+      "topicKey": "ae-consumption",
+      "type": "cloze",
+      "prompt": "$\\text{Disposable income} = \\text{Household income} - {{c1::\\text{Taxes}}}$ and $\\text{Saving} = \\text{Disposable income} - {{c2::\\text{Consumption}}}$.",
+      "answer": "",
+      "explanation": "Written $Y_D = Y - T$ and $S = Y_D - C$. With no government, $Y_D = Y$.",
+      "source": "Ch. 6 slide 6",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-consumption-determinants",
+      "topicKey": "ae-consumption",
+      "type": "basic",
+      "prompt": "What determines desired consumption, according to the consumption function?",
+      "answer": "Disposable income, wealth, interest rates and expectations about the future.",
+      "explanation": "Disposable income moves consumption *along* the function; the other three *shift* it.",
+      "source": "Ch. 6 slide 6",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "ae-consumption-apc-mpc",
+      "topicKey": "ae-consumption",
+      "type": "cloze",
+      "prompt": "$APC = \\dfrac{{{c1::C}}}{Y_D}$ (share of disposable income consumed) and $MPC = \\dfrac{{{c2::\\Delta C}}}{\\Delta Y_D}$ (fraction of an extra dollar consumed).",
+      "answer": "",
+      "explanation": "The MPC is the constant slope of the consumption function; the APC starts infinitely large (positive consumption at zero income) and falls toward the MPC as $Y_D$ rises.",
+      "source": "Ch. 6 slide 7",
+      "tags": [
+        "formula",
+        "confusable"
+      ]
+    },
+    {
+      "key": "ae-consumption-aps-mps",
+      "topicKey": "ae-consumption",
+      "type": "cloze",
+      "prompt": "$APS = \\dfrac{{{c1::S}}}{Y_D}$ and $MPS = \\dfrac{{{c2::\\Delta S}}}{\\Delta Y_D}$; the MPS is the constant slope of the saving function.",
+      "answer": "",
+      "explanation": "The APS starts infinitely negative (dissaving at zero income) and rises toward the MPS as disposable income rises.",
+      "source": "Ch. 6 slide 10",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-consumption-sum-to-one",
+      "topicKey": "ae-consumption",
+      "type": "cloze",
+      "prompt": "Because all disposable income is either spent or saved: $APC + APS = {{c1::1}}$ and $MPC + MPS = {{c2::1}}$.",
+      "answer": "",
+      "explanation": "If $MPC = 0.8$ then $MPS = 0.2$: of each extra dollar, 80 cents is consumed and 20 cents saved.",
+      "source": "Ch. 6 slide 11",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-consumption-shifts",
+      "topicKey": "ae-consumption",
+      "type": "basic",
+      "prompt": "What shifts the consumption function **upward** (and the saving function downward)?",
+      "answer": "An increase in wealth, a decrease in interest rates, or an increase in optimism about the future.",
+      "explanation": "Each makes households want to consume more out of any given disposable income. The opposite changes shift it downward.",
+      "source": "Ch. 6 slide 12",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "ae-consumption-example-apc",
+      "topicKey": "ae-consumption",
+      "type": "basic",
+      "prompt": "Consumption function $C = 30 + 0.8\\,Y_D$. At $Y_D = 300$, what are $C$, $S$, the APC and the MPC?",
+      "answer": "$C = 270$, $S = 30$, $APC = 0.9$, $MPC = 0.8$.",
+      "explanation": "$C = 30 + 240 = 270$; $S = 300 - 270 = 30$; $APC = 270/300 = 0.9$; the MPC is the slope, 0.8, at every income level. (Figure 6-3 plots exactly these points.)",
+      "source": "Ch. 6 slides 12, 18",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "ae-investment-determinants",
+      "topicKey": "ae-investment",
+      "type": "basic",
+      "prompt": "What are the main determinants of desired investment expenditure?",
+      "answer": "The real interest rate, changes in the level of sales, and business confidence.",
+      "explanation": "A lower real interest rate, rising sales or more confidence all raise desired investment.",
+      "source": "Ch. 6 slide 15",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "ae-investment-autonomous",
+      "topicKey": "ae-investment",
+      "type": "basic",
+      "prompt": "In the simple model, is investment autonomous or induced? Why?",
+      "answer": "Autonomous: current real GDP is *not* a major determinant of current desired investment, so $I$ is treated as a constant (e.g., $I = 75$).",
+      "source": "Ch. 6 slides 15–16",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "ae-investment-volatility",
+      "topicKey": "ae-investment",
+      "type": "basic",
+      "prompt": "Which component of GDP is the most volatile and most associated with aggregate fluctuations?",
+      "answer": "Investment expenditure.",
+      "source": "Ch. 6 slide 15",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "ae-investment-ae-function-example",
+      "topicKey": "ae-investment",
+      "type": "basic",
+      "prompt": "With $C = 30 + 0.8Y$, $I = 75$, no government and no trade, what is the AE function?",
+      "answer": "$AE = C + I = 30 + 0.8Y + 75 = 105 + 0.8Y$",
+      "explanation": "With no taxes $Y_D = Y$, so the slides write the consumption function directly in $Y$. The intercept 105 is total autonomous expenditure; the slope 0.8 is the marginal propensity to spend.",
+      "source": "Ch. 6 slide 18",
+      "tags": [
+        "example",
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-investment-slope",
+      "topicKey": "ae-investment",
+      "type": "cloze",
+      "prompt": "The slope of the AE function is the **marginal propensity to spend**, which in the simplest model is just the {{c1::marginal propensity to consume (MPC)}}.",
+      "answer": "",
+      "explanation": "With no taxes and no imports, every extra dollar of income raises spending by the MPC.",
+      "source": "Ch. 6 slide 19",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-condition",
+      "topicKey": "ae-equilibrium",
+      "type": "cloze",
+      "prompt": "Equilibrium national income occurs where desired aggregate expenditure equals actual national income: ${{c1::AE = Y}}$.",
+      "answer": "",
+      "explanation": "Graphically, where the AE function crosses the $45^\\circ$ line.",
+      "source": "Ch. 6 slide 20",
+      "tags": [
+        "condition",
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-inventories",
+      "topicKey": "ae-equilibrium",
+      "type": "basic",
+      "prompt": "If desired $AE$ exceeds actual income $Y$, what happens to inventories and output?",
+      "answer": "Inventories are *falling* (unplanned decumulation), so firms raise production and $Y$ rises toward equilibrium.",
+      "explanation": "If $AE < Y$, inventories pile up and firms cut production. Only at $AE = Y$ is there no pressure for output to change.",
+      "source": "Ch. 6 slides 20–22",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-solve-example",
+      "topicKey": "ae-equilibrium",
+      "type": "basic",
+      "prompt": "Solve for equilibrium income when $AE = 105 + 0.8Y$.",
+      "answer": "$Y = 105 + 0.8Y \\Rightarrow 0.2Y = 105 \\Rightarrow Y = 525$",
+      "explanation": "General form: $Y = \\dfrac{A}{1 - z}$ with autonomous spending $A = 105$ and marginal propensity to spend $z = 0.8$. Figure 6-7 and Table 6-1 show $Y_0 = 525$: below it inventories fall and output rises, above it inventories pile up.",
+      "source": "Ch. 6 slides 18, 21–22",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-shift-vs-rotation",
+      "topicKey": "ae-equilibrium",
+      "type": "cloze",
+      "prompt": "A parallel up-or-down move of the AE function is a **{{c1::shift}}** (change in autonomous expenditure); a change in its slope is a **{{c2::rotation}}** (change in the marginal propensity to spend).",
+      "answer": "",
+      "source": "Ch. 6 slide 23",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-multiplier-def",
+      "topicKey": "ae-equilibrium",
+      "type": "cloze",
+      "prompt": "The **simple multiplier** ($sm$) is the ratio of the change in equilibrium income to the change in autonomous expenditure that caused it: $sm = \\dfrac{{{c1::\\Delta Y}}}{{{c2::\\Delta A}}}$.",
+      "answer": "",
+      "explanation": "'Simple' because the price level is held constant. The slides abbreviate it $sm$.",
+      "source": "Ch. 6 slide 24",
+      "tags": [
+        "definition",
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-multiplier-formula",
+      "topicKey": "ae-equilibrium",
+      "type": "cloze",
+      "prompt": "$sm = \\dfrac{\\Delta Y}{\\Delta A} = \\dfrac{1}{{{c1::1 - z}}} > 1$, where $z$ is the marginal propensity to spend out of national income and $z < 1$.",
+      "answer": "",
+      "explanation": "With $z = 0.8$ the multiplier is $1/0.2 = 5$: a \\$10 billion rise in investment raises equilibrium income by \\$50 billion.",
+      "source": "Ch. 6 slide 24",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-multiplier-size",
+      "topicKey": "ae-equilibrium",
+      "type": "basic",
+      "prompt": "If the marginal propensity to spend rises, what happens to the slope of AE and to the simple multiplier?",
+      "answer": "AE becomes steeper and the simple multiplier becomes larger.",
+      "explanation": "$z = 0.5 \\Rightarrow$ multiplier 2; $z = 0.9 \\Rightarrow$ multiplier 10. More of each round of income is re-spent, so the chain of spending is longer.",
+      "source": "Ch. 6 slide 25",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "ae-equilibrium-self-fulfilling",
+      "topicKey": "ae-equilibrium",
+      "type": "basic",
+      "prompt": "How can expectations make economic fluctuations 'self-fulfilling prophecies'?",
+      "answer": "If firms become optimistic they raise desired investment, AE shifts up, and through the multiplier national income rises, creating the healthy economy they expected.",
+      "explanation": "The same mechanism works in reverse: pessimism cuts spending and produces the feared slump.",
+      "source": "Ch. 6 slides 26–27",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "open-government-fiscal-def",
+      "topicKey": "open-government",
+      "type": "cloze",
+      "prompt": "**Fiscal policy** is the use of the government's {{c1::tax and spending}} policies to achieve government objectives.",
+      "answer": "",
+      "source": "Ch. 7 slide 3",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "open-government-net-tax",
+      "topicKey": "open-government",
+      "type": "cloze",
+      "prompt": "**Net tax revenue** is total tax revenue minus transfer payments: $T = {{c1::tY}}$, where $t$ is the {{c2::net tax rate}} (extra net tax revenue when $Y$ rises by \\$1).",
+      "answer": "",
+      "explanation": "Transfers (EI, pensions) are negative taxes, so $T$ nets them out. With $t = 0.1$, a \\$100 rise in GDP raises net taxes by \\$10.",
+      "source": "Ch. 7 slide 4",
+      "tags": [
+        "formula",
+        "definition"
+      ]
+    },
+    {
+      "key": "open-government-disposable",
+      "topicKey": "open-government",
+      "type": "cloze",
+      "prompt": "With a proportional net tax: $Y_D = Y - T = Y - tY = {{c1::(1 - t)Y}}$",
+      "answer": "",
+      "explanation": "Disposable income is what households keep after taxes and after receiving transfers. With $t = 0.1$, $Y_D = 0.9Y$.",
+      "source": "Ch. 7 slide 4",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "open-government-budget-balance",
+      "topicKey": "open-government",
+      "type": "cloze",
+      "prompt": "Budget balance: $BB = {{c1::T - G}}$; positive is a **surplus**, negative is a **deficit**.",
+      "answer": "",
+      "explanation": "$T$ is *net* tax revenue (taxes minus transfers), so transfers reduce the balance even though they are not part of $G$.",
+      "source": "Ch. 7 slide 5",
+      "tags": [
+        "formula",
+        "definition"
+      ]
+    },
+    {
+      "key": "open-government-consumption-with-tax",
+      "topicKey": "open-government",
+      "type": "basic",
+      "prompt": "With $C = 30 + 0.8\\,Y_D$ and $t = 0.1$, write $C$ as a function of national income $Y$.",
+      "answer": "$C = 30 + 0.8(0.9Y) = 30 + 0.72Y$",
+      "explanation": "The MPC out of *disposable* income is still 0.8, but the marginal propensity to consume out of *national* income is $0.8 \\times 0.9 = 0.72$.",
+      "source": "Ch. 7 slide 12",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "open-trade-exports-autonomous",
+      "topicKey": "open-trade",
+      "type": "basic",
+      "prompt": "Why are exports $X$ treated as autonomous in the model?",
+      "answer": "Exports depend on decisions of *foreign* households and firms, so they do not change systematically with Canadian national income.",
+      "source": "Ch. 7 slide 7",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "open-trade-mpi",
+      "topicKey": "open-trade",
+      "type": "cloze",
+      "prompt": "The **marginal propensity to import** ($m$) is the rise in imports induced by a \\$1 rise in national income, so the import function is $M = {{c1::mY}}$.",
+      "answer": "",
+      "explanation": "Imports are *induced*: as Canadians earn more, they buy more foreign goods. The Ch. 7 formula slides write imports as $M$; the Ch. 5–6 slides and the figures write $IM$ (same thing).",
+      "source": "Ch. 7 slide 7",
+      "tags": [
+        "formula",
+        "definition"
+      ]
+    },
+    {
+      "key": "open-trade-nx-function",
+      "topicKey": "open-trade",
+      "type": "cloze",
+      "prompt": "Net export function: $NX = X - M = {{c1::X - mY}}$, which is {{c2::negatively}} related to national income.",
+      "answer": "",
+      "explanation": "Its slope is $-m$: $X$ is flat while imports rise with $Y$.",
+      "source": "Ch. 7 slides 7–8",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "open-trade-foreign-income",
+      "topicKey": "open-trade",
+      "type": "basic",
+      "prompt": "Foreign income rises. What happens to the $X$ and $NX$ functions?",
+      "answer": "Both shift **upward**, parallel to their original position (foreigners buy more Canadian goods at every level of Canadian income).",
+      "source": "Ch. 7 slide 9",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "open-trade-canadian-prices-rise",
+      "topicKey": "open-trade",
+      "type": "basic",
+      "prompt": "Canadian prices rise relative to foreign prices. What happens to exports, the import function and $NX$?",
+      "answer": "$X$ shifts **down**; $m$ rises so the import function **rotates up**; $NX$ shifts **downward** at every level of income.",
+      "explanation": "Canadian goods are now relatively expensive both for foreigners and for Canadians choosing between domestic and foreign goods.",
+      "source": "Ch. 7 slides 9–11",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "open-trade-depreciation-effect",
+      "topicKey": "open-trade",
+      "type": "basic",
+      "prompt": "The Canadian dollar depreciates. Effect on net exports?",
+      "answer": "$NX$ rises: foreigners pay less of their currency for one C\\$ (Canadian goods cheaper abroad, $X$ up) and Canadians pay more C\\$ for foreign currency (imports dearer, $IM$ down).",
+      "explanation": "Exchange-rate changes are the most important cause of changes in international relative prices.",
+      "source": "Ch. 7 slide 10",
+      "tags": [
+        "effect",
+        "canada"
+      ]
+    },
+    {
+      "key": "open-multiplier-ae-function",
+      "topicKey": "open-multiplier",
+      "type": "cloze",
+      "prompt": "Full AE function: $AE = C + I + G + X - M$, whose slope is $z$, the {{c1::marginal propensity to spend out of national income}}.",
+      "answer": "",
+      "source": "Ch. 7 slide 13",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "open-multiplier-z-formula",
+      "topicKey": "open-multiplier",
+      "type": "cloze",
+      "prompt": "With government and trade, the marginal propensity to spend is $z = {{c1::(1 - t)c - m}}$, where $c$ is the MPC.",
+      "answer": "",
+      "explanation": "Of each extra dollar of income, $(1 - t)$ survives net taxes, a fraction $c$ of that is consumed, and $m$ leaks abroad as imports. In a closed economy with no government, $z = c$.",
+      "source": "Ch. 7 slides 13, 21",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "open-multiplier-z-example",
+      "topicKey": "open-multiplier",
+      "type": "basic",
+      "prompt": "The slides' Canadian calibration: $c = 0.80$, $t = 0.25$, $m = 0.35$. Compute $z$ and the simple multiplier $sm$.",
+      "answer": "$z = (1 - 0.25)(0.80) - 0.35 = 0.60 - 0.35 = 0.25$, so $sm = \\dfrac{1}{1 - 0.25} \\approx 1.3$.",
+      "explanation": "Compare the closed no-government economy with $c = 0.8$: $sm = 1/0.2 = 5$. Taxes and imports cut the Canadian multiplier to about 1.3.",
+      "source": "Ch. 7 slide 16",
+      "tags": [
+        "example",
+        "canada"
+      ]
+    },
+    {
+      "key": "open-multiplier-figure-example",
+      "topicKey": "open-multiplier",
+      "type": "basic",
+      "prompt": "Figure 7-3: $C = 30 + 0.72Y$, $I = 75$, $G = 51$, $NX = 72 - 0.1Y$. Write the AE function and find equilibrium income.",
+      "answer": "$AE = 228 + 0.62Y$; equilibrium $Y = 228 / 0.38 = 600$ (\\$600 billion).",
+      "explanation": "Autonomous spending $30 + 75 + 51 + 72 = 228$; slope $0.72 - 0.1 = 0.62$ (that is $z = (1 - 0.1)(0.8) - 0.1$). Set $AE = Y$: $0.38Y = 228$.",
+      "source": "Ch. 7 slides 12, 14",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "open-multiplier-smaller-why",
+      "topicKey": "open-multiplier",
+      "type": "basic",
+      "prompt": "Why do taxes and imports reduce the simple multiplier?",
+      "answer": "They are *leakages*: each round of extra income loses $t$ to net taxes and $m$ to imports, so $z = (1 - t)c - m$ is smaller and $\\frac{1}{1 - z}$ is smaller.",
+      "explanation": "Closed economy, no government: $z = c = 0.8$, $sm = 5$. Canada with $t = 0.25$, $m = 0.35$: $z = 0.25$, $sm \\approx 1.3$.",
+      "source": "Ch. 7 slides 16, 21",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "open-multiplier-comparative",
+      "topicKey": "open-multiplier",
+      "type": "basic",
+      "prompt": "All else equal, the simple multiplier $sm$ is **larger** when which parameters move which way?",
+      "answer": "When $c$ (the MPC) rises, when $t$ falls, or when $m$ falls.",
+      "explanation": "Each raises $z = (1 - t)c - m$.",
+      "source": "Ch. 7 slide 16",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "open-multiplier-export-shock",
+      "topicKey": "open-multiplier",
+      "type": "basic",
+      "prompt": "Exports rise by \\$1 billion. By how much does equilibrium national income change?",
+      "answer": "By \\$1 billion times the simple multiplier, because $X$ is autonomous.",
+      "source": "Ch. 7 slide 17",
+      "tags": [
+        "effect",
+        "example"
+      ]
+    },
+    {
+      "key": "open-multiplier-fiscal-tools",
+      "topicKey": "open-multiplier",
+      "type": "basic",
+      "prompt": "What two fiscal policy tools does the government have in this model, and how do they raise equilibrium income?",
+      "answer": "**Government purchases** $G$ (an increase *shifts* AE up) and the **net tax rate** $t$ (a reduction *rotates* AE steeper, raising $z$).",
+      "explanation": "Both set the multiplier process in motion. Stabilization policy aims to reduce cyclical fluctuations in national income.",
+      "source": "Ch. 7 slides 18–19",
+      "tags": [
+        "policy"
+      ]
+    },
+    {
+      "key": "open-multiplier-g-change",
+      "topicKey": "open-multiplier",
+      "type": "cloze",
+      "prompt": "Government purchases rise by $\\Delta G$: $\\Delta Y = \\Delta G \\times sm = \\dfrac{\\Delta G}{{{c1::1 - z}}}$",
+      "answer": "",
+      "explanation": "With the Canadian $z = 0.25$ ($sm \\approx 1.3$), \\$10 billion of extra purchases raises equilibrium income by about \\$13 billion.",
+      "source": "Ch. 7 slide 19",
+      "tags": [
+        "formula",
+        "policy"
+      ]
+    },
+    {
+      "key": "adas-ad-price-wealth",
+      "topicKey": "adas-ad",
+      "type": "basic",
+      "prompt": "Why does a rise in the price level reduce desired consumption?",
+      "answer": "Much private wealth is held in assets with fixed nominal value (e.g., money); a higher price level lowers their real value, so autonomous consumption falls and AE shifts down.",
+      "explanation": "Bonds do not matter here: a price-level change hurts bondholders and helps bond issuers by equal amounts, leaving aggregate wealth unchanged.",
+      "source": "Ch. 8 slides 3–4",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adas-ad-price-nx",
+      "topicKey": "adas-ad",
+      "type": "basic",
+      "prompt": "Why does a rise in the domestic price level (exchange rate unchanged) reduce net exports?",
+      "answer": "Canadian goods become relatively more expensive, so Canadians and foreigners buy fewer Canadian-made goods and more foreign ones: $NX$ and AE shift down.",
+      "source": "Ch. 8 slide 5",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adas-ad-definition",
+      "topicKey": "adas-ad",
+      "type": "cloze",
+      "prompt": "The **aggregate demand (AD) curve** shows combinations of {{c1::real GDP}} and the {{c2::price level}} for which desired aggregate expenditure equals actual national income.",
+      "answer": "",
+      "explanation": "Every point on AD is an $AE = Y$ equilibrium for some price level; AD is derived by varying $P$ and tracing the resulting equilibrium $Y$.",
+      "source": "Ch. 8 slide 7",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "adas-ad-shift-vs-movement",
+      "topicKey": "adas-ad",
+      "type": "basic",
+      "prompt": "A change in the price level causes what for the AE curve, and what for the AD curve?",
+      "answer": "A **shift** of the AE curve but a **movement along** the AD curve.",
+      "explanation": "Rising $P$ shifts AE down and moves the economy up and to the left along AD (lower equilibrium GDP). This shift-vs-movement distinction is a favourite exam trap.",
+      "source": "Ch. 8 slide 8",
+      "tags": [
+        "confusable",
+        "mistake"
+      ]
+    },
+    {
+      "key": "adas-ad-what-shifts",
+      "topicKey": "adas-ad",
+      "type": "basic",
+      "prompt": "What shifts the AD curve?",
+      "answer": "Anything that shifts the AE curve *other than a price-level change*: a change in autonomous expenditure ($C$, $I$, $G$, $X$, or a tax change). Such shifts are called aggregate demand shocks.",
+      "explanation": "A rise in autonomous spending shifts AE up and AD to the **right**; a fall shifts AD to the left.",
+      "source": "Ch. 8 slide 9",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adas-ad-horizontal-shift",
+      "topicKey": "adas-ad",
+      "type": "cloze",
+      "prompt": "The horizontal shift of the AD curve from a change in autonomous expenditure equals the {{c1::simple multiplier}} times the change in autonomous expenditure.",
+      "answer": "",
+      "explanation": "The simple multiplier holds the price level fixed, which is exactly what a horizontal shift (same $P$) measures.",
+      "source": "Ch. 8 slides 9–10",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "adas-as-definition",
+      "topicKey": "adas-as",
+      "type": "cloze",
+      "prompt": "The **aggregate supply (AS) curve** shows the relation between the price level and the quantity of output supplied, for given {{c1::technology}} and {{c2::factor prices}}.",
+      "answer": "",
+      "source": "Ch. 8 slide 11",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "adas-as-why-upward",
+      "topicKey": "adas-as",
+      "type": "basic",
+      "prompt": "Why does the AS curve slope upward?",
+      "answer": "As output rises, unit costs rise: less efficient standby plants are used, less efficient workers hired, and overtime is paid. Firms need a higher price to supply more.",
+      "explanation": "AS gets *steeper* at higher output because unit costs rise faster as capacity is approached.",
+      "source": "Ch. 8 slides 11–12",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "adas-as-factor-prices",
+      "topicKey": "adas-as",
+      "type": "cloze",
+      "prompt": "A rise in factor prices (wages, oil) shifts the AS curve {{c1::leftward (upward)}}; a fall in factor prices shifts it {{c2::rightward}}.",
+      "answer": "",
+      "explanation": "Each unit now costs more to produce, so firms require a higher price for any given output.",
+      "source": "Ch. 8 slide 13",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adas-as-technology",
+      "topicKey": "adas-as",
+      "type": "basic",
+      "prompt": "Technology improves. Which way does AS shift?",
+      "answer": "**Rightward**: unit costs fall, so more is supplied at every price level.",
+      "explanation": "A deterioration in technology shifts AS leftward. Shifts of AS from exogenous forces are called aggregate supply shocks.",
+      "source": "Ch. 8 slide 13",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adas-shocks-equilibrium",
+      "topicKey": "adas-shocks",
+      "type": "cloze",
+      "prompt": "**Macroeconomic equilibrium** is at the intersection of the {{c1::AD and AS}} curves and determines both {{c2::real GDP and the price level}}.",
+      "answer": "",
+      "source": "Ch. 8 slide 14",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "adas-shocks-positive-negative",
+      "topicKey": "adas-shocks",
+      "type": "basic",
+      "prompt": "How are 'positive' and 'negative' AD/AS shocks defined?",
+      "answer": "By their effect on real GDP: positive shocks *increase* equilibrium GDP, negative shocks *reduce* it.",
+      "explanation": "So a negative AS shock (AS shifts left) is 'negative' because $Y$ falls, even though $P$ rises.",
+      "source": "Ch. 8 slide 15",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "adas-shocks-ad-direction",
+      "topicKey": "adas-shocks",
+      "type": "cloze",
+      "prompt": "Aggregate **demand** shocks move the price level and real GDP in the {{c1::same}} direction; aggregate **supply** shocks move them in {{c2::opposite}} directions.",
+      "answer": "",
+      "explanation": "AD up: $P \\uparrow$, $Y \\uparrow$. Negative AS shock (AS left): $P \\uparrow$, $Y \\downarrow$, i.e., stagflation; the rise in $P$ also shifts AE down.",
+      "source": "Ch. 8 slides 16, 19",
+      "tags": [
+        "effect",
+        "confusable"
+      ]
+    },
+    {
+      "key": "adas-shocks-multiplier-smaller",
+      "topicKey": "adas-shocks",
+      "type": "basic",
+      "prompt": "When the price level can vary, is the effect of a rise in autonomous expenditure on real GDP larger or smaller than the simple multiplier predicts? Why?",
+      "answer": "Smaller. The AE curve shifts up, but the resulting rise in the price level shifts it part of the way back down.",
+      "explanation": "The effect of an AD shift is split between a change in $Y$ and a change in $P$; the simple multiplier gives only the horizontal shift of AD.",
+      "source": "Ch. 8 slides 17–18",
+      "tags": [
+        "concept",
+        "mistake"
+      ]
+    },
+    {
+      "key": "adas-shocks-steep-as",
+      "topicKey": "adas-shocks",
+      "type": "basic",
+      "prompt": "How does the steepness of the AS curve change the split of an AD shift between output and prices?",
+      "answer": "The steeper the AS curve, the greater the price effect and the smaller the output effect.",
+      "explanation": "Near capacity AS is steep, so demand stimulus mostly raises prices; with lots of slack AS is flat, so it mostly raises output.",
+      "source": "Ch. 8 slide 18",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adas-shocks-covid",
+      "topicKey": "adas-shocks",
+      "type": "basic",
+      "prompt": "How do the slides analyze the 2020 COVID recession in the AD/AS model?",
+      "answer": "A large leftward AS shift (firms could not combine inputs safely) *and* a large leftward AD shift (households and firms cut demand even at unchanged income); both cut real GDP sharply.",
+      "explanation": "Both shocks reversed relatively quickly once vaccines allowed workplaces and businesses to reopen in 2021.",
+      "source": "Ch. 8 slides 20–21",
+      "tags": [
+        "example",
+        "canada"
+      ]
+    },
+    {
+      "key": "adjust-states-short-run",
+      "topicKey": "adjust-states",
+      "type": "basic",
+      "prompt": "What are the two key assumptions of the macro model in the **short run**?",
+      "answer": "Factor prices are exogenous (changes are not explained within the model); technology and factor supplies, hence $Y^*$, are constant.",
+      "explanation": "In this state real GDP is determined by AD and AS; we study it to see the effects of shocks.",
+      "source": "Ch. 9 slides 3, 5",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "adjust-states-adjustment",
+      "topicKey": "adjust-states",
+      "type": "basic",
+      "prompt": "What are the assumptions of the **adjustment process** state?",
+      "answer": "Factor prices adjust (are endogenous) in response to output gaps; technology and factor supplies, hence $Y^*$, are still constant.",
+      "explanation": "Real GDP eventually returns to $Y^*$. We study it to see why output gaps are temporary.",
+      "source": "Ch. 9 slides 4–5",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "adjust-states-long-run",
+      "topicKey": "adjust-states",
+      "type": "basic",
+      "prompt": "What are the assumptions of the **long run**, and what happens there?",
+      "answer": "Factor prices have fully adjusted to any output gap, and technology and factor supplies are changing. Potential GDP $Y^*$ grows over time.",
+      "explanation": "Studied to understand long-run economic growth (Chapter 10).",
+      "source": "Ch. 9 slides 4–5",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "adjust-wages-inflationary-gap",
+      "topicKey": "adjust-wages",
+      "type": "basic",
+      "prompt": "Output is above potential ($Y > Y^*$). What happens to wages and why?",
+      "answer": "Wages **rise**: firms producing beyond normal capacity face excess demand for labour and other factors, workers have bargaining power, and profits are high.",
+      "explanation": "Higher wages raise unit costs, shifting AS leftward until $Y$ falls back to $Y^*$ at a higher price level.",
+      "source": "Ch. 9 slide 7",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-wages-recessionary-gap",
+      "topicKey": "adjust-wages",
+      "type": "basic",
+      "prompt": "Output is below potential ($Y < Y^*$). What happens to wages and why?",
+      "answer": "Wages tend to **fall** (slowly): there is excess supply of labour, firms have below-normal sales and low profits, so they resist raises and even seek cuts.",
+      "explanation": "Lower unit costs shift AS rightward, raising $Y$ back toward $Y^*$ at a lower price level.",
+      "source": "Ch. 9 slide 8",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-wages-stickiness",
+      "topicKey": "adjust-wages",
+      "type": "basic",
+      "prompt": "What is downward wage stickiness, and what asymmetry does it create?",
+      "answer": "Wages rise rapidly in booms but fall only slowly in recessions, so inflationary gaps close quickly while recessionary gaps can persist for a long time.",
+      "source": "Ch. 9 slide 9",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "adjust-wages-phillips",
+      "topicKey": "adjust-wages",
+      "type": "cloze",
+      "prompt": "The **Phillips curve** is the {{c1::negative}} relationship between the unemployment rate and the rate of change of {{c2::wages}}, observed by A.W. Phillips.",
+      "answer": "",
+      "explanation": "Wages tend to fall when unemployment is high and rise when it is low, which is the labour-market side of the factor-price adjustment story.",
+      "source": "Ch. 9 slide 10",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "adjust-wages-anchor",
+      "topicKey": "adjust-wages",
+      "type": "basic",
+      "prompt": "In what sense is potential output an 'anchor' for the economy?",
+      "answer": "After any AD or AS shock, output gaps cause wages and other factor prices to adjust until equilibrium output returns to $Y^*$.",
+      "source": "Ch. 9 slide 11",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "adjust-longrun-positive-ad",
+      "topicKey": "adjust-longrun",
+      "type": "basic",
+      "prompt": "Trace a positive AD shock through the adjustment process.",
+      "answer": "Short run: $Y$ rises above $Y^*$ and $P$ rises. Adjustment: the inflationary gap pushes wages up, AS shifts left, $Y$ returns to $Y^*$ and $P$ rises further.",
+      "explanation": "Long-run result: no change in output, a higher price level.",
+      "source": "Ch. 9 slide 12",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-longrun-negative-ad",
+      "topicKey": "adjust-longrun",
+      "type": "basic",
+      "prompt": "Trace a negative AD shock through the adjustment process.",
+      "answer": "Short run: $Y$ falls below $Y^*$ and $P$ falls. Adjustment: the recessionary gap (slowly) pushes wages down, AS shifts right, $Y$ returns to $Y^*$ at an even lower $P$.",
+      "explanation": "Because of downward wage stickiness, this recovery can be slow, which is the case for fiscal stabilization.",
+      "source": "Ch. 9 slide 13",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-longrun-negative-as",
+      "topicKey": "adjust-longrun",
+      "type": "basic",
+      "prompt": "Trace a negative AS shock (e.g., oil price jump) through the adjustment process.",
+      "answer": "Short run: AS shifts left, $Y$ falls below $Y^*$ and $P$ rises. Adjustment: the recessionary gap pushes wages down, AS shifts back right, and $Y$ returns to $Y^*$ with $P$ back near its original level.",
+      "source": "Ch. 9 slide 14",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-longrun-equilibrium",
+      "topicKey": "adjust-longrun",
+      "type": "cloze",
+      "prompt": "The economy is in **long-run equilibrium** when the AD and AS curves intersect at potential output $Y^*$, i.e., when there is {{c1::no output gap}} left for factor prices to respond to.",
+      "answer": "",
+      "source": "Ch. 9 slide 15",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "adjust-longrun-ad-shift-effect",
+      "topicKey": "adjust-longrun",
+      "type": "basic",
+      "prompt": "In the long run, what does a shift in the AD curve change: real GDP, the price level, or both?",
+      "answer": "Only the price level. Real GDP returns to $Y^*$, so AD shifts have no long-run effect on output.",
+      "explanation": "Fiscal or monetary stimulus therefore raises output only temporarily in this framework.",
+      "source": "Ch. 9 slide 16",
+      "tags": [
+        "effect",
+        "mistake"
+      ]
+    },
+    {
+      "key": "adjust-longrun-potential-rise",
+      "topicKey": "adjust-longrun",
+      "type": "basic",
+      "prompt": "In the long run, an increase in potential output $Y^*$ does what to real GDP and the price level?",
+      "answer": "Raises real GDP and **lowers** the price level.",
+      "explanation": "More capacity shifts AS right along a given AD curve.",
+      "source": "Ch. 9 slide 16",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-close-recessionary",
+      "topicKey": "adjust-fiscal",
+      "type": "basic",
+      "prompt": "How does fiscal policy close a recessionary gap, and what happens to the price level?",
+      "answer": "Raise $G$ or cut $t$ to shift AD rightward until $Y = Y^*$; the price level rises compared with waiting for wages to fall.",
+      "explanation": "To close an *inflationary* gap, do the reverse: cut $G$ or raise $t$ to shift AD left, avoiding the wage-driven rise in prices.",
+      "source": "Ch. 9 slides 18–19",
+      "tags": [
+        "policy"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-paradox-of-thrift",
+      "topicKey": "adjust-fiscal",
+      "type": "basic",
+      "prompt": "What is the paradox of thrift, and in which run does it hold?",
+      "answer": "An increase in saving (lower desired consumption) reduces real GDP. It holds only in the **short run**; in the long run higher saving raises investment and potential output.",
+      "explanation": "In the long run output is pinned to $Y^*$, so more saving means more investment rather than less output.",
+      "source": "Ch. 9 slide 20",
+      "tags": [
+        "concept",
+        "confusable"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-automatic-stabilizers",
+      "topicKey": "adjust-fiscal",
+      "type": "basic",
+      "prompt": "How does the tax-and-transfer system act as an automatic stabilizer?",
+      "answer": "When GDP rises, net tax revenue rises automatically (more taxes, fewer transfers), dampening the rise; when GDP falls the reverse. No policy decision is needed.",
+      "explanation": "Mechanically, a higher $t$ lowers $z = (1 - t)c - m$ and thus the simple multiplier $1/(1 - z)$.",
+      "source": "Ch. 9 slides 21–22",
+      "tags": [
+        "policy",
+        "concept"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-tax-rate-stability",
+      "topicKey": "adjust-fiscal",
+      "type": "basic",
+      "prompt": "A lower net tax rate $t$ makes the simple multiplier larger or smaller, and real GDP more or less stable?",
+      "answer": "Larger multiplier, and real GDP is **less stable** in response to shocks to autonomous spending.",
+      "source": "Ch. 9 slide 22",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-lags",
+      "topicKey": "adjust-fiscal",
+      "type": "cloze",
+      "prompt": "The **decision lag** is the time between {{c1::perceiving a problem and deciding what to do}}; the **execution lag** is the time to {{c2::put the policy in place after the decision}}.",
+      "answer": "",
+      "explanation": "Both limit discretionary fiscal policy: by the time stimulus arrives, the gap may have closed on its own.",
+      "source": "Ch. 9 slide 23",
+      "tags": [
+        "confusable",
+        "policy"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-fine-gross",
+      "topicKey": "adjust-fiscal",
+      "type": "cloze",
+      "prompt": "**{{c1::Fine tuning}}** tries to keep output at potential with frequent policy changes; **{{c2::gross tuning}}** only tries to ensure output gaps do not persist for long.",
+      "answer": "",
+      "explanation": "Most economists favour gross tuning because of lags and uncertainty.",
+      "source": "Ch. 9 slide 23",
+      "tags": [
+        "confusable",
+        "policy"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-temporary-tax",
+      "topicKey": "adjust-fiscal",
+      "type": "basic",
+      "prompt": "Do temporary or permanent tax changes have the bigger effect on aggregate demand?",
+      "answer": "Permanent changes. Temporary tax changes generally have less impact on AD because forward-looking households smooth consumption.",
+      "source": "Ch. 9 slide 23",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "adjust-fiscal-crowding-out",
+      "topicKey": "adjust-fiscal",
+      "type": "basic",
+      "prompt": "What is crowding out, and when is its negative effect reduced?",
+      "answer": "Government spending displacing private investment. The damage is smaller if the extra government purchases themselves raise potential output or its growth rate (e.g., infrastructure).",
+      "explanation": "Tax-rate cuts give short-run demand stimulus and may also raise the level and growth rate of $Y^*$.",
+      "source": "Ch. 9 slide 24",
+      "tags": [
+        "definition",
+        "policy"
+      ]
+    },
+    {
+      "key": "growth-basics-cumulative",
+      "topicKey": "growth-basics",
+      "type": "basic",
+      "prompt": "Why do small differences in growth rates matter so much?",
+      "answer": "Growth compounds: \\$100 growing at 2% per year becomes about \\$725 after 100 years, but at 3% it becomes about \\$1922.",
+      "explanation": "Over a few decades, a one-point difference in the growth rate makes an enormous difference in the *level* of income.",
+      "source": "Ch. 10 slide 4",
+      "tags": [
+        "concept",
+        "example"
+      ]
+    },
+    {
+      "key": "growth-basics-rule-of-70",
+      "topicKey": "growth-basics",
+      "type": "basic",
+      "prompt": "Rule of 70: how long does it take income to double at growth rate $g$ percent per year?",
+      "answer": "About $70 / g$ years. At 2% roughly 35 years; at 7% roughly 10 years.",
+      "explanation": "Check against Table 10-1: at 7%, \\$100 becomes \\$197 after 10 years.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "growth-basics-benefits",
+      "topicKey": "growth-basics",
+      "type": "basic",
+      "prompt": "What are the main benefits of economic growth listed in the course?",
+      "answer": "Rising average material living standards (shifting consumption toward services, funding demand for a cleaner environment) and the resources to address poverty and inequality.",
+      "explanation": "Caveat: in recent decades much aggregate income growth in Canada has accrued to top earners, so inequality has risen alongside average income.",
+      "source": "Ch. 10 slides 5–6",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "growth-basics-costs",
+      "topicKey": "growth-basics",
+      "type": "basic",
+      "prompt": "What are the two costs of economic growth?",
+      "answer": "**Forgone consumption** (investing for future output means consuming less today) and **social costs** (disruption to businesses and workers whose skills become obsolete).",
+      "source": "Ch. 10 slide 7",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "growth-basics-four-sources",
+      "topicKey": "growth-basics",
+      "type": "cloze",
+      "prompt": "Four major sources of growth in potential GDP: growth in the {{c1::labour force}}, growth in {{c2::human capital}}, growth in {{c3::physical capital}}, and {{c4::technological improvement}}.",
+      "answer": "",
+      "explanation": "Different growth theories emphasize different sources: the Neoclassical model stresses capital and (exogenous) technology, newer theories stress endogenous technology.",
+      "source": "Ch. 10 slide 8",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "growth-saving-long-run-version",
+      "topicKey": "growth-saving",
+      "type": "basic",
+      "prompt": "How does the long-run version of the model differ from the short-run version in how saving equals investment?",
+      "answer": "Short run: real GDP adjusts until desired saving equals desired investment. Long run: real GDP is fixed at $Y^*$ and the **real interest rate** adjusts to equate them.",
+      "source": "Ch. 10 slide 11",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "growth-saving-private",
+      "topicKey": "growth-saving",
+      "type": "cloze",
+      "prompt": "Desired **private saving** at $Y^*$: $S_{PVT} = {{c1::Y^* - T - C}}$ (income left after taxes and consumption).",
+      "answer": "",
+      "source": "Ch. 10 slide 12",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "growth-saving-public",
+      "topicKey": "growth-saving",
+      "type": "cloze",
+      "prompt": "**Public saving** is the combined budget balance of all levels of government: $S_{GOV} = {{c1::T - G}}$.",
+      "answer": "",
+      "explanation": "A budget deficit is negative public saving.",
+      "source": "Ch. 10 slide 12",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "growth-saving-national",
+      "topicKey": "growth-saving",
+      "type": "cloze",
+      "prompt": "**National saving** $NS = S_{PVT} + S_{GOV} = Y^* - T - C + T - G = {{c1::Y^* - C - G}}$",
+      "answer": "",
+      "explanation": "Taxes cancel out: for a given $Y^*$, national saving falls if either households consume more or the government purchases more.",
+      "source": "Ch. 10 slide 12",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "growth-saving-ns-increase",
+      "topicKey": "growth-saving",
+      "type": "basic",
+      "prompt": "The supply of national saving increases. Effect on the real interest rate, investment and the growth of potential output?",
+      "answer": "The real interest rate **falls**, investment **rises**, and potential output grows **faster**.",
+      "explanation": "More saving means more funds offered to firms at every interest rate; the price of funds falls and more projects become profitable.",
+      "source": "Ch. 10 slide 14",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "growth-saving-i-increase",
+      "topicKey": "growth-saving",
+      "type": "basic",
+      "prompt": "Investment demand increases (e.g., new technology makes projects profitable). Effect on the real interest rate, saving and growth?",
+      "answer": "The real interest rate **rises**, which encourages more saving; the higher rate of saving and investment raises the growth rate of potential output.",
+      "source": "Ch. 10 slide 14",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-production-function",
+      "topicKey": "growth-neoclassical",
+      "type": "cloze",
+      "prompt": "Aggregate production function: $GDP = F_\\theta({{c1::L, K, H}})$, where $L$ is labour, $K$ physical capital, $H$ human capital and $\\theta$ the state of technology.",
+      "answer": "",
+      "explanation": "For simplicity the course combines $K$ and $H$ into a single 'capital' and holds technology constant.",
+      "source": "Ch. 10 slide 17",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-assumptions",
+      "topicKey": "growth-neoclassical",
+      "type": "cloze",
+      "prompt": "The Neoclassical production function has **{{c1::diminishing marginal returns}}** when one factor increases on its own and **{{c2::constant returns to scale}}** when all factors increase together.",
+      "answer": "",
+      "source": "Ch. 10 slide 17",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-labour-growth",
+      "topicKey": "growth-neoclassical",
+      "type": "basic",
+      "prompt": "In the Neoclassical model, what happens when the labour force grows with fixed capital?",
+      "answer": "GDP rises, but because of diminishing marginal returns output per person eventually **falls**: material living standards decline.",
+      "source": "Ch. 10 slide 19",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-capital",
+      "topicKey": "growth-neoclassical",
+      "type": "basic",
+      "prompt": "In the Neoclassical model, what does capital accumulation do to living standards?",
+      "answer": "It raises output per worker and living standards, but each additional increment of capital gives a smaller improvement (diminishing returns).",
+      "source": "Ch. 10 slide 19",
+      "tags": [
+        "effect"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-balanced",
+      "topicKey": "growth-neoclassical",
+      "type": "basic",
+      "prompt": "Capital and labour grow at the same rate with constant technology. What happens to GDP and to per capita output?",
+      "answer": "GDP rises (constant returns to scale), but per capita output does **not** change, so living standards do not improve.",
+      "explanation": "Balanced growth without technical change cannot raise living standards; this is why technology is the key to sustained growth in the model.",
+      "source": "Ch. 10 slide 20",
+      "tags": [
+        "effect",
+        "mistake"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-technology",
+      "topicKey": "growth-neoclassical",
+      "type": "basic",
+      "prompt": "How is technological change treated in the Neoclassical model, and what can it do?",
+      "answer": "It is **exogenous** (unexplained by the model) and can raise potential output even without capital accumulation or labour-force growth.",
+      "source": "Ch. 10 slide 21",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-embodied",
+      "topicKey": "growth-neoclassical",
+      "type": "cloze",
+      "prompt": "**Embodied technical change** is technological change due to improvements in the {{c1::quality of new capital goods}}.",
+      "answer": "",
+      "explanation": "Much new technology enters the economy only when firms buy new machines, so investment and technical change are linked.",
+      "source": "Ch. 10 slide 21",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "growth-neoclassical-immigration",
+      "topicKey": "growth-neoclassical",
+      "type": "basic",
+      "prompt": "Why might high immigration fail to raise Canadian per-capita income, according to the slides?",
+      "answer": "Immigrants may enter at below-average wages, immigration may hold wages down, and it can stretch 'absorptive capacity' (housing, classrooms, doctors, infrastructure).",
+      "explanation": "Economists see labour shortages as short-run problems that higher wages fix; immigration is not bad but needs to be paced and designed carefully.",
+      "source": "Ch. 10 slides 22–23",
+      "tags": [
+        "canada",
+        "concept"
+      ]
+    },
+    {
+      "key": "growth-advanced-endogenous",
+      "topicKey": "growth-advanced",
+      "type": "basic",
+      "prompt": "What does it mean that technological change is **endogenous**?",
+      "answer": "It responds to economic signals (prices and profits) and results from costly, risky, innovative activity inside the economic system, rather than arriving from outside.",
+      "explanation": "Channels: learning by doing, knowledge transfer, market structure and innovation, and shocks that spur innovation.",
+      "source": "Ch. 10 slide 24",
+      "tags": [
+        "definition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "growth-advanced-increasing-returns",
+      "topicKey": "growth-advanced",
+      "type": "basic",
+      "prompt": "What two sources of *increasing* returns challenge the Neoclassical assumption of diminishing returns to capital?",
+      "answer": "**Market-development costs** (fixed costs of opening a market are paid once) and the **economics of ideas** (knowledge can be reused at no extra cost).",
+      "source": "Ch. 10 slide 25",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "growth-advanced-limits",
+      "topicKey": "growth-advanced",
+      "type": "basic",
+      "prompt": "Do most economists think there are absolute limits to growth from resource exhaustion?",
+      "answer": "No: limits based on constant technology and fixed resources are not relevant because technology and known resource stocks change continually, raising resource efficiency.",
+      "explanation": "The real constraint is that further growth must be *sustainable*, driven by knowledge-based technological change.",
+      "source": "Ch. 10 slides 26–28",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "growth-advanced-climate",
+      "topicKey": "growth-advanced",
+      "type": "basic",
+      "prompt": "According to the slides, what is the most effective policy to cut greenhouse-gas emissions?",
+      "answer": "Putting a higher cost on emissions through a **carbon tax** or a **cap-and-trade** system.",
+      "explanation": "Canada aims for net-zero emissions by 2050; once the economy adjusts to cleaner, more efficient energy, growth could even accelerate.",
+      "source": "Ch. 10 slide 29",
+      "tags": [
+        "policy",
+        "canada"
+      ]
+    },
+    {
+      "key": "money-nature-functions",
+      "topicKey": "money-nature",
+      "type": "cloze",
+      "prompt": "The three functions of money: {{c1::medium of exchange}}, {{c2::store of value}}, and {{c3::unit of account}}.",
+      "answer": "",
+      "explanation": "Medium of exchange removes the 'double coincidence of wants' problem of barter; high inflation damages the store-of-value function.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-nature-fiat",
+      "topicKey": "money-nature",
+      "type": "basic",
+      "prompt": "What is fiat money?",
+      "answer": "Money that is not convertible into anything of intrinsic value and is accepted because the government declares it legal tender and people trust it will be accepted.",
+      "explanation": "Canadian bank notes are fiat money; their value rests on confidence, not on gold backing.",
+      "reverse": true,
+      "tags": [
+        "definition",
+        "ahead",
+        "canada"
+      ]
+    },
+    {
+      "key": "money-nature-m1-m2",
+      "topicKey": "money-nature",
+      "type": "basic",
+      "prompt": "Roughly, what is in M1 and what does M2 add?",
+      "answer": "**M1** (narrow money): currency outside banks plus chequable (demand) deposits. **M2** adds less liquid deposits such as savings/notice deposits and personal term deposits.",
+      "explanation": "Which measure is 'money' is a matter of degree of liquidity; credit cards are not money (they create a debt).",
+      "tags": [
+        "definition",
+        "ahead",
+        "confusable"
+      ]
+    },
+    {
+      "key": "money-nature-boc-functions",
+      "topicKey": "money-nature",
+      "type": "basic",
+      "prompt": "What are the main functions of the Bank of Canada?",
+      "answer": "Banker to the commercial banks, banker to the federal government, regulator of the money supply (monetary policy), and supporter/regulator of financial markets.",
+      "explanation": "It is a Crown corporation whose Governor is appointed for a seven-year term; it operates with day-to-day independence from the government.",
+      "tags": [
+        "canada",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-nature-quantity-theory",
+      "topicKey": "money-nature",
+      "type": "cloze",
+      "prompt": "Quantity theory of money: $MV = {{c1::PY}}$, where $V$ is the velocity of circulation.",
+      "answer": "",
+      "explanation": "If $V$ and $Y$ are constant, the price level is proportional to the money supply: sustained inflation requires sustained money growth.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-banking-fractional",
+      "topicKey": "money-banking",
+      "type": "cloze",
+      "prompt": "In a **fractional-reserve** system, banks hold only a fraction of their deposits as {{c1::reserves}} and lend out the rest.",
+      "answer": "",
+      "explanation": "Reserves are cash in the vault plus deposits at the Bank of Canada. Canada has no legal minimum; banks choose a *target* reserve ratio.",
+      "tags": [
+        "definition",
+        "ahead",
+        "canada"
+      ]
+    },
+    {
+      "key": "money-banking-reserve-ratio",
+      "topicKey": "money-banking",
+      "type": "cloze",
+      "prompt": "$\\text{Reserve ratio} = \\dfrac{{{c1::\\text{Reserves}}}}{\\text{Deposits}}$; **excess reserves** are reserves above the bank's target.",
+      "answer": "",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-banking-multiplier",
+      "topicKey": "money-banking",
+      "type": "cloze",
+      "prompt": "With target reserve ratio $v$ and no cash drain, a new deposit of $\\Delta R$ raises total deposits by $\\Delta D = \\dfrac{\\Delta R}{{{c1::v}}}$; the money multiplier is $1/v$.",
+      "answer": "",
+      "explanation": "$v = 0.1$: a \\$1000 new deposit lets the bank lend \\$900, which is redeposited and relent (\\$810, \\$729, ...), summing to \\$10,000.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-banking-multiplier-cash-drain",
+      "topicKey": "money-banking",
+      "type": "basic",
+      "prompt": "How does a cash drain $c$ (fraction of new deposits the public holds as currency) change the money multiplier?",
+      "answer": "It shrinks it to $\\dfrac{1}{v + c}$. Example: $v = 0.1$, $c = 0.1$ gives 5 instead of 10.",
+      "explanation": "Cash held outside banks cannot be relent, so each round of deposit creation is smaller.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-banking-excess-reserves",
+      "topicKey": "money-banking",
+      "type": "basic",
+      "prompt": "Why would banks holding excess reserves reduce the money multiplier?",
+      "answer": "Money is created only when banks *lend* excess reserves; if they keep them (e.g., in a crisis), fewer deposits are created and the actual multiplier is below $1/v$.",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-banking-example",
+      "topicKey": "money-banking",
+      "type": "basic",
+      "prompt": "Target reserve ratio 20%, no cash drain. A \\$500 cash deposit eventually raises the money supply by how much?",
+      "answer": "Deposits rise by $500 / 0.2 = \\$2500$; since \\$500 of currency moved into the bank, the money supply rises by \\$2000.",
+      "explanation": "Classic trap: the first deposit converts currency (already money) into a deposit; only the \\$2000 of new loans is new money.",
+      "tags": [
+        "example",
+        "ahead",
+        "mistake"
+      ]
+    },
+    {
+      "key": "money-interest-bond-price",
+      "topicKey": "money-interest",
+      "type": "basic",
+      "prompt": "Bond prices and interest rates: what is the relationship?",
+      "answer": "**Inverse**: a bond's price is the present value of its fixed future payments, so a higher interest rate lowers the price, and vice versa.",
+      "explanation": "A bond paying \\$100 in one year is worth $100/1.05 \\approx \\$95.24$ at 5% but $100/1.10 \\approx \\$90.91$ at 10%.",
+      "tags": [
+        "concept",
+        "ahead",
+        "formula"
+      ]
+    },
+    {
+      "key": "money-interest-present-value",
+      "topicKey": "money-interest",
+      "type": "cloze",
+      "prompt": "Present value of \\$R received in one year at interest rate $i$: $PV = \\dfrac{R}{{{c1::1 + i}}}$",
+      "answer": "",
+      "explanation": "For $n$ years, divide by $(1 + i)^n$. The higher $i$, the lower the PV: money later is worth less today.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-interest-demand-motives",
+      "topicKey": "money-interest",
+      "type": "cloze",
+      "prompt": "Three motives for holding money: the **{{c1::transactions}}** motive (bridging receipts and payments), the **{{c2::precautionary}}** motive (unexpected needs), and the **{{c3::speculative}}** motive (avoiding capital losses on bonds).",
+      "answer": "",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-interest-demand-determinants",
+      "topicKey": "money-interest",
+      "type": "basic",
+      "prompt": "How does the quantity of money demanded respond to the interest rate, real income and the price level?",
+      "answer": "Negatively to the interest rate (the opportunity cost of holding money), positively to real GDP and positively to the price level.",
+      "explanation": "The money demand curve slopes down against $i$; higher $Y$ or $P$ shifts it right.",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-interest-equilibrium",
+      "topicKey": "money-interest",
+      "type": "basic",
+      "prompt": "Money supply exceeds money demand at the current interest rate. What happens?",
+      "answer": "People use excess money to buy bonds, bond prices rise and the interest rate **falls** until money demanded equals the (fixed) money supply.",
+      "explanation": "Monetary equilibrium: the interest rate is determined where money supply equals money demand (liquidity preference).",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-transmission-chain",
+      "topicKey": "money-transmission",
+      "type": "basic",
+      "prompt": "State the monetary transmission mechanism for an increase in the money supply.",
+      "answer": "$M_S \\uparrow \\Rightarrow i \\downarrow \\Rightarrow$ desired investment (and other interest-sensitive spending) $\\uparrow \\Rightarrow AE \\uparrow \\Rightarrow AD$ shifts right $\\Rightarrow Y \\uparrow$, $P \\uparrow$.",
+      "explanation": "In an open economy the lower interest rate also causes a capital outflow, a depreciation of the C\\$ and higher net exports, reinforcing the effect.",
+      "tags": [
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-transmission-exchange-channel",
+      "topicKey": "money-transmission",
+      "type": "basic",
+      "prompt": "How does the exchange-rate channel of monetary transmission work when Canadian interest rates fall?",
+      "answer": "Lower rates make Canadian assets less attractive, capital flows out, the C\\$ depreciates, exports rise and imports fall, so $NX$ and AD rise.",
+      "tags": [
+        "effect",
+        "ahead",
+        "canada"
+      ]
+    },
+    {
+      "key": "money-transmission-strength",
+      "topicKey": "money-transmission",
+      "type": "basic",
+      "prompt": "When is monetary policy most powerful (largest effect on AD)?",
+      "answer": "When money demand is insensitive to the interest rate (steep $M_D$, so a given $M_S$ change moves $i$ a lot) and investment is very sensitive to the interest rate (flat $I$ curve).",
+      "explanation": "The opposite combination (flat $M_D$, steep $I$) makes monetary policy weak; this was the Keynesian vs monetarist debate.",
+      "tags": [
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "money-transmission-long-run",
+      "topicKey": "money-transmission",
+      "type": "basic",
+      "prompt": "Long-run effect of a one-time increase in the money supply on output and prices?",
+      "answer": "Output returns to $Y^*$ through factor-price adjustment; the price level ends permanently higher (money is neutral in the long run).",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-boc-target",
+      "topicKey": "policy-boc",
+      "type": "cloze",
+      "prompt": "Since 1991 the Bank of Canada has targeted CPI inflation at {{c1::2}}% (the midpoint of a {{c2::1–3}}% band), under an agreement with the federal government renewed roughly every five years.",
+      "answer": "",
+      "explanation": "The target is for total CPI inflation, but the Bank watches *core* inflation measures that strip out volatile components as a guide to the trend.",
+      "tags": [
+        "canada",
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-boc-instrument",
+      "topicKey": "policy-boc",
+      "type": "cloze",
+      "prompt": "The Bank of Canada's policy instrument is the target for the {{c1::overnight interest rate}}, the rate at which major financial institutions lend to each other overnight.",
+      "answer": "",
+      "explanation": "The Bank announces the target on eight fixed dates per year; changes feed through to other market rates such as the prime rate.",
+      "tags": [
+        "canada",
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-boc-bank-rate",
+      "topicKey": "policy-boc",
+      "type": "basic",
+      "prompt": "How does the bank rate relate to the overnight target?",
+      "answer": "The bank rate (what the Bank charges banks for short-term loans) sits at the top of the operating band around the overnight target, so it moves one-for-one with the target.",
+      "tags": [
+        "canada",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-boc-response-inflationary",
+      "topicKey": "policy-boc",
+      "type": "basic",
+      "prompt": "Inflation is forecast to rise above target because of an inflationary gap. What does the Bank of Canada do and why?",
+      "answer": "It **raises** the overnight target: higher interest rates reduce interest-sensitive spending and appreciate the C\\$, shifting AD left and closing the gap.",
+      "explanation": "A recessionary gap with inflation below target calls for the opposite: cut the target rate.",
+      "tags": [
+        "policy",
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-boc-lags",
+      "topicKey": "policy-boc",
+      "type": "basic",
+      "prompt": "How long do changes in Canadian monetary policy take to have their full effect on inflation, and what does this imply?",
+      "answer": "Roughly 18 to 24 months. The Bank must act on *forecast* inflation, not current inflation, and policy mistakes are hard to reverse quickly.",
+      "tags": [
+        "policy",
+        "canada",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-boc-endogenous-money",
+      "topicKey": "policy-boc",
+      "type": "basic",
+      "prompt": "When the Bank targets an interest rate, is the money supply exogenous or endogenous?",
+      "answer": "Endogenous: the Bank supplies whatever quantity of money is demanded at the targeted rate, so the money supply adjusts to money demand.",
+      "explanation": "This reverses the textbook sequence 'choose $M_S$, let $i$ adjust'; in practice the Bank chooses $i$ and $M_S$ follows.",
+      "tags": [
+        "concept",
+        "ahead",
+        "confusable"
+      ]
+    },
+    {
+      "key": "policy-inflation-demand-vs-supply",
+      "topicKey": "policy-inflation",
+      "type": "basic",
+      "prompt": "Demand inflation vs supply inflation?",
+      "answer": "**Demand (demand-pull)**: AD shifts right, creating an inflationary gap that pushes wages and prices up. **Supply (cost-push)**: AS shifts left (e.g., oil shock), raising prices while output falls.",
+      "explanation": "Demand inflation: $P \\uparrow$, $Y \\uparrow$. Supply inflation: $P \\uparrow$, $Y \\downarrow$ (stagflation).",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-inflation-wage-changes",
+      "topicKey": "policy-inflation",
+      "type": "basic",
+      "prompt": "What two forces drive wage changes in the course's inflation model?",
+      "answer": "The **output gap** (excess demand for labour raises wages, excess supply lowers them) and **expected inflation** (workers and firms build expected price rises into wage settlements).",
+      "explanation": "Actual inflation $\\approx$ expected inflation + output-gap effect (+ supply shocks).",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-inflation-validation",
+      "topicKey": "policy-inflation",
+      "type": "basic",
+      "prompt": "What does it mean for the Bank of Canada to 'validate' an inflationary gap?",
+      "answer": "To increase the money supply (keep rates low) so AD keeps shifting right as AS shifts left; output stays above $Y^*$ and inflation continues instead of the gap closing.",
+      "reverse": true,
+      "tags": [
+        "definition",
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-inflation-sustained",
+      "topicKey": "policy-inflation",
+      "type": "basic",
+      "prompt": "Can inflation be sustained indefinitely without monetary validation?",
+      "answer": "No. Without money growth, a leftward-shifting AS eventually closes the inflationary gap and inflation stops; sustained inflation requires sustained monetary expansion.",
+      "explanation": "Hence the saying that sustained inflation is 'always and everywhere a monetary phenomenon'.",
+      "tags": [
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-inflation-accelerating",
+      "topicKey": "policy-inflation",
+      "type": "basic",
+      "prompt": "Why does holding output above $Y^*$ with continued validation lead to *accelerating* inflation?",
+      "answer": "Inflation expectations keep rising to match actual inflation, so wages rise by expectations plus the gap effect; keeping the gap open requires ever-faster money growth.",
+      "explanation": "This is the acceleration hypothesis: a persistent inflationary gap cannot buy a stable positive inflation rate.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-inflation-supply-shock-choice",
+      "topicKey": "policy-inflation",
+      "type": "basic",
+      "prompt": "After a negative supply shock, what are the Bank's two options and their consequences?",
+      "answer": "**Validate** (expand money): output recovers faster but the price level rises further. **Don't validate**: a recessionary gap slowly pushes wages down and prices back, at the cost of a longer slump.",
+      "tags": [
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-inflation-disinflation-phases",
+      "topicKey": "policy-inflation",
+      "type": "basic",
+      "prompt": "Describe the three phases of disinflation after a sustained inflation.",
+      "answer": "(1) Remove validation: AD growth stops, but wages still rise from expectations, so a recessionary gap opens (stagflation). (2) Expectations fall, wages slow, output recovers. (3) Gap closes at a lower inflation rate.",
+      "tags": [
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-inflation-sacrifice-ratio",
+      "topicKey": "policy-inflation",
+      "type": "cloze",
+      "prompt": "The **sacrifice ratio** is the cumulative percentage-point loss of {{c1::output (GDP)}} per percentage-point reduction in {{c2::inflation}}.",
+      "answer": "",
+      "explanation": "It is smaller when expectations adjust quickly, e.g., when the central bank's commitment is credible.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-nairu-def",
+      "topicKey": "policy-nairu",
+      "type": "cloze",
+      "prompt": "The **NAIRU** (non-accelerating inflation rate of unemployment) is the unemployment rate when $Y = {{c1::Y^*}}$; it equals frictional plus {{c2::structural}} unemployment.",
+      "answer": "",
+      "explanation": "Also called the natural rate. Below it, an inflationary gap makes inflation accelerate; above it, cyclical unemployment exists.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-nairu-cyclical",
+      "topicKey": "policy-nairu",
+      "type": "cloze",
+      "prompt": "Cyclical unemployment $= u - {{c1::u^*}}$ (actual rate minus the NAIRU); it is {{c2::positive}} in a recessionary gap and negative in an inflationary gap.",
+      "answer": "",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-nairu-frictional-vs-structural",
+      "topicKey": "policy-nairu",
+      "type": "basic",
+      "prompt": "A laid-off auto worker in Ontario cannot find work because new jobs are in Alberta's oil sector. Frictional or structural?",
+      "answer": "**Structural**: a mismatch of location/skills between workers and jobs. Frictional would be a short search between similar jobs.",
+      "tags": [
+        "example",
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-nairu-raises",
+      "topicKey": "policy-nairu",
+      "type": "basic",
+      "prompt": "What kinds of changes raise the NAIRU?",
+      "answer": "More generous or longer EI benefits, higher minimum wages above market levels, faster structural change (skill mismatch), and demographic shifts toward groups with higher turnover.",
+      "explanation": "Policies that improve matching (training, job information, mobility) lower it.",
+      "tags": [
+        "effect",
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-nairu-why-wages-sticky",
+      "topicKey": "policy-nairu",
+      "type": "basic",
+      "prompt": "Why might real wages not fall to clear the labour market in a recession (New Keynesian view)?",
+      "answer": "Long-term wage contracts, efficiency wages (paying above market to boost effort and retention), menu costs of changing prices, and the insider-outsider bargaining of existing employees.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-nairu-hysteresis",
+      "topicKey": "policy-nairu",
+      "type": "basic",
+      "prompt": "What is hysteresis in unemployment?",
+      "answer": "A long recession raises the NAIRU itself: the long-term unemployed lose skills and contacts, so cyclical unemployment turns into structural unemployment.",
+      "reverse": true,
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "policy-nairu-discouraged",
+      "topicKey": "policy-nairu",
+      "type": "basic",
+      "prompt": "A discouraged worker stops looking for a job. What happens to the measured unemployment rate and the participation rate?",
+      "answer": "Both **fall**: the person leaves the labour force, so they are no longer counted as unemployed and the labour force shrinks.",
+      "explanation": "The measured unemployment rate can therefore understate labour-market weakness.",
+      "tags": [
+        "effect",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "debt-deficits-budget-deficit",
+      "topicKey": "debt-deficits",
+      "type": "cloze",
+      "prompt": "Government budget deficit $= G + {{c1::iD}} - T$: purchases plus interest on the outstanding debt $D$, minus net tax revenue.",
+      "answer": "",
+      "explanation": "The **primary deficit** is $G - T$, excluding interest payments; it shows whether current programs are paid for by current taxes.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "debt-deficits-stock-flow",
+      "topicKey": "debt-deficits",
+      "type": "cloze",
+      "prompt": "The **deficit** is a {{c1::flow}} (this year's excess of spending over revenue); the **debt** is a {{c2::stock}} (accumulated past deficits minus surpluses), so $\\Delta D = \\text{deficit}$.",
+      "answer": "",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "debt-deficits-ratio-dynamics",
+      "topicKey": "debt-deficits",
+      "type": "cloze",
+      "prompt": "Change in the debt-to-GDP ratio: $\\Delta d = (r - g)\\,d + {{c1::\\text{primary deficit ratio}}}$, where $r$ is the real interest rate and $g$ real GDP growth.",
+      "answer": "",
+      "explanation": "If $r > g$ the ratio rises even with a balanced primary budget; if $g > r$ the economy can 'grow out of' the debt.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "debt-deficits-cyclically-adjusted",
+      "topicKey": "debt-deficits",
+      "type": "basic",
+      "prompt": "What is the cyclically adjusted (structural) deficit?",
+      "answer": "The deficit that would exist if the economy were at potential output $Y^*$. It removes the automatic-stabilizer effects of the business cycle to show the stance of fiscal policy.",
+      "explanation": "A deficit during a recession may be entirely cyclical; a deficit at $Y^*$ signals structural imbalance.",
+      "reverse": true,
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "debt-deficits-crowding-out",
+      "topicKey": "debt-deficits",
+      "type": "basic",
+      "prompt": "How do persistent deficits crowd out private investment in the long run?",
+      "answer": "Deficits reduce national saving ($T - G$ falls), which raises the real interest rate in the market for financial capital and lowers investment, slowing growth of $Y^*$.",
+      "explanation": "In an open economy the higher rate attracts foreign capital instead, appreciating the C\\$ and crowding out net exports.",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "debt-deficits-balanced-rules",
+      "topicKey": "debt-deficits",
+      "type": "basic",
+      "prompt": "Why is an annually balanced budget rule destabilizing?",
+      "answer": "In a recession tax revenue falls, so the rule forces spending cuts or tax hikes that shift AD further left; it disables the automatic stabilizers.",
+      "explanation": "A budget balanced over the business cycle keeps stabilizers while limiting debt growth.",
+      "tags": [
+        "policy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-bop-accounts",
+      "topicKey": "fx-bop",
+      "type": "cloze",
+      "prompt": "The balance of payments has the **{{c1::current account}}** (trade in goods and services, investment income, transfers) and the **{{c2::capital and financial account}}** (purchases and sales of assets), plus changes in official reserves.",
+      "answer": "",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-bop-sum-zero",
+      "topicKey": "fx-bop",
+      "type": "basic",
+      "prompt": "Why must the balance of payments always sum to zero?",
+      "answer": "Every transaction is recorded twice: a current-account deficit must be financed by net capital inflows (selling assets to foreigners) or by a fall in official reserves.",
+      "explanation": "So 'a balance of payments deficit' in headlines usually means a current-account deficit.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-bop-current-deficit",
+      "topicKey": "fx-bop",
+      "type": "basic",
+      "prompt": "Canada runs a current-account deficit. What does this imply for the capital and financial account?",
+      "answer": "A matching surplus: Canada is a net borrower, selling more assets (bonds, shares, real estate) to foreigners than it buys abroad.",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-exchange-demand-for-cad",
+      "topicKey": "fx-exchange",
+      "type": "basic",
+      "prompt": "Who demands Canadian dollars in the foreign-exchange market?",
+      "answer": "Foreigners buying Canadian exports, foreigners buying Canadian assets (capital inflows), and anyone paying Canadians income or transfers.",
+      "explanation": "Supply of C\\$ comes from Canadians buying imports or foreign assets.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-exchange-inflation-differential",
+      "topicKey": "fx-exchange",
+      "type": "basic",
+      "prompt": "Canadian inflation runs persistently above US inflation. Long-run effect on the C\\$?",
+      "answer": "The C\\$ **depreciates** (exchange rate rises) roughly in line with the inflation differential, keeping relative prices (purchasing power parity) constant.",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-exchange-ppp",
+      "topicKey": "fx-exchange",
+      "type": "cloze",
+      "prompt": "**Purchasing power parity** holds when the exchange rate adjusts so that a given amount of money buys the same {{c1::basket of goods}} in each country.",
+      "answer": "",
+      "explanation": "Prediction: the currency of the higher-inflation country depreciates. PPP works poorly in the short run because of capital flows and non-traded goods.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-exchange-interest-differential",
+      "topicKey": "fx-exchange",
+      "type": "basic",
+      "prompt": "Canadian interest rates rise relative to US rates. Short-run effect on the C\\$?",
+      "answer": "Capital flows into Canadian assets, demand for C\\$ rises and the C\\$ **appreciates** (exchange rate falls).",
+      "tags": [
+        "effect",
+        "ahead"
+      ]
+    },
+    {
+      "key": "fx-exchange-commodity-prices",
+      "topicKey": "fx-exchange",
+      "type": "basic",
+      "prompt": "World prices of Canada's commodity exports (oil, lumber) rise. Effect on the C\\$?",
+      "answer": "Export revenues rise, foreigners need more C\\$, and the C\\$ **appreciates**; this is why the C\\$ is often called a commodity currency.",
+      "tags": [
+        "effect",
+        "ahead",
+        "canada"
+      ]
+    },
+    {
+      "key": "fx-exchange-fixed-vs-flexible",
+      "topicKey": "fx-exchange",
+      "type": "basic",
+      "prompt": "Fixed vs flexible exchange rate: how is each maintained?",
+      "answer": "**Flexible**: the rate is set by supply and demand with no intervention (Canada). **Fixed**: the central bank buys or sells foreign reserves to hold the rate, and loses control of monetary policy.",
+      "tags": [
+        "confusable",
+        "policy",
+        "ahead"
+      ]
+    }
+  ]
+}

@@ -179,16 +179,25 @@ pack**. Re-importing never duplicates items, and items you deleted stay deleted.
 The full backup format (`spaced-learning-backup`, version 1) and the content-pack format are defined
 in `src/io/schema.ts`. Changing either requires a new version number and a migration.
 
-## Curated Calculus 2 deck
+## Curated decks
 
-The deck has 214 items (238 cards) across 8 topics and 27 subtopics. It was validated three ways: every
-formula renders in KaTeX, 125 numeric spot-checks verify the identities, derivatives, antiderivatives and
-Maclaurin series, and a mutation test confirms the checks catch errors.
+Four decks ship with the app. When you install one, you choose which topics your course has
+covered; new cards come only from active topics, and you activate more in the Library as
+lectures progress. Each deck's outline, sources and open questions are in `docs/content-plans/`.
 
-When you install the deck, you choose which topics your course has covered. New cards come only from
-active topics; activate more in the Library as lectures progress.
+| Deck | Items | Units | Written from |
+|---|---|---|---|
+| Calculus 2 | 214 | 8 | Stewart-style course; 125 numeric spot-checks verify the formulas (`calc2.checks.ts`) |
+| COMP 352 · Data Structures & Algorithms | 221 | 10 | Fall 2026 slides and midterm prep for weeks 1–3; later units (102 items tagged `ahead`) from Goodrich–Tamassia |
+| COMP 232 · Mathematics for Computer Science | 230 | 10 | Fall 2026 slides for weeks 1–5; later units (60 items tagged `ahead`) from Rosen |
+| ECON 203 · Introduction to Macroeconomics | 208 | 10 | Fall 2026 chapter slides 4–10; chapters 11–19 (56 items tagged `ahead`) from Ragan |
 
-Worth a look against your textbook's conventions:
+Items written ahead of the lectures carry the `ahead` tag and no `source`; when those slides
+arrive, verify them, add sources and drop the tag. Every item in every deck is checked by
+`npm test`: schema, topic tree, KaTeX rendering and the editor's quality rules. To check one
+file while editing it: `DECK=src/content/decks/comp352.json npx vitest run test/deck-file.test.ts`.
+
+Calculus 2 conventions worth a look against your textbook:
 
 | Item | Convention used |
 |---|---|

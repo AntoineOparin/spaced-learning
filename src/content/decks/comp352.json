@@ -1,0 +1,2959 @@
+{
+  "format": "spaced-learning-content",
+  "version": 1,
+  "deck": {
+    "id": "comp352-core",
+    "version": 1,
+    "title": "COMP 352 · Data Structures & Algorithms"
+  },
+  "courses": [
+    {
+      "key": "comp352",
+      "name": "COMP 352 · Data Structures & Algorithms",
+      "description": "Concordia COMP 352 (Goodrich–Tamassia–Goldwasser, Java): algorithm analysis and Big-O, recursion, arrays and ADTs, stacks and queues, linked lists, trees and traversals, priority queues and heaps, maps and hash tables, binary search and AVL trees, sorting, and graph algorithms. Items from lectures cite their slides; later units are written ahead of the lectures from the textbook and tagged 'ahead'."
+    }
+  ],
+  "topics": [
+    {
+      "key": "analysis",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Algorithm Analysis"
+    },
+    {
+      "key": "analysis-intro",
+      "courseKey": "comp352",
+      "parentKey": "analysis",
+      "name": "Algorithms, Pseudocode & Design"
+    },
+    {
+      "key": "analysis-worstcase",
+      "courseKey": "comp352",
+      "parentKey": "analysis",
+      "name": "Worst Case & Counting Operations"
+    },
+    {
+      "key": "analysis-bigo",
+      "courseKey": "comp352",
+      "parentKey": "analysis",
+      "name": "Big-O, Big-Ω, Big-Θ: Definitions & Proofs"
+    },
+    {
+      "key": "analysis-rules",
+      "courseKey": "comp352",
+      "parentKey": "analysis",
+      "name": "Growth Rates & Shorthand Rules"
+    },
+    {
+      "key": "analysis-loops",
+      "courseKey": "comp352",
+      "parentKey": "analysis",
+      "name": "Analysing Loops & Code"
+    },
+    {
+      "key": "recursion",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Recursion"
+    },
+    {
+      "key": "recursion-basics",
+      "courseKey": "comp352",
+      "parentKey": "recursion",
+      "name": "Structure & Types of Recursion"
+    },
+    {
+      "key": "recursion-examples",
+      "courseKey": "comp352",
+      "parentKey": "recursion",
+      "name": "Classic Recursive Algorithms"
+    },
+    {
+      "key": "recursion-analysis",
+      "courseKey": "comp352",
+      "parentKey": "recursion",
+      "name": "Analysing & Removing Recursion"
+    },
+    {
+      "key": "arrays",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Arrays, ADTs, Stacks & Queues"
+    },
+    {
+      "key": "arrays-memory",
+      "courseKey": "comp352",
+      "parentKey": "arrays",
+      "name": "Memory Model & Arrays"
+    },
+    {
+      "key": "arrays-adt",
+      "courseKey": "comp352",
+      "parentKey": "arrays",
+      "name": "Abstract Data Types & Interfaces"
+    },
+    {
+      "key": "arrays-principles",
+      "courseKey": "comp352",
+      "parentKey": "arrays",
+      "name": "Data Structure Principles & Java Collections"
+    },
+    {
+      "key": "arrays-stacks",
+      "courseKey": "comp352",
+      "parentKey": "arrays",
+      "name": "Stacks"
+    },
+    {
+      "key": "arrays-queues",
+      "courseKey": "comp352",
+      "parentKey": "arrays",
+      "name": "Queues & Deques"
+    },
+    {
+      "key": "lists",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Lists"
+    },
+    {
+      "key": "lists-singly",
+      "courseKey": "comp352",
+      "parentKey": "lists",
+      "name": "Singly Linked Lists"
+    },
+    {
+      "key": "lists-doubly",
+      "courseKey": "comp352",
+      "parentKey": "lists",
+      "name": "Doubly & Circularly Linked Lists"
+    },
+    {
+      "key": "lists-arraylist",
+      "courseKey": "comp352",
+      "parentKey": "lists",
+      "name": "Array Lists, Amortization & Positional Lists"
+    },
+    {
+      "key": "trees",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Trees"
+    },
+    {
+      "key": "trees-terminology",
+      "courseKey": "comp352",
+      "parentKey": "trees",
+      "name": "Tree Terminology"
+    },
+    {
+      "key": "trees-binary",
+      "courseKey": "comp352",
+      "parentKey": "trees",
+      "name": "Binary Trees & Properties"
+    },
+    {
+      "key": "trees-traversal",
+      "courseKey": "comp352",
+      "parentKey": "trees",
+      "name": "Traversals"
+    },
+    {
+      "key": "trees-impl",
+      "courseKey": "comp352",
+      "parentKey": "trees",
+      "name": "Tree Representations"
+    },
+    {
+      "key": "heaps",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Priority Queues & Heaps"
+    },
+    {
+      "key": "heaps-pq",
+      "courseKey": "comp352",
+      "parentKey": "heaps",
+      "name": "Priority Queue ADT"
+    },
+    {
+      "key": "heaps-heap",
+      "courseKey": "comp352",
+      "parentKey": "heaps",
+      "name": "Heaps"
+    },
+    {
+      "key": "heaps-sort",
+      "courseKey": "comp352",
+      "parentKey": "heaps",
+      "name": "Heap-Sort & Adaptable PQs"
+    },
+    {
+      "key": "hashing",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Maps & Hash Tables"
+    },
+    {
+      "key": "hashing-map",
+      "courseKey": "comp352",
+      "parentKey": "hashing",
+      "name": "Map ADT"
+    },
+    {
+      "key": "hashing-functions",
+      "courseKey": "comp352",
+      "parentKey": "hashing",
+      "name": "Hash Functions"
+    },
+    {
+      "key": "hashing-collisions",
+      "courseKey": "comp352",
+      "parentKey": "hashing",
+      "name": "Collisions & Load Factor"
+    },
+    {
+      "key": "searchtrees",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Search Trees"
+    },
+    {
+      "key": "searchtrees-bst",
+      "courseKey": "comp352",
+      "parentKey": "searchtrees",
+      "name": "Binary Search Trees"
+    },
+    {
+      "key": "searchtrees-avl",
+      "courseKey": "comp352",
+      "parentKey": "searchtrees",
+      "name": "AVL Trees"
+    },
+    {
+      "key": "sorting",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Sorting"
+    },
+    {
+      "key": "sorting-mergesort",
+      "courseKey": "comp352",
+      "parentKey": "sorting",
+      "name": "Merge-Sort"
+    },
+    {
+      "key": "sorting-quicksort",
+      "courseKey": "comp352",
+      "parentKey": "sorting",
+      "name": "Quick-Sort"
+    },
+    {
+      "key": "sorting-bounds",
+      "courseKey": "comp352",
+      "parentKey": "sorting",
+      "name": "Lower Bound, Bucket & Radix Sort"
+    },
+    {
+      "key": "graphs",
+      "courseKey": "comp352",
+      "parentKey": null,
+      "name": "Graphs"
+    },
+    {
+      "key": "graphs-basics",
+      "courseKey": "comp352",
+      "parentKey": "graphs",
+      "name": "Graph Terminology"
+    },
+    {
+      "key": "graphs-structures",
+      "courseKey": "comp352",
+      "parentKey": "graphs",
+      "name": "Graph Data Structures"
+    },
+    {
+      "key": "graphs-traversal",
+      "courseKey": "comp352",
+      "parentKey": "graphs",
+      "name": "DFS & BFS"
+    },
+    {
+      "key": "graphs-paths",
+      "courseKey": "comp352",
+      "parentKey": "graphs",
+      "name": "Topological Sort, Shortest Paths & MST"
+    }
+  ],
+  "items": [
+    {
+      "key": "intro-algorithm-definition",
+      "topicKey": "analysis-intro",
+      "type": "cloze",
+      "prompt": "The course's working definition: an **algorithm** is a procedure for solving a problem in a {{c1::finite number of steps}} that frequently involves {{c2::repetition of an operation}}.",
+      "answer": "",
+      "explanation": "Modern phrasing from the same slides: a systematic method to solve problems, often on a computer, often involving iterative operations. Non-computer examples given in class: Euclid's gcd (300 BC), astronomical calendars, airplane checklists.",
+      "source": "Slides 01.1 p.3, p.8",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "intro-pillars",
+      "topicKey": "analysis-intro",
+      "type": "cloze",
+      "prompt": "The three pillars of computer science named in the first lecture: {{c1::algorithms}}, {{c2::data structures}} and {{c3::programming languages}}. A problem is solved by choosing algorithm(s) together with data structure(s).",
+      "answer": "",
+      "explanation": "The slide calls CS 'half mathematics, half engineering' and data structures 'the feng shui of computer memory'.",
+      "source": "Slides 01.1 p.10–11, p.25",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "intro-pseudocode",
+      "topicKey": "analysis-intro",
+      "type": "basic",
+      "prompt": "How do we communicate an algorithm to a computer versus to another person?",
+      "answer": "To a computer: code in a programming language (Java, C/C++). To a person: **pseudocode**, a detailed yet informal, readable description mixing words and math, with indentation for clarity. Flow-charts are considered messy.",
+      "explanation": "Pseudocode is not standard: it is informal and clear, and indentation carries the structure. Assignments ask for pseudocode explicitly and warn that 'Java code is not pseudocode'.",
+      "source": "Slides 01.1 p.14–15, p.26",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "intro-design-pipeline",
+      "topicKey": "analysis-intro",
+      "type": "cloze",
+      "prompt": "The 'algorithm of algorithm design': 1. create the algorithm in {{c1::pseudocode}}; 2. analyze it for {{c2::correctness and efficiency}}; 3. {{c3::implement}} it (Java, C/C++).",
+      "answer": "",
+      "explanation": "Both correctness and efficiency can be established theoretically (a proof) or empirically (experiments).",
+      "source": "Slides 01.1 p.16–17, p.26",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "intro-correctness-vs-efficiency",
+      "topicKey": "analysis-intro",
+      "type": "basic",
+      "prompt": "In what two ways can the correctness or the efficiency of an algorithm be established?",
+      "answer": "Theoretically (by proof) or empirically (by running experiments).",
+      "explanation": "The course leans on the theoretical side: Big-O for efficiency, induction or contradiction for correctness and bounds. Programming Assignment 1 is the empirical side: timing two Fibonacci-style algorithms.",
+      "source": "Slides 01.1 p.17",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "worstcase-adversary",
+      "topicKey": "analysis-worstcase",
+      "type": "basic",
+      "prompt": "Why does this course analyse the **worst case** rather than the average case?",
+      "answer": "Because only the worst case gives a guarantee: a promise that holds no matter how unlucky the input is. 'Average case only hopes; worst case promises.' Imagine an Adversary who builds the input to make you suffer.",
+      "explanation": "Linear search for a name in a list of $n$: best case it is first (1 check), worst case it is last or absent ($n$ checks). The worst-case figure is the one we report.",
+      "source": "Slides 01.2 p.5",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "worstcase-no-stopwatch",
+      "topicKey": "analysis-worstcase",
+      "type": "basic",
+      "prompt": "Why not measure an algorithm's efficiency with a stopwatch?",
+      "answer": "Seconds depend on things unrelated to the algorithm: the CPU, the language, the compiler, what else the machine is running. Instead we count **primitive operations**, which is machine-independent and reproducible.",
+      "explanation": "Counting gives a *function of n*, not a single number; that function is what we analyse and then simplify with Big-O.",
+      "source": "Slides 01.2 p.6",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "worstcase-primitive-ops",
+      "topicKey": "analysis-worstcase",
+      "type": "basic",
+      "prompt": "Give four examples of **primitive operations** counted in algorithm analysis.",
+      "answer": "Comparisons, assignments, arithmetic operations and array accesses (also: calling/returning from a method, following a reference). Each is assumed to take constant time.",
+      "explanation": "Because each primitive operation costs a constant, the total count is proportional to the actual running time on any machine, up to a constant factor, which is exactly what Big-O ignores.",
+      "source": "Slides 01.2 p.6",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "worstcase-arraymax-count",
+      "topicKey": "analysis-worstcase",
+      "type": "basic",
+      "prompt": "Counting primitive operations in `arrayMax` (find the max of $n$ numbers with one loop), the slides arrive at what worst-case count?",
+      "answer": "About $8n - 3$ operations: 2 for `max = A[0]`, $2 + 2(n-1)$ for the loop control, $2(n-1)$ for the comparison, up to $2(n-1)$ for the assignment, 1 for the return.",
+      "explanation": "The exact constants are not the point: whichever way you count, you get $an + b$, which is $O(n)$. The textbook's own count differs slightly; follow the slides.",
+      "source": "Slides 01.2 p.8",
+      "tags": [
+        "example",
+        "derivation"
+      ]
+    },
+    {
+      "key": "worstcase-algorithm-beats-hardware",
+      "topicKey": "analysis-worstcase",
+      "type": "basic",
+      "prompt": "Counting repeats among $n = 10^6$ numbers: how long do the $O(n^2)$ check-every-pair algorithm and the $O(n \\log n)$ sort-then-scan algorithm take at $10^9$ ops/s?",
+      "answer": "Pair checking: about $5 \\times 10^{11}$ operations, roughly 8 minutes. Sort then scan: about $2 \\times 10^{7}$ operations, roughly 0.02 s. Algorithm choice beats hardware.",
+      "explanation": "Same answer, very different growth. A faster machine cannot rescue the quadratic version: 'a race you can't win with money'.",
+      "source": "Slides 01.2 p.2–3",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "worstcase-doubling-shock",
+      "topicKey": "analysis-worstcase",
+      "type": "basic",
+      "prompt": "For a $2^n$-time algorithm, what does doubling the CPU speed buy you?",
+      "answer": "Only one more element of input: adding one element doubles the work, so a 2x faster machine handles $n + 1$ instead of $n$ in the same time. Such algorithms ($2^n$, $n!$) are intractable on any hardware.",
+      "explanation": "This is why we care about growth, not seconds. Compare: for an $O(n)$ algorithm, doubling the speed doubles the input you can handle.",
+      "source": "Slides 01.2 p.4",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "bigo-def-upper-bound",
+      "topicKey": "analysis-bigo",
+      "type": "cloze",
+      "prompt": "$f(n)$ is $O(g(n))$ if there exist constants $c > 0$ and $n_0 \\ge 1$ such that $f(n) \\le {{c1::c \\cdot g(n)}}$ for all $n \\ge {{c2::n_0}}$.",
+      "answer": "",
+      "explanation": "Three ingredients: $c$ (constants and hardware don't matter), $n \\ge n_0$ (only large $n$ matters), $\\le$ (an upper bound, 'the ceiling, the promise'). The slides write $n_0 \\ge 0$ in one place and $n_0 \\ge 1$ in the worked examples; the choice is immaterial.",
+      "source": "Slides 01.2 p.9",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "bigo-def-omega",
+      "topicKey": "analysis-bigo",
+      "type": "cloze",
+      "prompt": "$f(n)$ is $\\Omega(g(n))$ if there exist $c > 0$ and $n_0$ such that $f(n) \\ge {{c1::c \\cdot g(n)}}$ for all $n \\ge n_0$: a {{c2::lower}} bound.",
+      "answer": "",
+      "explanation": "Big-Omega says $f$ grows *at least* as fast as $g$. Example: $n^2$ is $\\Omega(n)$. The midterm-prep slide states it as $f(n) \\ge c\\,g(n) > 0$ for all $n > n_0$.",
+      "source": "Slides MidtermPrep p.2; Slides 01.2 p.11",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "bigo-def-theta",
+      "topicKey": "analysis-bigo",
+      "type": "cloze",
+      "prompt": "$f(n)$ is $\\Theta(g(n))$ if there exist $c_1, c_2 > 0$ and $n_0$ such that {{c1::$c_1 g(n) \\le f(n) \\le c_2 g(n)$}} for all $n \\ge n_0$.",
+      "answer": "",
+      "explanation": "Equivalently, $f$ is both $O(g)$ and $\\Omega(g)$: a tight bound, 'grows exactly like $g$'.",
+      "source": "Slides MidtermPrep p.2; Slides 01.2 p.11",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "bigo-o-vs-theta",
+      "topicKey": "analysis-bigo",
+      "type": "basic",
+      "prompt": "Is $n$ in $O(n^2)$? Is it $\\Theta(n^2)$?",
+      "answer": "$n$ is $O(n^2)$ (true, but a loose ceiling) and is **not** $\\Theta(n^2)$, because $n$ is not $\\Omega(n^2)$.",
+      "explanation": "Big-O is only $\\le$: an upper bound, not the exact rate. The pair-checker in the repeats example is $\\Theta(n^2)$; $n$ is merely $O(n^2)$.",
+      "source": "Slides 01.2 p.11",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "bigo-three-notations",
+      "topicKey": "analysis-bigo",
+      "type": "basic",
+      "prompt": "Match $O$, $\\Omega$ and $\\Theta$ to 'upper bound', 'lower bound', 'tight bound'.",
+      "answer": "$O(g)$: upper bound ($\\le$), grows no faster than $g$. $\\Omega(g)$: lower bound ($\\ge$), grows at least as fast as $g$. $\\Theta(g)$: tight, both $\\le$ and $\\ge$, grows exactly like $g$.",
+      "explanation": "Exam phrasing: 'in terms of tight Big-O' means give the $\\Theta$ class but write it as $O(\\cdot)$. A statement like '$n^3$ is $O(n^4)$' is true but not tight.",
+      "source": "Slides 01.2 p.11",
+      "tags": [
+        "definition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "bigo-proof-7n-2",
+      "topicKey": "analysis-bigo",
+      "type": "cloze",
+      "prompt": "Proof by definition that $7n - 2$ is $O(n)$: we need $c > 0$, $n_0 \\ge 1$ with $7n - 2 \\le c\\,n$ for all $n \\ge n_0$; this holds for $c = {{c1::7}}$ and $n_0 = {{c2::1}}$.",
+      "answer": "",
+      "explanation": "$7n - 2 \\le 7n$ for every $n \\ge 1$. Pattern for 'by definition' proofs: exhibit explicit $c$ and $n_0$ and check the inequality. This exact example is listed as a midterm-prep proof.",
+      "source": "Slides 01.2 p.14; Slides MidtermPrep p.2",
+      "tags": [
+        "derivation",
+        "example"
+      ]
+    },
+    {
+      "key": "bigo-proof-swallow-terms",
+      "topicKey": "analysis-bigo",
+      "type": "basic",
+      "prompt": "One-line proof that $3n^2 + 5n + 17$ is $O(n^2)$?",
+      "answer": "For $n \\ge 1$: $3n^2 + 5n + 17 \\le 3n^2 + 5n^2 + 17n^2 = 25n^2$, so $c = 25$, $n_0 = 1$ works.",
+      "explanation": "Pick $c$ big enough to swallow the smaller terms: each lower-order term is at most its coefficient times $n^2$ once $n \\ge 1$. Same idea for the race: $n(n-1)/2 \\le \\tfrac{1}{2}n^2$.",
+      "source": "Slides 01.2 p.10",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "bigo-proof-cubic",
+      "topicKey": "analysis-bigo",
+      "type": "cloze",
+      "prompt": "The slides show $3n^3 + 20n^2 + 5$ is $O(n^3)$ with $c = {{c1::4}}$ and $n_0 = {{c2::21}}$: for $n \\ge n_0$, $20n^2 + 5 \\le n^3$, so the whole expression is $\\le 4n^3$.",
+      "answer": "",
+      "explanation": "Alternative: $c = 28$, $n_0 = 1$ by swallowing every term into $n^3$. Many $(c, n_0)$ pairs work; a proof needs just one. The same slide stresses that $3n^3 + 20n^2 + 5$ is **not** $O(n)$.",
+      "source": "Slides 01.2 p.14",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "bigo-proof-log",
+      "topicKey": "analysis-bigo",
+      "type": "basic",
+      "prompt": "Show $3\\log n + 5$ is $O(\\log n)$ with explicit constants.",
+      "answer": "$c = 8$, $n_0 = 2$: for $n \\ge 2$, $\\log n \\ge 1$, so $5 \\le 5\\log n$ and $3\\log n + 5 \\le 8\\log n$.",
+      "explanation": "Why $n_0 = 2$ and not 1: $\\log 1 = 0$, so no $c$ can make $5 \\le c\\log 1$. The same function is also (loosely) $O(n)$.",
+      "source": "Slides 01.2 p.16",
+      "tags": [
+        "example",
+        "mistake"
+      ]
+    },
+    {
+      "key": "bigo-disprove-contradiction",
+      "topicKey": "analysis-bigo",
+      "type": "basic",
+      "prompt": "How do you prove that $n^2$ is **not** $O(n)$?",
+      "answer": "By contradiction: suppose $n^2 \\le c\\,n$ for all $n \\ge n_0$. Then $n \\le c$ for all $n \\ge n_0$, impossible since $n$ grows without bound. So no such $c$ exists.",
+      "explanation": "Pattern for 'not O': assume the constants exist and derive that a constant bounds an unbounded quantity.",
+      "source": "Slides MidtermPrep p.2",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "bigo-proof-techniques",
+      "topicKey": "analysis-bigo",
+      "type": "basic",
+      "prompt": "What three proof techniques does the midterm prep list for Big-O claims, and which fits a positive vs a negative claim?",
+      "answer": "By definition (exhibit $c$, $n_0$), by induction (for inequalities like $2^n \\le n!$ for $n \\ge 4$), and by contradiction (to show $f$ is *not* $O(g)$).",
+      "explanation": "Examples given: $7n - 2$ is $O(n)$ (definition); $n^2$ is not $O(n)$ (contradiction); $2^n$ is $O(n!)$ (definition + induction); $n!$ is not $O(2^n)$ (contradiction + induction).",
+      "source": "Slides MidtermPrep p.2",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "rules-polynomial",
+      "topicKey": "analysis-rules",
+      "type": "cloze",
+      "prompt": "Shorthand rule: if $f(n)$ is a polynomial of degree $d$, then $f(n)$ is {{c1::$O(n^d)$}}; i.e. drop {{c2::lower-order terms}} and drop {{c3::constant factors}}.",
+      "answer": "",
+      "explanation": "$5n^4 + 3n^3 + 2n + 7$ is $O(n^4)$. The constant factor 5 and the lower terms vanish because a suitable $c$ absorbs them.",
+      "source": "Slides 01.2 p.18",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "rules-smallest-class",
+      "topicKey": "analysis-rules",
+      "type": "basic",
+      "prompt": "Two style rules for stating a Big-O bound: which class, and which expression?",
+      "answer": "Use the **smallest** possible class of functions: say '$2n$ is $O(n)$', not $O(n^2)$. Use the **simplest** expression of the class: say '$3n + 5$ is $O(n)$', not $O(3n)$.",
+      "explanation": "Both $O(n^2)$ and $O(3n)$ are technically true statements about $3n + 5$; they are just unhelpful. Exams ask for the *tight* Big-O.",
+      "source": "Slides 01.2 p.18",
+      "tags": [
+        "strategy",
+        "mistake"
+      ]
+    },
+    {
+      "key": "rules-growth-zoo",
+      "topicKey": "analysis-rules",
+      "type": "basic",
+      "prompt": "Order the seven standard growth classes from slowest to fastest growing.",
+      "answer": "$O(1) < O(\\log n) < O(n) < O(n\\log n) < O(n^2) < O(2^n) < O(n!)$: constant, logarithmic, linear, linearithmic, quadratic, exponential, factorial.",
+      "explanation": "Slide analogies: grab the top book off a stack; 'guess my number' (binary search); read every name once; an efficient sort; everyone shakes hands with everyone; doubling rice on a chessboard; try every route (travelling salesman).",
+      "mnemonic": "Between $n$ and $n^2$ sits $n \\log n$; between polynomial and factorial sits exponential.",
+      "source": "Slides 01.2 p.12",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "rules-feasible-n",
+      "topicKey": "analysis-rules",
+      "type": "cloze",
+      "prompt": "At about $10^9$ operations per second: $n^2$ is instant even at $n = 100$, $2^n$ is hopeless by $n = {{c1::50}}$ (about $10^{15}$ ops), and $n!$ is lost by $n = {{c2::15}}$.",
+      "answer": "",
+      "explanation": "Slide table: at $n = 30$, $2^n \\approx 10^9$ (one second) while $n! \\approx 10^{32}$; at $n = 100$, $n^2 = 10^4$ but $2^n \\approx 10^{30}$.",
+      "source": "Slides 01.2 p.13",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "rules-same-growth-table",
+      "topicKey": "analysis-rules",
+      "type": "basic",
+      "prompt": "If $f(n)$ is $O(g(n))$ **and** $g(n)$ is $O(f(n))$, what can you say about their growth rates?",
+      "answer": "They have the same growth rate: $f$ is $\\Theta(g)$. If only $f$ is $O(g)$, then $g$ grows more; if only $g$ is $O(f)$, then $f$ grows more.",
+      "explanation": "Big-O ranks functions by growth: '$f$ is $O(g)$' means the growth rate of $f$ is no more than that of $g$.",
+      "source": "Slides 01.2 p.19",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "rules-transitivity",
+      "topicKey": "analysis-rules",
+      "type": "basic",
+      "prompt": "If $f(n)$ is $O(g(n))$ and $g(n)$ is $O(h(n))$, show $f(n)$ is $O(h(n))$.",
+      "answer": "From $f(n) \\le c_1 g(n)$ for $n \\ge n_1$ and $g(n) \\le c_2 h(n)$ for $n \\ge n_2$, we get $f(n) \\le c_1 c_2\\, h(n)$ for $n \\ge \\max(n_1, n_2)$. Take $c = c_1 c_2$ and $n_0 = \\max(n_1, n_2)$.",
+      "explanation": "The companion slide exercise 'then $h(n)$ is not $O(f(n))$' is **false** in general: with $f = g = h = n$ all three are $O$ of each other. Big-O is a $\\le$ relation, not a strict $<$.",
+      "source": "Slides 01.2 p.17",
+      "tags": [
+        "derivation",
+        "mistake"
+      ]
+    },
+    {
+      "key": "rules-exp-vs-factorial",
+      "topicKey": "analysis-rules",
+      "type": "basic",
+      "prompt": "True or false, with justification: $2^n$ is $O(n!)$; $n!$ is $O(2^n)$.",
+      "answer": "$2^n$ is $O(n!)$: **true** ($2^n \\le n!$ for all $n \\ge 4$, by induction, so $c = 1$, $n_0 = 4$). $n!$ is $O(2^n)$: **false**, since $n!/2^n$ grows without bound (each extra factor $n+1$ versus 2).",
+      "explanation": "Also from the prep slides: $n!$ is $O(n^n)$ (each of the $n$ factors is $\\le n$) and $2^n$ is $O(3^n)$ (but not the reverse, since $(3/2)^n \\to \\infty$).",
+      "source": "Slides MidtermPrep p.2–3",
+      "tags": [
+        "example",
+        "confusable"
+      ]
+    },
+    {
+      "key": "rules-log-squared",
+      "topicKey": "analysis-rules",
+      "type": "basic",
+      "prompt": "Is $\\log n$ in $O(\\log n^2)$? Is $\\log n^2$ in $O(\\log n)$?",
+      "answer": "Both are true: $\\log n^2 = 2\\log n$, so the two differ by a constant factor and are $\\Theta$ of each other.",
+      "explanation": "Do not confuse $\\log n^2 = 2\\log n$ with $(\\log n)^2 = \\log^2 n$, which grows strictly faster than $\\log n$.",
+      "source": "Slides MidtermPrep p.3",
+      "tags": [
+        "confusable",
+        "mistake"
+      ]
+    },
+    {
+      "key": "rules-log-base",
+      "topicKey": "analysis-rules",
+      "type": "basic",
+      "prompt": "Why does the base of the logarithm not matter inside Big-O?",
+      "answer": "Because $\\log_a n = \\dfrac{\\log_b n}{\\log_b a}$: changing base multiplies by a constant, which Big-O ignores. So $O(\\log_2 n) = O(\\log_{10} n) = O(\\ln n)$.",
+      "explanation": "In this course $\\log n$ means $\\log_2 n$ unless stated otherwise, which fits halving arguments (binary search, recursive squaring).",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "loops-nested-basic",
+      "topicKey": "analysis-loops",
+      "type": "basic",
+      "prompt": "Tight Big-O of `for i in 0..n-1: for j in 0..n-1: S1` where `S1` is constant-time?",
+      "answer": "$O(n^2)$: the inner body runs $n \\cdot n$ times.",
+      "explanation": "Independent nested loops multiply their trip counts: $n$ outer iterations, each doing $n$ units of work.",
+      "source": "Slides MidtermPrep p.4",
+      "tags": [
+        "complexity",
+        "example"
+      ]
+    },
+    {
+      "key": "loops-step-two",
+      "topicKey": "analysis-loops",
+      "type": "basic",
+      "prompt": "Tight Big-O of `for i in 0..n-1: for j = 0; j < n; j += 2: S1`?",
+      "answer": "Still $O(n^2)$: the inner loop runs $n/2$ times, and the factor $\\tfrac{1}{2}$ is a constant.",
+      "explanation": "Changing the step from 1 to 2 (or to 1,000,000) scales the count by a constant; it does not change the growth class. Only a *multiplicative* step (`j *= 2`) changes the class, to logarithmic.",
+      "source": "Slides MidtermPrep p.4–5",
+      "tags": [
+        "complexity",
+        "mistake"
+      ]
+    },
+    {
+      "key": "loops-triangular",
+      "topicKey": "analysis-loops",
+      "type": "cloze",
+      "prompt": "`for i in 0..n-1: for j = 0; j < i; j++: S1` — the inner body runs $0 + 1 + \\cdots + (n-1) = {{c1::\\dfrac{n(n-1)}{2}}}$ times, so the segment is {{c2::$\\Theta(n^2)$}}.",
+      "answer": "",
+      "explanation": "The triangular sum $\\sum_{i=0}^{n-1} i = n(n-1)/2 \\le \\tfrac{1}{2}n^2$. Making the inner bound depend on $i$ halves the work but does not change the class.",
+      "source": "Slides MidtermPrep p.4",
+      "tags": [
+        "complexity",
+        "formula"
+      ]
+    },
+    {
+      "key": "loops-i-squared",
+      "topicKey": "analysis-loops",
+      "type": "basic",
+      "prompt": "Tight Big-O of `for i in 0..n-1: for j = 0; j < i*i; j++: S1`?",
+      "answer": "$O(n^3)$: the inner loop runs $i^2$ times, and $\\sum_{i=0}^{n-1} i^2 \\approx \\dfrac{n^3}{3}$.",
+      "explanation": "Rule of thumb: $\\sum_{i=1}^{n} i^k$ is $\\Theta(n^{k+1})$.",
+      "source": "Slides MidtermPrep p.4",
+      "tags": [
+        "complexity",
+        "formula"
+      ]
+    },
+    {
+      "key": "loops-multiplicative",
+      "topicKey": "analysis-loops",
+      "type": "basic",
+      "prompt": "Tight Big-O of the triple loop `for (i = 1; i < 3n; i *= 4)` → `for (j = 1000; j >= 10; j /= 10)` → `for (k = 0; k < n; k += 5)` → `S1`?",
+      "answer": "$O(n \\log n)$: the outer loop runs $\\log_4(3n) = O(\\log n)$ times, the middle loop a constant 3 times (1000, 100, 10), the inner loop $n/5 = O(n)$ times.",
+      "explanation": "A loop whose counter is multiplied or divided by a constant each step runs $O(\\log n)$ times; one whose bounds do not depend on $n$ is $O(1)$.",
+      "source": "Slides MidtermPrep p.5–6",
+      "tags": [
+        "complexity",
+        "example"
+      ]
+    },
+    {
+      "key": "loops-correct-not-tight",
+      "topicKey": "analysis-loops",
+      "type": "basic",
+      "prompt": "A triple nested loop over $n$ runs in $\\Theta(n^3)$. Which of these statements about it is **correct**: $\\Theta(n^2)$, $\\Theta(n^{3/2})$, $\\Omega(n^4)$, $O(n)$, $\\Omega(n^2 \\log n)$?",
+      "answer": "Only $\\Omega(n^2 \\log n)$: a $\\Theta(n^3)$ running time is $\\Omega$ of anything that grows no faster than $n^3$. The $\\Theta$ claims are wrong because they are not tight, and $\\Omega(n^4)$ and $O(n)$ are false bounds.",
+      "explanation": "Exam trap: 'correct' does not mean 'tight'. Loose but true bounds ($O(n^4)$, $\\Omega(n^2)$) are correct statements. In the prep example the `break` at `k == 10000` never fires because `k` only takes values $\\equiv 2 \\pmod 3$.",
+      "source": "Slides MidtermPrep p.7",
+      "tags": [
+        "mistake",
+        "confusable"
+      ]
+    },
+    {
+      "key": "loops-break-constant",
+      "topicKey": "analysis-loops",
+      "type": "basic",
+      "prompt": "`for i < n: for j < n: if (j == 1000000) break;` — what is the tight asymptotic bound?",
+      "answer": "$O(n)$. Once $n > 10^6$ the inner loop stops after $10^6 + 1$ iterations, a constant, so each of the $n$ outer iterations does $O(1)$ work.",
+      "explanation": "Contrast: with `j += 2` and `if (j == 1000001) break`, `j` is always even, the break never fires, and the bound stays $O(n^2)$. Always ask: can the break condition actually be reached, and does it depend on $n$?",
+      "source": "Slides MidtermPrep p.4",
+      "tags": [
+        "mistake",
+        "example"
+      ]
+    },
+    {
+      "key": "loops-unreachable-break",
+      "topicKey": "analysis-loops",
+      "type": "basic",
+      "prompt": "`for i < n: for (j = 0; j < n; j += 2) if (j == 1000001) break;` — tight bound?",
+      "answer": "$O(n^2)$: `j` only takes even values, so `j == 1000001` is never true and the inner loop always runs $n/2$ times.",
+      "explanation": "Trace the values a counter can take before trusting a break or an `if`. The same trap appears with `k = k + 2` inside a `for k` loop: `k` advances by 3 per iteration and may skip the target value entirely.",
+      "source": "Slides MidtermPrep p.4, p.7",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "recbasics-definition",
+      "topicKey": "recursion-basics",
+      "type": "cloze",
+      "prompt": "**Recursion** is the process of defining a problem (or its solution) in terms of {{c1::simpler versions of itself}}.",
+      "answer": "",
+      "explanation": "Canonical example: $n! = n \\cdot (n-1)!$. Other examples from the slides: array reversal (swap the ends, reverse the middle), fractals, subdivision surfaces, parsing LL grammars in compilers, search and sort problems.",
+      "source": "Slides 02.1.1 p.2–8",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "recbasics-structure",
+      "topicKey": "recursion-basics",
+      "type": "basic",
+      "prompt": "What are the three structural requirements of a correct recursive algorithm?",
+      "answer": "1. One or more **base cases** handled without recursion. 2. Each recursive call works on a **reduced** problem. 3. Every chain of recursive calls is **guaranteed to reach a base case**. (You may need extra parameters/variables to make this work.)",
+      "explanation": "Missing any of the three gives infinite recursion and a stack overflow. `reverseArray(A, i, j)` adds the indices $i, j$ as extra parameters precisely to shrink the problem each call.",
+      "source": "Slides 02.1.2 p.3, p.5",
+      "tags": [
+        "definition",
+        "condition"
+      ]
+    },
+    {
+      "key": "recbasics-three-types",
+      "topicKey": "recursion-basics",
+      "type": "basic",
+      "prompt": "Name the three types of recursion the course distinguishes, and why it matters to recognise them.",
+      "answer": "Linear, tail and binary recursion. Recognising the type tells you how expensive the algorithm is (binary recursion risks exponential time) and how to convert it to an iterative version.",
+      "explanation": "The two big caveats of recursion: 'Ooops, my algorithm is exponential' and 'Ooops, recursive calls are super expensive'. Types map to conversion strategies: tail recursion is trivial to convert, linear recursion needs a stack, binary recursion needs dynamic programming.",
+      "source": "Slides 02.1.2 p.3–4",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "recbasics-linear",
+      "topicKey": "recursion-basics",
+      "type": "cloze",
+      "prompt": "**Linear recursion**: test for base cases (at least one; handling a base case must not use recursion), then perform {{c1::a single recursive call}}.",
+      "answer": "",
+      "explanation": "Examples: recursive sum of an array, recursive factorial, recursive max, `LinearFibonacci`. Cost is the number of calls times the work per call, typically $O(n)$.",
+      "source": "Slides 02.1.2 p.5",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "recbasics-tail",
+      "topicKey": "recursion-basics",
+      "type": "cloze",
+      "prompt": "**Tail recursion** is linear recursion where the method makes its recursive call as its {{c1::last step}}, so nothing remains to be done after the call returns.",
+      "answer": "",
+      "explanation": "Example: `reverseArray(A, i, j)`. Such methods are easily converted to a loop, saving the cost of calls and the call stack. `return n * F(n-1)` is **not** tail recursive: the multiplication happens after the call returns.",
+      "source": "Slides 02.1.2 p.6; Slides 02.1.3 p.7",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "recbasics-binary",
+      "topicKey": "recursion-basics",
+      "type": "basic",
+      "prompt": "What is **binary recursion**, and what is its typical danger?",
+      "answer": "A method that makes two recursive calls per invocation (e.g. `BinaryFib(k-1) + BinaryFib(k-2)`, `n_choose_k(n-1,k-1) + n_choose_k(n-1,k)`). The call tree can grow exponentially when subproblems overlap and are recomputed.",
+      "explanation": "Binary recursion is fine when the two calls split the input (binary search recurses on only one half; merge sort halves it); it explodes when both calls re-solve nearly the same problem.",
+      "source": "Slides 02.1.2 p.11, p.16",
+      "tags": [
+        "definition",
+        "mistake"
+      ]
+    },
+    {
+      "key": "recbasics-pros-cons",
+      "topicKey": "recursion-basics",
+      "type": "basic",
+      "prompt": "List the course's pros and cons of recursion.",
+      "answer": "Pros: natural and elegant for many problems; usually very easy to program. Cons: extremely inefficient if not careful (exponential instead of polynomial); inefficient even when careful (recursive calls are expensive); difficult to debug; difficult to analyse (how many calls?).",
+      "explanation": "The slide's one-liner for elegance: `F(n) = (n==1) ? 1 : n*F(n-1)`. Its conclusion: 'recursive calls are very expensive, avoid them' in production code.",
+      "source": "Slides 02.1.3 p.4",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "recbasics-why-study",
+      "topicKey": "recursion-basics",
+      "type": "basic",
+      "prompt": "If recursive coding is 'rarely used in practice', why does the course study it?",
+      "answer": "Breaking a problem down is an essential skill; a recursive first draft is a clean baseline that clarifies the problem; and recursion is cheap in pseudocode, so it is a tool for algorithm *design*.",
+      "explanation": "The plan the slides give: lay the algorithm out recursively, then transfer it to an iterative version, which is '*almost* always possible'.",
+      "source": "Slides 02.1.2 p.4; Slides 02.1.3 p.3",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "recex-binary-search-cases",
+      "topicKey": "recursion-examples",
+      "type": "basic",
+      "prompt": "Binary search on a sorted array compares the target with `data[mid]`. What are the three cases?",
+      "answer": "If target equals `data[mid]`: found. If target < `data[mid]`: recur on the first half (`low .. mid-1`). If target > `data[mid]`: recur on the second half (`mid+1 .. high`). If `low > high` the interval is empty and the search fails.",
+      "explanation": "Slide example: searching 22 in 2, 4, 5, 7, 8, 9, 12, 14, 17, 19, 22, 25, 27, 28, 33, 37 probes 14, then 25, then 19, then 22: four probes for 16 elements, i.e. $\\log_2 16$.",
+      "source": "Slides 02.1.1 p.10–12",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "recex-binary-search-code",
+      "topicKey": "recursion-examples",
+      "type": "cloze",
+      "prompt": "Java binary search: `if (low > high) return false;` then `int mid = {{c1::(low + high) / 2}};` and on `target < data[mid]` recur with `binarySearch(data, target, {{c2::low, mid - 1}})`.",
+      "answer": "",
+      "explanation": "The symmetric case `target > data[mid]` recurs on `(mid + 1, high)`. The search only considers `data[low]` to `data[high]` inclusive. The ADT lecture reuses this listing and circles `int[]`, `==` and `<` to show how the code is tied to one concrete type.",
+      "source": "Slides 03.1.3 p.7–8; Slides 02.1.1 p.11",
+      "tags": [
+        "code"
+      ]
+    },
+    {
+      "key": "recex-binary-search-complexity",
+      "topicKey": "recursion-examples",
+      "type": "basic",
+      "prompt": "Why does binary search run in $O(\\log n)$ time?",
+      "answer": "The remaining portion has size $high - low + 1$; after one comparison it shrinks to at most half of that. Halving can happen at most $\\log_2 n$ times before the region is empty, and each level does $O(1)$ work.",
+      "explanation": "Precisely, the slides show both halves have size $\\le \\frac{high - low + 1}{2}$. Requirement: the array must be sorted and support $O(1)$ index access, so binary search on a linked list gains nothing.",
+      "source": "Slides 02.1.1 p.12",
+      "tags": [
+        "complexity",
+        "derivation"
+      ]
+    },
+    {
+      "key": "recex-reverse-array",
+      "topicKey": "recursion-examples",
+      "type": "cloze",
+      "prompt": "Recursive array reversal `reverseArray(A, i, j)`: if $i < j$ then {{c1::swap $A[i]$ and $A[j]$}}, then {{c2::`reverseArray(A, i + 1, j - 1)`}}.",
+      "answer": "",
+      "explanation": "Tail recursive: the recursive call is the last step. Base case: $i \\ge j$ (zero or one element left), where nothing is done. Runs in $O(n)$ with $n/2$ swaps.",
+      "source": "Slides 02.1.2 p.7",
+      "tags": [
+        "code"
+      ]
+    },
+    {
+      "key": "recex-reverse-iterative",
+      "topicKey": "recursion-examples",
+      "type": "basic",
+      "prompt": "Convert `reverseArray(A, i, j)` to an iterative algorithm.",
+      "answer": "`while i < j: swap A[i], A[j]; i = i + 1; j = j - 1`. Same $O(n)$ time, but $O(1)$ auxiliary space instead of an $O(n/2)$-deep call stack.",
+      "explanation": "The standard tail-recursion conversion: replace the recursive call by updating the parameters and looping back. Written Assignment 1 asks exactly this pair (iterative, then recursive, then on a linked list) for reversing RTL tokens.",
+      "source": "Slides 02.1.2 p.8; Slides 02.1.3 p.7",
+      "tags": [
+        "code",
+        "strategy"
+      ]
+    },
+    {
+      "key": "recex-power-linear",
+      "topicKey": "recursion-examples",
+      "type": "cloze",
+      "prompt": "Naive recursive power: $p(x, n) = 1$ if $n = 0$, else {{c1::$x \\cdot p(x, n-1)$}}. This is linear recursion making $n$ calls, so it runs in {{c2::$O(n)$}} time.",
+      "answer": "",
+      "explanation": "'We can do better than this': recursive squaring halves $n$ at each call and reaches $O(\\log n)$.",
+      "source": "Slides 02.1.2 p.12",
+      "tags": [
+        "formula",
+        "complexity"
+      ]
+    },
+    {
+      "key": "recex-power-squaring",
+      "topicKey": "recursion-examples",
+      "type": "cloze",
+      "prompt": "Recursive squaring for $x^n$: if $n$ is odd, $y = \\text{Power}(x, (n-1)/2)$ and return {{c1::$x \\cdot y \\cdot y$}}; if $n$ is even, $y = \\text{Power}(x, n/2)$ and return {{c2::$y \\cdot y$}}; base case $n = 0$ returns 1.",
+      "answer": "",
+      "explanation": "Example: $2^7 = 2 \\cdot (2^3)^2 = 2 \\cdot 8^2 = 128$. Each call halves $n$, so there are $\\log n$ calls: $O(\\log n)$ time.",
+      "source": "Slides 02.1.2 p.13–15",
+      "tags": [
+        "formula",
+        "code"
+      ]
+    },
+    {
+      "key": "recex-power-variable-twice",
+      "topicKey": "recursion-examples",
+      "type": "basic",
+      "prompt": "In recursive squaring, why must the half-power be stored in a variable `y` and used twice, rather than calling `Power(x, n/2)` twice?",
+      "answer": "Calling it twice turns linear recursion into binary recursion: the call tree doubles at each of the $\\log n$ levels, giving $2^{\\log n} = n$ calls, i.e. $O(n)$ instead of $O(\\log n)$.",
+      "explanation": "The slide: 'It is important that we use a variable twice here rather than calling the method twice.' Same lesson as Fibonacci: never recompute a subproblem you already have.",
+      "source": "Slides 02.1.2 p.15",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "recex-fib-definition",
+      "topicKey": "recursion-examples",
+      "type": "cloze",
+      "prompt": "Fibonacci: $F_0 = 0$, $F_1 = 1$, $F_i = {{c1::F_{i-1} + F_{i-2}}}$ for $i > 1$.",
+      "answer": "",
+      "explanation": "`BinaryFib(k)`: if $k = 0$ or $k = 1$ return $k$, else return `BinaryFib(k-1) + BinaryFib(k-2)`. Sequence: 0, 1, 1, 2, 3, 5, 8, 13, …",
+      "source": "Slides 02.1.2 p.16",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "recex-fib-binary-exponential",
+      "topicKey": "recursion-examples",
+      "type": "cloze",
+      "prompt": "Let $n_k$ be the number of calls made by `BinaryFib(k)`: $n_0 = n_1 = 1$ and $n_k = {{c1::n_{k-1} + n_{k-2} + 1}}$, giving 1, 1, 3, 5, 9, 15, 25, 41, 67, … It at least doubles every other step, so $n_k > {{c2::2^{k/2}}}$: exponential.",
+      "answer": "",
+      "explanation": "The exponential blow-up comes from recomputing the same subproblems: `BinaryFib(k-2)` is computed once directly and again inside `BinaryFib(k-1)`.",
+      "source": "Slides 02.1.2 p.18",
+      "tags": [
+        "complexity",
+        "derivation"
+      ]
+    },
+    {
+      "key": "recex-fib-linear",
+      "topicKey": "recursion-examples",
+      "type": "basic",
+      "prompt": "How does `LinearFibonacci(k)` avoid the exponential blow-up, and how many calls does it make?",
+      "answer": "It returns the **pair** $(F_k, F_{k-1})$: base case $k = 1$ returns $(1, 0)$; otherwise $(i, j) = \\text{LinearFibonacci}(k-1)$ and it returns $(i + j, i)$. One recursive call per level: $k - 1$ calls, $O(k)$ time.",
+      "explanation": "Carrying the previous value along removes the need for a second call. The same trick generalises to 'Oddonacci' (sum of the previous three) by returning a triple.",
+      "source": "Slides 02.1.2 p.19",
+      "tags": [
+        "code",
+        "strategy"
+      ]
+    },
+    {
+      "key": "recex-choose-recursive",
+      "topicKey": "recursion-examples",
+      "type": "basic",
+      "prompt": "`n_choose_k(n, k)`: return 1 if `k == 0` or `n == k`, else `n_choose_k(n-1, k-1) + n_choose_k(n-1, k)`. What is wrong with this as a program?",
+      "answer": "It is binary recursion with massively overlapping subproblems, so its running time is exponential (it recomputes the same $\\binom{a}{b}$ many times). Fix: fill a table $M(i, j) = M(i-1, j-1) + M(i-1, j)$ row by row, which costs $O(nk)$ time (dynamic programming).",
+      "explanation": "The tabular version seeds $M(i, 0) = 1$ and $M(i, i) = 1$ and computes each entry once. The slides call dynamic programming 'the crown jewel' next to recursion, 'the sweetheart'.",
+      "source": "Slides 02.1.2 p.11; Slides 02.1.3 p.11–12",
+      "tags": [
+        "mistake",
+        "strategy"
+      ]
+    },
+    {
+      "key": "recan-pipeline",
+      "topicKey": "recursion-analysis",
+      "type": "basic",
+      "prompt": "What is the three-step 'recursion pipeline' for a problem?",
+      "answer": "1. Create the recursive algorithm (e.g. `F(n) = (n==1) ? 1 : n*F(n-1)`). 2. Analyse it: without the Master theorem you 'wing it' and then prove the answer. 3. Make a non-recursive version with the same complexity.",
+      "explanation": "Step 3 is the part the slides insist on: 'the best programmers convert recursive algorithms into non-recursive algorithms'.",
+      "source": "Slides 02.1.3 p.8",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "recan-estimate",
+      "topicKey": "recursion-analysis",
+      "type": "cloze",
+      "prompt": "Recursion analysis recipe: 1. estimate the complexity of one call {{c1::without the recursive calls}}; 2. estimate the {{c2::number of calls}}; 3. multiply the two; then prove it by {{c3::induction}}.",
+      "answer": "",
+      "explanation": "Factorial: $O(1)$ per call times $n$ calls gives $O(n)$. Recursive squaring: $O(1)$ per call times $\\log n$ calls gives $O(\\log n)$.",
+      "source": "Slides 02.1.3 p.9",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "recan-call-tree",
+      "topicKey": "recursion-analysis",
+      "type": "basic",
+      "prompt": "How does the course analyse a recursive algorithm when a formula is not obvious?",
+      "answer": "Draw the call tree (or call chain) and count its nodes, using some combinatorics. The Master theorem is left to the next algorithms course.",
+      "explanation": "For `BinaryFib`, counting the nodes gives the recurrence $n_k = n_{k-1} + n_{k-2} + 1$; for binary search the chain has at most $\\log n$ nodes.",
+      "source": "Slides 02.1.2 p.17",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "recan-stack-space",
+      "topicKey": "recursion-analysis",
+      "type": "cloze",
+      "prompt": "A linearly recursive algorithm with $n$ nested calls uses {{c1::$O(n)$}} auxiliary space on the system call stack, because every active call keeps a frame (parameters, locals, return address) until it returns; the iterative version of a tail-recursive algorithm uses {{c2::$O(1)$}}.",
+      "answer": "",
+      "explanation": "Assignments explicitly say 'do not overlook the system stack' when asked for the space complexity of a recursive solution. Maximum stack growth = maximum recursion depth, not total number of calls.",
+      "source": "Written Assignment 1 (style of questions)",
+      "tags": [
+        "complexity",
+        "mistake"
+      ]
+    },
+    {
+      "key": "recan-depth-vs-calls",
+      "topicKey": "recursion-analysis",
+      "type": "basic",
+      "prompt": "`BinaryFib(k)` makes exponentially many calls. Is its stack depth also exponential?",
+      "answer": "No. The maximum depth is $O(k)$ (the longest chain `k, k-1, k-2, …, 1`). Time counts all calls; stack space counts only the calls that are simultaneously active.",
+      "explanation": "Written Assignment 1 asks for 'the maximum size of stack growth' of an algorithm: that is the deepest chain of nested calls, not the total number of calls.",
+      "tags": [
+        "confusable",
+        "complexity"
+      ]
+    },
+    {
+      "key": "recan-convert-strategies",
+      "topicKey": "recursion-analysis",
+      "type": "basic",
+      "prompt": "Strategies for converting a recursive algorithm into a non-recursive one, by recursion type?",
+      "answer": "Tail recursion: trivial, replace the call with a loop. Linear recursion: still simple but may need an explicit data structure (a stack) to hold pending work. Overlapping binary recursion: dynamic programming (tabulate subproblems).",
+      "explanation": "The slides claim converting is '*almost* always possible', using nothing, stacks, queues, or both.",
+      "source": "Slides 02.1.3 p.5; Slides 02.1.2 p.4",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "recan-induction-proof",
+      "topicKey": "recursion-analysis",
+      "type": "basic",
+      "prompt": "How would you prove by induction that recursive factorial `F(n) = (n==0) ? 1 : n*F(n-1)` runs in $O(n)$?",
+      "answer": "Claim $T(n) \\le c\\,n + d$. Base: $T(0)$ is a constant. Step: $T(n) = T(n-1) + O(1) \\le c(n-1) + d + c' \\le c\\,n + d$ when $c \\ge c'$. Hence $T(n)$ is $O(n)$.",
+      "explanation": "The recurrence $T(n) = T(n-1) + O(1)$ unrolls to $n$ constant-cost steps. The slides ask you to 'prove your answer' rather than just state it looks like $O(n)$.",
+      "source": "Slides 02.1.3 p.10",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "recan-common-recurrences",
+      "topicKey": "recursion-analysis",
+      "type": "cloze",
+      "prompt": "Common recurrences: $T(n) = T(n-1) + O(1)$ gives {{c1::$O(n)$}} (factorial); $T(n) = T(n/2) + O(1)$ gives {{c2::$O(\\log n)$}} (binary search); $T(n) = 2T(n/2) + O(n)$ gives {{c3::$O(n \\log n)$}} (merge-sort).",
+      "answer": "",
+      "explanation": "Also useful: $T(n) = T(n-1) + O(n)$ is $O(n^2)$ (naive recursive selection), and $T(n) = 2T(n-1) + O(1)$ is $O(2^n)$ (towers of Hanoi).",
+      "tags": [
+        "formula",
+        "complexity"
+      ]
+    },
+    {
+      "key": "memory-model",
+      "topicKey": "arrays-memory",
+      "type": "cloze",
+      "prompt": "Data model on a computer: memory is one giant sequence of {{c1::bytes}}, addressable sequentially, and a variable is a {{c2::pointer to (address of) a memory location}} where its value is stored.",
+      "answer": "",
+      "explanation": "Slides start with memory as a sequence of *bits*, then explain why we address every 8 bits instead: with 32-bit addresses, bit addressing would cap memory at $2^{32}$ bits ($\\tfrac{1}{2}$ GB), while byte addressing gives $2^{32}$ bytes = 4 GB.",
+      "source": "Slides 03.1.1 p.2–7",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "memory-32bit-addresses",
+      "topicKey": "arrays-memory",
+      "type": "cloze",
+      "prompt": "A 32-bit address reaches $2^{32} = 4{,}294{,}967{,}296$ locations: with **bit** addressing that caps memory at {{c1::½ GB}}, with **byte** addressing at {{c2::4 GB}}; 64-bit addresses lift the limit.",
+      "answer": "",
+      "explanation": "This is the slides' argument for why memory is addressed per byte (8 bits) rather than per bit; some architectures use other groupings.",
+      "source": "Slides 03.1.1 p.5–6",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "memory-ram-model",
+      "topicKey": "arrays-memory",
+      "type": "basic",
+      "prompt": "What is the **Random Access Memory (RAM) model** assumption used for algorithm analysis?",
+      "answer": "Any memory access takes constant time, regardless of the address. 'Not really true (caches, virtual memory), but useful for algorithm analysis.'",
+      "explanation": "A variable can take more than one byte; e.g. a 2-byte `short` at address 0 occupies bytes 0 and 1. The RAM model is what makes array indexing $O(1)$.",
+      "source": "Slides 03.1.1 p.8–9",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "arrays-definition",
+      "topicKey": "arrays-memory",
+      "type": "cloze",
+      "prompt": "An **array** is a sequenced collection of variables all of the {{c1::same type}}. Each variable (cell) has an {{c2::index}} that uniquely refers to the value stored there; cells are numbered 0, 1, 2, … and each stored value is called an {{c3::element}}.",
+      "answer": "",
+      "explanation": "The textbook's wording, used verbatim in the slides. 'Sequenced' is what gives constant-time indexing; 'same type' is what makes the address arithmetic possible.",
+      "source": "Slides 03.1.2 p.2",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "arrays-length-capacity",
+      "topicKey": "arrays-memory",
+      "type": "cloze",
+      "prompt": "In Java the length of array `a` is {{c1::`a.length`}}; its valid indices run from 0 to {{c2::`a.length - 1`}}. Because the length is fixed at creation and bounds how much can be stored, it is also called the array's {{c3::capacity}}.",
+      "answer": "",
+      "explanation": "Accessing `a[a.length]` throws an `ArrayIndexOutOfBoundsException`, the classic off-by-one.",
+      "source": "Slides 03.1.2 p.3",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "arrays-address-formula",
+      "topicKey": "arrays-memory",
+      "type": "cloze",
+      "prompt": "For an array $A$ of element type $T$ starting at address $a$, element $A[i]$ lives at address {{c1::$a + i \\cdot \\text{sizeof}(T)$}}, which is why index access is $O(1)$.",
+      "answer": "",
+      "explanation": "An array of $n$ bytes is literally a block of memory of size $n$; the smallest addressable cell is 1 byte, so no type can be smaller than that. Arrays 'map directly onto memory'.",
+      "source": "Slides 03.1.2 p.4–5; Slides 03.1.4 p.4",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "arrays-java-creation",
+      "topicKey": "arrays-memory",
+      "type": "basic",
+      "prompt": "What are the two ways to create an array in Java, and why is there no constructor call?",
+      "answer": "1. A literal when declaring: `int[] a = {3, 1, 4};`. 2. The `new` operator: `new elementType[length]`, which returns a reference to the new array. An array is not an instance of a class, so there is no constructor.",
+      "explanation": "Arrays are a fundamental type defined at the language level in C/C++ and Java. `length` must be a non-negative integer, and the literal's values must all have the element type.",
+      "source": "Slides 03.1.2 p.6–8",
+      "tags": [
+        "code"
+      ]
+    },
+    {
+      "key": "adt-oo-principles",
+      "topicKey": "arrays-adt",
+      "type": "basic",
+      "prompt": "Which three object-oriented design principles does the ADT lecture start from?",
+      "answer": "Modularity, abstraction and encapsulation. Applying the abstraction paradigm to the design of data structures gives rise to abstract data types.",
+      "explanation": "Abstraction 'distills a system to its most fundamental parts': all displays, whatever the technology, share properties (resolution, colour model) and a function (drawing).",
+      "source": "Slides 03.1.3 p.4–5",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "adt-definition",
+      "topicKey": "arrays-adt",
+      "type": "cloze",
+      "prompt": "An **ADT** is a model of a data structure that specifies the {{c1::type of data stored}}, the {{c2::operations supported}} on them, and the types of parameters of the operations. It specifies **what** each operation does, but not {{c3::how}} it does it.",
+      "answer": "",
+      "explanation": "The collective set of behaviours supported by an ADT is its *public interface*.",
+      "source": "Slides 03.1.3 p.6",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "adt-vs-data-structure",
+      "topicKey": "arrays-adt",
+      "type": "cloze",
+      "prompt": "An ADT defines *what* operations exist and how they behave; a data structure is the concrete implementation (memory layout and algorithms). In Java the {{c1::interface}} is the ADT and the {{c2::class}} is the data structure: `List<E> x = new ArrayList<>();`.",
+      "answer": "",
+      "explanation": "'Code to the contract, not the container.' One ADT, many implementations: a `Map` can be a `HashMap` (hash table) or a `TreeMap` (tree).",
+      "source": "Slides 03.1.4 p.7",
+      "tags": [
+        "concept",
+        "confusable"
+      ]
+    },
+    {
+      "key": "adt-java-interface",
+      "topicKey": "arrays-adt",
+      "type": "basic",
+      "prompt": "What is a Java interface, and what must a class that implements one do?",
+      "answer": "A collection of method declarations with no data and no bodies; it has no constructors and cannot be instantiated. A class that implements it must implement **all** the declared methods. It is Java's main structural element for enforcing an API.",
+      "explanation": "`public interface Stack<E> { void push(E e); E pop(); E top(); int size(); boolean isEmpty(); }` is the Stack ADT written as Java; `ArrayStack<E> implements Stack<E>` is one data structure for it.",
+      "source": "Slides 03.1.3 p.10",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "adt-abstract-class",
+      "topicKey": "arrays-adt",
+      "type": "basic",
+      "prompt": "How does an abstract class differ from an interface?",
+      "answer": "Both cannot be instantiated, but an abstract class can define one or more common methods (with bodies) that all implementations of the abstraction share, whereas an interface only declares methods.",
+      "explanation": "Java's collections use both: `List` is an interface, `AbstractList` an abstract class with shared code, `ArrayList` the concrete class.",
+      "source": "Slides 03.1.3 p.10",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "principles-two-questions",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "A data structure 'stores and organizes a collection of data so it can be used efficiently'. Which two questions define every data structure?",
+      "answer": "1. How is the data stored in memory? 2. How do we reach an element, and how fast? The right structure makes the operations you care about cheap.",
+      "explanation": "The first question splits into sequential vs linked storage; the second into access by key, by index, or through a restricted view. The whole course is organised around these two axes.",
+      "source": "Slides 03.1.4 p.2",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "principles-containers",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "Most data structures are *containers*. What does that mean and how does Java enforce homogeneity?",
+      "answer": "They hold a collection of elements, usually all of the same type; the container handles memory and growth, you work with the elements. Java generics enforce the element type: `List<Integer>`, `Map<String, Student>`.",
+      "explanation": "Same data, different container: different operations and speed.",
+      "source": "Slides 03.1.4 p.3",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "principles-sequential-storage",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "**Sequential (contiguous)** storage: how is element $i$ reached, and what are the strengths and weaknesses?",
+      "answer": "Elements sit side by side in one block; element $i$ lives at $base + i \\times size$, so index access is $O(1)$ and the layout is cache-friendly. But the capacity is fixed and a middle insert/delete must shift elements.",
+      "explanation": "Examples: arrays, `ArrayList`, `ArrayDeque`, hash tables. Same ADT, either layout: a List can be an `ArrayList` (sequential) or a `LinkedList` (linked).",
+      "source": "Slides 03.1.4 p.4–5",
+      "tags": [
+        "concept",
+        "confusable"
+      ]
+    },
+    {
+      "key": "principles-linked-storage",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "**Linked** storage (nodes + references): how is element $i$ reached, and what are the strengths and weaknesses?",
+      "answer": "Each node holds data plus a reference to the next node. There is no index math: reaching element $i$ means following $i$ links from the start, $O(n)$. Insert/delete at a node is easy and the structure grows freely, but the links cost extra memory.",
+      "explanation": "Examples: `LinkedList`, tree nodes, hash-bucket chains. Contrast with sequential storage, where $A[i]$ is a single address computation.",
+      "source": "Slides 03.1.4 p.4–5",
+      "tags": [
+        "concept",
+        "confusable"
+      ]
+    },
+    {
+      "key": "principles-three-access-patterns",
+      "topicKey": "arrays-principles",
+      "type": "cloze",
+      "prompt": "Three fundamental access patterns, each captured by an ADT: by {{c1::key}} (Map, Set), by {{c2::index / position}} (List), and by a {{c3::restricted view}} where only the 'next' element is available (Stack, Queue).",
+      "answer": "",
+      "explanation": "How you reach an element is what really distinguishes data structures.",
+      "source": "Slides 03.1.4 p.6–7",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "principles-map-set-impls",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "Java implementations of the Map and Set ADTs named in the course?",
+      "answer": "`Map` → `HashMap`, `TreeMap` (key → value lookups). `Set` → `HashSet`, `TreeSet` (membership by key). Access does not depend on where the item physically sits.",
+      "explanation": "Typical use: 'give me the record for student ID 40123'. The `Hash` versions are $O(1)$ average; the `Tree` versions are $O(\\log n)$ but keep keys sorted.",
+      "source": "Slides 03.1.4 p.8",
+      "tags": [
+        "code"
+      ]
+    },
+    {
+      "key": "principles-list-impls",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "Java implementations of the List ADT (access by index) named in the course?",
+      "answer": "`ArrayList` (dynamic array), `LinkedList`, or the built-in fixed-size array (`int[]`, `String[]`). Typical use: 'give me the 5th element', or iterate $0 \\ldots n-1$; order and position carry meaning.",
+      "explanation": "Elements are ordered and reached by a numeric index without searching. Only `ArrayList` and arrays give that in $O(1)$; `LinkedList.get(i)` walks $i$ links.",
+      "source": "Slides 03.1.4 p.9",
+      "tags": [
+        "code"
+      ]
+    },
+    {
+      "key": "principles-stack-queue-java",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "Which Java class does the course name for both the Stack and Queue ADTs, and which method pairs?",
+      "answer": "`ArrayDeque`, which implements the `Queue` and `Deque` interfaces (as does `LinkedList`). Stack: LIFO, `push`/`pop` at the top. Queue: FIFO, `offer` at the back, `poll` from the front.",
+      "explanation": "Uses: stack for undo, the call stack, backtracking; queue for scheduling, buffering, breadth-first search. 'The restriction is the point.'",
+      "source": "Slides 03.1.4 p.10–11",
+      "tags": [
+        "code"
+      ]
+    },
+    {
+      "key": "principles-cost-table-array",
+      "topicKey": "arrays-principles",
+      "type": "cloze",
+      "prompt": "Course cost table for `ArrayList`: index {{c1::$O(1)$}}, search {{c2::$O(n)$}}, insert {{c3::$O(1)$ amortized, at the end}}, remove {{c4::$O(n)$}}.",
+      "answer": "",
+      "explanation": "A plain array has the same row except that insert is $O(n)$ (fixed capacity, shifting). Search is linear because the list is unsorted; a sorted array could use binary search.",
+      "source": "Slides 03.1.4 p.13",
+      "tags": [
+        "complexity"
+      ]
+    },
+    {
+      "key": "principles-cost-table-linked",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "Cost table from the course: index, search, insert and remove for `LinkedList` and for `ArrayDeque`?",
+      "answer": "`LinkedList` (List/Deque): index $O(n)$, search $O(n)$, insert $O(1)$ and remove $O(1)$ at the ends. `ArrayDeque` (Stack/Queue): search $O(n)$, insert and remove $O(1)$ at the ends, indexing not a typical operation.",
+      "explanation": "The daggers in the slide table mean 'at the ends (front/back)'. Insert or remove in the *middle* of a `LinkedList` still costs $O(n)$ to reach the position.",
+      "source": "Slides 03.1.4 p.13",
+      "tags": [
+        "complexity"
+      ]
+    },
+    {
+      "key": "principles-cost-table-maps",
+      "topicKey": "arrays-principles",
+      "type": "cloze",
+      "prompt": "Course cost table: `HashMap`/`HashSet` search, insert and remove are {{c1::$O(1)$}} on average (assuming a good spread of keys); `TreeMap`/`TreeSet` are {{c2::$O(\\log n)$}}, in exchange for keeping the keys sorted.",
+      "answer": "",
+      "explanation": "Choose `Hash*` for raw speed, `Tree*` when you need ordered iteration, floor/ceiling queries or a predictable worst case.",
+      "source": "Slides 03.1.4 p.13",
+      "tags": [
+        "complexity"
+      ]
+    },
+    {
+      "key": "principles-choose-container",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "Choose the ADT: fetch a student by ID; process print jobs in arrival order; check balanced parentheses; a leaderboard looked up by rank.",
+      "answer": "Student by ID: Map (by key). Print jobs: Queue (restricted view, FIFO). Balanced parentheses: Stack (restricted view, LIFO). Leaderboard by rank: List (by index).",
+      "explanation": "Pick the ADT whose access pattern matches the problem, then pick the implementation class for the performance you need.",
+      "source": "Slides 03.1.4 p.12, p.14",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "principles-stl-map",
+      "topicKey": "arrays-principles",
+      "type": "basic",
+      "prompt": "Java equivalents of the C++ STL containers `vector`, `list`, `deque`, `set`, `unordered_set`, `map`, `unordered_map`?",
+      "answer": "`vector` → `ArrayList`; `list` → `LinkedList`; `deque` → `ArrayDeque`; `set` → `TreeSet`; `unordered_set` → `HashSet`; `map` → `TreeMap`; `unordered_map` → `HashMap`.",
+      "explanation": "Also: `stack` → `Deque` (`ArrayDeque`), `queue` → `Queue`, `priority_queue` → `PriorityQueue`, `array<T,N>` → `T[]`. `multiset`/`multimap` have no direct equivalent: use `Map<T,Integer>` / `Map<K,List<V>>`. Rule of thumb: STL 'ordered' ↔ Java `Tree*`, STL 'unordered' ↔ Java `Hash*`.",
+      "source": "CPP_STL_to_Java_Collections p.2",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "stacks-adt",
+      "topicKey": "arrays-stacks",
+      "type": "cloze",
+      "prompt": "The **Stack** ADT stores objects in {{c1::LIFO}} (last-in, first-out) order; its main operations are {{c2::push(e)}} (insert at the top) and {{c3::pop()}} (remove and return the top element).",
+      "answer": "",
+      "explanation": "Auxiliary operations: `top()`/`peek()` returns the top without removing it, `size()`, `isEmpty()`. `pop` or `top` on an empty stack returns `null` in the textbook's Java version (or throws).",
+      "source": "Slides 03.1.4 p.10",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "stacks-array-impl",
+      "topicKey": "arrays-stacks",
+      "type": "basic",
+      "prompt": "Describe the array-based stack and the complexity of its operations.",
+      "answer": "An array of capacity $N$ plus an index $t$ of the top element ($t = -1$ when empty). `push`: $t = t + 1$, `S[t] = e`; `pop`: return `S[t]`, $t = t - 1$. All operations $O(1)$; the limitation is the fixed capacity (push on a full stack is an error).",
+      "explanation": "Space is $O(N)$ regardless of how many elements are actually stored. A linked-list stack (push/pop at the head) also gives $O(1)$ with no capacity limit.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "stacks-parentheses",
+      "topicKey": "arrays-stacks",
+      "type": "cloze",
+      "prompt": "Parentheses matching with a stack: scan left to right, {{c1::push}} each opening symbol; on a closing symbol, fail if the stack is empty or its top is not the matching opener, else {{c2::pop}}. At the end the expression is balanced iff the stack is {{c3::empty}}. $O(n)$ time.",
+      "answer": "",
+      "explanation": "Correct: `( )(( )){([( )])}`. Incorrect: `)(( )){([( )])}` (closer with empty stack), `({[ ])}` (mismatched pair), `(` (leftover opener).",
+      "source": "Slides MidtermPrep p.9",
+      "tags": [
+        "strategy",
+        "example"
+      ]
+    },
+    {
+      "key": "stacks-parentheses-bug",
+      "topicKey": "arrays-stacks",
+      "type": "basic",
+      "prompt": "A brace-matching algorithm pushes on `{`, pops on `}` if the stack is not empty, errors otherwise, and prints 'balanced' after the loop. What is wrong?",
+      "answer": "It never checks that the stack is empty at the end, so an input with unmatched openers such as `{{{}}` is wrongly reported as balanced.",
+      "explanation": "The inputs `{{{}{}}}}` and `{{}}}{}` are correctly rejected: a `}` arrives while the stack is empty.",
+      "source": "Slides MidtermPrep p.10",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "stacks-stock-span",
+      "topicKey": "arrays-stacks",
+      "type": "basic",
+      "prompt": "Define the **stock span** $S(i)$ of day $i$, and name the efficient structure for computing all spans.",
+      "answer": "$S(i)$ is the maximum number of consecutive days ending at (and including) day $i$ on which the price was $\\le P(i)$. Using a stack of candidate day indices gives $O(n)$ total time, versus $O(n^2)$ for the naive double loop.",
+      "explanation": "For each day $i$, pop indices whose price is $\\le P(i)$; the span is $i$ minus the index now on top, or $i + 1$ if the stack empties; then push $i$. Each index is pushed and popped at most once, hence $O(n)$ amortized.",
+      "source": "Slides MidtermPrep p.11",
+      "tags": [
+        "definition",
+        "strategy"
+      ]
+    },
+    {
+      "key": "stacks-uses",
+      "topicKey": "arrays-stacks",
+      "type": "basic",
+      "prompt": "Name typical uses of a stack mentioned in the course.",
+      "answer": "Undo in editors, the method call stack (and hence any recursion made iterative), backtracking, matching parentheses/tags, evaluating expressions and the stock-span problem.",
+      "explanation": "The common thread: the most recently started thing is the first to finish. If that is the access pattern, a stack is the right 'restricted view'.",
+      "source": "Slides 03.1.4 p.10; Slides MidtermPrep p.9–11",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "stacks-reverse-with-stack",
+      "topicKey": "arrays-stacks",
+      "type": "basic",
+      "prompt": "How can a stack reverse a sequence (e.g. the words of an RTL sentence), and at what cost?",
+      "answer": "Push every element, then pop them all: they come out in reverse order. $O(n)$ time and $O(n)$ extra space, versus $O(1)$ extra space for in-place two-index swapping on an array.",
+      "explanation": "For a singly linked list, in-place reversal is possible iteratively by re-pointing `next` references with three pointers (prev, curr, next), without creating new nodes.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "queues-adt",
+      "topicKey": "arrays-queues",
+      "type": "cloze",
+      "prompt": "The **Queue** ADT stores objects in {{c1::FIFO}} (first-in, first-out) order: {{c2::enqueue(e)}} inserts at the rear and {{c3::dequeue()}} removes and returns the front element.",
+      "answer": "",
+      "explanation": "Auxiliary: `first()`/`peek()`, `size()`, `isEmpty()`. Java's `Queue` interface uses `offer`/`poll`/`peek`.",
+      "source": "Slides 03.1.4 p.10",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "queues-circular-array",
+      "topicKey": "arrays-queues",
+      "type": "cloze",
+      "prompt": "Array-based queue: use an array of size $N$ in a circular fashion with $f$ = index of the front element and $sz$ = number of stored elements; the first empty slot past the rear is $r = {{c1::(f + sz) \\bmod N}}$.",
+      "answer": "",
+      "explanation": "Enqueue: `Q[(f + sz) mod N] = e; sz++`. Dequeue: `e = Q[f]; f = (f + 1) mod N; sz--`. The modulo wraps around the end of the array so that both ends keep moving without shifting elements.",
+      "source": "Slides MidtermPrep p.12",
+      "tags": [
+        "formula",
+        "code"
+      ]
+    },
+    {
+      "key": "queues-circular-why",
+      "topicKey": "arrays-queues",
+      "type": "basic",
+      "prompt": "Why does the array-based queue use the array *circularly* rather than shifting elements on dequeue?",
+      "answer": "Shifting every element forward on each dequeue costs $O(n)$. With a wrap-around front index, enqueue and dequeue are both $O(1)$ and the array cells are reused.",
+      "explanation": "Tracking $f$ and $sz$ (rather than $f$ and $r$) avoids the ambiguity between a full and an empty queue when $f = r$.",
+      "source": "Slides MidtermPrep p.12",
+      "tags": [
+        "concept",
+        "mistake"
+      ]
+    },
+    {
+      "key": "queues-full-empty",
+      "topicKey": "arrays-queues",
+      "type": "cloze",
+      "prompt": "In the circular array queue of capacity $N$ with front index $f$ and size $sz$: the queue is empty when {{c1::$sz = 0$}} and full when {{c2::$sz = N$}}; dequeue advances the front with $f = {{c3::(f + 1) \\bmod N}}$.",
+      "answer": "",
+      "explanation": "Keeping $sz$ explicitly is what makes full and empty distinguishable; with only front and rear indices, both states look like $f = r$.",
+      "source": "Slides MidtermPrep p.12",
+      "tags": [
+        "condition"
+      ]
+    },
+    {
+      "key": "queues-deque",
+      "topicKey": "arrays-queues",
+      "type": "basic",
+      "prompt": "What is a **deque**, and which Java class implements it?",
+      "answer": "A double-ended queue supporting insertion and removal at both the front and the rear (`addFirst`, `addLast`, `removeFirst`, `removeLast`, `first`, `last`). Java: `ArrayDeque` (circular array) or `LinkedList` (doubly linked), both $O(1)$ at the ends.",
+      "source": "Slides 03.1.4 p.10–11",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "queues-uses",
+      "topicKey": "arrays-queues",
+      "type": "basic",
+      "prompt": "Typical uses of a queue in this course?",
+      "answer": "Scheduling (print jobs, processes), buffering, breadth-first search of trees and graphs, round-robin simulations.",
+      "explanation": "The common thread: fairness, first come first served. BFS uses a queue so that all vertices at distance $d$ are handled before any at distance $d + 1$.",
+      "source": "Slides 03.1.4 p.10",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "queues-stack-vs-queue",
+      "topicKey": "arrays-queues",
+      "type": "basic",
+      "prompt": "A stack and a queue both restrict access to one 'next' element. What differs, and what is the point of the restriction?",
+      "answer": "A stack returns the most recently inserted element (LIFO, one end); a queue returns the oldest (FIFO, insert at the rear, remove at the front). The restriction enforces an order of use, which makes the structure simpler and every operation $O(1)$.",
+      "explanation": "Same data, different container: pushing 1, 2, 3 and then removing three times yields 3, 2, 1 from a stack and 1, 2, 3 from a queue.",
+      "source": "Slides 03.1.4 p.10",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "singly-node",
+      "topicKey": "lists-singly",
+      "type": "cloze",
+      "prompt": "A **singly linked list** is a sequence of nodes, each storing an element and a reference to the {{c1::next}} node; the list object keeps a reference to the {{c2::head}} (and usually the tail and the size).",
+      "answer": "",
+      "explanation": "The last node's `next` is `null`. There is no index arithmetic: to reach the $i$-th node you follow $i$ links.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "singly-insert-head",
+      "topicKey": "lists-singly",
+      "type": "basic",
+      "prompt": "Steps to insert a new element at the head of a singly linked list, and the cost?",
+      "answer": "Create a node whose `next` is the current head, then make the new node the head (and the tail too if the list was empty). $O(1)$.",
+      "explanation": "Order matters: link the new node to the old head *before* moving `head`, or the rest of the list is lost. A linked list used only at the head is already a stack.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "singly-insert-tail",
+      "topicKey": "lists-singly",
+      "type": "basic",
+      "prompt": "How is insertion at the tail of a singly linked list $O(1)$, and what does it require?",
+      "answer": "Keep a `tail` reference: create the node with `next = null`, set `tail.next` to it, then update `tail`. Without a tail reference you must walk the whole list, $O(n)$.",
+      "explanation": "Head removal plus tail insertion in $O(1)$ is exactly what a queue needs, so a singly linked list with head and tail implements a queue without a capacity limit.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "singly-remove-tail",
+      "topicKey": "lists-singly",
+      "type": "cloze",
+      "prompt": "Singly linked list: removing the head is {{c1::$O(1)$}} (`head = head.next`), but removing the tail is {{c2::$O(n)$}} even with a tail reference, because the new tail is the old tail's predecessor and nodes only point forward.",
+      "answer": "",
+      "explanation": "This asymmetry is the main reason doubly linked lists exist.",
+      "tags": [
+        "complexity",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "singly-reverse-in-place",
+      "topicKey": "lists-singly",
+      "type": "basic",
+      "prompt": "Reverse a singly linked list in place, without creating new nodes.",
+      "answer": "Walk the list with `prev = null`, `curr = head`: at each step save `next = curr.next`, set `curr.next = prev`, then `prev = curr`, `curr = next`. At the end `head = prev`. $O(n)$ time, $O(1)$ extra space.",
+      "explanation": "A recursive version is also possible (reverse the rest, then attach the old head after the old second node), but it uses $O(n)$ stack space.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "doubly-node",
+      "topicKey": "lists-doubly",
+      "type": "basic",
+      "prompt": "What does a **doubly linked list** add to a singly linked one, and what do the textbook's sentinels do?",
+      "answer": "Each node also stores a `prev` reference, so you can move in both directions and remove a node given only a reference to it in $O(1)$. Header and trailer **sentinel** nodes at the two ends hold no element and remove the special cases for empty lists and end insertions.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "doubly-insert-between",
+      "topicKey": "lists-doubly",
+      "type": "cloze",
+      "prompt": "Insert node $x$ between $p$ and $q$ in a doubly linked list: `x.prev = {{c1::p}}`, `x.next = {{c2::q}}`, then `p.next = {{c3::x}}` and `q.prev = {{c4::x}}`. $O(1)$.",
+      "answer": "",
+      "explanation": "With header/trailer sentinels, inserting at the front is just 'between header and header.next', so no special case is needed.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "doubly-remove",
+      "topicKey": "lists-doubly",
+      "type": "basic",
+      "prompt": "Remove node $x$ from a doubly linked list: which references change, and why is this $O(1)$ where a singly linked list needs $O(n)$?",
+      "answer": "`x.prev.next = x.next` and `x.next.prev = x.prev`. The predecessor is reachable directly through `x.prev`, so no traversal is needed.",
+      "tags": [
+        "code",
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "doubly-circular",
+      "topicKey": "lists-doubly",
+      "type": "basic",
+      "prompt": "What is a **circularly linked list** and what is it good for?",
+      "answer": "A linked list whose last node points back to the first (no `null` end); the list keeps a reference to a 'current' or tail node. A `rotate()` operation that advances the tail by one is $O(1)$, which suits round-robin scheduling.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "arraylist-list-adt",
+      "topicKey": "lists-arraylist",
+      "type": "basic",
+      "prompt": "Core operations of the index-based **List** ADT and the invariant on indices?",
+      "answer": "`get(i)`, `set(i, e)`, `add(i, e)`, `remove(i)`, `size()`, `isEmpty()`. Index $i$ must satisfy $0 \\le i < size$ (for `add`, $0 \\le i \\le size$), otherwise an `IndexOutOfBoundsException`.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "arraylist-add-cost",
+      "topicKey": "lists-arraylist",
+      "type": "cloze",
+      "prompt": "Array-based list of $n$ elements: `get(i)` and `set(i, e)` cost {{c1::$O(1)$}}; `add(i, e)` and `remove(i)` cost {{c2::$O(n - i)$}} because the elements after position $i$ shift by one, so $O(n)$ at the front and $O(1)$ at the end.",
+      "answer": "",
+      "explanation": "Shifting is the price of contiguous storage. A linked list avoids the shift but pays $O(i)$ to *reach* position $i$, so neither wins for arbitrary middle insertions.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "arraylist-growth-strategies",
+      "topicKey": "lists-arraylist",
+      "type": "basic",
+      "prompt": "A dynamic array is full. Compare growing by a constant amount versus growing by a constant factor (doubling).",
+      "answer": "Growth by a constant (by 1, by 100, by 1,000,000): $O(n)$ amortized per insertion. Growth by a factor (doubling, 10x): $O(1)$ amortized per insertion.",
+      "explanation": "Doubling: the total cost of $n$ pushes is $O(n)$ because copy costs $1 + 2 + 4 + \\cdots + n < 2n$. Adding a constant $c$: resizes happen every $c$ pushes and each costs $O(n)$, giving $\\Theta(n^2)$ total.",
+      "source": "Slides MidtermPrep p.13",
+      "tags": [
+        "complexity",
+        "confusable"
+      ]
+    },
+    {
+      "key": "arraylist-amortized",
+      "topicKey": "lists-arraylist",
+      "type": "cloze",
+      "prompt": "**Amortized** analysis charges the total cost of a sequence of operations evenly: with doubling, $n$ appends cost $O(n)$ in total, so each append is {{c1::$O(1)$ amortized}} even though a single append can cost {{c2::$O(n)$}} when it triggers a resize.",
+      "answer": "",
+      "explanation": "Amortized is a guarantee over the whole sequence, unlike average case, which is about typical inputs.",
+      "source": "Slides MidtermPrep p.13",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "arraylist-doubling-sum",
+      "topicKey": "lists-arraylist",
+      "type": "basic",
+      "prompt": "Why does doubling capacity give $O(n)$ total time for $n$ appends? Show the sum.",
+      "answer": "Resizes happen at sizes $1, 2, 4, \\ldots, 2^k \\le n$ and each copies that many elements: $1 + 2 + 4 + \\cdots + 2^k = 2^{k+1} - 1 < 2n$. Adding the $n$ cheap writes gives $O(n)$.",
+      "tags": [
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "arraylist-vs-linkedlist",
+      "topicKey": "lists-arraylist",
+      "type": "basic",
+      "prompt": "When would you prefer `LinkedList` over `ArrayList`, and vice versa?",
+      "answer": "`ArrayList`: random access by index, iteration, cache-friendly, cheap appends; worse for inserts/removes at the front or middle. `LinkedList`: $O(1)$ insert/remove at the ends or at a known position, no resizing; but $O(n)$ to reach index $i$ and extra memory for links.",
+      "explanation": "In practice `ArrayList` wins most of the time because of cache locality; `LinkedList` is for queue/deque-style use or when you hold positions (iterators) and splice.",
+      "source": "Slides 03.1.4 p.4, p.13",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "arraylist-positional",
+      "topicKey": "lists-arraylist",
+      "type": "basic",
+      "prompt": "What is the **positional list** ADT and why does it exist?",
+      "answer": "A list whose elements are reached through *positions* (an abstraction of a node) instead of indices: `first()`, `last()`, `before(p)`, `after(p)`, `addBefore(p, e)`, `addAfter(p, e)`, `set(p, e)`, `remove(p)`, all $O(1)$ on a doubly linked list.",
+      "explanation": "It gives the efficiency of linked lists without exposing node objects to the client. Java's `ListIterator` plays the same role for `LinkedList`.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treeterm-definition",
+      "topicKey": "trees-terminology",
+      "type": "basic",
+      "prompt": "Define a (rooted) **tree** as an ADT.",
+      "answer": "A set of nodes storing elements in a parent–child relationship: a distinguished **root** with no parent, and every other node has exactly one parent. Equivalently: either empty, or a root plus a set of subtrees whose roots are the root's children.",
+      "explanation": "The recursive form is what makes tree algorithms naturally recursive: do something at the root, then recurse on each subtree.",
+      "source": "Slides MidtermPrep p.14",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "treeterm-internal-external",
+      "topicKey": "trees-terminology",
+      "type": "cloze",
+      "prompt": "A node with at least one child is an {{c1::internal}} node; a node without children is an {{c2::external}} node, also called a {{c3::leaf}}.",
+      "answer": "",
+      "explanation": "In the slide's example tree, A, B, C, F are internal and E, I, J, K, G, H, D are external. The root is internal unless the tree has a single node.",
+      "source": "Slides MidtermPrep p.14",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "treeterm-ancestor-descendant",
+      "topicKey": "trees-terminology",
+      "type": "basic",
+      "prompt": "Define *ancestor*, *descendant* and *subtree* of a node.",
+      "answer": "Ancestors: parent, grandparent, great-grandparent, … (the textbook counts a node as its own ancestor too). Descendants: child, grandchild, …. The subtree rooted at $v$ consists of $v$ and all its descendants. Siblings share a parent.",
+      "source": "Slides MidtermPrep p.14",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "treeterm-depth",
+      "topicKey": "trees-terminology",
+      "type": "cloze",
+      "prompt": "The **depth** of a node is the number of its {{c1::ancestors}} (excluding itself); the root has depth {{c2::0}}.",
+      "answer": "",
+      "explanation": "Recursively: depth(root) = 0, depth(v) = 1 + depth(parent(v)). Computing it costs $O(d_v)$.",
+      "source": "Slides MidtermPrep p.14",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "treeterm-height",
+      "topicKey": "trees-terminology",
+      "type": "basic",
+      "prompt": "Define the **height** of a tree and of a node, and give the cost of computing the tree height.",
+      "answer": "Height of a node: 0 for a leaf, else $1 + \\max$ height of its children. Height of the tree: height of the root, equal to the maximum depth of any node. Computed recursively in $O(n)$ (each node once).",
+      "explanation": "A tree with a single node has height 0. Computing height by calling `depth` on every leaf is $O(n^2)$ in the worst case, a classic inefficiency.",
+      "source": "Slides MidtermPrep p.14",
+      "tags": [
+        "definition",
+        "mistake"
+      ]
+    },
+    {
+      "key": "treeterm-ordered",
+      "topicKey": "trees-terminology",
+      "type": "basic",
+      "prompt": "What is an **ordered tree**?",
+      "answer": "A tree in which the children of every node have a defined linear order (first, second, …), e.g. the sections of a document. Binary trees are ordered: left child before right child.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treeterm-edges",
+      "topicKey": "trees-terminology",
+      "type": "cloze",
+      "prompt": "A tree with $n$ nodes has exactly {{c1::$n - 1$}} edges, because every node except the {{c2::root}} has exactly one edge to its parent.",
+      "answer": "",
+      "explanation": "Useful for checking a drawing: $n$ nodes and $n - 1$ edges, connected, means no cycles.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treebin-definition",
+      "topicKey": "trees-binary",
+      "type": "cloze",
+      "prompt": "A **binary tree** is an ordered tree in which every node has at most {{c1::two}} children, called the left and right child. It is **proper** (full) if every internal node has exactly {{c2::two}} children.",
+      "answer": "",
+      "explanation": "The proper-tree formulas ($e = i + 1$, $n = 2e - 1$) fail for improper trees: a chain of 3 nodes has $n = 3$, $e = 1$, $i = 2$.",
+      "source": "Slides MidtermPrep p.14–15",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "treebin-proper-leaves",
+      "topicKey": "trees-binary",
+      "type": "cloze",
+      "prompt": "In a proper binary tree with $n$ nodes, $e$ external and $i$ internal nodes: $e = {{c1::i + 1}}$ and $n = {{c2::2e - 1}}$.",
+      "answer": "",
+      "explanation": "Induction: a single root is a leaf ($e = 1, i = 0$); replacing a leaf by an internal node with two leaves adds one internal and one external node net. Then $n = e + i = 2e - 1$.",
+      "source": "Slides MidtermPrep p.15",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "treebin-proper-height-bounds",
+      "topicKey": "trees-binary",
+      "type": "basic",
+      "prompt": "For a proper binary tree of height $h$ with $n$ nodes and $e$ leaves, state the bounds relating $h$ to $e$, $i$ and $n$.",
+      "answer": "$h \\le i$, $h \\le (n-1)/2$, $e \\le 2^h$, $h \\ge \\log_2 e$, $h \\ge \\log_2(n+1) - 1$.",
+      "explanation": "Upper bounds come from the degenerate 'chain' tree (one leaf per level); lower bounds from the complete tree where every level is full ($2^h$ leaves, $2^{h+1} - 1$ nodes).",
+      "source": "Slides MidtermPrep p.15",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "treebin-level-nodes",
+      "topicKey": "trees-binary",
+      "type": "cloze",
+      "prompt": "A binary tree has at most {{c1::$2^d$}} nodes at depth $d$, and a binary tree of height $h$ has at most {{c2::$2^{h+1} - 1$}} nodes in total.",
+      "answer": "",
+      "explanation": "The total is the geometric sum $1 + 2 + 4 + \\cdots + 2^h$. Equality holds for the *perfect* binary tree where every level is full.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treebin-min-height",
+      "topicKey": "trees-binary",
+      "type": "cloze",
+      "prompt": "A binary tree with $n$ nodes has height at least {{c1::$\\lceil \\log_2(n+1) \\rceil - 1$}} (as full as possible) and at most {{c2::$n - 1$}} (a chain where each node has one child).",
+      "answer": "",
+      "explanation": "This is why 'balanced' matters: operations proportional to height cost $O(\\log n)$ on a balanced tree but $O(n)$ on a chain.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treebin-complete",
+      "topicKey": "trees-binary",
+      "type": "basic",
+      "prompt": "What is a **complete** binary tree, and how does it differ from a *proper* (full) one?",
+      "answer": "Complete: every level except possibly the last is completely filled, and the last level is filled from left to right (heaps use this shape). Proper: every internal node has exactly two children, with no constraint on levels. A complete tree need not be proper and vice versa.",
+      "tags": [
+        "definition",
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treebin-expression-tree",
+      "topicKey": "trees-binary",
+      "type": "basic",
+      "prompt": "How does a binary tree represent an arithmetic expression, and which traversal evaluates it?",
+      "answer": "Internal nodes are operators, leaves are operands; e.g. $(2 \\times (a - 1)) + (3 \\times b)$. Evaluate recursively, a **postorder** pattern: evaluate the left subtree, the right subtree, then apply the operator at the node.",
+      "explanation": "An inorder traversal that prints '(' before and ')' after each internal node prints the fully parenthesised expression.",
+      "tags": [
+        "example",
+        "ahead"
+      ]
+    },
+    {
+      "key": "traversal-preorder",
+      "topicKey": "trees-traversal",
+      "type": "cloze",
+      "prompt": "**Preorder** traversal visits a node {{c1::before}} its subtrees; **postorder** visits a node {{c2::after}} its subtrees; **inorder** (binary trees) visits the node {{c3::between}} its left and right subtrees.",
+      "answer": "",
+      "explanation": "All three visit every node once and run in $O(n)$.",
+      "source": "Slides MidtermPrep p.16",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "traversal-preorder-example",
+      "topicKey": "trees-traversal",
+      "type": "basic",
+      "prompt": "Root 32 with children 18, 25, 44 (in that order); 18 has children 17 and 3; 3 has children 14, 37, 6; 25 has children 2 and 9. Preorder traversal?",
+      "answer": "32, 18, 17, 3, 14, 37, 6, 25, 2, 9, 44.",
+      "explanation": "Visit the node, then recurse into each child in order. Postorder of the same tree: 17, 14, 37, 6, 3, 18, 2, 9, 25, 44, 32.",
+      "source": "Slides MidtermPrep p.19",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "traversal-reconstruct",
+      "topicKey": "trees-traversal",
+      "type": "basic",
+      "prompt": "Preorder `ABCFDEIGH` and inorder `CFBAEIDHG`. How do you reconstruct the binary tree?",
+      "answer": "The first preorder symbol is the root (A). Split the inorder at A: left subtree `CFB`, right subtree `EIDHG`. The next preorder symbols (B, then C, F) are the roots of the left part, recursively; then D for the right part, and so on.",
+      "explanation": "Root A; left: B with left child C whose right child is F (inorder CFB means C before F before B); right: D with left child E (right child I) and right child G (left child H).",
+      "source": "Slides MidtermPrep p.16–17",
+      "tags": [
+        "strategy",
+        "example"
+      ]
+    },
+    {
+      "key": "traversal-uniqueness",
+      "topicKey": "trees-traversal",
+      "type": "basic",
+      "prompt": "Which traversal sequence alone, or which pair, determines a binary tree uniquely?",
+      "answer": "No single sequence does (many trees share one preorder). Preorder + inorder, or postorder + inorder, determines the tree uniquely. Preorder + postorder does not (a node with a single child could have it on either side).",
+      "explanation": "The slides note that for a given set of nodes there are 'multiple options' for preorder and postorder, while inorder plus one of them is unique.",
+      "source": "Slides MidtermPrep p.16",
+      "tags": [
+        "concept",
+        "confusable"
+      ]
+    },
+    {
+      "key": "traversal-inorder-bst",
+      "topicKey": "trees-traversal",
+      "type": "cloze",
+      "prompt": "An **inorder** traversal of a binary search tree visits the keys in {{c1::sorted (non-decreasing) order}}, because every key in a node's left subtree is $\\le$ the node's key and every key in its right subtree is $\\ge$ it.",
+      "answer": "",
+      "explanation": "Inorder: left subtree, node, right subtree. The midterm-prep puzzle 'find the heap whose inorder is ABCDE' plays on the fact that a heap is *not* a search tree, so its inorder is not sorted by key.",
+      "source": "Slides MidtermPrep p.18",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "traversal-bfs",
+      "topicKey": "trees-traversal",
+      "type": "basic",
+      "prompt": "How is a **breadth-first** (level-order) traversal of a tree implemented, and in what order does it visit nodes?",
+      "answer": "With a queue: enqueue the root; repeatedly dequeue a node, visit it, enqueue its children. Visits all nodes of depth 0, then depth 1, etc. $O(n)$.",
+      "explanation": "The depth-first traversals (pre/in/postorder) correspond to a stack (recursion); breadth-first corresponds to a queue.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "traversal-euler",
+      "topicKey": "trees-traversal",
+      "type": "basic",
+      "prompt": "What is the **Euler tour** traversal of a binary tree and how does it unify the three traversals?",
+      "answer": "Walk around the tree keeping edges on the left; each node is passed three times: on the left (pre-visit), from below (in-visit), on the right (post-visit). Preorder, inorder and postorder are the Euler tour with only one of the three actions enabled.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treeimpl-linked",
+      "topicKey": "trees-impl",
+      "type": "basic",
+      "prompt": "Linked representation of a binary tree: what does each node store, and what are the costs of the basic operations?",
+      "answer": "Element, parent reference, left and right child references. `parent`, `left`, `right`, `root`, `size`, `isEmpty` are $O(1)$; adding or removing a node (given its position) is $O(1)$; traversals are $O(n)$. Space $O(n)$.",
+      "explanation": "The parent reference is optional but makes `depth(v)` and upward walks (as in AVL rebalancing) $O(h)$ without a search from the root.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treeimpl-array-level",
+      "topicKey": "trees-impl",
+      "type": "cloze",
+      "prompt": "Array (level-numbering) representation of a binary tree: the root is at index {{c1::0}}, the left child of index $p$ is at {{c2::$2p + 1$}}, the right child at {{c3::$2p + 2$}}, and the parent at $\\lfloor (p-1)/2 \\rfloor$.",
+      "answer": "",
+      "explanation": "With 1-based numbering the children are $2p$ and $2p+1$. Compact and $O(1)$ navigation, but a tree of height $h$ may need $2^{h+1} - 1$ slots, so the space is wasted unless the tree is (nearly) complete, as in a heap.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "treeimpl-general-tree",
+      "topicKey": "trees-impl",
+      "type": "basic",
+      "prompt": "How is a general (non-binary) tree represented with linked nodes?",
+      "answer": "Each node stores its element, a parent reference and a *container* (list) of child references. Children are found by iterating the container, so `children(v)` costs $O(c_v)$.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "pq-adt",
+      "topicKey": "heaps-pq",
+      "type": "cloze",
+      "prompt": "A **priority queue** stores entries (key, value) and supports {{c1::insert(k, v)}}, {{c2::removeMin()}} (remove and return the entry with the smallest key), `min()`, `size()` and `isEmpty()`.",
+      "answer": "",
+      "explanation": "Unlike a FIFO queue, the removal order is decided by the keys, not by arrival time. Keys are compared with a total order (a `Comparator` in Java).",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "pq-list-impls",
+      "topicKey": "heaps-pq",
+      "type": "basic",
+      "prompt": "Costs of a priority queue implemented with an **unsorted** list versus a **sorted** list?",
+      "answer": "Unsorted list: `insert` $O(1)$ (append), `removeMin`/`min` $O(n)$ (scan for the minimum). Sorted list: `insert` $O(n)$ (find the position), `removeMin`/`min` $O(1)$ (it is at the front).",
+      "explanation": "Either way one of the two main operations is linear; a heap gets both down to $O(\\log n)$.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "pq-sorting",
+      "topicKey": "heaps-pq",
+      "type": "basic",
+      "prompt": "How can any priority queue sort a sequence, and what are selection-sort and insertion-sort in these terms?",
+      "answer": "Insert all $n$ elements, then `removeMin` $n$ times. With an unsorted-list PQ this is **selection-sort** ($O(n^2)$: the removals do the work); with a sorted-list PQ it is **insertion-sort** ($O(n^2)$: the insertions do the work); with a heap it is heap-sort, $O(n \\log n)$.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "pq-total-order",
+      "topicKey": "heaps-pq",
+      "type": "basic",
+      "prompt": "What properties must the key comparison of a priority queue satisfy?",
+      "answer": "A total order: reflexive ($k \\le k$), antisymmetric ($k_1 \\le k_2$ and $k_2 \\le k_1$ imply $k_1 = k_2$), transitive, and any two keys are comparable. In Java this is supplied by `Comparable` or an external `Comparator`.",
+      "tags": [
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heap-definition",
+      "topicKey": "heaps-heap",
+      "type": "cloze",
+      "prompt": "A (min-)**heap** is a binary tree satisfying: **heap-order**: every node's key is {{c1::$\\ge$ its parent's key}}; and **complete binary tree** shape: all levels full except possibly the last, which is filled {{c2::from left to right}}.",
+      "answer": "",
+      "explanation": "Consequently the minimum key is at the root and the height is $\\lfloor \\log_2 n \\rfloor$, which is what makes the operations logarithmic.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heap-height",
+      "topicKey": "heaps-heap",
+      "type": "cloze",
+      "prompt": "A heap storing $n$ entries has height {{c1::$\\lfloor \\log_2 n \\rfloor$}}: because the tree is complete, levels $0 \\ldots h-1$ hold $2^h - 1$ nodes and the last level holds at least one, so $2^h \\le n \\le 2^{h+1} - 1$.",
+      "answer": "",
+      "explanation": "Every heap operation walks one root-to-leaf path, so this height bound is exactly why `insert` and `removeMin` are $O(\\log n)$.",
+      "tags": [
+        "formula",
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heap-insert",
+      "topicKey": "heaps-heap",
+      "type": "basic",
+      "prompt": "How does `insert` work on a heap and what does it cost?",
+      "answer": "Place the new entry in the next free position of the last level (keeping the tree complete), then **up-heap bubble**: swap it with its parent while its key is smaller than the parent's. At most $h = O(\\log n)$ swaps.",
+      "explanation": "Heap-order is restored because each swap moves the smaller key up; the shape is never touched after the initial placement.",
+      "tags": [
+        "code",
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heap-removemin",
+      "topicKey": "heaps-heap",
+      "type": "basic",
+      "prompt": "How does `removeMin` work on a heap and what does it cost?",
+      "answer": "Save the root, move the **last** node to the root (keeping the shape), then **down-heap bubble**: swap with the *smaller* child while a child has a smaller key. $O(\\log n)$.",
+      "explanation": "Swapping with the smaller child is essential: swapping with the larger one would put a larger key above a smaller sibling and break heap-order.",
+      "tags": [
+        "code",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heap-array",
+      "topicKey": "heaps-heap",
+      "type": "cloze",
+      "prompt": "Array-based heap (0-based): the children of index $i$ are at {{c1::$2i + 1$ and $2i + 2$}}, its parent at {{c2::$\\lfloor (i-1)/2 \\rfloor$}}, and the 'last node' is simply index {{c3::$n - 1$}}.",
+      "answer": "",
+      "explanation": "The complete shape has no gaps in level numbering, so the level-order array wastes no space; `insert` appends at index $n$ and `removeMin` moves index $n - 1$ to the root.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heap-java",
+      "topicKey": "heaps-heap",
+      "type": "basic",
+      "prompt": "Which Java class implements a heap-based priority queue, and what are its main methods?",
+      "answer": "`java.util.PriorityQueue<E>`: `add`/`offer` (insert), `poll` (removeMin), `peek` (min); a `Comparator` can be passed to the constructor. It is a min-heap by default.",
+      "source": "CPP_STL_to_Java_Collections p.2",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heapsort-complexity",
+      "topicKey": "heaps-sort",
+      "type": "basic",
+      "prompt": "Running time of heap-sort, and why?",
+      "answer": "$O(n \\log n)$: $n$ insertions and $n$ `removeMin` operations, each $O(\\log n)$. In-place variant: build a max-heap inside the array, then repeatedly swap the root with the last element and shrink the heap.",
+      "explanation": "This is the 'efficient sort (seen later)' promised in the growth-zoo slide: sorting with a priority queue whose operations are logarithmic.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heapsort-bottom-up",
+      "topicKey": "heaps-sort",
+      "type": "basic",
+      "prompt": "How long does **bottom-up heap construction** take for $n$ keys, and why is it faster than $n$ inserts?",
+      "answer": "$O(n)$. Starting from the lowest internal nodes, down-heap each subtree; a node at height $k$ costs $O(k)$ and there are about $n/2^{k+1}$ of them, and $\\sum_k k\\,n/2^{k+1} = O(n)$. Repeated insertion costs $O(n \\log n)$.",
+      "tags": [
+        "complexity",
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heapsort-adaptable",
+      "topicKey": "heaps-sort",
+      "type": "basic",
+      "prompt": "What does an **adaptable priority queue** add, and how does a heap support it?",
+      "answer": "`remove(e)`, `replaceKey(e, k)` and `replaceValue(e, v)` on an arbitrary entry $e$. Each entry stores its current heap index (a *location-aware entry*) so it can be found in $O(1)$ and then bubbled up or down in $O(\\log n)$.",
+      "explanation": "Needed for Dijkstra's and Prim–Jarník's algorithms, which decrease keys of entries already in the queue.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "heapsort-vs-others",
+      "topicKey": "heaps-sort",
+      "type": "basic",
+      "prompt": "Heap-sort vs merge-sort vs quick-sort: which is in-place, which is stable, which has guaranteed $O(n \\log n)$?",
+      "answer": "Heap-sort: in-place, not stable, guaranteed $O(n \\log n)$. Merge-sort: stable, guaranteed $O(n \\log n)$, but needs $O(n)$ extra space. Quick-sort: in-place, not stable, $O(n \\log n)$ expected but $O(n^2)$ worst case; usually fastest in practice.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "map-adt",
+      "topicKey": "hashing-map",
+      "type": "cloze",
+      "prompt": "The **Map** ADT stores (key, value) entries with {{c1::unique}} keys; main operations: `get(k)`, `put(k, v)` (which returns the {{c2::old value}} if $k$ was present, else `null`), `remove(k)`, `size()`, plus the iterables `keySet()`, `values()`, `entrySet()`.",
+      "answer": "",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "map-unsorted-list",
+      "topicKey": "hashing-map",
+      "type": "cloze",
+      "prompt": "A map implemented as an unsorted list of entries costs {{c1::$O(n)$}} for each of `get`, `put` and `remove`, since every operation must scan for the key (and `put` must check for a duplicate before appending).",
+      "answer": "",
+      "explanation": "This is the baseline a hash table improves to expected $O(1)$ and a search tree to $O(\\log n)$.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "map-vs-set-multimap",
+      "topicKey": "hashing-map",
+      "type": "basic",
+      "prompt": "Map vs Set vs Multimap: what differs?",
+      "answer": "Map: unique keys, each with a value. Set: unique keys, no values (membership only). Multimap: a key may have several values (Java has none built in; use `Map<K, List<V>>`).",
+      "source": "CPP_STL_to_Java_Collections p.2",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "map-sorted",
+      "topicKey": "hashing-map",
+      "type": "basic",
+      "prompt": "What does a **sorted map** add over a plain map, and which implementations give it?",
+      "answer": "Order-based queries: `firstEntry`, `lastEntry`, `floorEntry(k)`, `ceilingEntry(k)`, `lowerEntry`, `higherEntry`, `subMap`. Implemented with a sorted array (binary search, $O(\\log n)$ get, $O(n)$ put) or a balanced search tree such as Java's `TreeMap` ($O(\\log n)$ everything).",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "hashfn-two-parts",
+      "topicKey": "hashing-functions",
+      "type": "cloze",
+      "prompt": "A hash function $h(k)$ maps a key to an index in $[0, N-1]$ in two steps: a {{c1::hash code}} $k \\to$ integer, then a {{c2::compression function}} integer $\\to [0, N-1]$.",
+      "answer": "",
+      "explanation": "Goal: spread keys uniformly, be fast, and be consistent (equal keys give equal codes). In Java, `hashCode()` provides the first step; the table applies the second.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "hashfn-polynomial",
+      "topicKey": "hashing-functions",
+      "type": "basic",
+      "prompt": "Why is a polynomial hash code $x_0 a^{n-1} + x_1 a^{n-2} + \\cdots + x_{n-1}$ preferred over summing the characters of a string?",
+      "answer": "Summing ignores order, so `stop`, `pots` and `tops` collide. The polynomial code weights positions differently; with $a = 33, 37, 39$ or 41 it produces very few collisions on English words. It is evaluated by Horner's rule in $O(n)$.",
+      "tags": [
+        "concept",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "hashfn-compression",
+      "topicKey": "hashing-functions",
+      "type": "basic",
+      "prompt": "State the two compression functions and the conditions that make the second one good.",
+      "answer": "**Division**: $h(y) = |y| \\bmod N$, best with $N$ prime. **MAD** (multiply-add-divide): $h(y) = ((a y + b) \\bmod p) \\bmod N$ with $p$ a prime $> N$, $a, b$ random in $[0, p-1]$ and $a \\ne 0$.",
+      "explanation": "MAD spreads keys more uniformly than plain division, which suffers when keys share a factor with $N$.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "hashfn-java-contract",
+      "topicKey": "hashing-functions",
+      "type": "basic",
+      "prompt": "What contract must `hashCode()` and `equals()` respect in Java, and why does it matter for `HashMap`?",
+      "answer": "If `a.equals(b)` then `a.hashCode() == b.hashCode()`. Otherwise two equal keys can land in different buckets and `get` will miss an entry that `put` inserted. Overriding one without the other is a classic bug.",
+      "tags": [
+        "mistake",
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "collision-separate-chaining",
+      "topicKey": "hashing-collisions",
+      "type": "cloze",
+      "prompt": "**Separate chaining**: each bucket $A[i]$ holds a small secondary container of all entries hashing to $i$. With a good hash the expected cost of an operation is {{c1::$O(\\lceil n/N \\rceil)$}}, i.e. $O(1)$ when the load factor is bounded; the worst case is {{c2::$O(n)$}} if everything collides.",
+      "answer": "",
+      "explanation": "The expected bucket size is $n/N$. Total space is $O(n + N)$.",
+      "tags": [
+        "definition",
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "collision-load-factor",
+      "topicKey": "hashing-collisions",
+      "type": "cloze",
+      "prompt": "The **load factor** is $\\lambda = {{c1::n / N}}$ (entries over buckets). The textbook keeps $\\lambda < {{c2::0.9}}$ for separate chaining and $\\lambda < {{c3::0.5}}$ for open addressing; when exceeded, the table is **rehashed** into one about twice the size.",
+      "answer": "",
+      "explanation": "Java's `HashMap` resizes at $\\lambda = 0.75$. Rehashing costs $O(n)$ but is $O(1)$ amortized, like dynamic-array doubling.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "collision-linear-probing",
+      "topicKey": "hashing-collisions",
+      "type": "basic",
+      "prompt": "How does **linear probing** resolve a collision, and what are its drawback and its deletion problem?",
+      "answer": "Try $A[(h(k) + i) \\bmod N]$ for $i = 1, 2, \\ldots$ until an empty cell. Drawback: **primary clustering**, long runs of occupied cells that slow every operation. Deletion must leave a special `DEFUNCT`/available marker, otherwise later probes would stop early and miss keys.",
+      "tags": [
+        "definition",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "collision-quadratic-double",
+      "topicKey": "hashing-collisions",
+      "type": "basic",
+      "prompt": "Probe sequences for **quadratic probing** and **double hashing**?",
+      "answer": "Quadratic: $(h(k) + i^2) \\bmod N$. Double hashing: $(h(k) + i \\cdot h'(k)) \\bmod N$ with a secondary hash $h'(k) \\ne 0$, commonly $h'(k) = q - (k \\bmod q)$ for a prime $q < N$. Both reduce clustering compared with linear probing.",
+      "explanation": "Quadratic probing may fail to find an empty cell even when one exists, unless $N$ is prime and $\\lambda < 1/2$.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "collision-open-vs-chaining",
+      "topicKey": "hashing-collisions",
+      "type": "basic",
+      "prompt": "Open addressing vs separate chaining: when prefer which?",
+      "answer": "Open addressing uses less memory (no secondary containers) and is cache-friendly, but needs a low load factor and complicates deletion. Separate chaining is simpler, tolerates higher load, and degrades gracefully; Java's `HashMap` uses chaining (with tree bins for long chains).",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "collision-worst-case",
+      "topicKey": "hashing-collisions",
+      "type": "basic",
+      "prompt": "Why are hash-table operations reported as $O(1)$ 'expected' rather than worst case?",
+      "answer": "The $O(1)$ bound assumes the hash function spreads keys uniformly and the load factor is kept bounded. An adversarial or poor hash can send all $n$ keys to one bucket, making every operation $O(n)$.",
+      "source": "Slides 03.1.4 p.13",
+      "tags": [
+        "concept",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "bst-property",
+      "topicKey": "searchtrees-bst",
+      "type": "cloze",
+      "prompt": "**Binary search tree** property: for every node $v$ with key $k$, all keys in the {{c1::left}} subtree are $\\le k$ and all keys in the {{c2::right}} subtree are $\\ge k$.",
+      "answer": "",
+      "explanation": "An inorder traversal of a BST lists the keys in sorted order. In the textbook's version the external (leaf) nodes are empty placeholders.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "bst-search",
+      "topicKey": "searchtrees-bst",
+      "type": "basic",
+      "prompt": "How does `search(k)` work in a BST and what does it cost?",
+      "answer": "Start at the root; if $k$ equals the node key stop, if smaller go left, if larger go right; stop at an external node if not found. Cost $O(h)$ where $h$ is the height: $O(\\log n)$ for a balanced tree, $O(n)$ in the worst case (a chain).",
+      "explanation": "It is binary search on a tree instead of an array: each comparison discards one whole subtree.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "bst-insert",
+      "topicKey": "searchtrees-bst",
+      "type": "basic",
+      "prompt": "How does insertion into a BST work?",
+      "answer": "Search for $k$; the search ends at an external node $w$ (if $k$ is absent). Store $k$ at $w$ and give $w$ two new external children. $O(h)$.",
+      "explanation": "New keys always become leaves (of the internal tree); the existing structure is never rearranged, which is why insertion order dictates the shape.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "bst-remove",
+      "topicKey": "searchtrees-bst",
+      "type": "basic",
+      "prompt": "How does removal of key $k$ from a BST handle a node with two internal children?",
+      "answer": "Find the node $v$ holding $k$. If $v$ has at most one internal child, splice $v$ out. If both children are internal, find the inorder successor $w$ (leftmost node of the right subtree), copy $w$'s key into $v$, then remove $w$, which has at most one internal child. $O(h)$.",
+      "explanation": "The successor works because it is the smallest key larger than $k$, so placing it at $v$ keeps every key in the left subtree smaller and every key in the right subtree larger. The inorder predecessor (rightmost of the left subtree) works symmetrically.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "bst-worst-case",
+      "topicKey": "searchtrees-bst",
+      "type": "cloze",
+      "prompt": "Inserting keys into a BST in {{c1::sorted (or reverse-sorted)}} order produces a chain of height {{c2::$n - 1$}}, so search, insert and remove all degrade to {{c3::$O(n)$}}; this is the motivation for balanced trees such as AVL.",
+      "answer": "",
+      "explanation": "Counting the textbook's empty external nodes the height is $n$. A random insertion order gives expected height $O(\\log n)$, but no guarantee.",
+      "tags": [
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "bst-vs-sorted-array",
+      "topicKey": "searchtrees-bst",
+      "type": "basic",
+      "prompt": "A sorted array and a balanced BST both support $O(\\log n)$ search. Why prefer the tree for a dynamic map?",
+      "answer": "Insertion and deletion are $O(\\log n)$ in a balanced BST but $O(n)$ in a sorted array (elements must shift). The array wins only when the data is static and memory locality matters.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "avl-definition",
+      "topicKey": "searchtrees-avl",
+      "type": "cloze",
+      "prompt": "An **AVL tree** is a BST satisfying the **height-balance property**: for every internal node, the heights of its two children differ by at most {{c1::1}}.",
+      "answer": "",
+      "explanation": "Named after Adelson-Velsky and Landis. The property is checked at every node, not just the root.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "avl-height",
+      "topicKey": "searchtrees-avl",
+      "type": "basic",
+      "prompt": "Why is the height of an AVL tree with $n$ nodes $O(\\log n)$?",
+      "answer": "Let $n(h)$ be the minimum number of internal nodes of an AVL tree of height $h$: $n(1) = 1$, $n(2) = 2$, and $n(h) = 1 + n(h-1) + n(h-2) > 2\\,n(h-2)$. So $n(h) > 2^{h/2 - 1}$, giving $h < 2\\log_2 n(h) + 2$, i.e. $h = O(\\log n)$.",
+      "tags": [
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "avl-insert-rebalance",
+      "topicKey": "searchtrees-avl",
+      "type": "basic",
+      "prompt": "After a BST insertion into an AVL tree, how is balance restored?",
+      "answer": "Walk up from the inserted node to the first unbalanced node $z$; let $y$ be its taller child and $x$ the taller child of $y$. Apply a **trinode restructuring** (single or double rotation) on $x, y, z$. One restructuring fixes the whole tree after an insertion. $O(\\log n)$ total.",
+      "explanation": "After restructuring, the subtree has the same height it had before the insertion, so no ancestor above $z$ can be unbalanced.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "avl-rotations",
+      "topicKey": "searchtrees-avl",
+      "type": "basic",
+      "prompt": "When is a single rotation used versus a double rotation in AVL rebalancing?",
+      "answer": "Single rotation when $x$, $y$, $z$ form a straight line (left-left or right-right). Double rotation when they zig-zag (left-right or right-left). In both cases the middle key of $x, y, z$ (in inorder) becomes the subtree root with the other two as its children.",
+      "tags": [
+        "strategy",
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "avl-remove",
+      "topicKey": "searchtrees-avl",
+      "type": "basic",
+      "prompt": "How does removal from an AVL tree differ from insertion in terms of rebalancing?",
+      "answer": "A removal can unbalance several ancestors in turn: after one restructuring the subtree may be shorter, so you continue walking up and may restructure up to $O(\\log n)$ times. Insertion needs at most one restructuring.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "avl-costs",
+      "topicKey": "searchtrees-avl",
+      "type": "cloze",
+      "prompt": "In an AVL tree with $n$ entries, search, insert and remove each cost {{c1::$O(\\log n)$}} in the **worst** case, because the height is $O(\\log n)$ and each rotation is $O(1)$.",
+      "answer": "",
+      "explanation": "Java's `TreeMap`/`TreeSet` achieve the same bounds with red-black trees, which is where the $O(\\log n)$ row of the course's cost table comes from.",
+      "source": "Slides 03.1.4 p.13",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "mergesort-steps",
+      "topicKey": "sorting-mergesort",
+      "type": "cloze",
+      "prompt": "Merge-sort (divide and conquer): **divide** the sequence into two halves, **recur** on each half, then **conquer** by {{c1::merging the two sorted halves}} into one sorted sequence.",
+      "answer": "",
+      "explanation": "Base case: a sequence of 0 or 1 elements is already sorted.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "mergesort-merge",
+      "topicKey": "sorting-mergesort",
+      "type": "basic",
+      "prompt": "How does the **merge** step combine two sorted sequences of total size $n$, and what does it cost?",
+      "answer": "Walk both sequences with one index each, repeatedly moving the smaller front element to the output; when one sequence is exhausted, copy the rest of the other. $O(n)$ time, $O(n)$ extra space for the output.",
+      "explanation": "Each comparison moves one element to the output, so there are at most $n - 1$ comparisons. Taking from the *left* sequence on ties is what makes merge-sort stable.",
+      "tags": [
+        "code",
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "mergesort-recurrence",
+      "topicKey": "sorting-mergesort",
+      "type": "cloze",
+      "prompt": "Merge-sort satisfies $T(n) = {{c1::2T(n/2) + O(n)}}$, which gives {{c2::$O(n \\log n)$}}: the recursion tree has $\\lceil \\log_2 n \\rceil + 1$ levels and the merges at each level cost $O(n)$ in total.",
+      "answer": "",
+      "explanation": "Best, average and worst case are all $\\Theta(n \\log n)$: the splits are always even regardless of the input.",
+      "tags": [
+        "formula",
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "mergesort-properties",
+      "topicKey": "sorting-mergesort",
+      "type": "basic",
+      "prompt": "Is merge-sort stable? In-place? What is its best use?",
+      "answer": "Stable (equal keys keep their order if the merge takes from the left on ties); not in-place (the array version needs $O(n)$ auxiliary space). Ideal for linked lists and for external sorting of data too big for memory.",
+      "explanation": "Java's `Collections.sort` / `Arrays.sort` for objects use TimSort, a merge-sort variant, precisely because stability is required for objects.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "mergesort-tree-height",
+      "topicKey": "sorting-mergesort",
+      "type": "basic",
+      "prompt": "How many levels does the merge-sort recursion tree have for $n$ elements, and how much work is done per level?",
+      "answer": "$O(\\log n)$ levels, since the size halves each level; level $i$ has $2^i$ subproblems of size $n/2^i$, so each level does $O(n)$ total work.",
+      "tags": [
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "quicksort-steps",
+      "topicKey": "sorting-quicksort",
+      "type": "basic",
+      "prompt": "Describe the three steps of quick-sort.",
+      "answer": "**Divide**: pick a pivot $x$ and partition into $L$ (elements $< x$), $E$ (elements $= x$) and $G$ (elements $> x$). **Recur** on $L$ and $G$. **Conquer**: concatenate $L$, $E$, $G$. The work is in the partition; nothing is done on the way back up.",
+      "explanation": "The textbook's default pivot is the last element. Keeping $E$ separate means duplicates of the pivot are never recursed on, which protects against inputs full of equal keys.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "quicksort-partition-cost",
+      "topicKey": "sorting-quicksort",
+      "type": "basic",
+      "prompt": "Cost of partitioning $n$ elements around a pivot, and the in-place technique?",
+      "answer": "$O(n)$. In-place: scan with index $l$ from the left and $r$ from the right, advance $l$ past elements $\\le$ pivot and $r$ past elements $\\ge$ pivot, swap when they stop, until they cross; finally swap the pivot into position $l$.",
+      "tags": [
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "quicksort-worst",
+      "topicKey": "sorting-quicksort",
+      "type": "cloze",
+      "prompt": "Quick-sort's worst case is {{c1::$O(n^2)$}}: when the pivot is always the minimum or maximum, one side keeps $n - 1$ elements and the partition sizes sum to $n + (n-1) + \\cdots + 1$. With a last-element pivot this happens on {{c2::already sorted (or reverse-sorted)}} input.",
+      "answer": "",
+      "explanation": "Remedies: choose the pivot at random, or take the median of the first, middle and last elements.",
+      "tags": [
+        "complexity",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "quicksort-expected",
+      "topicKey": "sorting-quicksort",
+      "type": "basic",
+      "prompt": "Why is **randomized** quick-sort $O(n \\log n)$ in expectation?",
+      "answer": "A random pivot is 'good' (lands in the middle half, so both sides have size $\\le 3n/4$) with probability $1/2$; so the expected number of levels until a subproblem shrinks to size 1 is $O(\\log n)$, and each level costs $O(n)$ in total.",
+      "tags": [
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "quicksort-vs-mergesort",
+      "topicKey": "sorting-quicksort",
+      "type": "basic",
+      "prompt": "Quick-sort vs merge-sort: where is the work done, and which bound does each guarantee?",
+      "answer": "Quick-sort does its work before recursing (partition), merge-sort after (merge). Merge-sort guarantees $O(n \\log n)$ worst case; quick-sort is $O(n \\log n)$ expected but $O(n^2)$ worst case, though it is in-place and usually faster in practice.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "sortbounds-lower-bound",
+      "topicKey": "sorting-bounds",
+      "type": "cloze",
+      "prompt": "Any **comparison-based** sort needs {{c1::$\\Omega(n \\log n)$}} comparisons in the worst case: its decision tree has at least {{c2::$n!$}} leaves (one per permutation), so its height is at least $\\log_2(n!) \\ge (n/2)\\log_2(n/2)$.",
+      "answer": "",
+      "explanation": "The bound applies to merge-sort, heap-sort, quick-sort and every algorithm that only compares keys. Bucket and radix sort escape it by inspecting the keys' digits instead.",
+      "tags": [
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "sortbounds-bucket",
+      "topicKey": "sorting-bounds",
+      "type": "basic",
+      "prompt": "How does **bucket-sort** beat the $n \\log n$ bound, and what does it require?",
+      "answer": "Keys are integers in $[0, N-1]$: put each entry in bucket $B[k]$, then concatenate the buckets in order. $O(n + N)$ time, linear when $N$ is $O(n)$. It is not comparison-based, and it is stable if entries are appended to the buckets in order.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "sortbounds-radix",
+      "topicKey": "sorting-bounds",
+      "type": "basic",
+      "prompt": "How does **radix-sort** sort $d$-digit keys, and why must the digit order be least-significant first?",
+      "answer": "Apply a stable bucket-sort once per digit, starting from the **least** significant digit; stability keeps earlier digits' order intact when later digits tie. Cost $O(d(n + N))$ for $n$ keys with $d$ digits in base $N$.",
+      "tags": [
+        "concept",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "sortbounds-stable",
+      "topicKey": "sorting-bounds",
+      "type": "cloze",
+      "prompt": "A sorting algorithm is **stable** if entries with {{c1::equal keys}} keep their {{c2::original relative order}}. Stable: insertion-sort, merge-sort, bucket/radix-sort. Not stable: heap-sort, quick-sort, selection-sort.",
+      "answer": "",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "sortbounds-choose",
+      "topicKey": "sorting-bounds",
+      "type": "basic",
+      "prompt": "Which sorting algorithm when: small or nearly-sorted input; general in-memory; need worst-case guarantee or stability; integer keys in a small range?",
+      "answer": "Small/nearly sorted: insertion-sort ($O(n + \\text{inversions})$). General in-memory: quick-sort (fast, in-place). Guarantee or stability: merge-sort (or heap-sort for in-place guarantee). Small-range integers: bucket/radix-sort, linear time.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphbasics-definition",
+      "topicKey": "graphs-basics",
+      "type": "cloze",
+      "prompt": "A **graph** $G = (V, E)$ is a set of {{c1::vertices}} and a collection of {{c2::edges}}, each edge a pair of vertices; an edge is **directed** if its pair is ordered and **undirected** otherwise.",
+      "answer": "",
+      "explanation": "Terms: endpoints of an edge, edges incident on a vertex, adjacent vertices, degree $\\deg(v)$ = number of incident edges, parallel edges, self-loops. A *simple* graph has neither.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphbasics-degree-sum",
+      "topicKey": "graphs-basics",
+      "type": "cloze",
+      "prompt": "In an undirected graph with $m$ edges, $\\sum_v \\deg(v) = {{c1::2m}}$, since each edge is counted at both endpoints; in a directed graph $\\sum_v \\text{indeg}(v) = \\sum_v \\text{outdeg}(v) = {{c2::m}}$.",
+      "answer": "",
+      "explanation": "This is why iterating over all vertices' incidence lists costs $O(n + m)$, the standard graph-traversal bound.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphbasics-max-edges",
+      "topicKey": "graphs-basics",
+      "type": "cloze",
+      "prompt": "A simple undirected graph with $n$ vertices has at most {{c1::$n(n-1)/2$}} edges; a simple directed graph at most {{c2::$n(n-1)$}}. Hence $m$ is $O(n^2)$ and $\\log m$ is $O(\\log n)$.",
+      "answer": "",
+      "explanation": "'Simple' means no self-loops and no parallel edges. The $\\log m = O(\\log n)$ fact lets you write $O(m \\log n)$ and $O(m \\log m)$ interchangeably.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphbasics-paths-cycles",
+      "topicKey": "graphs-basics",
+      "type": "basic",
+      "prompt": "Define *path*, *simple path*, *cycle* and *connected graph*.",
+      "answer": "Path: a sequence of alternating vertices and edges, each edge joining its neighbours in the sequence. Simple: no repeated vertices. Cycle: a path that starts and ends at the same vertex. Connected: there is a path between every pair of vertices.",
+      "explanation": "A *simple cycle* repeats no vertex except the first/last. A directed graph is *strongly connected* if every vertex reaches every other following edge directions.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphbasics-tree-forest",
+      "topicKey": "graphs-basics",
+      "type": "basic",
+      "prompt": "Graph-theoretic definitions of *tree*, *forest* and *spanning tree*, and the edge count of a connected graph?",
+      "answer": "Tree: connected undirected graph with no cycles (unrooted). Forest: a graph with no cycles (its components are trees). Spanning tree: a subgraph that is a tree containing all vertices. A connected graph with $n$ vertices has $m \\ge n - 1$ edges; a tree has exactly $n - 1$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphstruct-edge-list",
+      "topicKey": "graphs-structures",
+      "type": "basic",
+      "prompt": "Edge-list structure: what does it store and what is slow?",
+      "answer": "A list of vertices and a list of edges, each edge storing its two endpoints. Space $O(n + m)$. Finding the incident edges of a vertex requires scanning all edges: $O(m)$.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphstruct-adjacency-list",
+      "topicKey": "graphs-structures",
+      "type": "basic",
+      "prompt": "Adjacency-list structure: space and the cost of `incidentEdges(v)` and `getEdge(u, v)`?",
+      "answer": "Each vertex keeps a list of its incident edges. Space $O(n + m)$. `incidentEdges(v)`: $O(\\deg(v))$. `getEdge(u, v)`: $O(\\min(\\deg(u), \\deg(v)))$. The default choice for sparse graphs.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphstruct-adjacency-matrix",
+      "topicKey": "graphs-structures",
+      "type": "cloze",
+      "prompt": "Adjacency matrix: an $n \\times n$ array whose entry $(i, j)$ holds the edge (or null) between vertices $i$ and $j$. Space {{c1::$O(n^2)$}}; `getEdge(u, v)` costs {{c2::$O(1)$}}; `incidentEdges(v)` costs {{c3::$O(n)$}} (scan a row).",
+      "answer": "",
+      "explanation": "Adding a vertex means rebuilding the matrix, $O(n^2)$. Good for dense graphs where $m$ is close to $n^2$ anyway.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphstruct-choose",
+      "topicKey": "graphs-structures",
+      "type": "basic",
+      "prompt": "Adjacency list vs adjacency matrix: when to prefer which?",
+      "answer": "List: sparse graphs ($m \\ll n^2$), traversals and anything iterating over neighbours. Matrix: dense graphs or many `getEdge(u, v)` queries where $O(1)$ lookup matters and $O(n^2)$ space is affordable.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphtrav-dfs",
+      "topicKey": "graphs-traversal",
+      "type": "basic",
+      "prompt": "Describe depth-first search (DFS) from a vertex $s$ and its running time with adjacency lists.",
+      "answer": "Mark $s$ visited; for each unexplored incident edge $(s, w)$: if $w$ is unvisited, label the edge a **discovery** edge and recurse on $w$, else label it a **back** edge. $O(n + m)$: each vertex and edge is examined a constant number of times.",
+      "explanation": "The discovery edges form a spanning tree of the connected component of $s$. DFS uses the call stack (or an explicit stack).",
+      "tags": [
+        "code",
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphtrav-bfs",
+      "topicKey": "graphs-traversal",
+      "type": "basic",
+      "prompt": "Describe breadth-first search (BFS) and the key property of the paths it finds.",
+      "answer": "Visit vertices level by level with a queue: $L_0 = \\{s\\}$; $L_{i+1}$ = unvisited neighbours of $L_i$. Edges are discovery or **cross** edges (never back edges in undirected graphs). The discovery path from $s$ to any $v$ has the **minimum number of edges**. $O(n + m)$.",
+      "tags": [
+        "code",
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphtrav-dfs-vs-bfs",
+      "topicKey": "graphs-traversal",
+      "type": "basic",
+      "prompt": "DFS vs BFS: which data structure, which non-tree edges, which applications?",
+      "answer": "DFS: stack/recursion; back edges; finds cycles, connected components, spanning trees, and works with backtracking. BFS: queue; cross edges; same component/spanning-tree uses plus shortest paths in number of edges. Both $O(n + m)$.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphtrav-cycle",
+      "topicKey": "graphs-traversal",
+      "type": "basic",
+      "prompt": "How does DFS detect a cycle in an undirected graph? In a directed graph?",
+      "answer": "Undirected: any back edge (an edge to an already-visited vertex that is not the parent) closes a cycle. Directed: a back edge to a vertex that is still on the recursion stack (currently being explored) indicates a cycle.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphtrav-components",
+      "topicKey": "graphs-traversal",
+      "type": "basic",
+      "prompt": "How do you count the connected components of an undirected graph with $n$ vertices and $m$ edges, and at what cost?",
+      "answer": "Run DFS (or BFS) from each unvisited vertex in turn; each start begins a new component. Total $O(n + m)$.",
+      "explanation": "The bound is $O(n + m)$ and not $O(nm)$ because the visited marks persist across the restarts: every vertex and edge is still processed a constant number of times overall.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphpaths-dag-topo",
+      "topicKey": "graphs-paths",
+      "type": "basic",
+      "prompt": "What is a **topological ordering**, which graphs have one, and how is it computed in $O(n + m)$?",
+      "answer": "A numbering of the vertices such that every directed edge goes from a lower to a higher number. It exists iff the graph is a **DAG** (directed acyclic graph). Compute it by repeatedly outputting and removing a vertex of in-degree 0, keeping such vertices in a queue or stack.",
+      "explanation": "If the process stops before all vertices are output, the remaining vertices contain a cycle. Alternative: reverse order of DFS finishing times. Use: scheduling tasks with prerequisites.",
+      "tags": [
+        "definition",
+        "code",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphpaths-dijkstra",
+      "topicKey": "graphs-paths",
+      "type": "basic",
+      "prompt": "Describe Dijkstra's algorithm for single-source shortest paths and its requirement on edge weights.",
+      "answer": "Keep a distance label $D[v]$ ($D[s] = 0$, others $\\infty$) in a priority queue. Repeatedly remove the vertex $u$ with the smallest $D$, and **relax** each edge $(u, z)$: if $D[u] + w(u, z) < D[z]$, update $D[z]$ and its key in the queue. Requires **non-negative** edge weights.",
+      "explanation": "With negative weights a vertex already removed from the queue could later be reached more cheaply, breaking the greedy argument.",
+      "tags": [
+        "code",
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphpaths-dijkstra-cost",
+      "topicKey": "graphs-paths",
+      "type": "cloze",
+      "prompt": "Dijkstra's algorithm with a heap-based adaptable priority queue runs in {{c1::$O((n + m)\\log n)$}}, i.e. $O(m \\log n)$ on a connected graph; with an unsorted-list priority queue it runs in {{c2::$O(n^2)$}}, which is better for dense graphs.",
+      "answer": "",
+      "explanation": "Heap version: $n$ removals and up to $m$ key decreases, each $O(\\log n)$. List version: $n$ linear scans for the minimum and $O(1)$ key updates.",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphpaths-mst",
+      "topicKey": "graphs-paths",
+      "type": "basic",
+      "prompt": "What is a **minimum spanning tree**, and which two algorithms compute one in the course?",
+      "answer": "A spanning tree of a weighted connected undirected graph with minimum total edge weight. **Prim–Jarník**: grow one tree from a start vertex, always adding the cheapest edge leaving it. **Kruskal**: add edges in increasing weight order whenever they join two different components.",
+      "explanation": "Both are greedy and both are correct by the cycle/cut property: the cheapest edge crossing any cut belongs to some MST. Kruskal needs a union-find (partition) structure to test 'different components' quickly.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphpaths-mst-costs",
+      "topicKey": "graphs-paths",
+      "type": "basic",
+      "prompt": "Running times of Prim–Jarník and Kruskal?",
+      "answer": "Prim–Jarník with a heap: $O((n + m)\\log n)$ (like Dijkstra). Kruskal: $O(m \\log n)$, dominated by sorting the edges (or $O(m \\log m)$, which is the same since $\\log m = O(\\log n)$).",
+      "tags": [
+        "complexity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "graphpaths-dijkstra-vs-prim",
+      "topicKey": "graphs-paths",
+      "type": "basic",
+      "prompt": "Dijkstra vs Prim–Jarník: the code looks almost identical. What is the one difference?",
+      "answer": "The key used in the priority queue. Dijkstra relaxes with the **total path length** $D[u] + w(u, z)$; Prim–Jarník uses only the **weight of the single edge** $w(u, z)$. Dijkstra builds a shortest-path tree, Prim an MST, and these are generally different trees.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    }
+  ]
+}
