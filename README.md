@@ -66,20 +66,24 @@ npm run dev                       # SPA + Worker + local D1 on http://localhost:
 
 1. **Sign in:** `npx wrangler login`
 2. **Create the database:** `npx wrangler d1 create spaced-learning`. Copy the printed `database_id` into
-   `wrangler.jsonc`.
+   `wrangler.jsonc` and commit it. The ID isn't a secret (only your Cloudflare login can use it), and
+   git-push deploys (step 8) read it from the repository.
 3. **Create the tables:** `npm run db:migrate:remote`
 4. **Deploy:** `npm run deploy`. The app is published at `https://spaced-learning.<your-subdomain>.workers.dev`.
-   **It is public until you finish step 5**, so do that right away.
+   **It is public until you finish step 5**, so do that right away. The sync API refuses every
+   request until step 6, so only the app and its bundled decks are exposed, never your data.
 
    For every later release, run `npm run db:migrate:remote` **before** `npm run deploy` when the
    release adds a file under `worker/migrations/`: the Worker's SQL expects the new columns.
 5. **Lock it down with Cloudflare Access.** The Zero Trust free plan allows up to 50 users.
-   1. In the Cloudflare dashboard, open **Workers & Pages → spaced-learning → Settings → Domains & Routes**.
-   2. Enable **Cloudflare Access** for both **workers.dev** and **Preview URLs**.
-   3. In **Zero Trust → Access → Applications**, edit the application:
-      - Set the policy to **Allow** → **Emails** → your email only.
-      - Set the session duration to something long, for example 1 month.
-   4. In **Zero Trust → Settings → Authentication**, make sure **One-time PIN** is enabled.
+   1. In the Cloudflare dashboard, open **Workers & Pages → spaced-learning → Access**.
+   2. Select **Protect this Worker behind Access** and choose **All traffic**. This covers every URL of
+      the Worker, preview URLs included. *Previews only* would leave the `workers.dev` URL public.
+   3. Under **Authentication policy**, create a policy: **Allow** → **Emails** → your email only. Set
+      the session duration to something long, for example 1 month, then select **Apply Access**.
+   4. Add sign-in by emailed code: in **Zero Trust → Integrations → Identity providers** (the dashboard
+      may call it **Cloudflare One**), select **Add new identity provider → One-time PIN**. New Zero
+      Trust organizations otherwise offer only sign-in with a Cloudflare account.
 6. **Give the Worker its verification settings.** Defence in depth: the Worker checks the Access token
    itself. Run each command and paste the value when prompted:
    ```sh
@@ -92,12 +96,17 @@ npm run dev                       # SPA + Worker + local D1 on http://localhost:
      `…cloudflareaccess.com`.
    - In a browser, sign in with the emailed PIN, then go to **Settings → Backup & sync → Sync now**. It
      should show *Synced*.
-8. **Optional, git-push deploys:** in **Workers & Pages → spaced-learning → Settings → Builds**, connect
-   this GitHub repository:
+8. **Optional, deploy on every push to `main`:** in **Workers & Pages → spaced-learning → Settings →
+   Builds**, connect this GitHub repository:
+   - Production branch: `main`
    - Build command: `npm ci && npm run build`
    - Deploy command: `npx wrangler deploy`
+   - Turn **off** builds for non-production branches. Preview versions use the same D1 database as
+     production, so a build of `develop` or of a Dependabot branch would put a preview copy of the app
+     on your real data.
 
-   Branches get Access-protected preview URLs.
+   Builds don't apply D1 migrations. When a PR adds a file under `worker/migrations/`, run
+   `npm run db:migrate:remote` **before** merging it into `main`.
 
 > **Every hostname must be covered by Access.** If you add a custom domain later, add it to the Access
 > application before using it.
