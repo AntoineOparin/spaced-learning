@@ -44,7 +44,7 @@ jobs:
       # Browsers are cached per Playwright version; system libraries are installed every run.
       - id: playwright
         run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         id: browsers
         with:
           path: ~/.cache/ms-playwright
