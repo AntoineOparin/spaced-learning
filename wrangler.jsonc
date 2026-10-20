@@ -14,8 +14,8 @@
     {
       "binding": "DB",
       "database_name": "spaced-learning",
-      // Replace with the id printed by `npx wrangler d1 create spaced-learning` (see README).
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      // From `npx wrangler d1 create spaced-learning` (see README).
+      "database_id": "8198b148-ca3a-4950-b569-996eaee68520",
       "migrations_dir": "worker/migrations"
     }
   ],

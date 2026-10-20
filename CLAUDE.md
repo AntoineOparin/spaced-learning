@@ -53,6 +53,16 @@ Only `src/db` and `src/sync` import `dexie`; only `src/domain/scheduler.ts` impo
   items tagged `ahead` were written before the lecture slides existed and need verifying.
   Check one file with `DECK=<path> npx vitest run test/deck-file.test.ts`.
 
+## Deployment
+
+- `main` is production: Workers Builds deploys every push to it. Builds for other branches are off
+  because preview versions would share the production D1 database.
+- Builds don't run D1 migrations. A PR that adds a file under `worker/migrations/` needs
+  `npm run db:migrate:remote` before it merges, so a migration must work with the Worker code that is
+  still deployed: add columns, don't rename or drop them.
+- The repository is public. `wrangler.jsonc`, including the D1 `database_id`, is committed on purpose;
+  secrets are set only with `npx wrangler secret put`. Setup steps are in the README.
+
 ## Working conventions
 
 - Work on `develop`; `main` is updated by the user through PRs. Commit and push only when asked.
