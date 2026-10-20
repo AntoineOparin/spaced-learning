@@ -48,7 +48,7 @@ export async function isolate(page: Page) {
 export async function installDeck(page: Page) {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Welcome' })).toBeVisible();
-  await page.getByRole('button', { name: 'Install starter deck' }).click();
+  await page.getByRole('button', { name: 'Install Calculus 2' }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('Trigonometric Identities')).toBeVisible();
   await dialog.getByRole('button', { name: /^Install \d+ items$/ }).click();

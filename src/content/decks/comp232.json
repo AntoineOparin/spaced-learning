@@ -1,0 +1,3001 @@
+{
+  "format": "spaced-learning-content",
+  "version": 1,
+  "deck": {
+    "id": "comp232-core",
+    "version": 1,
+    "title": "COMP 232 · Mathematics for Computer Science"
+  },
+  "courses": [
+    {
+      "key": "comp232",
+      "name": "COMP 232 · Mathematics for Computer Science",
+      "description": "Discrete mathematics for computer science (Rosen, 9th ed.) as taught at Concordia, Fall 2026: propositional and predicate logic, rules of inference, proof techniques, sets, functions and cardinality, elements of number theory, induction and recursion, relations, equivalence relations and partial orderings."
+    }
+  ],
+  "topics": [
+    {
+      "key": "logic",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Propositional Logic"
+    },
+    {
+      "key": "logic-basics",
+      "courseKey": "comp232",
+      "parentKey": "logic",
+      "name": "Propositions & Connectives"
+    },
+    {
+      "key": "logic-conditional",
+      "courseKey": "comp232",
+      "parentKey": "logic",
+      "name": "Converse, Contrapositive & Inverse"
+    },
+    {
+      "key": "logic-equiv",
+      "courseKey": "comp232",
+      "parentKey": "logic",
+      "name": "Logical Equivalences"
+    },
+    {
+      "key": "logic-classify",
+      "courseKey": "comp232",
+      "parentKey": "logic",
+      "name": "Tautology, Contradiction & Contingency"
+    },
+    {
+      "key": "pred",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Predicates & Quantifiers"
+    },
+    {
+      "key": "pred-basics",
+      "courseKey": "comp232",
+      "parentKey": "pred",
+      "name": "Predicates, Domains & Quantifiers"
+    },
+    {
+      "key": "pred-negation",
+      "courseKey": "comp232",
+      "parentKey": "pred",
+      "name": "Negating Quantifiers"
+    },
+    {
+      "key": "pred-nested",
+      "courseKey": "comp232",
+      "parentKey": "pred",
+      "name": "Nested Quantifiers & Translation"
+    },
+    {
+      "key": "infer",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Rules of Inference"
+    },
+    {
+      "key": "infer-args",
+      "courseKey": "comp232",
+      "parentKey": "infer",
+      "name": "Arguments & Validity"
+    },
+    {
+      "key": "infer-rules",
+      "courseKey": "comp232",
+      "parentKey": "infer",
+      "name": "Propositional Rules of Inference"
+    },
+    {
+      "key": "infer-fallacies",
+      "courseKey": "comp232",
+      "parentKey": "infer",
+      "name": "Fallacies"
+    },
+    {
+      "key": "infer-quant",
+      "courseKey": "comp232",
+      "parentKey": "infer",
+      "name": "Rules for Quantified Statements"
+    },
+    {
+      "key": "proof",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Introduction to Proofs"
+    },
+    {
+      "key": "proof-terms",
+      "courseKey": "comp232",
+      "parentKey": "proof",
+      "name": "Terminology"
+    },
+    {
+      "key": "proof-methods",
+      "courseKey": "comp232",
+      "parentKey": "proof",
+      "name": "Proof Methods"
+    },
+    {
+      "key": "proof-strategy",
+      "courseKey": "comp232",
+      "parentKey": "proof",
+      "name": "Strategy & Classic Proofs"
+    },
+    {
+      "key": "sets",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Sets"
+    },
+    {
+      "key": "sets-basics",
+      "courseKey": "comp232",
+      "parentKey": "sets",
+      "name": "Sets, Subsets & Cardinality"
+    },
+    {
+      "key": "sets-ops",
+      "courseKey": "comp232",
+      "parentKey": "sets",
+      "name": "Set Operations, Power Set & Product"
+    },
+    {
+      "key": "sets-identities",
+      "courseKey": "comp232",
+      "parentKey": "sets",
+      "name": "Set Identities"
+    },
+    {
+      "key": "sets-proofs",
+      "courseKey": "comp232",
+      "parentKey": "sets",
+      "name": "Proving Set Identities & Bit Strings"
+    },
+    {
+      "key": "func",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Functions & Cardinality"
+    },
+    {
+      "key": "func-basics",
+      "courseKey": "comp232",
+      "parentKey": "func",
+      "name": "Functions, Floor & Ceiling, Composition"
+    },
+    {
+      "key": "func-props",
+      "courseKey": "comp232",
+      "parentKey": "func",
+      "name": "One-to-One, Onto & Bijections"
+    },
+    {
+      "key": "func-card",
+      "courseKey": "comp232",
+      "parentKey": "func",
+      "name": "Cardinality of Sets"
+    },
+    {
+      "key": "numth",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Elements of Number Theory"
+    },
+    {
+      "key": "numth-div",
+      "courseKey": "comp232",
+      "parentKey": "numth",
+      "name": "Divisibility & Division Algorithm"
+    },
+    {
+      "key": "numth-mod",
+      "courseKey": "comp232",
+      "parentKey": "numth",
+      "name": "Modular Arithmetic"
+    },
+    {
+      "key": "numth-primes",
+      "courseKey": "comp232",
+      "parentKey": "numth",
+      "name": "Primes"
+    },
+    {
+      "key": "numth-gcd",
+      "courseKey": "comp232",
+      "parentKey": "numth",
+      "name": "GCD, LCM & Euclidean Algorithm"
+    },
+    {
+      "key": "induct",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Induction & Recursion"
+    },
+    {
+      "key": "induct-basic",
+      "courseKey": "comp232",
+      "parentKey": "induct",
+      "name": "Mathematical Induction"
+    },
+    {
+      "key": "induct-strong",
+      "courseKey": "comp232",
+      "parentKey": "induct",
+      "name": "Strong Induction & Well-Ordering"
+    },
+    {
+      "key": "induct-recursive",
+      "courseKey": "comp232",
+      "parentKey": "induct",
+      "name": "Recursive Definitions & Structural Induction"
+    },
+    {
+      "key": "rel",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Relations"
+    },
+    {
+      "key": "rel-basics",
+      "courseKey": "comp232",
+      "parentKey": "rel",
+      "name": "Relations & Their Properties"
+    },
+    {
+      "key": "rel-represent",
+      "courseKey": "comp232",
+      "parentKey": "rel",
+      "name": "Representing Relations"
+    },
+    {
+      "key": "rel-closures",
+      "courseKey": "comp232",
+      "parentKey": "rel",
+      "name": "Closures of Relations"
+    },
+    {
+      "key": "order",
+      "courseKey": "comp232",
+      "parentKey": null,
+      "name": "Equivalence Relations & Partial Orderings"
+    },
+    {
+      "key": "order-equiv",
+      "courseKey": "comp232",
+      "parentKey": "order",
+      "name": "Equivalence Relations"
+    },
+    {
+      "key": "order-poset",
+      "courseKey": "comp232",
+      "parentKey": "order",
+      "name": "Partial Orderings"
+    }
+  ],
+  "items": [
+    {
+      "key": "logic-basics-proposition",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "What is a **proposition**?",
+      "answer": "A declarative statement that has exactly one truth value: true ($T$) or false ($F$).",
+      "explanation": "Commands (\"Don't do that!\"), questions (\"What is the time?\") and open statements like $x < 4$ (no single truth value until $x$ is fixed) are not propositions. The constants $T$ and $F$ are themselves propositions.",
+      "source": "W1 p.9–21, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-basics-open-statement",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "Why is $x < 4$ not a proposition?",
+      "answer": "It has no single truth value: true for some $x$, false for others. Once $x$ is given a value (or quantified) it becomes a proposition.",
+      "explanation": "It is a propositional function $P(x)$ (§1.4). By contrast $7 < 4$ is a proposition, a false one.",
+      "source": "W1 p.20–21, §1.1",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "logic-basics-connective-names",
+      "topicKey": "logic-basics",
+      "type": "cloze",
+      "prompt": "Connective names: $p \\land q$ is the {{c1::conjunction}} (and), $p \\lor q$ the {{c2::disjunction}} (or), $p \\oplus q$ the {{c3::exclusive or}}, $p \\to q$ the {{c4::conditional (implication)}}.",
+      "answer": "",
+      "explanation": "$\\neg p$ is the negation and $p \\leftrightarrow q$ the biconditional (\"if and only if\").",
+      "source": "W1 p.22, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-basics-negation-english",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "$q$: \"The student answered the question correctly.\" Which English sentences express $\\neg q$?",
+      "answer": "\"It is not the case that the student answered the question correctly\" or \"The student did not answer the question correctly\".",
+      "explanation": "Not \"answered incorrectly\" and not \"didn't answer\": each of those is only one way of failing to answer correctly, so they are stronger than $\\neg q$.",
+      "source": "W1 p.24–25, §1.1",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "logic-basics-truth-table",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "What is a truth table, and what does this course require of one used as a proof?",
+      "answer": "A table listing every possible assignment of truth values to the propositional variables and the resulting value of the compound proposition. Used as a proof it must be complete and fully explicit: every row, every intermediate column.",
+      "source": "W1 p.26, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-basics-rows",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "How many rows does the truth table of a compound proposition with $n$ propositional variables have?",
+      "answer": "$2^n$",
+      "explanation": "Each variable is independently $T$ or $F$. With $p, q, r$ there are $2^3 = 8$ rows; list them systematically (TTT, TTF, TFT, …) so none is missed.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "logic-basics-conditional-def",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "When is $p \\to q$ false?",
+      "answer": "Only when $p$ is true and $q$ is false. In the other three rows it is true.",
+      "explanation": "So a conditional with a false hypothesis is automatically true, and one with a true conclusion is automatically true. No causal link between $p$ and $q$ is required.",
+      "source": "W1 p.34, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-basics-vacuous-example",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "Truth value of $(1 + 1 = 3) \\to (2 + 2 = 4)$?",
+      "answer": "True.",
+      "explanation": "The hypothesis $1 + 1 = 3$ is false, and a conditional with a false hypothesis is true whatever the conclusion is.",
+      "source": "W1 p.28–29, §1.1",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "logic-basics-inclusive-or",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "Is $p \\lor q$ true when both $p$ and $q$ are true?",
+      "answer": "Yes. $\\lor$ is the *inclusive* or; only $p \\oplus q$ (exclusive or) is false when both are true.",
+      "explanation": "Row $T, T$: $p \\lor q = T$ but $p \\oplus q = F$. Everyday \"or\" is often exclusive (\"soup or salad\"); in logic always read $\\lor$ inclusively.",
+      "source": "W1 p.27, p.30, §1.1",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "logic-basics-xor",
+      "topicKey": "logic-basics",
+      "type": "cloze",
+      "prompt": "$p \\oplus q$ is true exactly when {{c1::exactly one of $p$, $q$ is true}}, so $p \\oplus q \\equiv {{c2::\\neg(p \\leftrightarrow q)}}$.",
+      "answer": "",
+      "explanation": "Truth-table column of $\\oplus$: $F, T, T, F$, the complement of the biconditional's $T, F, F, T$.",
+      "source": "W1 p.30, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-basics-biconditional",
+      "topicKey": "logic-basics",
+      "type": "cloze",
+      "prompt": "$p \\leftrightarrow q$ is true exactly when {{c1::$p$ and $q$ have the same truth value}}; it is read \"$p$ {{c2::if and only if}} $q$\".",
+      "answer": "",
+      "explanation": "Column $T, F, F, T$. \"iff\" abbreviates \"if and only if\".",
+      "source": "W1 p.30, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-basics-biconditional-as-conditionals",
+      "topicKey": "logic-basics",
+      "type": "cloze",
+      "prompt": "$p \\leftrightarrow q \\equiv {{c1::(p \\to q) \\land (q \\to p)}}$",
+      "answer": "",
+      "explanation": "Proved by truth table in W1 (Question 8). This is why proving an \"iff\" theorem takes two proofs, one per direction.",
+      "source": "W1 p.44–46, §1.3",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-basics-biconditional-dnf",
+      "topicKey": "logic-basics",
+      "type": "cloze",
+      "prompt": "$p \\leftrightarrow q \\equiv {{c1::(p \\land q) \\lor (\\neg p \\land \\neg q)}}$",
+      "answer": "",
+      "explanation": "Either both true or both false. Proved by truth table in W1 (Question 9) and reused in Question 12 to expand $q \\leftrightarrow p$.",
+      "source": "W1 p.47–49, §1.3",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-basics-english-conditional",
+      "topicKey": "logic-basics",
+      "type": "cloze",
+      "prompt": "English forms of $p \\to q$: \"if $p$ then $q$\", \"$p$ only if $q$\", \"$q$ whenever $p$\", \"$p$ is {{c1::sufficient}} for $q$\", \"$q$ is {{c2::necessary}} for $p$\".",
+      "answer": "",
+      "explanation": "The hypothesis is the sufficient condition and the conclusion the necessary one: $p$ being true is enough to guarantee $q$, and $q$ must hold for $p$ to hold.",
+      "source": "W1 p.34, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-basics-only-if",
+      "topicKey": "logic-basics",
+      "type": "basic",
+      "prompt": "Translate \"$p$ only if $q$\" into logic.",
+      "answer": "$p \\to q$",
+      "explanation": "\"Only if\" points to the necessary condition: $p$ can be true only when $q$ is. The common mistake is writing $q \\to p$. \"You pass only if you sit the exam\" means pass $\\to$ sat.",
+      "source": "W1 p.34, §1.1",
+      "tags": [
+        "mistake",
+        "confusable"
+      ]
+    },
+    {
+      "key": "logic-conditional-converse",
+      "topicKey": "logic-conditional",
+      "type": "cloze",
+      "prompt": "The **converse** of $p \\to q$ is ${{c1::q \\to p}}$.",
+      "answer": "",
+      "explanation": "Swap hypothesis and conclusion. \"If you can take COMP 238, you are a CS student\" is the converse of \"If you are a CS student, you can take COMP 238\".",
+      "source": "W1 p.56, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-conditional-contrapositive",
+      "topicKey": "logic-conditional",
+      "type": "cloze",
+      "prompt": "The **contrapositive** of $p \\to q$ is ${{c1::\\neg q \\to \\neg p}}$.",
+      "answer": "",
+      "explanation": "Swap *and* negate. \"If you cannot take COMP 238, you are not a CS student.\"",
+      "source": "W1 p.56, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-conditional-inverse",
+      "topicKey": "logic-conditional",
+      "type": "cloze",
+      "prompt": "The **inverse** of $p \\to q$ is ${{c1::\\neg p \\to \\neg q}}$.",
+      "answer": "",
+      "explanation": "Negate both sides without swapping. \"If you are not a CS student, you cannot take COMP 238.\"",
+      "source": "W1 p.56, §1.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-conditional-which-equivalent",
+      "topicKey": "logic-conditional",
+      "type": "basic",
+      "prompt": "Which of the converse, inverse and contrapositive of $p \\to q$ is logically equivalent to $p \\to q$?",
+      "answer": "Only the contrapositive $\\neg q \\to \\neg p$. Neither the converse nor the inverse is equivalent to $p \\to q$.",
+      "explanation": "Row $p = F, q = T$: $p \\to q$ is $T$, but the converse $q \\to p$ is $F$ and the inverse $\\neg p \\to \\neg q$ is $F$.",
+      "source": "W1 p.58, §1.1",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "logic-conditional-contrapositive-proof",
+      "topicKey": "logic-conditional",
+      "type": "basic",
+      "prompt": "Derive $p \\to q \\equiv \\neg q \\to \\neg p$ using named equivalences.",
+      "answer": "$p \\to q \\equiv \\neg p \\lor q$ (implication) $\\equiv q \\lor \\neg p$ (commutative) $\\equiv \\neg(\\neg q) \\lor \\neg p$ (double negation) $\\equiv \\neg q \\to \\neg p$ (implication).",
+      "source": "W1 p.58, §1.3",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "logic-conditional-converse-mistake",
+      "topicKey": "logic-conditional",
+      "type": "basic",
+      "prompt": "A theorem says \"if $n$ is even then $n^2$ is even\". Does it tell you anything about $n$ when $n^2$ is even?",
+      "answer": "No. That is the converse ($q \\to p$), which does not follow from $p \\to q$ and needs its own proof (here it happens to be true, by an indirect proof).",
+      "source": "W4 p.15–18, §1.7",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "logic-equiv-def",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "When are two compound propositions $p$ and $q$ **logically equivalent** ($p \\equiv q$)?",
+      "answer": "When they have the same truth table; equivalently, when $p \\leftrightarrow q$ is a tautology.",
+      "explanation": "Two ways to check: build both columns and compare row by row, or transform one into the other with named equivalences.",
+      "source": "W1 p.40, §1.3",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-equiv-identity",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **identity laws** of propositional logic.",
+      "answer": "$p \\land T \\equiv p$ and $p \\lor F \\equiv p$",
+      "explanation": "$T$ is neutral for $\\land$ and $F$ is neutral for $\\lor$, like $1$ for $\\times$ and $0$ for $+$.",
+      "source": "W1 p.53, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-domination",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **domination laws**.",
+      "answer": "$p \\lor T \\equiv T$ and $p \\land F \\equiv F$",
+      "explanation": "The constant wins: anything or-ed with $T$ is $T$; anything and-ed with $F$ is $F$.",
+      "mnemonic": "Identity leaves $p$ alone; domination swallows it.",
+      "source": "W1 p.53, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-idempotent",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **idempotent laws**.",
+      "answer": "$p \\land p \\equiv p$ and $p \\lor p \\equiv p$",
+      "source": "W1 p.53, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-double-negation",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **double negation law**.",
+      "answer": "$\\neg(\\neg p) \\equiv p$",
+      "source": "W1 p.53, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-commutative",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **commutative laws**.",
+      "answer": "$p \\land q \\equiv q \\land p$ and $p \\lor q \\equiv q \\lor p$",
+      "source": "W1 p.53, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-associative",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **associative laws**.",
+      "answer": "$(p \\land q) \\land r \\equiv p \\land (q \\land r)$ and $(p \\lor q) \\lor r \\equiv p \\lor (q \\lor r)$",
+      "explanation": "So parentheses can be dropped in a chain of one connective, but not when $\\land$ and $\\lor$ are mixed.",
+      "source": "W1 p.53, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-distributive-and",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "Distributive law: $p \\land (q \\lor r) \\equiv {{c1::(p \\land q) \\lor (p \\land r)}}$",
+      "answer": "",
+      "explanation": "Like multiplication over addition. Check: if $p = T$ both sides reduce to $q \\lor r$; if $p = F$ both are $F$.",
+      "source": "W1 p.53, §1.3",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-distributive-or",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "Distributive law: $p \\lor (q \\land r) \\equiv {{c1::(p \\lor q) \\land (p \\lor r)}}$",
+      "answer": "",
+      "explanation": "Unlike arithmetic, *both* connectives distribute over each other. Check: if $p = T$ both sides are $T$; if $p = F$ both reduce to $q \\land r$.",
+      "source": "W1 p.53, §1.3",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-de-morgan-and",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "De Morgan: $\\neg(p \\land q) \\equiv {{c1::\\neg p \\lor \\neg q}}$",
+      "answer": "",
+      "explanation": "\"Not both\" means \"at least one fails\". Row $p = T, q = F$: left side $\\neg F = T$, right side $F \\lor T = T$.",
+      "source": "W1 p.53, §1.3",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-de-morgan-or",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "De Morgan: $\\neg(p \\lor q) \\equiv {{c1::\\neg p \\land \\neg q}}$",
+      "answer": "",
+      "explanation": "\"Neither\" means \"both fail\". Negation flips $\\lor$ to $\\land$ and negates each part.",
+      "source": "W1 p.53, §1.3",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-de-morgan-mistake",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "What is wrong with writing $\\neg(p \\land q) \\equiv \\neg p \\land \\neg q$?",
+      "answer": "The connective must flip: $\\neg(p \\land q) \\equiv \\neg p \\lor \\neg q$.",
+      "explanation": "Counterexample row $p = T, q = F$: $\\neg(T \\land F) = T$ but $\\neg T \\land \\neg F = F$.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "logic-equiv-negation-laws",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **negation laws**.",
+      "answer": "$p \\lor \\neg p \\equiv T$ and $p \\land \\neg p \\equiv F$",
+      "explanation": "A proposition or its negation always holds (excluded middle), never both.",
+      "source": "W1 p.54, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-absorption",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "State the **absorption laws**.",
+      "answer": "$p \\land (p \\lor q) \\equiv p$ and $p \\lor (p \\land q) \\equiv p$",
+      "explanation": "The outer $p$ absorbs the inner term: if $p$ is true, $p \\lor (p \\land q)$ is true; if $p$ is false, so is $p \\land q$.",
+      "source": "W1 p.54, §1.3",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-absorption-proof",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "Prove the absorption law $p \\lor (p \\land q) \\equiv p$ with named laws.",
+      "answer": "$p \\lor (p \\land q) \\equiv (p \\land T) \\lor (p \\land q)$ (identity) $\\equiv p \\land (T \\lor q)$ (distributive) $\\equiv p \\land T$ (domination) $\\equiv p$ (identity).",
+      "source": "W1 p.55, §1.3",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "logic-equiv-implication",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "Implication as a disjunction: $p \\to q \\equiv {{c1::\\neg p \\lor q}}$",
+      "answer": "",
+      "explanation": "The most used equivalence: it removes $\\to$ so that De Morgan and distributive laws apply. Both sides are false only in row $p = T, q = F$.",
+      "source": "W1 p.43, §1.3",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-negated-conditional",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "$\\neg(p \\to q) \\equiv {{c1::p \\land \\neg q}}$",
+      "answer": "",
+      "explanation": "From $\\neg(\\neg p \\lor q)$ by De Morgan and double negation. A conditional fails only when the hypothesis holds and the conclusion does not.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-or-as-conditional",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "$p \\lor q \\equiv {{c1::\\neg p \\to q}}$",
+      "answer": "",
+      "explanation": "Apply the implication law to the right side: $\\neg(\\neg p) \\lor q \\equiv p \\lor q$. Turns \"it will rain or we go to the beach\" into \"if it does not rain, we go to the beach\".",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-exportation",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "$(p \\land q) \\to r \\equiv {{c1::p \\to (q \\to r)}}$",
+      "answer": "",
+      "explanation": "Both sides are false only when $p, q$ are true and $r$ is false. Expand: $\\neg(p \\land q) \\lor r \\equiv \\neg p \\lor \\neg q \\lor r \\equiv \\neg p \\lor (q \\to r)$.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-common-conclusion",
+      "topicKey": "logic-equiv",
+      "type": "cloze",
+      "prompt": "$(p \\to r) \\land (q \\to r) \\equiv {{c1::(p \\lor q) \\to r}}$",
+      "answer": "",
+      "explanation": "Expand: $(\\neg p \\lor r) \\land (\\neg q \\lor r) \\equiv (\\neg p \\land \\neg q) \\lor r \\equiv \\neg(p \\lor q) \\lor r$. This is the logic behind proof by cases.",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "logic-equiv-disprove",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "How do you show that two compound propositions are **not** logically equivalent?",
+      "answer": "Give one truth-value assignment (one row) where they take different values: a counterexample.",
+      "explanation": "One row refutes; proving an equivalence needs the whole table or an algebraic chain of named laws.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "logic-equiv-algebraic-steps",
+      "topicKey": "logic-equiv",
+      "type": "basic",
+      "prompt": "What must each step of an algebraic equivalence proof include in this course?",
+      "answer": "The name of the law used (identity, De Morgan, distributive, implication, …) justifying that step.",
+      "explanation": "W1 Question 12 is the model: every line is annotated. Typical plan: eliminate $\\to$ and $\\leftrightarrow$, push $\\neg$ inward with De Morgan, then distribute, absorb and simplify to $T$ or $F$.",
+      "source": "W1 p.59–79, §1.3",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "logic-classify-tautology",
+      "topicKey": "logic-classify",
+      "type": "basic",
+      "prompt": "What is a **tautology**?",
+      "answer": "A compound proposition that is true for every truth-value assignment to its variables.",
+      "explanation": "Final truth-table column all $T$. Example: $p \\lor \\neg p$.",
+      "source": "W1 p.35, §1.3",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-classify-contradiction",
+      "topicKey": "logic-classify",
+      "type": "basic",
+      "prompt": "What is a **contradiction** (in the sense of §1.3)?",
+      "answer": "A compound proposition that is false for every truth-value assignment.",
+      "explanation": "Final column all $F$. Example: $p \\land \\neg p$.",
+      "source": "W1 p.35, §1.3",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-classify-contingency",
+      "topicKey": "logic-classify",
+      "type": "basic",
+      "prompt": "What is a **contingency**?",
+      "answer": "A proposition that is neither a tautology nor a contradiction: true for some assignments, false for others.",
+      "explanation": "Examples: $p$, $p \\land q$, $p \\to q$.",
+      "source": "W1 p.35, §1.3",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "logic-classify-examples",
+      "topicKey": "logic-classify",
+      "type": "cloze",
+      "prompt": "$p \\lor \\neg p$ is a {{c1::tautology}}, $p \\land \\neg p$ is a {{c2::contradiction}}, and $p \\land p$ ($\\equiv p$) is a {{c3::contingency}}.",
+      "answer": "",
+      "source": "W1 p.36–39, §1.3",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "pred-basics-terms",
+      "topicKey": "pred-basics",
+      "type": "cloze",
+      "prompt": "Let $P(x)$ denote $x^2 > x + 2$. Then $x$ is the {{c1::variable}}, $x^2 > x + 2$ is the {{c2::predicate}}, and $P$ is the {{c3::propositional function}}.",
+      "answer": "",
+      "explanation": "$P(0)$ is $0 > 2$, false; $P(5)$ is $25 > 7$, true. Once $x$ is given a value the result is a proposition.",
+      "source": "W2 p.3, §1.4",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "pred-basics-domain",
+      "topicKey": "pred-basics",
+      "type": "basic",
+      "prompt": "What is the **universe of discourse** (domain) of a variable?",
+      "answer": "The set of entities the variable may range over; $\\forall$ and $\\exists$ assert the propositional function for every / at least one element of it.",
+      "explanation": "Always state the domain: truth values change with it. W2 p.57 lists all eight orderings of $\\forall/\\exists$ for $x < y$ with $x \\in \\mathbb{Z}$, $y \\in \\mathbb{Z}^+$.",
+      "source": "W2 p.4, §1.4",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "pred-basics-forall",
+      "topicKey": "pred-basics",
+      "type": "cloze",
+      "prompt": "$\\forall x\\,P(x)$ is true when $P(x)$ holds for {{c1::every}} element of the domain; for a finite domain $\\{u_1, \\dots, u_k\\}$ it means ${{c2::P(u_1) \\land P(u_2) \\land \\cdots \\land P(u_k)}}$.",
+      "answer": "",
+      "source": "W2 p.4, p.13, §1.4",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "pred-basics-exists",
+      "topicKey": "pred-basics",
+      "type": "cloze",
+      "prompt": "$\\exists x\\,P(x)$ is true when $P(x)$ holds for {{c1::at least one}} element of the domain; for a finite domain it means ${{c2::P(u_1) \\lor P(u_2) \\lor \\cdots \\lor P(u_k)}}$.",
+      "answer": "",
+      "explanation": "Expanding quantifiers over a small domain like $\\{1, 2, 3\\}$ into $\\land / \\lor$ chains is a standard exercise (A2).",
+      "source": "W2 p.4, p.13, §1.4",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "pred-basics-restrict-forall",
+      "topicKey": "pred-basics",
+      "type": "basic",
+      "prompt": "Translate \"All computer science students have a CS account\" (domain: students; $cs(x)$, $acct(x)$).",
+      "answer": "$\\forall x\\,[cs(x) \\to acct(x)]$",
+      "explanation": "Use $\\to$ to restrict a universally quantified variable to part of the domain: \"for every student, *if* CS *then* account\".",
+      "source": "W2 p.69–70, §1.4",
+      "tags": [
+        "strategy",
+        "example"
+      ]
+    },
+    {
+      "key": "pred-basics-restrict-exists",
+      "topicKey": "pred-basics",
+      "type": "basic",
+      "prompt": "Translate \"Some computer science students like to dance\" ($cs(s)$, $dance(s)$).",
+      "answer": "$\\exists s\\,[cs(s) \\land dance(s)]$",
+      "explanation": "Use $\\land$ to restrict an existentially quantified variable: there is someone with *both* properties.",
+      "source": "W2 p.72–73, §1.4",
+      "tags": [
+        "strategy",
+        "example"
+      ]
+    },
+    {
+      "key": "pred-basics-forall-and-mistake",
+      "topicKey": "pred-basics",
+      "type": "basic",
+      "prompt": "What does $\\forall s\\,[cs(s) \\land acct(s)]$ actually say?",
+      "answer": "Every student *is* a CS student *and* has an account: far too strong. \"All CS students have an account\" is $\\forall s\\,[cs(s) \\to acct(s)]$.",
+      "source": "W2 p.71, §1.4",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "pred-basics-exists-implies-mistake",
+      "topicKey": "pred-basics",
+      "type": "basic",
+      "prompt": "Why is $\\exists s\\,[cs(s) \\to dance(s)]$ the wrong translation of \"some CS students like to dance\"?",
+      "answer": "It is true as soon as *any* non-CS student exists ($cs(s)$ false makes the conditional true), so it says almost nothing. Use $\\exists s\\,[cs(s) \\land dance(s)]$.",
+      "source": "W2 p.72–73, §1.4",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "pred-basics-counterexample",
+      "topicKey": "pred-basics",
+      "type": "basic",
+      "prompt": "What does it take to show that $\\forall x\\,P(x)$ is false?",
+      "answer": "A single counterexample: one element $c$ of the domain with $P(c)$ false.",
+      "explanation": "$\\forall y\\,\\forall x\\,(x^2 \\ge x + y)$ over $\\mathbb{Z}$ is refuted by $x = 1, y = 2$: $1 \\not\\ge 3$.",
+      "source": "W2 p.51–52, §1.4",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "pred-basics-witness",
+      "topicKey": "pred-basics",
+      "type": "basic",
+      "prompt": "What does it take to show that $\\exists x\\,P(x)$ is true? And to show it is false?",
+      "answer": "True: one witness $c$ with $P(c)$ true. False: an argument that $P(x)$ fails for *every* $x$ in the domain.",
+      "explanation": "$\\exists x\\,\\exists y\\,(x^2 \\ge x + y)$ over $\\mathbb{Z}^+$: take $x = 2, y = 1$.",
+      "source": "W2 p.44–45, §1.4",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "pred-basics-number-sets",
+      "topicKey": "pred-basics",
+      "type": "cloze",
+      "prompt": "$\\mathbb{Z}^+ = {{c1::\\{1, 2, 3, \\dots\\}}}$ (positive integers) and $\\mathbb{N} = {{c2::\\{0, 1, 2, 3, \\dots\\}}}$ (natural numbers, as defined in this course); $\\mathbb{Q}$ is the set of {{c3::rational numbers}}.",
+      "answer": "",
+      "explanation": "The slides warn \"watch for defs\": some books start $\\mathbb{N}$ at 1. $\\mathbb{Z}^-$ is the negative integers, $\\mathbb{R}$ the reals.",
+      "source": "W2 p.29, §1.4",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "pred-negation-forall",
+      "topicKey": "pred-negation",
+      "type": "cloze",
+      "prompt": "$\\neg\\,\\forall x\\,P(x) \\equiv {{c1::\\exists x\\,\\neg P(x)}}$",
+      "answer": "",
+      "explanation": "\"Not everyone passed\" = \"someone failed\". De Morgan's law for quantifiers: over a finite domain it is De Morgan applied to $P(u_1) \\land \\cdots \\land P(u_k)$.",
+      "source": "W2 p.20, §1.4",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "pred-negation-exists",
+      "topicKey": "pred-negation",
+      "type": "cloze",
+      "prompt": "$\\neg\\,\\exists x\\,P(x) \\equiv {{c1::\\forall x\\,\\neg P(x)}}$",
+      "answer": "",
+      "explanation": "\"Nobody passed\" = \"everyone failed\".",
+      "source": "W2 p.20, §1.4",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "pred-negation-procedure",
+      "topicKey": "pred-negation",
+      "type": "basic",
+      "prompt": "Procedure to negate a nested quantified statement so that $\\neg$ sits directly in front of the predicates?",
+      "answer": "Move $\\neg$ inward one quantifier at a time, flipping $\\forall \\leftrightarrow \\exists$ as it passes each one, then apply De Morgan (and the implication law) to the inner formula.",
+      "explanation": "$\\neg(\\exists x\\,\\forall z\\,\\exists y\\,[P \\land Q]) \\equiv \\forall x\\,\\exists z\\,\\forall y\\,[\\neg P \\lor \\neg Q]$.",
+      "source": "W2 p.77, §1.5",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "pred-negation-conditional",
+      "topicKey": "pred-negation",
+      "type": "cloze",
+      "prompt": "$\\neg\\,\\forall x\\,[P(x) \\to Q(x)] \\equiv {{c1::\\exists x\\,[P(x) \\land \\neg Q(x)]}}$",
+      "answer": "",
+      "explanation": "Flip the quantifier, then $\\neg(P \\to Q) \\equiv P \\land \\neg Q$. \"Not all primes are odd\" = \"some prime is not odd\".",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "pred-negation-exists-and",
+      "topicKey": "pred-negation",
+      "type": "cloze",
+      "prompt": "$\\neg\\,\\exists x\\,[P(x) \\land Q(x)] \\equiv \\forall x\\,[\\neg P(x) \\lor \\neg Q(x)] \\equiv {{c1::\\forall x\\,[P(x) \\to \\neg Q(x)]}}$",
+      "answer": "",
+      "explanation": "\"No professors are ignorant\": it is not the case that someone is a professor and ignorant, i.e. every professor is not ignorant.",
+      "source": "W2 p.22–24, §1.4",
+      "tags": [
+        "identity",
+        "example"
+      ]
+    },
+    {
+      "key": "pred-negation-english-example",
+      "topicKey": "pred-negation",
+      "type": "basic",
+      "prompt": "Negate \"Nobody is right all the time\" in symbols and English ($right(x,t)$: person $x$ is right at time $t$).",
+      "answer": "$\\neg\\,\\exists x\\,\\forall t\\,right(x,t) \\equiv \\forall x\\,\\exists t\\,\\neg right(x,t)$: every person is sometimes wrong.",
+      "source": "W2 p.82–83, §1.5",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "pred-negation-nested-example",
+      "topicKey": "pred-negation",
+      "type": "basic",
+      "prompt": "Negate $\\exists x\\,\\forall z\\,\\exists y\\,[P(x,y) \\land Q(y,z)]$ (\"some student has been to a room of every building\").",
+      "answer": "$\\forall x\\,\\exists z\\,\\forall y\\,[\\neg P(x,y) \\lor \\neg Q(y,z)]$: for each student there is a building in which they have been to no room.",
+      "source": "W2 p.76–77, §1.5",
+      "tags": [
+        "example",
+        "derivation"
+      ]
+    },
+    {
+      "key": "pred-negation-mistake",
+      "topicKey": "pred-negation",
+      "type": "basic",
+      "prompt": "Is $\\neg\\,\\forall x\\,P(x)$ the same as $\\forall x\\,\\neg P(x)$?",
+      "answer": "No. $\\neg\\,\\forall x\\,P(x)$ (\"not all\") needs only one failure: $\\exists x\\,\\neg P(x)$. $\\forall x\\,\\neg P(x)$ (\"none\") is much stronger.",
+      "explanation": "Over $\\mathbb{Z}$ with $P(x)$: \"$x$ is even\": \"not all integers are even\" is true, \"no integer is even\" is false.",
+      "tags": [
+        "mistake",
+        "confusable"
+      ]
+    },
+    {
+      "key": "pred-nested-order-matters",
+      "topicKey": "pred-nested",
+      "type": "basic",
+      "prompt": "Does the order matter in $\\forall x\\,\\exists y\\,R(x,y)$ versus $\\exists y\\,\\forall x\\,R(x,y)$?",
+      "answer": "Yes. $\\exists y\\,\\forall x$ (\"one $y$ works for all $x$\") implies $\\forall x\\,\\exists y$ (\"each $x$ has its own $y$\"), but not conversely.",
+      "explanation": "$R(x,y)$: $x < y$ over $\\mathbb{Z}$. $\\forall x\\,\\exists y\\,(x < y)$ is true ($y = x + 1$); $\\exists y\\,\\forall x\\,(x < y)$ is false (given $y$, take $x = y + 1$).",
+      "source": "W2 p.53–57, §1.5",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "pred-nested-same-type-commute",
+      "topicKey": "pred-nested",
+      "type": "cloze",
+      "prompt": "Quantifiers of the same kind commute: $\\forall x\\,\\forall y\\,P \\equiv {{c1::\\forall y\\,\\forall x\\,P}}$ and $\\exists x\\,\\exists y\\,P \\equiv {{c2::\\exists y\\,\\exists x\\,P}}$; mixed $\\forall / \\exists$ do not.",
+      "answer": "",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "pred-nested-id-example",
+      "topicKey": "pred-nested",
+      "type": "basic",
+      "prompt": "\"Every student is assigned an id number\" with $id(n,s)$: $\\exists n\\,\\forall s\\,id(n,s)$ or $\\forall s\\,\\exists n\\,id(n,s)$?",
+      "answer": "$\\forall s\\,\\exists n\\,id(n,s)$. The other says a single number is everybody's id.",
+      "source": "W2 p.63–64, §1.5",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "pred-nested-exactly-one",
+      "topicKey": "pred-nested",
+      "type": "basic",
+      "prompt": "Express \"every student $s$ has exactly one id number\".",
+      "answer": "$\\forall s\\,\\exists n\\,[id(n,s) \\land \\forall m\\,(id(m,s) \\to m = n)]$",
+      "explanation": "Existence ($\\exists n$) plus uniqueness (any other id $m$ of $s$ equals $n$). Putting the uniqueness clause outside the scope of $\\exists n$ leaves $n$ unbound (the wrong option C in W2).",
+      "source": "W2 p.65–66, §1.5",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "pred-nested-at-least-two",
+      "topicKey": "pred-nested",
+      "type": "basic",
+      "prompt": "Express \"there are at least two $x$ with property $P$\".",
+      "answer": "$\\exists x\\,\\exists y\\,[x \\ne y \\land P(x) \\land P(y)]$",
+      "explanation": "Without $x \\ne y$ the two variables could name the same element and the statement collapses to $\\exists x\\,P(x)$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "pred-nested-distribute",
+      "topicKey": "pred-nested",
+      "type": "cloze",
+      "prompt": "$\\forall x\\,[P(x) \\land Q(x)] \\equiv {{c1::\\forall x\\,P(x) \\land \\forall x\\,Q(x)}}$ and $\\exists x\\,[P(x) \\lor Q(x)] \\equiv {{c2::\\exists x\\,P(x) \\lor \\exists x\\,Q(x)}}$",
+      "answer": "",
+      "explanation": "$\\forall$ distributes over $\\land$, $\\exists$ over $\\lor$ (think of them as big $\\land$ and big $\\lor$).",
+      "source": "W2 p.78, §1.5",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "pred-nested-no-distribute",
+      "topicKey": "pred-nested",
+      "type": "basic",
+      "prompt": "Does $\\forall x\\,[P(x) \\lor Q(x)]$ equal $\\forall x\\,P(x) \\lor \\forall x\\,Q(x)$?",
+      "answer": "No; nor does $\\exists x\\,[P(x) \\land Q(x)]$ equal $\\exists x\\,P(x) \\land \\exists x\\,Q(x)$. Only one direction holds in each case.",
+      "explanation": "Over $\\mathbb{Z}$ with $P$ = even, $Q$ = odd: every integer is even or odd, but neither \"all even\" nor \"all odd\". Some integer is even and some is odd, but none is both.",
+      "source": "W2 p.78, §1.5",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "pred-nested-room-example",
+      "topicKey": "pred-nested",
+      "type": "basic",
+      "prompt": "Translate \"There is a student in this class who has been to at least one room of every building on campus\" ($P(x,y)$: $x$ has been to room $y$; $Q(y,z)$: room $y$ is in building $z$).",
+      "answer": "$\\exists x\\,\\forall z\\,\\exists y\\,[P(x,y) \\land Q(y,z)]$",
+      "explanation": "Quantifier order follows the English: some student, every building, some room. Putting $\\exists y$ before $\\forall z$ would demand one room lying in every building.",
+      "source": "W2 p.74–75, §1.5",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "infer-args-definition",
+      "topicKey": "infer-args",
+      "type": "cloze",
+      "prompt": "An **argument** is a sequence of statements; the last is the {{c1::conclusion}} and the others are the {{c2::premises}}; the symbol $\\therefore$ is read {{c3::therefore}}.",
+      "answer": "",
+      "source": "W3 p.2, §1.6",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "infer-args-valid",
+      "topicKey": "infer-args",
+      "type": "basic",
+      "prompt": "When is an argument **valid**?",
+      "answer": "When the truth of the conclusion follows necessarily, by logical form alone, from the truth of the premises: whenever all premises are true, the conclusion must be true.",
+      "source": "W3 p.3, §1.6",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "infer-args-tautology-test",
+      "topicKey": "infer-args",
+      "type": "cloze",
+      "prompt": "An argument with premises $P_1, \\dots, P_n$ and conclusion $Q$ is valid iff ${{c1::(P_1 \\land P_2 \\land \\cdots \\land P_n) \\to Q}}$ is a {{c2::tautology}}.",
+      "answer": "",
+      "explanation": "Turns validity into a truth-table check: in every row where all premises are true, the conclusion must be true too.",
+      "source": "W3 p.3, §1.6",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "infer-args-valid-vs-true",
+      "topicKey": "infer-args",
+      "type": "basic",
+      "prompt": "Can a valid argument have a false conclusion?",
+      "answer": "Yes, if at least one premise is false. Validity is about form; it guarantees a true conclusion only when the premises are true.",
+      "source": "W3 p.3, §1.6",
+      "tags": [
+        "concept",
+        "mistake"
+      ]
+    },
+    {
+      "key": "infer-args-three-methods",
+      "topicKey": "infer-args",
+      "type": "basic",
+      "prompt": "Three ways to show that a logical argument is valid, according to the course?",
+      "answer": "Truth tables, rules of algebra (chains of logical equivalences), and rules of inference.",
+      "source": "W3 p.4, §1.6",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "infer-rules-modus-ponens",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State **modus ponens**.",
+      "answer": "$p \\to q,\\; p \\;\\therefore\\; q$",
+      "explanation": "\"If I drink coffee I feel sick; I drink coffee; therefore I feel sick.\" Tautology $[(p \\to q) \\land p] \\to q$: the only row with both premises true is $p = q = T$, where $q$ holds.",
+      "mnemonic": "Ponens: affirm the hypothesis.",
+      "source": "W3 p.5–6, p.9, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-modus-tollens",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State **modus tollens**.",
+      "answer": "$p \\to q,\\; \\neg q \\;\\therefore\\; \\neg p$",
+      "explanation": "Deny the conclusion to deny the hypothesis; it is modus ponens applied to the contrapositive $\\neg q \\to \\neg p$.",
+      "mnemonic": "Tollens: take away the conclusion.",
+      "source": "W3 p.10, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-hypothetical-syllogism",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State **hypothetical syllogism**.",
+      "answer": "$p \\to q,\\; q \\to r \\;\\therefore\\; p \\to r$",
+      "explanation": "Chaining conditionals. Tautology $[(p \\to q) \\land (q \\to r)] \\to (p \\to r)$.",
+      "source": "W3 p.10, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-disjunctive-syllogism",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State **disjunctive syllogism**.",
+      "answer": "$p \\lor q,\\; \\neg p \\;\\therefore\\; q$",
+      "explanation": "One of two holds and it is not the first, so it is the second. Tautology $[(p \\lor q) \\land \\neg p] \\to q$.",
+      "source": "W3 p.10, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-addition",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State the **addition** rule.",
+      "answer": "$p \\;\\therefore\\; p \\lor q$",
+      "explanation": "Weakening: you may \"or\" anything onto a known truth. Used in W3 to turn $\\neg s$ into $\\neg s \\lor \\neg r$ before applying De Morgan.",
+      "source": "W3 p.9, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-simplification",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State the **simplification** rule.",
+      "answer": "$p \\land q \\;\\therefore\\; p$",
+      "explanation": "From a conjunction you may keep either conjunct.",
+      "source": "W3 p.9, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-conjunction",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State the **conjunction** rule.",
+      "answer": "$p,\\; q \\;\\therefore\\; p \\land q$",
+      "source": "W3 p.9, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-resolution",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State the **resolution** rule.",
+      "answer": "$p \\lor q,\\; \\neg p \\lor r \\;\\therefore\\; q \\lor r$",
+      "explanation": "The complementary pair $p, \\neg p$ cancels. With $r = q$: $p \\lor q,\\ \\neg p \\lor q \\therefore q$. \"It rains or we go to the beach; it does not rain or we see a movie; therefore beach or movie.\"",
+      "source": "W3 p.10, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-contradiction-rule",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State the **contradiction rule**.",
+      "answer": "$\\neg p \\to F \\;\\therefore\\; p$",
+      "explanation": "If assuming $\\neg p$ leads to a contradiction, $\\neg p$ is false, so $p$ is true. $(\\neg p \\to F) \\to p$ is a tautology. Basis of proof by contradiction.",
+      "source": "W3 p.11, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-proof-by-cases",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "State the **proof by cases** rule.",
+      "answer": "$p \\lor q,\\; p \\to r,\\; q \\to r \\;\\therefore\\; r$",
+      "explanation": "Whichever case holds, $r$ follows. W3 shows $[(p \\lor q) \\land (p \\to r) \\land (q \\to r)] \\to r$ is a tautology by simplifying the premises to $(p \\lor q) \\land r$.",
+      "source": "W3 p.12–22, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-tautology-forms",
+      "topicKey": "infer-rules",
+      "type": "cloze",
+      "prompt": "Modus ponens is the tautology $[(p \\to q) \\land p] \\to {{c1::q}}$; modus tollens is $[(p \\to q) \\land \\neg q] \\to {{c2::\\neg p}}$.",
+      "answer": "",
+      "source": "W3 p.9–10, §1.6",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-rules-invalid-form",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "Is the argument form $p \\to q,\\; q \\to p \\;\\therefore\\; p \\lor q$ valid?",
+      "answer": "No: with $p = q = F$ both premises are true ($F \\to F$) but $p \\lor q$ is false.",
+      "explanation": "One row where the premises hold and the conclusion fails is enough to refute validity.",
+      "source": "W3 p.7, §1.6",
+      "tags": [
+        "example",
+        "mistake"
+      ]
+    },
+    {
+      "key": "infer-rules-layout",
+      "topicKey": "infer-rules",
+      "type": "basic",
+      "prompt": "Layout of a rules-of-inference proof expected in this course?",
+      "answer": "Numbered steps; each line is a premise or follows from earlier numbered lines, and each is annotated with the rule or equivalence used, e.g. \"modus ponens from 2 and 3\".",
+      "source": "W3 p.31, p.35–36, §1.6",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "infer-fallacies-converse-error",
+      "topicKey": "infer-fallacies",
+      "type": "basic",
+      "prompt": "What is the **converse error** (Rosen: fallacy of affirming the conclusion)?",
+      "answer": "Arguing $p \\to q,\\; q \\;\\therefore\\; p$. Invalid.",
+      "explanation": "\"If the butler did it, he has blood on his hands. He has blood on his hands. Therefore he did it.\" Row $p = F, q = T$: premises true, conclusion false.",
+      "source": "W3 p.23, §1.6",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "infer-fallacies-inverse-error",
+      "topicKey": "infer-fallacies",
+      "type": "basic",
+      "prompt": "What is the **inverse error** (Rosen: fallacy of denying the hypothesis)?",
+      "answer": "Arguing $p \\to q,\\; \\neg p \\;\\therefore\\; \\neg q$. Invalid.",
+      "explanation": "\"If the butler is nervous, he did it. He is not nervous. Therefore he didn't do it.\" Row $p = F, q = T$ again: premises true, conclusion false.",
+      "source": "W3 p.24, §1.6",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "infer-fallacies-mt-vs-inverse",
+      "topicKey": "infer-fallacies",
+      "type": "basic",
+      "prompt": "Modus tollens vs the inverse error: both start from $p \\to q$ plus a negation. What is the difference?",
+      "answer": "Modus tollens negates the *conclusion* ($\\neg q \\therefore \\neg p$): valid. The inverse error negates the *hypothesis* ($\\neg p \\therefore \\neg q$): invalid.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "infer-fallacies-mp-vs-converse",
+      "topicKey": "infer-fallacies",
+      "type": "basic",
+      "prompt": "Modus ponens vs the converse error?",
+      "answer": "Modus ponens affirms the *hypothesis* ($p \\therefore q$): valid. The converse error affirms the *conclusion* ($q \\therefore p$): invalid.",
+      "explanation": "Both fallacies amount to using $q \\to p$ or $\\neg p \\to \\neg q$, neither of which is equivalent to $p \\to q$.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "infer-quant-universal-instantiation",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "State **universal instantiation**.",
+      "answer": "$\\forall x\\,P(x) \\;\\therefore\\; P(c)$ for any particular $c$ in the domain.",
+      "explanation": "\"All men are mortal, so Socrates is mortal\" needs UI first, then modus ponens.",
+      "source": "W3 p.28, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-quant-universal-generalization",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "State **universal generalization**.",
+      "answer": "$P(c)$ for an *arbitrary* $c$ in the domain $\\;\\therefore\\; \\forall x\\,P(x)$",
+      "explanation": "Allowed only when nothing was assumed about $c$ beyond being in the domain (no undischarged assumption restricts $c$). This is how \"let $x$ be arbitrary … hence for all $x$\" proofs end.",
+      "source": "W3 p.28, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula",
+        "condition"
+      ]
+    },
+    {
+      "key": "infer-quant-existential-instantiation",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "State **existential instantiation**.",
+      "answer": "$\\exists x\\,P(x) \\;\\therefore\\; P(c)$ for some element $c$.",
+      "explanation": "$c$ must be a *fresh* name for the unknown witness, not an arbitrary element and not a name already in use.",
+      "source": "W3 p.28, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula",
+        "condition"
+      ]
+    },
+    {
+      "key": "infer-quant-existential-generalization",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "State **existential generalization**.",
+      "answer": "$P(c)$ for some particular $c$ in the domain $\\;\\therefore\\; \\exists x\\,P(x)$",
+      "explanation": "Exhibiting one witness proves existence.",
+      "source": "W3 p.28, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-quant-universal-modus-ponens",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "State **universal modus ponens**.",
+      "answer": "$\\forall x\\,(P(x) \\to Q(x)),\\; P(c) \\;\\therefore\\; Q(c)$",
+      "explanation": "Universal instantiation followed by modus ponens, packaged as one rule.",
+      "source": "W3 p.29, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-quant-universal-modus-tollens",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "State **universal modus tollens**.",
+      "answer": "$\\forall x\\,(P(x) \\to Q(x)),\\; \\neg Q(c) \\;\\therefore\\; \\neg P(c)$",
+      "explanation": "Universal instantiation followed by modus tollens.",
+      "source": "W3 p.29, §1.6",
+      "reverse": true,
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "infer-quant-socrates",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "Formal steps proving \"Socrates is mortal\" from \"all men are mortal\" and \"Socrates is a man\" ($N$: man, $M$: mortal).",
+      "answer": "1. $\\forall x\\,(N(x) \\to M(x))$, premise. 2. $N(S) \\to M(S)$, universal instantiation from 1. 3. $N(S)$, premise. 4. $M(S)$, modus ponens from 2 and 3.",
+      "source": "W3 p.31, §1.6",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "infer-quant-ei-ug-mistake",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "Why can't you conclude $\\forall x\\,P(x)$ from $\\exists x\\,P(x)$ by existential instantiation followed by universal generalization?",
+      "answer": "EI gives $P(c)$ for a *specific* unknown witness $c$, not an arbitrary one; UG requires $c$ to be arbitrary.",
+      "source": "W3 p.28, §1.6",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "infer-quant-ei-before-ui",
+      "topicKey": "infer-quant",
+      "type": "basic",
+      "prompt": "When a derivation uses both existential and universal instantiation, which goes first and why?",
+      "answer": "EI first: it names a new witness $c$; then UI can instantiate the universal premises at that same $c$. In the other order the universal $c$ would have to coincide with the witness, which EI cannot guarantee.",
+      "explanation": "Lewis Carroll style: from $\\exists x\\,(L(x) \\land \\neg C(x))$ get $L(c) \\land \\neg C(c)$ first, then instantiate $\\forall x\\,(L(x) \\to F(x))$ at $c$.",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-terms-theorem",
+      "topicKey": "proof-terms",
+      "type": "basic",
+      "prompt": "What is a **theorem**?",
+      "answer": "A statement that can be proved to be true.",
+      "explanation": "$(p \\to q) \\leftrightarrow (\\neg p \\lor q)$ is a theorem (shown by truth table). \"There is life on Europa\" is an empirical claim, not a theorem.",
+      "source": "W4 p.5, §1.7",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "proof-terms-proof",
+      "topicKey": "proof-terms",
+      "type": "basic",
+      "prompt": "What is a **proof** of a statement $s$?",
+      "answer": "A finite sequence of statements $s_1, \\dots, s_n = s$ in which each $s_i$ is an axiom, a definition, an assumption (hypothesis) of the theorem, a previously proven theorem, or follows from earlier statements by a rule of inference.",
+      "source": "W4 p.6, §1.7",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "proof-terms-axiom",
+      "topicKey": "proof-terms",
+      "type": "basic",
+      "prompt": "What is an **axiom**?",
+      "answer": "A statement accepted as true without proof.",
+      "explanation": "Geometry: exactly one straight line through two distinct points. Classical logic: every proposition is either true or false, not both.",
+      "source": "W4 p.7, §1.7",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "proof-terms-even-odd",
+      "topicKey": "proof-terms",
+      "type": "cloze",
+      "prompt": "$m$ is **even** $\\iff \\exists i \\in \\mathbb{Z}$ such that $m = {{c1::2i}}$; $m$ is **odd** $\\iff \\exists i \\in \\mathbb{Z}$ such that $m = {{c2::2i + 1}}$.",
+      "answer": "",
+      "explanation": "Every parity proof starts by unpacking this definition and ends by repacking it: show $n^2 = 2j$ for some integer $j$.",
+      "source": "W4 p.10, §1.7",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "proof-terms-rational",
+      "topicKey": "proof-terms",
+      "type": "cloze",
+      "prompt": "A real number is **rational** iff it equals ${{c1::a / b}}$ with $a, b \\in \\mathbb{Z}$, $b \\ne 0$; otherwise it is {{c2::irrational}}.",
+      "answer": "",
+      "explanation": "In contradiction proofs you may also assume the fraction is in lowest terms (no common factor greater than 1).",
+      "source": "W4 p.20, §1.7",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "proof-methods-list",
+      "topicKey": "proof-methods",
+      "type": "cloze",
+      "prompt": "Proof methods named in COMP 232: direct proof, {{c1::indirect proof}} (via the contrapositive), {{c2::proof by contradiction}}, {{c3::proof by cases}}, and mathematical induction.",
+      "answer": "",
+      "source": "W4 p.8, §1.7",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "proof-methods-direct",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Template of a **direct proof** of $p \\to q$?",
+      "answer": "Assume $p$ is true; derive a chain $p \\to q_1 \\to \\cdots \\to q_n \\to q$ using definitions, axioms, known theorems and rules of inference; conclude $q$.",
+      "source": "W4 p.9, §1.7",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-methods-indirect",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "What is an **indirect proof** of $p \\to q$ in this course?",
+      "answer": "A direct proof of the contrapositive $\\neg q \\to \\neg p$: assume $\\neg q$ and derive $\\neg p$. Justified by $p \\to q \\equiv \\neg q \\to \\neg p$.",
+      "explanation": "Rosen calls this \"proof by contraposition\". Do not confuse it with proof by contradiction, which assumes $p \\land \\neg q$ and derives $F$.",
+      "source": "W4 p.15, §1.7",
+      "tags": [
+        "definition",
+        "confusable"
+      ]
+    },
+    {
+      "key": "proof-methods-contradiction",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Template of a **proof by contradiction** of a statement $p$?",
+      "answer": "Assume $\\neg p$ and derive a contradiction ($F$); by the contradiction rule $\\neg p \\to F \\;\\therefore\\; p$, the statement $p$ holds.",
+      "explanation": "Also called *reductio ad absurdum*. Used for \"$\\sqrt{2}$ is irrational\" and \"there are infinitely many primes\".",
+      "source": "W4 p.19, §1.7",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-methods-contradiction-implication",
+      "topicKey": "proof-methods",
+      "type": "cloze",
+      "prompt": "To prove $p \\to q$ by contradiction, assume ${{c1::p \\land \\neg q}}$ and derive $F$; this works because $(p \\land \\neg q) \\to F \\equiv {{c2::p \\to q}}$.",
+      "answer": "",
+      "explanation": "$(p \\land \\neg q) \\to F \\equiv \\neg(p \\land \\neg q) \\lor F \\equiv \\neg p \\lor q \\equiv p \\to q$.",
+      "source": "W4 p.34, §1.7",
+      "tags": [
+        "strategy",
+        "derivation"
+      ]
+    },
+    {
+      "key": "proof-methods-cases",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Template of a **proof by cases** for $(A_1 \\lor A_2 \\lor \\cdots \\lor A_n) \\to C$?",
+      "answer": "Prove each $A_i \\to C$ separately; then $C$ holds whenever some $A_i$ does. The cases must cover every possibility.",
+      "explanation": "Typical case splits: $x \\ge y$ vs $x < y$; $n$ even vs odd; $n \\bmod 3 \\in \\{0, 1, 2\\}$; the remainders of the division algorithm.",
+      "source": "W4 p.36, §1.7",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-methods-biconditional",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "How do you prove $p \\leftrightarrow q$?",
+      "answer": "Usually with two proofs: $p \\to q$ and $q \\to p$, possibly by different methods.",
+      "explanation": "\"$n$ is even $\\iff n^2$ is even\": direct proof forwards, indirect proof backwards.",
+      "source": "W4 p.17–18, §1.7",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-methods-example-direct",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Direct proof that if $n$ is even then $n^2$ is even.",
+      "answer": "$n = 2i$ for some integer $i$, so $n^2 = 4i^2 = 2(2i^2)$; since $2i^2$ is an integer, $n^2$ is even by definition.",
+      "source": "W4 p.10–14, §1.7",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "proof-methods-example-indirect",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Prove: if $n^2$ is even then $n$ is even.",
+      "answer": "Indirect proof (contrapositive): if $n$ is odd then $n^2$ is odd. $n = 2i + 1 \\Rightarrow n^2 = 4i^2 + 4i + 1 = 2(2i^2 + 2i) + 1$, which is odd.",
+      "explanation": "Starting from \"$n^2$ even\" gives nothing usable about $n$; \"$n$ odd\" gives a formula to square. That is the signal for an indirect proof.",
+      "source": "W4 p.16, §1.7",
+      "tags": [
+        "example",
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-methods-example-contradiction",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Prove by contradiction: if $3n + 2$ is odd then $n$ is odd.",
+      "answer": "Assume $3n + 2$ is odd and $n$ is even, $n = 2k$. Then $3n + 2 = 6k + 2 = 2(3k + 1)$ is even, contradicting the assumption. So $n$ is odd.",
+      "source": "W4 p.35, §1.7",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "proof-methods-example-maxmin",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Prove $\\max\\{x, y\\} + \\min\\{x, y\\} = x + y$ for all reals $x, y$.",
+      "answer": "Cases. If $x \\ge y$: $\\max = x$, $\\min = y$, sum $x + y$. If $x < y$: $\\max = y$, $\\min = x$, sum $y + x = x + y$. These two cases are exhaustive.",
+      "source": "W4 p.37, §1.8",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "proof-methods-example-squares-mod4",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "Show that the square of any integer has the form $4k$ or $4k + 1$.",
+      "answer": "Division algorithm: $n = 4q + r$ with $r \\in \\{0,1,2,3\\}$. $(4q)^2 = 4(4q^2)$; $(4q+1)^2 = 4(4q^2 + 2q) + 1$; $(4q+2)^2 = 4(4q^2 + 4q + 1)$; $(4q+3)^2 = 4(4q^2 + 6q + 2) + 1$.",
+      "explanation": "Proof by cases on the remainder; each case names the integer $k$ explicitly.",
+      "source": "W4 p.43–44, §1.8",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "proof-methods-vacuous",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "What is a **vacuous proof** of $p \\to q$?",
+      "answer": "Show that the hypothesis $p$ is false; then $p \\to q$ is true regardless of $q$.",
+      "explanation": "\"If $0 > 1$ then …\" is true. This is also why $\\forall x\\,P(x)$ holds over an empty domain and why $\\emptyset \\subseteq A$.",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "proof-methods-trivial",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "What is a **trivial proof** of $p \\to q$, and how does it differ from a vacuous proof?",
+      "answer": "Show that the conclusion $q$ is true (whatever $p$ is). Vacuous: hypothesis false; trivial: conclusion true.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "proof-methods-disproof",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "How do you disprove a universal claim (a conjecture of the form $\\forall x\\,P(x)$)?",
+      "answer": "With one counterexample.",
+      "explanation": "Euler's conjecture that $a^4 + b^4 + c^4 = d^4$ has no positive integer solutions fell to a single counterexample: $a = 95800, b = 217519, c = 414560, d = 422481$.",
+      "source": "W2 p.67; W4 p.39",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-methods-circular",
+      "topicKey": "proof-methods",
+      "type": "basic",
+      "prompt": "What is wrong with a proof of $p \\to q$ that starts by assuming $q$?",
+      "answer": "It is circular (begs the question): it uses what is to be proved. Likewise, deriving $p$ from $q$ proves the converse, not $p \\to q$.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "proof-strategy-sqrt2",
+      "topicKey": "proof-strategy",
+      "type": "basic",
+      "prompt": "Outline the proof that $\\sqrt{2}$ is irrational.",
+      "answer": "Assume $\\sqrt{2} = a/b$ in lowest terms. Then $2b^2 = a^2$, so $a^2$ is even, so $a$ is even, $a = 2i$. Then $b^2 = 2i^2$, so $b$ is even. Both even contradicts lowest terms.",
+      "explanation": "Proof by contradiction: assume the negation (\"rational\") and derive $F$. The step \"$a^2$ even $\\Rightarrow a$ even\" is the indirect-proof lemma from Example 2, used twice.",
+      "source": "W4 p.21–33, §1.7",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "proof-strategy-euclid-primes",
+      "topicKey": "proof-strategy",
+      "type": "basic",
+      "prompt": "Outline Euclid's proof that there are infinitely many primes.",
+      "answer": "Assume finitely many primes $p_1, \\dots, p_n$. Let $N = p_1 p_2 \\cdots p_n + 1$. Since $N > p_n$, some $p_i$ must divide $N$; but $N \\bmod p_i = 1$ for every $i$. Contradiction.",
+      "source": "W4 p.48–49, §1.8",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "proof-strategy-euclid-mistake",
+      "topicKey": "proof-strategy",
+      "type": "basic",
+      "prompt": "In Euclid's proof, is $N = p_1 p_2 \\cdots p_n + 1$ claimed to be prime?",
+      "answer": "No. The contradiction is only that no listed prime divides $N$, although every integer larger than $p_n$ would have to have a prime divisor from the list.",
+      "explanation": "$2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 30031 = 59 \\cdot 509$ is not prime.",
+      "tags": [
+        "mistake"
+      ]
+    },
+    {
+      "key": "proof-strategy-prime-triple",
+      "topicKey": "proof-strategy",
+      "type": "basic",
+      "prompt": "Prove there is no integer $n > 3$ with $n$, $n + 2$ and $n + 4$ all prime.",
+      "answer": "Cases on $n \\bmod 3$: if $0$, $3 \\mid n$; if $1$, $3 \\mid n + 2$; if $2$, $3 \\mid n + 4$. The divisible number exceeds 3, so it is not prime: a contradiction in every case.",
+      "source": "W4 p.46–47, §1.8",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "proof-strategy-backward",
+      "topicKey": "proof-strategy",
+      "type": "basic",
+      "prompt": "What is **backward reasoning** as a proof strategy?",
+      "answer": "If you cannot prove $p$ directly, find a statement $q$ such that $q \\to p$ is known and $q$ is easier; then prove $q$.",
+      "source": "W4 p.39, §1.8",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "proof-strategy-subset-template",
+      "topicKey": "proof-strategy",
+      "type": "basic",
+      "prompt": "Element-wise proof that $A \\subseteq A \\cup B$.",
+      "answer": "Let $x$ be arbitrary with $x \\in A$. Then $x \\in A \\lor x \\in B$ (addition), so $x \\in A \\cup B$ by definition of union. Since $x$ was arbitrary, $A \\subseteq A \\cup B$ (universal generalization).",
+      "source": "W4 p.42, §1.8",
+      "tags": [
+        "example",
+        "strategy"
+      ]
+    },
+    {
+      "key": "sets-basics-definition",
+      "topicKey": "sets-basics",
+      "type": "basic",
+      "prompt": "What is a set, and what are the three ways of specifying one given in the slides?",
+      "answer": "A collection of objects (its members or elements). Specify it by listing the elements in braces, $\\{0, 1\\}$; by listing with a pattern, $\\{\\dots, -1, 0, 1, \\dots\\}$; or by set-builder notation $\\{x \\mid P(x)\\}$.",
+      "explanation": "$\\{x \\mid P(x)\\}$ reads \"the set of all $x$ such that $P(x)$\"; the slides also write $\\{x : P(x)\\}$.",
+      "source": "W5 p.3, §2.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-basics-subset",
+      "topicKey": "sets-basics",
+      "type": "cloze",
+      "prompt": "$A \\subseteq B \\iff {{c1::\\forall x\\,(x \\in A \\to x \\in B)}}$",
+      "answer": "",
+      "explanation": "To prove $A \\subseteq B$: take an arbitrary $x \\in A$ and show $x \\in B$.",
+      "source": "W5 p.4, §2.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-basics-equality",
+      "topicKey": "sets-basics",
+      "type": "cloze",
+      "prompt": "$A = B \\iff {{c1::(A \\subseteq B) \\land (B \\subseteq A)}}$",
+      "answer": "",
+      "explanation": "Double inclusion: the standard way to prove two sets equal when no identity applies directly.",
+      "source": "W5 p.4, §2.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-basics-proper-subset",
+      "topicKey": "sets-basics",
+      "type": "cloze",
+      "prompt": "$A \\subset B$ (proper subset) $\\iff {{c1::(A \\subseteq B) \\land (A \\ne B)}}$",
+      "answer": "",
+      "explanation": "The course writes $\\subset$ for proper subset; $\\subseteq$ allows equality.",
+      "source": "W5 p.4, §2.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-basics-empty-subset",
+      "topicKey": "sets-basics",
+      "type": "basic",
+      "prompt": "Is $\\emptyset \\subseteq A$ for every set $A$?",
+      "answer": "Yes, vacuously: $\\forall x\\,(x \\in \\emptyset \\to x \\in A)$ holds because $x \\in \\emptyset$ is always false.",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "sets-basics-in-vs-subset",
+      "topicKey": "sets-basics",
+      "type": "basic",
+      "prompt": "For $A = \\{1, 2\\}$, which are true: $1 \\in A$, $\\{1\\} \\in A$, $\\{1\\} \\subseteq A$, $1 \\subseteq A$?",
+      "answer": "$1 \\in A$ and $\\{1\\} \\subseteq A$ are true. $\\{1\\} \\in A$ is false (the object $\\{1\\}$ is not listed in $A$), and $1 \\subseteq A$ is meaningless since $1$ is not a set.",
+      "explanation": "$\\in$ relates an element to a set; $\\subseteq$ relates two sets.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "sets-basics-empty-vs-set-of-empty",
+      "topicKey": "sets-basics",
+      "type": "basic",
+      "prompt": "Compare $\\emptyset$ and $\\{\\emptyset\\}$: cardinalities, and are $\\emptyset \\in \\{\\emptyset\\}$ and $\\emptyset \\subseteq \\{\\emptyset\\}$ true?",
+      "answer": "$|\\emptyset| = 0$ and $|\\{\\emptyset\\}| = 1$. Both $\\emptyset \\in \\{\\emptyset\\}$ and $\\emptyset \\subseteq \\{\\emptyset\\}$ are true.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "sets-basics-cardinality",
+      "topicKey": "sets-basics",
+      "type": "basic",
+      "prompt": "Define the **cardinality** of a finite set.",
+      "answer": "If $A$ has exactly $k$ distinct elements for some natural number $k$, $A$ is finite and its cardinality is $|A| = k$. Otherwise $A$ is infinite.",
+      "explanation": "$\\{i \\in \\mathbb{Z} : 1 \\le i \\le 26\\}$ has cardinality 26; the set of primes is infinite.",
+      "source": "W5 p.5, §2.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-ops-union",
+      "topicKey": "sets-ops",
+      "type": "cloze",
+      "prompt": "$A \\cup B = \\{x \\mid {{c1::(x \\in A) \\lor (x \\in B)}}\\}$",
+      "answer": "",
+      "source": "W5 p.7, §2.2",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-ops-intersection",
+      "topicKey": "sets-ops",
+      "type": "cloze",
+      "prompt": "$A \\cap B = \\{x \\mid {{c1::(x \\in A) \\land (x \\in B)}}\\}$",
+      "answer": "",
+      "source": "W5 p.7, §2.2",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-ops-difference",
+      "topicKey": "sets-ops",
+      "type": "cloze",
+      "prompt": "$A - B = \\{x \\mid {{c1::(x \\in A) \\land (x \\notin B)}}\\}$",
+      "answer": "",
+      "explanation": "The elements of $A$ that are not in $B$. Not symmetric: $A - B = B - A$ forces $A = B$.",
+      "source": "W5 p.7, §2.2",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-ops-complement",
+      "topicKey": "sets-ops",
+      "type": "cloze",
+      "prompt": "$\\overline{A} = {{c1::U - A}} = \\{x \\mid x \\notin A\\}$",
+      "answer": "",
+      "explanation": "Depends on the universal set $U$ in force.",
+      "source": "W5 p.7, §2.2",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-ops-power-set",
+      "topicKey": "sets-ops",
+      "type": "basic",
+      "prompt": "Define the **power set** $\\mathcal{P}(A)$ and write out $\\mathcal{P}(\\{1, 2, 3\\})$.",
+      "answer": "The set of all subsets of $A$. $\\mathcal{P}(\\{1,2,3\\}) = \\{\\emptyset, \\{1\\}, \\{2\\}, \\{3\\}, \\{1,2\\}, \\{1,3\\}, \\{2,3\\}, \\{1,2,3\\}\\}$.",
+      "explanation": "Always includes $\\emptyset$ and $A$ itself.",
+      "source": "W5 p.6, §2.1",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-ops-power-set-size",
+      "topicKey": "sets-ops",
+      "type": "cloze",
+      "prompt": "If $|A| = n$ then $|\\mathcal{P}(A)| = {{c1::2^n}}$.",
+      "answer": "",
+      "explanation": "Each element is in or out of a subset: $n$ independent binary choices. Matches the bit-string representation of subsets.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "key": "sets-ops-power-set-empty",
+      "topicKey": "sets-ops",
+      "type": "basic",
+      "prompt": "What is $\\mathcal{P}(\\emptyset)$?",
+      "answer": "$\\{\\emptyset\\}$, a one-element set (not $\\emptyset$).",
+      "explanation": "The empty set has exactly one subset: itself. $|\\mathcal{P}(\\emptyset)| = 2^0 = 1$.",
+      "tags": [
+        "confusable"
+      ]
+    },
+    {
+      "key": "sets-ops-cartesian",
+      "topicKey": "sets-ops",
+      "type": "cloze",
+      "prompt": "$A \\times B = \\{{{c1::(a, b) \\mid a \\in A \\text{ and } b \\in B}}\\}$, the set of ordered pairs; $|A \\times B| = {{c2::|A| \\cdot |B|}}$.",
+      "answer": "",
+      "explanation": "$\\{1, 2\\} \\times \\{x, y, z\\}$ has 6 pairs; $(1, x) \\in A \\times B$ but $(x, 1) \\notin A \\times B$, since order matters.",
+      "source": "W5 p.6, §2.1",
+      "tags": [
+        "definition",
+        "formula"
+      ]
+    },
+    {
+      "key": "sets-ops-disjoint",
+      "topicKey": "sets-ops",
+      "type": "cloze",
+      "prompt": "$A$ and $B$ are **disjoint** iff ${{c1::A \\cap B = \\emptyset}}$; $A_1, \\dots, A_n$ are **pairwise (mutually) disjoint** iff ${{c2::A_i \\cap A_j = \\emptyset}}$ whenever $i \\ne j$.",
+      "answer": "",
+      "explanation": "Pairwise disjoint is stronger than $A_1 \\cap \\cdots \\cap A_n = \\emptyset$: three sets can have empty triple intersection while two of them overlap.",
+      "source": "W5 p.16–17, §2.2",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-ops-partition",
+      "topicKey": "sets-ops",
+      "type": "basic",
+      "prompt": "When is $\\{A_1, \\dots, A_n\\}$ a **partition** of $A$?",
+      "answer": "When the $A_i$ are non-empty, $A = A_1 \\cup \\cdots \\cup A_n$, and the $A_i$ are pairwise disjoint.",
+      "explanation": "Every element of $A$ lies in exactly one block. Equivalence classes (§9.5) always form a partition.",
+      "source": "W5 p.16, §2.2",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "key": "sets-identities-identity",
+      "topicKey": "sets-identities",
+      "type": "basic",
+      "prompt": "State the set **identity laws**.",
+      "answer": "$A \\cup \\emptyset = A$ and $A \\cap U = A$",
+      "explanation": "Mirror of $p \\lor F \\equiv p$ and $p \\land T \\equiv p$.",
+      "source": "W5 p.19, §2.2",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-domination",
+      "topicKey": "sets-identities",
+      "type": "basic",
+      "prompt": "State the set **domination laws**.",
+      "answer": "$A \\cup U = U$ and $A \\cap \\emptyset = \\emptyset$",
+      "source": "W5 p.19, §2.2",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-complementation",
+      "topicKey": "sets-identities",
+      "type": "basic",
+      "prompt": "State the **complement law** of the course's identity table (Rosen: complementation law).",
+      "answer": "$\\overline{\\overline{A}} = A$",
+      "explanation": "Double complement, the mirror of double negation. The slides label this row simply \"complement\".",
+      "source": "W5 p.19, §2.2",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-commutative",
+      "topicKey": "sets-identities",
+      "type": "basic",
+      "prompt": "State the set **commutative laws**.",
+      "answer": "$A \\cup B = B \\cup A$ and $A \\cap B = B \\cap A$",
+      "source": "W5 p.19, §2.2",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-associative",
+      "topicKey": "sets-identities",
+      "type": "basic",
+      "prompt": "State the set **associative laws**.",
+      "answer": "$(A \\cup B) \\cup C = A \\cup (B \\cup C)$ and $(A \\cap B) \\cap C = A \\cap (B \\cap C)$",
+      "source": "W5 p.19, §2.2",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-distributive-union",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "Distributive law: $A \\cup (B \\cap C) = {{c1::(A \\cup B) \\cap (A \\cup C)}}$",
+      "answer": "",
+      "source": "W5 p.19, §2.2",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-distributive-intersection",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "Distributive law: $A \\cap (B \\cup C) = {{c1::(A \\cap B) \\cup (A \\cap C)}}$",
+      "answer": "",
+      "source": "W5 p.19, §2.2",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-de-morgan-intersection",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "De Morgan: $\\overline{A \\cap B} = {{c1::\\overline{A} \\cup \\overline{B}}}$",
+      "answer": "",
+      "explanation": "Not in both = missing from at least one. Element proof: $\\neg(x \\in A \\land x \\in B) \\equiv x \\notin A \\lor x \\notin B$.",
+      "source": "W5 p.19, §2.2",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-de-morgan-union",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "De Morgan: $\\overline{A \\cup B} = {{c1::\\overline{A} \\cap \\overline{B}}}$",
+      "answer": "",
+      "explanation": "In neither = outside both.",
+      "source": "W5 p.19, §2.2",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-complement-laws",
+      "topicKey": "sets-identities",
+      "type": "basic",
+      "prompt": "State the two \"other useful identities\" for a set and its complement (Rosen: complement laws).",
+      "answer": "$A \\cup \\overline{A} = U$ and $A \\cap \\overline{A} = \\emptyset$",
+      "explanation": "Mirror of the negation laws $p \\lor \\neg p \\equiv T$ and $p \\land \\neg p \\equiv F$. The slides list them unnamed on the \"Other useful identities\" page.",
+      "source": "W5 p.20, §2.2",
+      "reverse": true,
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-difference",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "$A - B = {{c1::A \\cap \\overline{B}}}$",
+      "answer": "",
+      "explanation": "The first move in almost every algebraic set proof: rewrite differences as intersections with complements.",
+      "source": "W5 p.20, §2.2",
+      "tags": [
+        "identity",
+        "strategy"
+      ]
+    },
+    {
+      "key": "sets-identities-subset-properties",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "$A \\cap B \\subseteq {{c1::A}}$, $A \\subseteq {{c2::A \\cup B}}$, and $(A \\subseteq B) \\land (B \\subseteq C) \\Rightarrow {{c3::A \\subseteq C}}$ (transitivity).",
+      "answer": "",
+      "source": "W5 p.18, §2.2",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "sets-identities-exercise31-a",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "If $A \\cup B = A$ then ${{c1::B \\subseteq A}}$; if $A \\cap B = A$ then ${{c2::A \\subseteq B}}$.",
+      "answer": "",
+      "explanation": "Union absorbs the smaller set; intersection returns the smaller set.",
+      "source": "W5 p.9–15, §2.2",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "sets-identities-exercise31-b",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "If $A - B = A$ then ${{c1::A \\cap B = \\emptyset}}$; if $A - B = B - A$ then ${{c2::A = B}}$.",
+      "answer": "",
+      "explanation": "Second: an $x \\in A - B$ would have to lie in $B - A$ too, impossible; so $A - B = \\emptyset$ and symmetrically $B - A = \\emptyset$.",
+      "source": "W5 p.9–15, §2.2",
+      "tags": [
+        "example"
+      ]
+    },
+    {
+      "key": "sets-identities-logic-dictionary",
+      "topicKey": "sets-identities",
+      "type": "cloze",
+      "prompt": "Set-to-logic dictionary: $\\cup$ corresponds to ${{c1::\\lor}}$, $\\cap$ to ${{c2::\\land}}$, complement to ${{c3::\\neg}}$, and $\\subseteq$ to ${{c4::\\to}}$.",
+      "answer": "",
+      "explanation": "Every logical equivalence has a set-identity twin, which is why element proofs reduce to propositional logic.",
+      "source": "W5 p.4, p.7, p.47, §2.2",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "sets-proofs-three-ways",
+      "topicKey": "sets-proofs",
+      "type": "basic",
+      "prompt": "Three ways to prove a set identity in this course?",
+      "answer": "An element proof (set-builder notation plus logical equivalences), an algebraic proof (chain of set identities), or a membership table.",
+      "source": "W5 p.21, §2.2",
+      "tags": [
+        "strategy"
+      ]
+    },
+    {
+      "key": "sets-proofs-element-example",
+      "topicKey": "sets-proofs",
+      "type": "basic",
+      "prompt": "Element proof that $A \\cup (B - A) = A \\cup B$ (key steps).",
+      "answer": "$\\{x : x \\in A \\lor (x \\in B \\land x \\notin A)\\} = \\{x : (x \\in A \\lor x \\in B) \\land (x \\in A \\lor x \\notin A)\\}$ (distributive) $= \\{x : (x \\in A \\lor x \\in B) \\land T\\} = \\{x : x \\in A \\cup B\\}$.",
+      "source": "W5 p.22–29, §2.2",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "sets-proofs-algebraic-example",
+      "topicKey": "sets-proofs",
+      "type": "basic",
+      "prompt": "Algebraic proof that $A \\cup (B - A) = A \\cup B$.",
+      "answer": "$A \\cup (B - A) = A \\cup (B \\cap \\overline{A}) = (A \\cup B) \\cap (A \\cup \\overline{A})$ (distributive) $= (A \\cup B) \\cap U$ (complement law) $= A \\cup B$ (identity law).",
+      "source": "W5 p.30–34, §2.2",
+      "tags": [
+        "derivation"
+      ]
+    },
+    {
+      "key": "sets-proofs-bit-strings",
+      "topicKey": "sets-proofs",
+      "type": "cloze",
+      "prompt": "With $U = \\{a_1, \\dots, a_k\\}$ in a fixed order, a subset is stored as a bit string of length $k$ whose $i$-th bit is 1 iff $a_i$ is in it; then $\\cap$ is bitwise {{c1::AND}}, $\\cup$ bitwise {{c2::OR}}, complement bitwise {{c3::NOT}}.",
+      "answer": "",
+      "explanation": "$U = \\{a, e, i, o, u\\}$: $01101$ is $\\{e, i, u\\}$, $11111$ is $U$, $00000$ is $\\emptyset$. Bitwise operations on words are fast, which is why sets are stored this way.",
+      "source": "W5 p.45–47, §2.2",
+      "tags": [
+        "concept"
+      ]
+    },
+    {
+      "key": "sets-proofs-difference-identities",
+      "topicKey": "sets-proofs",
+      "type": "cloze",
+      "prompt": "$(A \\cup B) - C = {{c1::(A - C) \\cup (B - C)}}$ and $A - (B \\cup C) = {{c2::(A - B) - C}}$",
+      "answer": "",
+      "explanation": "Both follow by rewriting $- C$ as $\\cap\\, \\overline{C}$ and using the distributive, De Morgan and associative laws.",
+      "source": "W5 p.35–44, §2.2",
+      "tags": [
+        "identity"
+      ]
+    },
+    {
+      "key": "func-basics-definition",
+      "topicKey": "func-basics",
+      "type": "cloze",
+      "prompt": "A function $f : A \\to B$ assigns to each element of $A$ {{c1::exactly one}} element of $B$; $A$ is the {{c2::domain}} and $B$ the {{c3::codomain}}.",
+      "answer": "",
+      "explanation": "The range (image) $f(A) = \\{f(a) : a \\in A\\}$ is the set of values actually taken; it is a subset of the codomain.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-basics-range-vs-codomain",
+      "topicKey": "func-basics",
+      "type": "basic",
+      "prompt": "Range vs codomain of $f : A \\to B$?",
+      "answer": "The codomain $B$ is the declared target set; the range $f(A)$ is the set of values actually attained. $f$ is onto iff range $=$ codomain.",
+      "explanation": "$f(x) = x^2$ from $\\mathbb{R}$ to $\\mathbb{R}$: codomain $\\mathbb{R}$, range $[0, \\infty)$.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-basics-floor-ceiling",
+      "topicKey": "func-basics",
+      "type": "cloze",
+      "prompt": "$\\lfloor x \\rfloor$ is the largest integer {{c1::$\\le x$}} and $\\lceil x \\rceil$ the smallest integer {{c2::$\\ge x$}}; so $\\lfloor -1.5 \\rfloor = {{c3::-2}}$.",
+      "answer": "",
+      "explanation": "Common error: $\\lfloor -1.5 \\rfloor = -1$. Floor goes *down* on the number line, also for negatives; $\\lceil -1.5 \\rceil = -1$.",
+      "tags": [
+        "definition",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-basics-composition",
+      "topicKey": "func-basics",
+      "type": "basic",
+      "prompt": "Define $(f \\circ g)(x)$. Which function is applied first?",
+      "answer": "$(f \\circ g)(x) = f(g(x))$: apply $g$ first, then $f$. It requires the range of $g$ to lie in the domain of $f$.",
+      "explanation": "Read right to left. In general $f \\circ g \\ne g \\circ f$.",
+      "tags": [
+        "definition",
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-props-injective",
+      "topicKey": "func-props",
+      "type": "cloze",
+      "prompt": "$f$ is **one-to-one (injective)** iff ${{c1::f(a) = f(b) \\to a = b}}$ for all $a, b$ in the domain.",
+      "answer": "",
+      "explanation": "Equivalently $a \\ne b \\to f(a) \\ne f(b)$, the form used in W4 Example 7. Distinct inputs give distinct outputs.",
+      "source": "W4 p.40, §1.8",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-props-surjective",
+      "topicKey": "func-props",
+      "type": "cloze",
+      "prompt": "$f : A \\to B$ is **onto (surjective)** iff ${{c1::\\forall b \\in B\\;\\exists a \\in A\\; f(a) = b}}$.",
+      "answer": "",
+      "explanation": "Every element of the codomain is hit by some element of the domain.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-props-bijective",
+      "topicKey": "func-props",
+      "type": "cloze",
+      "prompt": "$f$ is a **bijection** (one-to-one correspondence) iff it is both {{c1::one-to-one and onto}}; exactly then $f$ has an {{c2::inverse}} $f^{-1} : B \\to A$ with $f^{-1}(b) = a \\iff f(a) = b$.",
+      "answer": "",
+      "tags": [
+        "definition",
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-props-prove-injective",
+      "topicKey": "func-props",
+      "type": "basic",
+      "prompt": "How do you prove, or disprove, that $f$ is one-to-one?",
+      "answer": "Prove: assume $f(a) = f(b)$ and deduce $a = b$ (or show $a \\ne b \\Rightarrow f(a) \\ne f(b)$, splitting into cases if $f$ is piecewise). Disprove: exhibit $a \\ne b$ with $f(a) = f(b)$.",
+      "explanation": "W4 Example 7 handles $f(n) = n + 1$ ($n$ even), $n - 3$ ($n$ odd) by cases on the parities of $m$ and $n$.",
+      "source": "W4 p.40–41, §1.8",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-props-prove-surjective",
+      "topicKey": "func-props",
+      "type": "basic",
+      "prompt": "How do you prove, or disprove, that $f : A \\to B$ is onto?",
+      "answer": "Prove: take an arbitrary $b \\in B$ and produce $a \\in A$ with $f(a) = b$ (solve for $a$ and check it lies in $A$). Disprove: exhibit one $b$ with no preimage.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-props-example-square",
+      "topicKey": "func-props",
+      "type": "basic",
+      "prompt": "Is $f(x) = x^2$ from $\\mathbb{Z}$ to $\\mathbb{Z}$ one-to-one? Onto?",
+      "answer": "Neither: $f(-1) = f(1)$ breaks one-to-one, and $-1$ has no preimage so it is not onto. Domain and codomain matter: as a map from $\\mathbb{R}_{\\ge 0}$ to $\\mathbb{R}_{\\ge 0}$ it is a bijection.",
+      "tags": [
+        "example",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-card-same-cardinality",
+      "topicKey": "func-card",
+      "type": "basic",
+      "prompt": "When do two sets $A$ and $B$ (possibly infinite) have the same cardinality, $|A| = |B|$?",
+      "answer": "When there is a bijection (one-to-one correspondence) between them. $|A| \\le |B|$ means there is a one-to-one function from $A$ to $B$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-card-countable",
+      "topicKey": "func-card",
+      "type": "cloze",
+      "prompt": "A set is **countable** iff it is finite or has the same cardinality as {{c1::$\\mathbb{Z}^+$}} (countably infinite, cardinality $\\aleph_0$); to show it, exhibit an {{c2::enumeration $a_1, a_2, a_3, \\dots$}} that lists every element.",
+      "answer": "",
+      "explanation": "$\\mathbb{Z}$: $0, 1, -1, 2, -2, \\dots$ The positive rationals: snake through the grid of fractions $p/q$, skipping repeats.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "func-card-reals-uncountable",
+      "topicKey": "func-card",
+      "type": "basic",
+      "prompt": "Why is the set of real numbers in $(0, 1)$ uncountable?",
+      "answer": "Cantor's diagonal argument: given any list $r_1, r_2, \\dots$ of decimals, build a number whose $i$-th digit differs from the $i$-th digit of $r_i$ (and avoids 0 and 9). It lies in $(0,1)$ but is not on the list, so no list is complete.",
+      "tags": [
+        "derivation",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-div-divides",
+      "topicKey": "numth-div",
+      "type": "cloze",
+      "prompt": "For integers $a \\ne 0$ and $b$, $a \\mid b$ (\"$a$ divides $b$\") means ${{c1::\\exists c \\in \\mathbb{Z}\\; b = ac}}$.",
+      "answer": "",
+      "explanation": "$3 \\mid 12$, $3 \\nmid 7$. $a \\mid b$ is a proposition; $a / b$ is a number. Every nonzero $a$ divides $0$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-div-properties",
+      "topicKey": "numth-div",
+      "type": "cloze",
+      "prompt": "If $a \\mid b$ and $a \\mid c$ then $a \\mid {{c1::b + c}}$; if $a \\mid b$ then $a \\mid {{c2::bc}}$ for every integer $c$; if $a \\mid b$ and $b \\mid c$ then ${{c3::a \\mid c}}$.",
+      "answer": "",
+      "explanation": "Together: $a \\mid b$ and $a \\mid c$ give $a \\mid (mb + nc)$. Proof of the first: $b = ak$, $c = al$ so $b + c = a(k + l)$.",
+      "tags": [
+        "identity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-div-division-algorithm",
+      "topicKey": "numth-div",
+      "type": "cloze",
+      "prompt": "Division algorithm: for $a \\in \\mathbb{Z}$ and $d \\in \\mathbb{Z}^+$ there are unique integers $q, r$ with $a = {{c1::dq + r}}$ and ${{c2::0 \\le r < d}}$; $q = a \\textbf{ div } d$ and $r = a \\bmod d$.",
+      "answer": "",
+      "explanation": "Basis of proofs by cases on remainders: W4 Example 9 uses $d = 4$, Example 11 uses $n \\bmod 3$.",
+      "source": "W4 p.43, §1.8",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-div-negative",
+      "topicKey": "numth-div",
+      "type": "basic",
+      "prompt": "$-11 \\textbf{ div } 3$ and $-11 \\bmod 3$?",
+      "answer": "$q = -4$ and $r = 1$, because $-11 = 3 \\cdot (-4) + 1$ with $0 \\le 1 < 3$.",
+      "explanation": "The remainder is never negative: $-11 = 3 \\cdot (-3) - 2$ is *not* the division-algorithm form.",
+      "tags": [
+        "mistake",
+        "example",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-mod-congruence",
+      "topicKey": "numth-mod",
+      "type": "cloze",
+      "prompt": "$a \\equiv b \\pmod m$ iff ${{c1::m \\mid (a - b)}}$; equivalently $a \\bmod m = {{c2::b \\bmod m}}$, or $a = b + km$ for some $k \\in \\mathbb{Z}$.",
+      "answer": "",
+      "explanation": "$17 \\equiv 5 \\pmod{6}$ since $6 \\mid 12$. Note $a \\bmod m$ is a number, $a \\equiv b \\pmod m$ a proposition.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-mod-operations",
+      "topicKey": "numth-mod",
+      "type": "cloze",
+      "prompt": "If $a \\equiv b \\pmod m$ and $c \\equiv d \\pmod m$ then $a + c \\equiv {{c1::b + d}} \\pmod m$ and $ac \\equiv {{c2::bd}} \\pmod m$.",
+      "answer": "",
+      "explanation": "Proof: $a = b + sm$, $c = d + tm$, so $ac = bd + m(bt + ds + stm)$.",
+      "tags": [
+        "identity",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-mod-no-cancel",
+      "topicKey": "numth-mod",
+      "type": "basic",
+      "prompt": "Can you cancel a common factor in a congruence: $ac \\equiv bc \\pmod m \\Rightarrow a \\equiv b \\pmod m$?",
+      "answer": "Not in general: $2 \\cdot 3 \\equiv 2 \\cdot 0 \\pmod 6$ but $3 \\not\\equiv 0 \\pmod 6$. Cancelling $c$ is valid when $\\gcd(c, m) = 1$.",
+      "tags": [
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-primes-definition",
+      "topicKey": "numth-primes",
+      "type": "basic",
+      "prompt": "Define prime and composite. Is $1$ prime?",
+      "answer": "An integer $p > 1$ is prime if its only positive divisors are $1$ and $p$; an integer $> 1$ that is not prime is composite. $1$ is neither.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-primes-fta",
+      "topicKey": "numth-primes",
+      "type": "cloze",
+      "prompt": "Fundamental theorem of arithmetic: every integer $n > 1$ can be written {{c1::uniquely}} as a product of primes (in non-decreasing order).",
+      "answer": "",
+      "explanation": "Existence is proved by strong induction; uniqueness uses: if a prime $p$ divides $ab$ then $p \\mid a$ or $p \\mid b$.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-primes-sqrt-test",
+      "topicKey": "numth-primes",
+      "type": "cloze",
+      "prompt": "If $n$ is composite, then $n$ has a prime divisor $\\le {{c1::\\sqrt{n}}}$.",
+      "answer": "",
+      "explanation": "If $n = ab$ with $1 < a \\le b$ then $a \\le \\sqrt{n}$. Contrapositive gives the primality test: if no prime $\\le \\sqrt n$ divides $n$, then $n$ is prime. For $101$ check only $2, 3, 5, 7$.",
+      "tags": [
+        "condition",
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-gcd-definition",
+      "topicKey": "numth-gcd",
+      "type": "cloze",
+      "prompt": "$\\gcd(a, b)$ is the largest integer dividing both $a$ and $b$; $a$ and $b$ are **relatively prime** iff $\\gcd(a, b) = {{c1::1}}$.",
+      "answer": "",
+      "explanation": "$a_1, \\dots, a_n$ are pairwise relatively prime when every pair has gcd 1. $\\gcd(0, b) = b$ for $b > 0$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-gcd-lcm",
+      "topicKey": "numth-gcd",
+      "type": "cloze",
+      "prompt": "From prime factorizations, $\\gcd$ takes the {{c1::minimum}} exponent of each prime and $\\operatorname{lcm}$ the {{c2::maximum}}; hence $ab = {{c3::\\gcd(a,b) \\cdot \\operatorname{lcm}(a,b)}}$.",
+      "answer": "",
+      "explanation": "$\\min(e, f) + \\max(e, f) = e + f$ for every prime exponent pair. Example: $\\gcd(12, 18) = 6$, $\\operatorname{lcm} = 36$, $6 \\cdot 36 = 216 = 12 \\cdot 18$.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-gcd-euclid",
+      "topicKey": "numth-gcd",
+      "type": "cloze",
+      "prompt": "Euclidean algorithm: $\\gcd(a, b) = \\gcd(b, {{c1::a \\bmod b}})$ for $b > 0$; repeat until the remainder is $0$, and the gcd is the last {{c2::non-zero remainder}}.",
+      "answer": "",
+      "explanation": "Lemma: if $a = bq + r$ then $\\gcd(a, b) = \\gcd(b, r)$, because any common divisor of $a$ and $b$ divides $r = a - bq$, and vice versa.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "numth-gcd-euclid-example",
+      "topicKey": "numth-gcd",
+      "type": "basic",
+      "prompt": "Compute $\\gcd(662, 414)$ with the Euclidean algorithm.",
+      "answer": "$662 = 1 \\cdot 414 + 248$; $414 = 1 \\cdot 248 + 166$; $248 = 1 \\cdot 166 + 82$; $166 = 2 \\cdot 82 + 2$; $82 = 41 \\cdot 2 + 0$. So $\\gcd(662, 414) = 2$.",
+      "tags": [
+        "example",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-basic-principle",
+      "topicKey": "induct-basic",
+      "type": "cloze",
+      "prompt": "Mathematical induction: to prove $\\forall n \\ge 1\\; P(n)$, show the **basis step** ${{c1::P(1)}}$ and the **inductive step** ${{c2::\\forall k \\ge 1\\,[P(k) \\to P(k+1)]}}$.",
+      "answer": "",
+      "explanation": "As a rule of inference: $[P(1) \\land \\forall k\\,(P(k) \\to P(k+1))] \\to \\forall n\\,P(n)$. The basis may be any integer $b$; then $P(n)$ holds for all $n \\ge b$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-basic-template",
+      "topicKey": "induct-basic",
+      "type": "basic",
+      "prompt": "What must the inductive step contain, as written in a proof?",
+      "answer": "State the inductive hypothesis \"assume $P(k)$ for an arbitrary $k \\ge b$\"; show $P(k+1)$, pointing out where $P(k)$ is used; conclude \"by induction, $P(n)$ holds for all $n \\ge b$\".",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-basic-mistakes",
+      "topicKey": "induct-basic",
+      "type": "basic",
+      "prompt": "Two common errors in induction proofs?",
+      "answer": "Omitting the basis step (the inductive step alone proves nothing); and assuming $P(k+1)$, or $P(n)$ for all $n$, instead of $P(k)$, which is circular.",
+      "tags": [
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-basic-sum-example",
+      "topicKey": "induct-basic",
+      "type": "basic",
+      "prompt": "Inductive step for $1 + 2 + \\cdots + n = \\frac{n(n+1)}{2}$.",
+      "answer": "Assume $1 + \\cdots + k = \\frac{k(k+1)}{2}$. Then $1 + \\cdots + k + (k+1) = \\frac{k(k+1)}{2} + (k+1) = \\frac{(k+1)(k+2)}{2}$, which is $P(k+1)$.",
+      "explanation": "Factor out $(k+1)$: $(k+1)\\left(\\frac{k}{2} + 1\\right) = \\frac{(k+1)(k+2)}{2}$.",
+      "tags": [
+        "example",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-basic-inequality-basis",
+      "topicKey": "induct-basic",
+      "type": "basic",
+      "prompt": "To prove $2^n < n!$ by induction, where does the basis step start, and what is the inductive step?",
+      "answer": "Basis at $n = 4$ ($16 < 24$), since the claim fails for $n \\le 3$. Step: $2^{k+1} = 2 \\cdot 2^k < 2 \\cdot k! \\le (k+1) \\cdot k! = (k+1)!$ for $k \\ge 4$.",
+      "tags": [
+        "example",
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-strong-principle",
+      "topicKey": "induct-strong",
+      "type": "cloze",
+      "prompt": "Strong induction: the inductive step assumes ${{c1::P(1) \\land P(2) \\land \\cdots \\land P(k)}}$ and proves $P(k+1)$.",
+      "answer": "",
+      "explanation": "Use it when $P(k+1)$ depends on a case smaller than $k$: \"every $n \\ge 2$ is a product of primes\" splits $n = ab$ with $a, b < n$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-strong-well-ordering",
+      "topicKey": "induct-strong",
+      "type": "basic",
+      "prompt": "State the **well-ordering property**.",
+      "answer": "Every non-empty set of positive integers (or of non-negative integers) has a least element.",
+      "explanation": "Equivalent to induction. Typical use: suppose a counterexample exists, take the smallest, and derive a smaller one, a contradiction.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-strong-when",
+      "topicKey": "induct-strong",
+      "type": "basic",
+      "prompt": "When is strong induction needed rather than ordinary induction?",
+      "answer": "When the inductive step for $P(k+1)$ uses $P(j)$ for some $j < k$, not only $P(k)$: recurrences like $f_n = f_{n-1} + f_{n-2}$, or splitting $n$ into two smaller parts (factorization, postage with 4- and 5-cent stamps).",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-recursive-definition",
+      "topicKey": "induct-recursive",
+      "type": "cloze",
+      "prompt": "A recursive definition of a function on $\\mathbb{N}$ has a {{c1::basis step}} giving $f(0)$ and a {{c2::recursive step}} giving $f(n+1)$ in terms of $f(n)$ (or earlier values).",
+      "answer": "",
+      "explanation": "Factorial: $0! = 1$ and $(n+1)! = (n+1) \\cdot n!$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-recursive-fibonacci",
+      "topicKey": "induct-recursive",
+      "type": "cloze",
+      "prompt": "Fibonacci numbers: $f_0 = {{c1::0}}$, $f_1 = {{c2::1}}$, and $f_n = {{c3::f_{n-1} + f_{n-2}}}$ for $n \\ge 2$.",
+      "answer": "",
+      "explanation": "$0, 1, 1, 2, 3, 5, 8, 13, \\dots$ Properties are proved by strong induction with two base cases.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "induct-recursive-structural",
+      "topicKey": "induct-recursive",
+      "type": "basic",
+      "prompt": "What is **structural induction**?",
+      "answer": "To prove $P$ for every element of a recursively defined set: show $P$ holds for each basis element, and show each recursive rule preserves $P$ (if it holds for the inputs, it holds for the element built from them).",
+      "explanation": "Strings over $\\Sigma$: basis $\\lambda$ (empty string); rule: $w \\in \\Sigma^*$, $x \\in \\Sigma \\Rightarrow wx \\in \\Sigma^*$. Proof of $l(xy) = l(x) + l(y)$ goes by structural induction on $y$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-basics-definition",
+      "topicKey": "rel-basics",
+      "type": "cloze",
+      "prompt": "A binary relation from $A$ to $B$ is a {{c1::subset of $A \\times B$}}; a relation on $A$ is a subset of $A \\times A$; $a\\,R\\,b$ means ${{c2::(a, b) \\in R}}$.",
+      "answer": "",
+      "explanation": "A function is a special relation in which each $a$ is paired with exactly one $b$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-basics-count",
+      "topicKey": "rel-basics",
+      "type": "cloze",
+      "prompt": "The number of relations on a set with $n$ elements is ${{c1::2^{n^2}}}$.",
+      "answer": "",
+      "explanation": "$|A \\times A| = n^2$ ordered pairs, each in or out of $R$: the power set of $A \\times A$.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-basics-reflexive-symmetric",
+      "topicKey": "rel-basics",
+      "type": "cloze",
+      "prompt": "$R$ on $A$ is **reflexive** iff ${{c1::\\forall a \\in A\\;(a, a) \\in R}}$ and **symmetric** iff ${{c2::\\forall a, b\\;[(a, b) \\in R \\to (b, a) \\in R]}}$.",
+      "answer": "",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-basics-antisymmetric-transitive",
+      "topicKey": "rel-basics",
+      "type": "cloze",
+      "prompt": "$R$ is **antisymmetric** iff ${{c1::(a, b) \\in R \\land (b, a) \\in R \\to a = b}}$ and **transitive** iff ${{c2::(a, b) \\in R \\land (b, c) \\in R \\to (a, c) \\in R}}$.",
+      "answer": "",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-basics-sym-vs-antisym",
+      "topicKey": "rel-basics",
+      "type": "basic",
+      "prompt": "Are symmetric and antisymmetric opposites?",
+      "answer": "No. The equality relation $\\{(a, a)\\}$ is both; $\\{(1, 2), (2, 1), (1, 3)\\}$ is neither. Antisymmetric forbids $a \\ne b$ with both $(a, b)$ and $(b, a)$; symmetric demands the reverse pair.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-basics-example-leq",
+      "topicKey": "rel-basics",
+      "type": "basic",
+      "prompt": "Which of reflexive, symmetric, antisymmetric, transitive hold for $\\le$ on $\\mathbb{Z}$? For $<$?",
+      "answer": "$\\le$: reflexive, antisymmetric, transitive, not symmetric. $<$: antisymmetric (vacuously) and transitive, neither reflexive nor symmetric.",
+      "explanation": "\"Divides\" on $\\mathbb{Z}^+$ behaves like $\\le$: reflexive, antisymmetric, transitive.",
+      "tags": [
+        "example",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-represent-matrix",
+      "topicKey": "rel-represent",
+      "type": "cloze",
+      "prompt": "Zero-one matrix $M_R$: $R$ is reflexive iff {{c1::every diagonal entry is 1}}, and symmetric iff ${{c2::M_R = M_R^{T}}}$.",
+      "answer": "",
+      "explanation": "$m_{ij} = 1$ iff $(a_i, a_j) \\in R$. Antisymmetric: for $i \\ne j$, $m_{ij} = 1$ implies $m_{ji} = 0$.",
+      "tags": [
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-represent-matrix-ops",
+      "topicKey": "rel-represent",
+      "type": "basic",
+      "prompt": "How are $M_{R \\cup S}$, $M_{R \\cap S}$ and $M_{S \\circ R}$ obtained from $M_R$ and $M_S$?",
+      "answer": "Entry-wise OR (join $\\lor$) for union, entry-wise AND (meet $\\land$) for intersection, and the Boolean product $M_R \\odot M_S$ for the composite $S \\circ R$.",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-represent-digraph",
+      "topicKey": "rel-represent",
+      "type": "cloze",
+      "prompt": "In the digraph of $R$: reflexive iff {{c1::every vertex has a loop}}; symmetric iff {{c2::every edge has its reverse edge}}; transitive iff whenever edges $a \\to b$ and $b \\to c$ exist, so does $a \\to c$.",
+      "answer": "",
+      "tags": [
+        "condition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-closures-definition",
+      "topicKey": "rel-closures",
+      "type": "basic",
+      "prompt": "What is the **closure** of a relation $R$ with respect to a property $P$?",
+      "answer": "The smallest relation containing $R$ that has property $P$: $R \\subseteq S$, $S$ has $P$, and $S \\subseteq S'$ for every relation $S' \\supseteq R$ with $P$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-closures-reflexive-symmetric",
+      "topicKey": "rel-closures",
+      "type": "cloze",
+      "prompt": "Reflexive closure of $R$ on $A$: ${{c1::R \\cup \\Delta}}$ where $\\Delta = \\{(a, a) : a \\in A\\}$; symmetric closure: ${{c2::R \\cup R^{-1}}}$ where $R^{-1} = \\{(b, a) : (a, b) \\in R\\}$.",
+      "answer": "",
+      "tags": [
+        "formula",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-closures-transitive",
+      "topicKey": "rel-closures",
+      "type": "cloze",
+      "prompt": "Transitive closure $R^{*} = {{c1::R \\cup R^2 \\cup R^3 \\cup \\cdots}}$ (the connectivity relation): $(a, b) \\in R^{*}$ iff there is a {{c2::path of length $\\ge 1$}} from $a$ to $b$ in the digraph of $R$.",
+      "answer": "",
+      "explanation": "On an $n$-element set only $R \\cup R^2 \\cup \\cdots \\cup R^n$ is needed. Warshall's algorithm computes it in $O(n^3)$ bit operations.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "rel-closures-transitive-mistake",
+      "topicKey": "rel-closures",
+      "type": "basic",
+      "prompt": "Is $R \\cup \\{(a, c) : (a, b), (b, c) \\in R\\}$ always the transitive closure of $R$?",
+      "answer": "No. Adding the missing two-step pairs can create new three-step gaps; keep adding (all $R^k$) until no new pairs appear.",
+      "explanation": "$R = \\{(1,2), (2,3), (3,4)\\}$: one round adds $(1,3), (2,4)$ but not $(1,4)$.",
+      "tags": [
+        "mistake",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-equiv-definition",
+      "topicKey": "order-equiv",
+      "type": "cloze",
+      "prompt": "An **equivalence relation** is reflexive, {{c1::symmetric}} and {{c2::transitive}}.",
+      "answer": "",
+      "explanation": "\"Congruent mod $m$\", \"same length\", \"same birthday\". A partial order replaces symmetric by antisymmetric.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-equiv-class",
+      "topicKey": "order-equiv",
+      "type": "cloze",
+      "prompt": "The equivalence class of $a$ is $[a] = {{c1::\\{x : (a, x) \\in R\\}}}$; and $[a] = [b]$ iff ${{c2::a\\,R\\,b}}$ iff $[a] \\cap [b] \\ne \\emptyset$.",
+      "answer": "",
+      "explanation": "Two classes are either identical or disjoint; never partially overlapping.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-equiv-partition",
+      "topicKey": "order-equiv",
+      "type": "basic",
+      "prompt": "How are equivalence relations and partitions related?",
+      "answer": "The equivalence classes of $R$ form a partition of $A$; conversely every partition defines an equivalence relation (\"in the same block\"). The correspondence is one-to-one.",
+      "tags": [
+        "concept",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-equiv-mod-classes",
+      "topicKey": "order-equiv",
+      "type": "basic",
+      "prompt": "What are the equivalence classes of congruence modulo $m$ on $\\mathbb{Z}$?",
+      "answer": "$[0], [1], \\dots, [m-1]$ with $[r] = \\{r + km : k \\in \\mathbb{Z}\\}$: exactly $m$ classes, one per remainder.",
+      "explanation": "Mod 4: $[0] = \\{\\dots, -4, 0, 4, 8, \\dots\\}$, $[1] = \\{\\dots, -3, 1, 5, \\dots\\}$, and so on.",
+      "tags": [
+        "example",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-poset-definition",
+      "topicKey": "order-poset",
+      "type": "cloze",
+      "prompt": "A **partial ordering** is reflexive, {{c1::antisymmetric}} and {{c2::transitive}}; $(S, \\preccurlyeq)$ is then a **poset**.",
+      "answer": "",
+      "explanation": "$(\\mathbb{Z}, \\le)$, $(\\mathbb{Z}^+, \\mid)$, $(\\mathcal{P}(S), \\subseteq)$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-poset-total",
+      "topicKey": "order-poset",
+      "type": "basic",
+      "prompt": "Comparable elements and total order?",
+      "answer": "$a, b$ are comparable if $a \\preccurlyeq b$ or $b \\preccurlyeq a$. A poset in which every pair is comparable is a total (linear) order, or chain. $(\\mathbb{Z}, \\le)$ is total; $(\\mathbb{Z}^+, \\mid)$ is not: $2$ and $3$ are incomparable.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-poset-hasse",
+      "topicKey": "order-poset",
+      "type": "basic",
+      "prompt": "How do you draw the Hasse diagram of a finite poset?",
+      "answer": "Start from the digraph; delete all loops; delete every edge implied by transitivity; arrange so that all remaining edges point upward and drop the arrowheads.",
+      "tags": [
+        "strategy",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-poset-maximal-vs-greatest",
+      "topicKey": "order-poset",
+      "type": "basic",
+      "prompt": "Maximal element vs greatest element of a poset?",
+      "answer": "Maximal: no element is strictly above it (there may be several). Greatest: it is above *every* element (unique if it exists). Greatest implies maximal, not conversely.",
+      "explanation": "Divisibility on $\\{2, 3, 4, 6\\}$: $4$ and $6$ are maximal, there is no greatest element.",
+      "tags": [
+        "confusable",
+        "ahead"
+      ]
+    },
+    {
+      "key": "order-poset-lattice",
+      "topicKey": "order-poset",
+      "type": "basic",
+      "prompt": "What is a **lattice**?",
+      "answer": "A poset in which every pair of elements has a least upper bound (join) and a greatest lower bound (meet).",
+      "explanation": "$(\\mathcal{P}(S), \\subseteq)$: join $= \\cup$, meet $= \\cap$. $(\\mathbb{Z}^+, \\mid)$: join $= \\operatorname{lcm}$, meet $= \\gcd$.",
+      "tags": [
+        "definition",
+        "ahead"
+      ]
+    }
+  ]
+}

@@ -26,3 +26,8 @@ coverage
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# course material used to write the curated decks (not distributed)
+/comp232
+/comp352
+/econ203

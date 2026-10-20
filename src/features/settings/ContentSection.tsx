@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BUNDLED_DECKS } from '../../content/decks';
+import { BUNDLED_DECKS, type BundledDeck } from '../../content/decks';
 import { repo } from '../../db/instance';
 import { installContentPack } from '../../io/contentPack';
 import { contentPackSchema } from '../../io/schema';
@@ -13,6 +13,7 @@ import { JsonFileButton, Row, Section, useJsonFileReader } from './fields';
 export function ContentSection() {
   const toast = useToast();
   const readJsonFile = useJsonFileReader();
+  const [deck, setDeck] = useState<BundledDeck | null>(null);
   const [installing, setInstalling] = useState(false);
 
   const onPickPack = async (file: File) => {
@@ -33,7 +34,13 @@ export function ContentSection() {
     <Section title="Content">
       {BUNDLED_DECKS.map((d) => (
         <Row key={d.id} label={d.title} hint={d.description}>
-          <Button size="sm" onClick={() => setInstalling(true)}>
+          <Button
+            size="sm"
+            onClick={() => {
+              setDeck(d);
+              setInstalling(true);
+            }}
+          >
             Install / update
           </Button>
         </Row>
@@ -52,7 +59,12 @@ export function ContentSection() {
           <Icon name="upload" size={16} /> Import…
         </JsonFileButton>
       </Row>
-      <InstallDeckDialog open={installing} onClose={() => setInstalling(false)} />
+      <InstallDeckDialog
+        key={deck?.id}
+        deck={deck ?? undefined}
+        open={installing}
+        onClose={() => setInstalling(false)}
+      />
     </Section>
   );
 }
