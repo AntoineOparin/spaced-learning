@@ -1,4 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { buttonClass } from '../ui/Button';
+import { cn } from '../ui/cn';
+import { surface } from '../ui/misc';
 
 interface State {
   error: Error | null;
@@ -24,12 +27,12 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
         <p className="mt-3 text-muted">
           Your data is stored safely on this device. Reloading usually fixes this.
         </p>
-        <pre className="mt-6 overflow-auto rounded-xl border border-line bg-bg-alt p-4 font-mono text-xs text-muted">
+        <pre className={cn(surface, 'mt-6 overflow-auto p-4 font-mono text-xs text-muted')}>
           {this.state.error.message}
         </pre>
         <button
           type="button"
-          className="tactile mt-8 h-11 rounded-2xl bg-accent px-6 font-bold text-on-accent [--lip-color:var(--accent-deep)] hover:bg-accent-hover"
+          className={buttonClass('primary', 'md', 'mt-8 px-6 text-base')}
           onClick={() => window.location.reload()}
         >
           Reload

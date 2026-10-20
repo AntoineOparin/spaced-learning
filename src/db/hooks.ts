@@ -1,10 +1,7 @@
 /** Reactive queries: components re-render when the underlying IndexedDB data changes. */
 import { useLiveQuery } from 'dexie-react-hooks';
-import type { Course, Item, Settings, Topic } from '../domain/types';
+import { alive, type Course, type Item, type Settings, type Topic } from '../domain/types';
 import { db, repo } from './instance';
-
-const alive = <T extends { deletedAt?: number }>(rows: T[]) =>
-  rows.filter((r) => r.deletedAt === undefined);
 
 export function useSettings(): Settings | undefined {
   return useLiveQuery(() => repo.getSettings(), []);

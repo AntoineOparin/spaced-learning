@@ -4,12 +4,10 @@ import { Icon, type IconName } from './Icon';
 
 export function Kbd({
   children,
-  className,
   onAccent = false,
   small = false,
 }: {
   children: ReactNode;
-  className?: string;
   /** For use inside an accent-coloured (primary) button. */
   onAccent?: boolean;
   small?: boolean;
@@ -20,13 +18,15 @@ export function Kbd({
         'inline-flex items-center justify-center rounded-md border border-b-2 px-1 font-mono font-medium leading-none',
         small ? 'h-4 min-w-4 text-[10px]' : 'h-5 min-w-5 text-[11px]',
         onAccent ? 'border-on-accent/25 text-on-accent' : 'border-line-strong bg-bg text-muted',
-        className,
       )}
     >
       {children}
     </kbd>
   );
 }
+
+/** The card surface (Notion): border-only depth, never a tactile shadow. Add padding with cn. */
+export const surface = 'rounded-xl border border-line bg-bg-alt';
 
 /** A flat document surface (Notion): border-only depth, never a tactile shadow. */
 export function Panel({
@@ -41,7 +41,7 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <section className={cn('rounded-xl border border-line bg-bg-alt p-5 sm:p-6', className)}>
+    <section className={cn(surface, 'p-5 sm:p-6', className)}>
       {(title || action) && (
         <div className="mb-4 flex items-center justify-between gap-3">
           {title && <h2 className="text-[15px] font-bold">{title}</h2>}
@@ -55,30 +55,19 @@ export function Panel({
 
 /** A Notion callout: a quiet inline message with an icon. */
 export function Callout({
-  icon = 'info',
-  tone = 'neutral',
+  icon,
+  tone,
   children,
   action,
-  className,
 }: {
-  icon?: IconName;
-  tone?: 'neutral' | 'streak' | 'accent';
+  icon: IconName;
+  tone: 'streak' | 'accent';
   children: ReactNode;
   action?: ReactNode;
-  className?: string;
 }) {
-  const iconTone = {
-    neutral: 'text-muted',
-    streak: 'text-streak-text',
-    accent: 'text-accent-text',
-  };
+  const iconTone = { streak: 'text-streak-text', accent: 'text-accent-text' };
   return (
-    <div
-      className={cn(
-        'flex flex-wrap items-start gap-x-3 gap-y-2 rounded-xl border border-line bg-bg-alt px-4 py-3 text-sm',
-        className,
-      )}
-    >
+    <div className={cn(surface, 'flex flex-wrap items-start gap-x-3 gap-y-2 px-4 py-3 text-sm')}>
       <Icon name={icon} className={cn('mt-0.5 shrink-0', iconTone[tone])} />
       <div className="min-w-0 flex-1">{children}</div>
       {action && <div className="flex shrink-0 items-center gap-2">{action}</div>}
@@ -98,7 +87,7 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-line bg-bg-alt px-6 py-12 text-center">
+    <div className={cn(surface, 'px-6 py-12 text-center')}>
       {icon && (
         <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-2xl bg-surface text-muted">
           <Icon name={icon} size={22} />
@@ -168,13 +157,11 @@ export function PageHeader({
 export function ProgressBar({
   value,
   label,
-  size = 'md',
   className,
 }: {
   /** 0–1 */
   value: number;
   label: string;
-  size?: 'sm' | 'md';
   className?: string;
 }) {
   const pct = Math.min(1, Math.max(0, Number.isFinite(value) ? value : 0));
@@ -185,7 +172,7 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(pct * 100)}
-      className={cn('progress', size === 'md' ? 'h-3' : 'h-2', className)}
+      className={cn('progress h-3', className)}
     >
       <div className="progress-fill" style={{ transform: `translateX(${(pct - 1) * 100}%)` }} />
     </div>
@@ -196,17 +183,32 @@ export function Skeleton({ className }: { className?: string }) {
   return <div aria-hidden className={cn('skeleton', className)} />;
 }
 
+/** A loading placeholder that screen readers announce as "Loading…". */
+export function LoadingStatus({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={className} role="status">
+      <span className="sr-only">Loading…</span>
+      {children}
+    </div>
+  );
+}
+
 /** Generic page placeholder while a route or its data loads. */
 export function PageSkeleton() {
   return (
-    <div className="space-y-6" role="status">
-      <span className="sr-only">Loading…</span>
+    <LoadingStatus className="space-y-6">
       <Skeleton className="h-9 w-48" />
       <Skeleton className="h-40 w-full" />
       <div className="grid gap-4 sm:grid-cols-2">
         <Skeleton className="h-28" />
         <Skeleton className="h-28" />
       </div>
-    </div>
+    </LoadingStatus>
   );
 }

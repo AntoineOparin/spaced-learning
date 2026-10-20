@@ -4,7 +4,7 @@
  * never edit an existing version.
  */
 import Dexie, { type EntityTable } from 'dexie';
-import type { Card, Course, Item, ReviewLog, Settings, SyncedTable, Topic } from '../domain/types';
+import type { Card, Course, Item, ReviewLog, Settings, Topic } from '../domain/types';
 
 export interface MetaRecord {
   key: string;
@@ -18,7 +18,7 @@ export class AppDB extends Dexie {
   declare cards: EntityTable<Card, 'id'>;
   declare reviewLogs: EntityTable<ReviewLog, 'id'>;
   declare settings: EntityTable<Settings, 'id'>;
-  /** Device-local key/value data (theme, sync cursor, backup timestamps). Never synced. */
+  /** Device-local key/value data (sync cursor, backup timestamps). Never synced. */
   declare meta: EntityTable<MetaRecord, 'key'>;
 
   constructor(name = 'spaced-learning') {
@@ -32,9 +32,5 @@ export class AppDB extends Dexie {
       settings: 'id, dirty',
       meta: 'key',
     });
-  }
-
-  syncedTable(name: SyncedTable) {
-    return this.table(name);
   }
 }

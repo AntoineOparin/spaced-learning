@@ -17,6 +17,7 @@ import {
 import { cn } from './cn';
 import { fieldControl } from './Field';
 import { Icon } from './Icon';
+import { placePopover } from './popover';
 
 export interface SelectOption<T extends string | number> {
   value: T;
@@ -42,8 +43,6 @@ export interface SelectProps<T extends string | number> {
   'aria-describedby'?: string;
 }
 
-const GAP = 6;
-const MARGIN = 8;
 const MAX_HEIGHT = 320;
 const MAX_WIDTH = 360;
 
@@ -84,50 +83,6 @@ export function Select<T extends string | number>({
     close();
     if (option && option.value !== value) onChange(option.value);
   };
-
-  // Place the list under the trigger (or above it when there's more room there). It is at
-  // least as wide as the trigger and grows to fit its options, extending away from the
-  // nearer screen edge.
-  useEffect(() => {
-    const pop = popRef.current;
-    if (!pop) return;
-    const onBeforeToggle = (e: Event) => {
-      const trigger = triggerRef.current;
-      if ((e as ToggleEvent).newState !== 'open' || !trigger) return;
-      const r = trigger.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const fromRight = r.left + r.width / 2 > vw / 2;
-      const maxWidth = Math.min(MAX_WIDTH, fromRight ? r.right - MARGIN : vw - r.left - MARGIN);
-      const below = window.innerHeight - r.bottom - GAP - MARGIN;
-      const above = r.top - GAP - MARGIN;
-      const down = below >= Math.min(MAX_HEIGHT, 240) || below >= above;
-      Object.assign(pop.style, {
-        left: fromRight ? 'auto' : `${Math.max(r.left, MARGIN)}px`,
-        right: fromRight ? `${Math.max(vw - r.right, MARGIN)}px` : 'auto',
-        width: 'max-content',
-        minWidth: `${Math.min(Math.max(r.width, 180), maxWidth)}px`,
-        maxWidth: `${maxWidth}px`,
-        maxHeight: `${Math.min(MAX_HEIGHT, down ? below : above)}px`,
-        top: down ? `${r.bottom + GAP}px` : 'auto',
-        bottom: down ? 'auto' : `${window.innerHeight - r.top + GAP}px`,
-        transformOrigin: `${fromRight ? 'right' : 'left'} ${down ? 'top' : 'bottom'}`,
-      });
-    };
-    const onToggle = (e: Event) => {
-      const isOpen = (e as ToggleEvent).newState === 'open';
-      setOpen(isOpen);
-      if (isOpen) {
-        setActive(selectedIndex);
-        document.getElementById(optionId(selectedIndex))?.scrollIntoView({ block: 'center' });
-      }
-    };
-    pop.addEventListener('beforetoggle', onBeforeToggle);
-    pop.addEventListener('toggle', onToggle);
-    return () => {
-      pop.removeEventListener('beforetoggle', onBeforeToggle);
-      pop.removeEventListener('toggle', onToggle);
-    };
-  });
 
   // Like a native select, close when the page scrolls or resizes under the open list.
   useEffect(() => {
@@ -240,7 +195,24 @@ export function Select<T extends string | number>({
         id={`${autoId}-pop`}
         popover="auto"
         onMouseDown={keepFocus}
-        className="menu overflow-y-auto overscroll-contain rounded-xl border border-line bg-bg p-1.5 text-fg shadow-pop"
+        // At least as wide as the trigger, growing to fit the options.
+        onBeforeToggle={(e) => {
+          if (e.newState === 'open' && triggerRef.current && popRef.current)
+            placePopover(triggerRef.current, popRef.current, {
+              align: 'auto',
+              fit: { minWidth: 180, maxWidth: MAX_WIDTH },
+              maxHeight: MAX_HEIGHT,
+            });
+        }}
+        onToggle={(e) => {
+          const isOpen = e.newState === 'open';
+          setOpen(isOpen);
+          if (isOpen) {
+            setActive(selectedIndex);
+            document.getElementById(optionId(selectedIndex))?.scrollIntoView({ block: 'center' });
+          }
+        }}
+        className="menu overflow-y-auto overscroll-contain"
       >
         <div id={listId} role="listbox" aria-labelledby={triggerId}>
           {sections.map((g, gi) => {

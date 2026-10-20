@@ -12,7 +12,6 @@ export interface InstallOptions {
 }
 
 export interface InstallSummary {
-  courseIds: string[];
   coursesCreated: number;
   topicsCreated: number;
   itemsCreated: number;
@@ -27,7 +26,6 @@ export async function installContentPack(
   const { db } = repo;
   const deckId = pack.deck.id;
   const summary: InstallSummary = {
-    courseIds: [],
     coursesCreated: 0,
     topicsCreated: 0,
     itemsCreated: 0,
@@ -50,7 +48,6 @@ export async function installContentPack(
         summary.coursesCreated++;
       }
       courseByKey.set(c.key, course);
-      summary.courseIds.push(course.id);
     }
 
     const topicByKey = new Map<string, Topic>();

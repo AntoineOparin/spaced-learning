@@ -77,7 +77,7 @@ export function AppShell() {
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Phone top bar */}
         <header className="pt-safe sticky top-0 z-30 border-b border-line bg-bg md:hidden">
-          <div className="flex h-14 items-center justify-between px-4">
+          <div className="flex h-(--header-h) items-center justify-between px-4">
             <Brand />
             <SyncIndicator />
           </div>
@@ -85,7 +85,7 @@ export function AppShell() {
 
         <main
           id="main"
-          className="mx-auto w-full max-w-[940px] flex-1 px-4 pt-6 pb-32 sm:px-6 md:px-10 md:pt-12 md:pb-16"
+          className="mx-auto w-full max-w-[940px] flex-1 px-4 pt-6 pb-32 sm:px-6 md:px-10 md:pt-12 md:pb-(--page-bottom)"
         >
           <div className="mb-6 space-y-3 empty:hidden">
             <InstallHint />

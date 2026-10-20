@@ -2,7 +2,7 @@
  * The library's course/topic tree as a flat list of visible rows (collapsed branches are left
  * out), plus keyboard navigation in the style of VS Code's explorer and the ARIA tree pattern.
  */
-import { childTopics, topicPath } from '../../domain/topics';
+import { childTopics, subtreeIds, topicPath } from '../../domain/topics';
 import type { Course, Topic } from '../../domain/types';
 
 export interface TreeRow {
@@ -27,6 +27,17 @@ export interface TreeRow {
 }
 
 export const courseKey = (id: string) => `course:${id}`;
+
+/** Items in a topic and all its subtopics. */
+export function subtreeItemCount(
+  topics: readonly Topic[],
+  itemCounts: ReadonlyMap<string, number>,
+  topicId: string,
+): number {
+  let n = 0;
+  for (const id of subtreeIds(topics, topicId)) n += itemCounts.get(id) ?? 0;
+  return n;
+}
 export const topicKey = (id: string) => `topic:${id}`;
 
 export function visibleRows(
@@ -36,14 +47,7 @@ export function visibleRows(
   expanded: ReadonlySet<string>,
 ): TreeRow[] {
   const rows: TreeRow[] = [];
-  const subtreeCount = new Map<string, number>();
-  const countOf = (t: Topic): number => {
-    const cached = subtreeCount.get(t.id);
-    if (cached !== undefined) return cached;
-    const n = childTopics(topics, t.id).reduce((s, c) => s + countOf(c), itemCounts.get(t.id) ?? 0);
-    subtreeCount.set(t.id, n);
-    return n;
-  };
+  const countOf = (t: Topic) => subtreeItemCount(topics, itemCounts, t.id);
 
   const addTopics = (list: Topic[], level: number, parentKey: string) => {
     list.forEach((t, i) => {

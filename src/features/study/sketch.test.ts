@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { strokeBounds, strokePath } from './sketch';
+import { type Point, strokeBounds, strokeEnd, strokePath, strokeSegment } from './sketch';
 
 describe('strokePath', () => {
   it('draws a tap as a dot and two samples as a line', () => {
@@ -49,5 +49,30 @@ describe('strokeBounds', () => {
   it('is null for an empty drawing', () => {
     expect(strokeBounds([])).toBeNull();
     expect(strokeBounds([[]])).toBeNull();
+  });
+});
+
+describe('strokeSegment / strokeEnd', () => {
+  it('chain into exactly the full path, so live drawing matches the redraw', () => {
+    const pts: Point[] = [
+      { x: 0, y: 0 },
+      { x: 10, y: 0 },
+      { x: 10, y: 10 },
+      { x: 20, y: 10 },
+      { x: 25.33, y: 3.07 },
+    ];
+    const live = (stroke: Point[]) => {
+      const pieces: string[] = [];
+      for (let n = 2; n <= stroke.length; n++) pieces.push(strokeSegment(stroke, n));
+      pieces.push(strokeEnd(stroke));
+      // Each piece starts where the previous one ended: drop the repeated move-to.
+      return pieces.map((p, i) => (i === 0 ? p : p.replace(/^M[^LQ]*/, ''))).join('');
+    };
+    for (let len = 3; len <= pts.length; len++) {
+      expect(live(pts.slice(0, len))).toBe(strokePath(pts.slice(0, len)));
+    }
+    // Two samples: the same straight line, drawn as two collinear halves.
+    expect(live(pts.slice(0, 2))).toBe('M0 0L5 0L10 0');
+    expect(strokePath(pts.slice(0, 2))).toBe('M0 0L10 0');
   });
 });

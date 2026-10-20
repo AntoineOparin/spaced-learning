@@ -2,10 +2,11 @@
  * A small action menu on the native Popover API (light dismiss and Esc for free). It grows
  * out of its trigger and supports arrow-key navigation.
  */
-import { type KeyboardEvent, useEffect, useId, useRef } from 'react';
+import { type KeyboardEvent, useId, useRef } from 'react';
 import { IconButton } from './Button';
 import { cn } from './cn';
 import { Icon, type IconName } from './Icon';
+import { placePopover } from './popover';
 
 export interface MenuItem {
   label: string;
@@ -15,40 +16,10 @@ export interface MenuItem {
   disabled?: boolean;
 }
 
-const WIDTH = 224; // w-56
-const ITEM_HEIGHT = 40;
-
 export function Menu({ label, items }: { label: string; items: MenuItem[] }) {
   const id = useId();
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const menu = menuRef.current;
-    if (!menu) return;
-    // Position before showing (so the entry transition starts in place), focus after.
-    const onBeforeToggle = (e: Event) => {
-      const btn = buttonRef.current;
-      if ((e as ToggleEvent).newState !== 'open' || !btn) return;
-      const r = btn.getBoundingClientRect();
-      const height = items.length * ITEM_HEIGHT + 12;
-      const left = Math.min(Math.max(8, r.right - WIDTH), window.innerWidth - WIDTH - 8);
-      const below = r.bottom + 6 + height <= window.innerHeight - 8;
-      menu.style.left = `${left}px`;
-      menu.style.top = `${below ? r.bottom + 6 : r.top - 6 - height}px`;
-      menu.style.transformOrigin = `${r.left + r.width / 2 - left}px ${below ? 'top' : 'bottom'}`;
-    };
-    const onToggle = (e: Event) => {
-      if ((e as ToggleEvent).newState === 'open')
-        menu.querySelector<HTMLElement>('[role=menuitem]:not(:disabled)')?.focus();
-    };
-    menu.addEventListener('beforetoggle', onBeforeToggle);
-    menu.addEventListener('toggle', onToggle);
-    return () => {
-      menu.removeEventListener('beforetoggle', onBeforeToggle);
-      menu.removeEventListener('toggle', onToggle);
-    };
-  }, [items.length]);
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     const all = [
@@ -73,7 +44,16 @@ export function Menu({ label, items }: { label: string; items: MenuItem[] }) {
         role="menu"
         aria-label={label}
         onKeyDown={onKeyDown}
-        className="menu w-56 rounded-xl border border-line bg-bg p-1.5 text-fg shadow-pop"
+        // Position before showing (so the entry transition starts in place), focus after.
+        onBeforeToggle={(e) => {
+          if (e.newState === 'open' && buttonRef.current && menuRef.current)
+            placePopover(buttonRef.current, menuRef.current, { align: 'end' });
+        }}
+        onToggle={(e) => {
+          if (e.newState === 'open')
+            menuRef.current?.querySelector<HTMLElement>('[role=menuitem]:not(:disabled)')?.focus();
+        }}
+        className="menu w-56"
       >
         {items.map((item) => (
           <button

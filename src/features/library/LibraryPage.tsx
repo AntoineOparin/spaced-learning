@@ -3,24 +3,40 @@ import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { RichText } from '../../content/RichText';
 import { db, repo } from '../../db/instance';
+import { compareCardKeys } from '../../domain/cardgen';
 import { stripCloze } from '../../domain/cloze';
 import { endOfStudyDay } from '../../domain/day';
 import { formatInterval } from '../../domain/scheduler';
 import { isLeech } from '../../domain/stats';
-import { curriculumOrder, subtreeIds, topicPath } from '../../domain/topics';
-import { type Card, CardState, type Course, type Item, type Topic } from '../../domain/types';
+import { curriculumOrder, subtreeIds, TRAIL_SEPARATOR, topicTrail } from '../../domain/topics';
+import {
+  alive,
+  type Card,
+  CardState,
+  type Course,
+  type Item,
+  type Topic,
+} from '../../domain/types';
 import { Button, IconButton } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
 import { Input, Switch } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
 import { Menu, type MenuItem } from '../../ui/Menu';
-import { Badge, type BadgeTone, EmptyState, PageHeader, Skeleton } from '../../ui/misc';
+import {
+  Badge,
+  type BadgeTone,
+  EmptyState,
+  LoadingStatus,
+  PageHeader,
+  Skeleton,
+  surface,
+} from '../../ui/misc';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { CourseDialog, TopicDialog } from './dialogs';
 import { TopicTree } from './TopicTree';
-import { courseKey, type TreeRow, topicKey } from './tree';
+import { subtreeItemCount, type TreeRow } from './tree';
 
 type Filter = 'all' | 'new' | 'due' | 'suspended' | 'leech';
 const PAGE = 50;
@@ -36,9 +52,6 @@ const FILTERS: { value: Filter; label: string }[] = [
 type DialogState =
   | { kind: 'course'; course?: Course }
   | { kind: 'topic'; courseId: string; parent?: Topic | null; topic?: Topic };
-
-const alive = <T extends { deletedAt?: number }>(rows: T[]) =>
-  rows.filter((r) => r.deletedAt === undefined);
 
 function useLibraryData() {
   return useLiveQuery(async () => {
@@ -150,10 +163,30 @@ export default function LibraryPage() {
       list.push(c);
       m.set(c.itemId, list);
     }
-    for (const list of m.values())
-      list.sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }));
+    for (const list of m.values()) list.sort((a, b) => compareCardKeys(a.key, b.key));
     return m;
   }, [data]);
+
+  // Lower-cased text per item, built once per data change rather than on every keystroke.
+  const searchText = useMemo(
+    () =>
+      new Map(
+        (data?.items ?? []).map((it) => [
+          it.id,
+          [
+            it.fields.prompt,
+            stripCloze(it.fields.prompt),
+            it.fields.answer,
+            it.fields.explanation,
+            it.fields.mnemonic,
+            it.tags.join(' '),
+          ]
+            .join('\n')
+            .toLowerCase(),
+        ]),
+      ),
+    [data],
+  );
 
   const visibleItems = useMemo(() => {
     if (!data || !course) return [];
@@ -162,53 +195,41 @@ export default function LibraryPage() {
       ? subtreeIds(data.topics, selectedTopic.id)
       : new Set(data.topics.filter((t) => t.courseId === course.id).map((t) => t.id));
     const order = new Map(curriculumOrder(data.topics, course.id).map((t, i) => [t.id, i]));
-    return data.items
-      .filter((it) => (q ? it.courseId === course.id || !selectedTopic : inScope.has(it.topicId)))
-      .filter((it) => !selectedTopic || inScope.has(it.topicId))
-      .filter((it) => {
-        if (!q) return true;
-        const hay = [
-          it.fields.prompt,
-          stripCloze(it.fields.prompt),
-          it.fields.answer,
-          it.fields.explanation,
-          it.fields.mnemonic,
-          it.tags.join(' '),
-        ]
-          .join('\n')
-          .toLowerCase();
-        return hay.includes(q);
-      })
-      .filter((it) => {
-        if (filter === 'all') return true;
-        const cards = cardsByItem.get(it.id) ?? [];
-        switch (filter) {
-          case 'new':
-            return cards.some((c) => c.state === CardState.New && !c.suspended);
-          case 'due':
-            return cards.some((c) => c.state !== CardState.New && !c.suspended && c.due < dayEnd);
-          case 'suspended':
-            return cards.some((c) => c.suspended);
-          case 'leech':
-            return cards.some((c) => isLeech(c, data.settings.leechThreshold));
-          default:
-            return true;
-        }
-      })
-      .sort(
-        (a, b) =>
-          (order.get(a.topicId) ?? 999) - (order.get(b.topicId) ?? 999) || a.order - b.order,
-      );
-  }, [data, course, selectedTopic, query, filter, cardsByItem, dayEnd]);
+    return (
+      data.items
+        // A search with no topic selected looks across every course.
+        .filter((it) => (q && !selectedTopic) || inScope.has(it.topicId))
+        .filter((it) => !q || searchText.get(it.id)?.includes(q))
+        .filter((it) => {
+          if (filter === 'all') return true;
+          const cards = cardsByItem.get(it.id) ?? [];
+          switch (filter) {
+            case 'new':
+              return cards.some((c) => c.state === CardState.New && !c.suspended);
+            case 'due':
+              return cards.some((c) => c.state !== CardState.New && !c.suspended && c.due < dayEnd);
+            case 'suspended':
+              return cards.some((c) => c.suspended);
+            case 'leech':
+              return cards.some((c) => isLeech(c, data.settings.leechThreshold));
+            default:
+              return true;
+          }
+        })
+        .sort(
+          (a, b) =>
+            (order.get(a.topicId) ?? 999) - (order.get(b.topicId) ?? 999) || a.order - b.order,
+        )
+    );
+  }, [data, course, selectedTopic, query, filter, cardsByItem, dayEnd, searchText]);
 
   if (!data)
     return (
-      <div className="space-y-6" role="status">
-        <span className="sr-only">Loading…</span>
+      <LoadingStatus className="space-y-6">
         <Skeleton className="h-9 w-40" />
         <Skeleton className="h-11 w-full" />
         <Skeleton className="h-72 w-full" />
-      </div>
+      </LoadingStatus>
     );
 
   const toggleSuspend = async (item: Item) => {
@@ -222,10 +243,7 @@ export default function LibraryPage() {
   };
 
   const deleteTopic = async (t: Topic) => {
-    const n = [...subtreeIds(data.topics, t.id)].reduce(
-      (s, id) => s + (itemCounts.get(id) ?? 0),
-      0,
-    );
+    const n = subtreeItemCount(data.topics, itemCounts, t.id);
     const ok = await confirm({
       title: `Delete “${t.name}”?`,
       body: `${n ? `Its ${n} ${n === 1 ? 'item goes' : 'items go'} with it. ` : ''}Your review history is kept.`,
@@ -250,8 +268,8 @@ export default function LibraryPage() {
   /** Picking from the tree shows the new list from its top, even when scrolled far down. */
   const showFromTree = (row: TreeRow) => {
     select(row.kind === 'course' ? { course: row.id } : { topic: row.id });
-    const top = contentRef.current?.getBoundingClientRect().top ?? 0;
-    if (top < 0) window.scrollTo({ top: window.scrollY + top - 24 });
+    const el = contentRef.current;
+    if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ block: 'start' });
   };
   const flatTopics = course ? curriculumOrder(data.topics, course.id) : [];
   const newItem = () => navigate(`/items/new${selectedTopic ? `?topic=${selectedTopic.id}` : ''}`);
@@ -372,14 +390,12 @@ export default function LibraryPage() {
             </div>
 
             {/* The tree stays in view with its own scrolling while the item list scrolls. */}
-            <div className="sticky top-6 hidden xl:block">
+            <div className="sticky top-(--page-top) hidden xl:block">
               <TopicTree
                 courses={data.courses}
                 topics={data.topics}
                 itemCounts={itemCounts}
-                selectedKey={
-                  selectedTopic ? topicKey(selectedTopic.id) : course ? courseKey(course.id) : ''
-                }
+                selected={course && { courseId: course.id, topicId: selectedTopic?.id }}
                 onSelect={showFromTree}
                 onAddTopic={() =>
                   course && openDialog({ kind: 'topic', courseId: course.id, parent: null })
@@ -395,12 +411,9 @@ export default function LibraryPage() {
               <div className="mb-6">
                 {selectedTopic && (
                   <p className="mb-1 truncate text-[13px] font-medium text-muted">
-                    {[
-                      course.name,
-                      ...topicPath(data.topics, selectedTopic.id)
-                        .slice(0, -1)
-                        .map((t) => t.name),
-                    ].join(' › ')}
+                    {topicTrail(data.topics, selectedTopic.id, course)
+                      .slice(0, -1)
+                      .join(TRAIL_SEPARATOR)}
                   </p>
                 )}
                 <div className="flex items-start gap-2">
@@ -431,7 +444,7 @@ export default function LibraryPage() {
                   />
                 </div>
                 {selectedTopic && (
-                  <div className="mt-4 rounded-xl border border-line bg-bg-alt px-4 py-3.5">
+                  <div className={cn(surface, 'mt-4 px-4 py-3.5')}>
                     <Switch
                       checked={selectedTopic.active}
                       onChange={(v) => void repo.setTopicActive(selectedTopic.id, v)}
@@ -525,7 +538,7 @@ export default function LibraryPage() {
                 </EmptyState>
               )
             ) : (
-              <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-bg-alt">
+              <ul className={cn(surface, 'divide-y divide-line overflow-hidden')}>
                 {visibleItems.slice(0, limit).map((item) => {
                   const cards = cardsByItem.get(item.id) ?? [];
                   const allSuspended = cards.length > 0 && cards.every((c) => c.suspended);

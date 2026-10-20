@@ -3,9 +3,12 @@
  * Triggers: app start, coming back online, the tab being hidden, every few minutes while
  * visible and there are local changes, the end of a study session, and "Sync now".
  */
+import { liveQuery } from 'dexie';
 import { useSyncExternalStore } from 'react';
-import { db } from '../db/instance';
+import { db, repo } from '../db/instance';
 import { LAST_SYNC_AT_KEY } from '../db/metaKeys';
+import { MINUTE } from '../domain/day';
+import { errorMessage } from '../lib/errors';
 import {
   AuthRequiredError,
   countDirty,
@@ -25,7 +28,7 @@ export interface SyncState {
   error: string | null;
 }
 
-const PERIOD_MS = 5 * 60_000;
+const PERIOD_MS = 5 * MINUTE;
 
 class SyncManager {
   private state: SyncState = { status: 'idle', lastSyncAt: null, pending: 0, error: null };
@@ -47,9 +50,8 @@ class SyncManager {
     for (const l of this.listeners) l();
   }
 
-  async refreshPending(): Promise<void> {
-    const [pending, last] = await Promise.all([countDirty(db), db.meta.get(LAST_SYNC_AT_KEY)]);
-    this.set({ pending, lastSyncAt: (last?.value as number | undefined) ?? null });
+  private async loadLastSyncAt(): Promise<void> {
+    this.set({ lastSyncAt: (await repo.getMeta<number>(LAST_SYNC_AT_KEY)) ?? null });
   }
 
   /** Runs a sync; concurrent calls coalesce into one follow-up run. */
@@ -78,16 +80,22 @@ class SyncManager {
       else if (err instanceof AuthRequiredError) this.set({ status: 'auth' });
       else if (err instanceof SyncUnavailableError)
         this.set({ status: 'unavailable', error: err.message });
-      else this.set({ status: 'error', error: err instanceof Error ? err.message : String(err) });
+      else this.set({ status: 'error', error: errorMessage(err) });
     } finally {
-      await this.refreshPending();
+      await this.loadLastSyncAt();
     }
   }
 
   start(): void {
     if (this.started) return;
     this.started = true;
-    void this.refreshPending();
+    // Every local write marks rows dirty: a live count keeps the indicator and the periodic
+    // sync below up to date without each write having to report in.
+    liveQuery(() => countDirty(db)).subscribe({
+      next: (pending) => this.set({ pending }),
+      error: (err) => console.warn('Could not count unsynced changes', err),
+    });
+    void this.loadLastSyncAt();
     void this.sync();
     window.addEventListener('online', () => void this.sync());
     document.addEventListener('visibilitychange', () => {

@@ -4,10 +4,19 @@
  */
 import type { AppDB } from '../db/db';
 import { endOfStudyDay, startOfStudyDay } from '../domain/day';
-import { DEFAULT_LEARN_AHEAD_MS, type QueueInput } from '../domain/queue';
-import { getScheduler, type Scheduler, schedulerConfig } from '../domain/scheduler';
+import type { QueueInput } from '../domain/queue';
+import { type Scheduler, schedulerForCourse } from '../domain/scheduler';
 import { buildNewRank, effectiveActiveTopicIds, subtreeIds } from '../domain/topics';
-import type { Card, Course, Item, ReviewLog, Settings, Topic } from '../domain/types';
+import {
+  alive,
+  type Card,
+  CardState,
+  type Course,
+  type Item,
+  type ReviewLog,
+  type Settings,
+  type Topic,
+} from '../domain/types';
 
 export interface StudyData {
   settings: Settings;
@@ -30,9 +39,6 @@ export interface SessionState {
   seed: number;
 }
 
-const alive = <T extends { deletedAt?: number }>(rows: T[]) =>
-  rows.filter((r) => r.deletedAt === undefined);
-
 export async function loadStudyData(
   db: AppDB,
   settings: Settings,
@@ -42,19 +48,25 @@ export async function loadStudyData(
   return db.transaction(
     'r',
     [db.courses, db.topics, db.items, db.cards, db.reviewLogs],
-    async () => ({
-      settings,
-      courses: alive(await db.courses.toArray()),
-      topics: alive(await db.topics.toArray()),
-      items: alive(await db.items.toArray()),
-      cards: alive(await db.cards.toArray()),
-      todayLogs: alive(await db.reviewLogs.where('review').aboveOrEqual(dayStart).toArray()),
-    }),
+    async () => {
+      // Independent reads, issued together so IndexedDB can pipeline them.
+      const [courses, topics, items, cards, todayLogs] = await Promise.all([
+        db.courses.toArray(),
+        db.topics.toArray(),
+        db.items.toArray(),
+        db.cards.toArray(),
+        db.reviewLogs.where('review').aboveOrEqual(dayStart).toArray(),
+      ]);
+      return {
+        settings,
+        courses: alive(courses),
+        topics: alive(topics),
+        items: alive(items),
+        cards: alive(cards),
+        todayLogs: alive(todayLogs),
+      };
+    },
   );
-}
-
-export function schedulerForCourse(settings: Settings, course: Course | undefined): Scheduler {
-  return getScheduler(schedulerConfig(settings, course));
 }
 
 /** Cards in scope: archived courses are excluded unless explicitly selected. */
@@ -71,7 +83,7 @@ export function scopeCards(data: StudyData, scope: Scope): Card[] {
 export function newIntroducedToday(logs: readonly ReviewLog[]): Map<string, number> {
   const counts = new Map<string, number>();
   for (const log of logs) {
-    if (log.state === 0) counts.set(log.courseId, (counts.get(log.courseId) ?? 0) + 1);
+    if (log.state === CardState.New) counts.set(log.courseId, (counts.get(log.courseId) ?? 0) + 1);
   }
   return counts;
 }
@@ -96,12 +108,18 @@ export function buildQueueInput(
     return s;
   };
 
+  // The curriculum ranking sorts every item, and only ordered queues need it: build it lazily.
+  let rank: ((card: Card) => number) | undefined;
+
   return {
     now,
     dayEnd: endOfStudyDay(now, settings.dayStartHour),
     cards: scopeCards(data, scope),
     isTopicActive: (topicId) => active.has(topicId),
-    newRank: buildNewRank(data.courses, data.topics, data.items),
+    newRank: (card) => {
+      rank ??= buildNewRank(data.courses, data.topics, data.items);
+      return rank(card);
+    },
     newRemaining: (courseId) => {
       const limit = courseById.get(courseId)?.newPerDay ?? settings.newPerDay;
       return Math.max(0, limit - (introduced.get(courseId) ?? 0));
@@ -114,7 +132,6 @@ export function buildQueueInput(
     lastTopicId: session.lastTopicId,
     reviewsSinceNew: session.reviewsSinceNew,
     seed: session.seed,
-    learnAheadMs: DEFAULT_LEARN_AHEAD_MS,
   };
 }
 

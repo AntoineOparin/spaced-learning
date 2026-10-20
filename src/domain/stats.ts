@@ -1,12 +1,8 @@
 /** Dashboard metrics. Pure functions over cards and review logs. */
-import { studyDaysBetween } from './day';
-import { type Card, CardState, type ReviewLog } from './types';
+import { studyDayStartOffset } from './day';
+import { alive, type Card, CardState, type Item, Rating, type ReviewLog } from './types';
 
 const MATURE_DAYS = 21;
-
-function alive<T extends { deletedAt?: number }>(rows: readonly T[]): T[] {
-  return rows.filter((r) => r.deletedAt === undefined);
-}
 
 /**
  * Number of (non-new, unsuspended) cards due per study day for the next `days` days.
@@ -19,10 +15,14 @@ export function forecast(
   days: number,
 ): number[] {
   const out = new Array<number>(days).fill(0);
+  // Day boundaries once (start of tomorrow, the day after, …) instead of date maths per card.
+  const bounds = Array.from({ length: days }, (_, k) =>
+    studyDayStartOffset(now, dayStartHour, k + 1),
+  );
   for (const card of alive(cards)) {
     if (card.suspended || card.state === CardState.New) continue;
-    const offset = Math.max(0, studyDaysBetween(now, card.due, dayStartHour));
-    if (offset < days) out[offset] = (out[offset] ?? 0) + 1;
+    const offset = bounds.findIndex((b) => card.due < b);
+    if (offset !== -1) out[offset] = (out[offset] ?? 0) + 1;
   }
   return out;
 }
@@ -40,10 +40,34 @@ export function daySummary(logs: readonly ReviewLog[], dayStart: number): DaySum
     if (log.review < dayStart) continue;
     summary.reviewed++;
     if (log.state === CardState.New) summary.newIntroduced++;
-    if (log.rating === 1) summary.again++;
+    if (log.rating === Rating.Again) summary.again++;
     summary.timeMs += log.durationMs;
   }
   return summary;
+}
+
+export interface SessionStats {
+  reviewed: number;
+  again: number;
+  timeMs: number;
+  /** Items forgotten (Again) during the session, in the order they were first forgotten. */
+  forgotten: Item[];
+}
+
+/** A study session's totals from its review logs (an undone review leaves no log behind). */
+export function sessionStats(logs: readonly ReviewLog[], items: readonly Item[]): SessionStats {
+  const byId = new Map(items.map((i) => [i.id, i]));
+  const forgotten = new Map<string, Item>();
+  let again = 0;
+  let timeMs = 0;
+  for (const log of logs) {
+    timeMs += log.durationMs;
+    if (log.rating !== Rating.Again) continue;
+    again++;
+    const item = byId.get(log.itemId);
+    if (item && !forgotten.has(item.id)) forgotten.set(item.id, item);
+  }
+  return { reviewed: logs.length, again, timeMs, forgotten: [...forgotten.values()] };
 }
 
 export interface Retention {
@@ -63,7 +87,7 @@ export function trueRetention(logs: readonly ReviewLog[], since: number): Retent
   for (const log of alive(logs)) {
     if (log.review < since || log.state !== CardState.Review) continue;
     total++;
-    if (log.rating > 1) passed++;
+    if (log.rating !== Rating.Again) passed++;
   }
   return { passed, total, rate: total ? passed / total : null };
 }
@@ -120,7 +144,7 @@ export function weakestTopics(
     if (log.review < since || log.state !== CardState.Review) continue;
     const entry = byTopic.get(log.topicId) ?? { reviews: 0, lapses: 0 };
     entry.reviews++;
-    if (log.rating === 1) entry.lapses++;
+    if (log.rating === Rating.Again) entry.lapses++;
     byTopic.set(log.topicId, entry);
   }
   return [...byTopic.entries()]
@@ -146,13 +170,25 @@ export function studyStreak(
   now: number,
   dayStartHour: number,
 ): Streak {
-  const daysAgo = new Set<number>();
-  for (const t of reviewTimes) {
-    const d = studyDaysBetween(t, now, dayStartHour);
-    if (d >= 0) daysAgo.add(d);
-  }
-  const today = daysAgo.has(0);
+  // Walk back from the newest review, one study day at a time, and stop at the first gap. Day
+  // boundaries come from the same calendar arithmetic as everywhere else (DST-safe).
+  const end = studyDayStartOffset(now, dayStartHour, 1);
+  const times = Array.from(reviewTimes)
+    .filter((t) => t < end)
+    .sort((a, b) => b - a); // input is usually sorted already, which makes this linear
+  let day = 0; // days ago of the window [start, previous start)
+  let start = studyDayStartOffset(now, dayStartHour, 0);
+  let expected = 0; // the next day the streak needs
   let days = 0;
-  for (let d = today ? 0 : 1; daysAgo.has(d); d++) days++;
+  let today = false;
+  for (const t of times) {
+    while (t < start) start = studyDayStartOffset(now, dayStartHour, -++day);
+    if (day < expected) continue; // another review on a day already counted
+    if (day === expected || (expected === 0 && day === 1)) {
+      if (day === 0) today = true;
+      days++;
+      expected = day + 1;
+    } else break;
+  }
   return { days, today };
 }

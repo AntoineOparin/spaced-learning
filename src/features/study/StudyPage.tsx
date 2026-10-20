@@ -3,22 +3,26 @@ import { Link, useNavigate, useSearchParams } from 'react-router';
 import type { Scope } from '../../app/studyData';
 import { RichText } from '../../content/RichText';
 import { stripCloze } from '../../domain/cloze';
+import { MINUTE } from '../../domain/day';
 import { describeInterval, formatInterval, RATINGS } from '../../domain/scheduler';
-import { topicPath } from '../../domain/topics';
+import type { SessionStats } from '../../domain/stats';
+import { TRAIL_SEPARATOR, topicTrail } from '../../domain/topics';
 import type { AnswerMode, RatingValue } from '../../domain/types';
+import { readLocal, writeLocal } from '../../lib/storage';
 import { Button, IconButton } from '../../ui/Button';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
+import { DisclosureButton } from '../../ui/Disclosure';
 import { Textarea } from '../../ui/Field';
 import type { IconName } from '../../ui/Icon';
 import { Icon } from '../../ui/Icon';
-import { Badge, Dot, Kbd, ProgressBar, Skeleton } from '../../ui/misc';
+import { Badge, Dot, Kbd, LoadingStatus, ProgressBar, Skeleton, surface } from '../../ui/misc';
 import { useToast } from '../../ui/Toast';
 import { ItemEditor } from '../editor/ItemEditor';
 import { cardFaces, isExactMatch } from './answer';
 import { SketchPreview, Sketchpad } from './Sketchpad';
 import type { Stroke } from './sketch';
-import { type SessionStats, useStudySession } from './useStudySession';
+import { useStudySession } from './useStudySession';
 
 /** Each rating owns one signal hue; tiles stay neutral until touched, so no answer is nudged. */
 const RATING_META: Record<
@@ -55,22 +59,6 @@ const RATING_META: Record<
 const MODE_KEY = 'answerMode';
 const EXPLAIN_KEY = 'showExplanations';
 const HINT_KEY = 'ratingHintSeen';
-
-function readLocal(key: string): string | null {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
-
-function writeLocal(key: string, value: string) {
-  try {
-    localStorage.setItem(key, value);
-  } catch {
-    // ignore
-  }
-}
 
 const SHORTCUTS: [string[], string][] = [
   [['Space', 'Enter'], 'Show answer, then rate Good'],
@@ -118,7 +106,7 @@ function ModeToggle({
 }
 
 function Summary({ stats, onExit }: { stats: SessionStats; onExit: () => void }) {
-  const mins = Math.max(1, Math.round(stats.timeMs / 60_000));
+  const mins = Math.max(1, Math.round(stats.timeMs / MINUTE));
   const tiles = [
     { label: 'Reviewed', value: stats.reviewed, tone: 'text-accent-text' },
     { label: 'Minutes', value: mins, tone: 'text-xp-text' },
@@ -148,10 +136,7 @@ function Summary({ stats, onExit }: { stats: SessionStats; onExit: () => void })
       {stats.reviewed > 0 && (
         <dl className="mt-8 grid grid-cols-3 gap-3">
           {tiles.map((t) => (
-            <div
-              key={t.label}
-              className="animate-rise rounded-xl border border-line bg-bg-alt px-2 py-4"
-            >
+            <div key={t.label} className={cn(surface, 'animate-rise px-2 py-4')}>
               <dt className={cn('text-xs font-bold', t.tone)}>{t.label}</dt>
               <dd className="mt-1 text-3xl font-extrabold tabular-nums">{t.value}</dd>
             </div>
@@ -165,7 +150,7 @@ function Summary({ stats, onExit }: { stats: SessionStats; onExit: () => void })
           <p className="mt-0.5 text-[13px] text-muted">
             If a card keeps failing, rewrite it: make it smaller, add a cue, or explain why.
           </p>
-          <ul className="mt-3 divide-y divide-line rounded-xl border border-line bg-bg-alt">
+          <ul className={cn(surface, 'mt-3 divide-y divide-line')}>
             {stats.forgotten.slice(0, 8).map((item) => (
               <li key={item.id} className="flex items-center justify-between gap-3 px-4 py-3">
                 <RichText
@@ -210,15 +195,6 @@ export default function StudyPage() {
   const [help, setHelp] = useState(false);
   const [hintSeen, setHintSeen] = useState(() => readLocal(HINT_KEY) === '1');
   const answerRef = useRef<HTMLDivElement>(null);
-  // The footer is fixed, so the content reserves its measured height (it differs between
-  // the question and rating footers, and with the safe area).
-  const [footerHeight, setFooterHeight] = useState(0);
-  const footerRef = useCallback((el: HTMLElement | null) => {
-    if (!el) return;
-    const ro = new ResizeObserver(() => setFooterHeight(el.offsetHeight));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const { current, phase } = s;
@@ -230,14 +206,15 @@ export default function StudyPage() {
   const previews = phase === 'answer' ? s.preview() : null;
   const exit = useCallback(() => navigate('/'), [navigate]);
 
-  // New card → clear the previous attempt and focus the input in typed mode.
-  const cardId = current?.card.id;
+  // Each question (even the same card coming straight back) starts blank, and typed mode
+  // puts the cursor in the input.
+  const { turn } = s;
   useEffect(() => {
-    if (!cardId) return;
+    if (!turn) return;
     setTyped('');
-    setStrokes([]);
+    setStrokes((s) => (s.length ? [] : s)); // a fresh [] would re-render for nothing
     if (mode === 'typed') requestAnimationFrame(() => inputRef.current?.focus());
-  }, [cardId, mode]);
+  }, [turn, mode]);
 
   // Move focus to the answer for screen readers and keyboard users.
   useEffect(() => {
@@ -306,7 +283,7 @@ export default function StudyPage() {
       }
       if (mod || e.altKey) return;
 
-      switch (e.key) {
+      switch (e.key.length === 1 ? e.key.toLowerCase() : e.key) {
         case ' ':
         case 'Enter':
           if (phase === 'question') {
@@ -324,27 +301,21 @@ export default function StudyPage() {
           if (phase === 'answer') rate(Number(e.key) as RatingValue);
           break;
         case 'u':
-        case 'U':
           void undo();
           break;
         case 'e':
-        case 'E':
           if (current) setEditing(true);
           break;
         case 's':
-        case 'S':
           if (current) void suspend();
           break;
         case 'i':
-        case 'I':
           if (phase === 'answer') toggleWhy();
           break;
         case 't':
-        case 'T':
           if (phase === 'question') toggleMode('typed');
           break;
         case 'd':
-        case 'D':
           if (phase === 'question') toggleMode('drawn');
           break;
         case '?':
@@ -359,11 +330,10 @@ export default function StudyPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [editing, help, phase, s, rate, undo, suspend, toggleWhy, toggleMode, exit, current]);
 
-  const breadcrumb = useMemo(() => {
-    if (!s.data || !current) return '';
+  const trail = useMemo(() => {
+    if (!s.data || !current) return [];
     const course = s.data.courses.find((c) => c.id === current.card.courseId);
-    const path = topicPath(s.data.topics, current.card.topicId).map((t) => t.name);
-    return [course?.name, ...path].filter(Boolean).join(' › ');
+    return topicTrail(s.data.topics, current.card.topicId, course);
   }, [s.data, current]);
 
   const counts = s.counts;
@@ -405,11 +375,10 @@ export default function StudyPage() {
 
       <main className="flex flex-1 flex-col">
         {phase === 'loading' && (
-          <div className="mx-auto w-full max-w-[720px] space-y-5 px-5 pt-10" role="status">
-            <span className="sr-only">Loading…</span>
+          <LoadingStatus className="mx-auto w-full max-w-[720px] space-y-5 px-5 pt-10">
             <Skeleton className="h-4 w-48" />
             <Skeleton className="h-10 w-3/4" />
-          </div>
+          </LoadingStatus>
         )}
 
         {phase === 'done' && <Summary stats={s.stats} onExit={exit} />}
@@ -419,10 +388,9 @@ export default function StudyPage() {
           // biome-ignore lint/a11y/noStaticElementInteractions: tap anywhere on the card to reveal
           <div
             className={cn(
-              'mx-auto flex w-full max-w-[720px] flex-1 flex-col px-5 pt-4 sm:pt-8',
+              'mx-auto flex w-full max-w-[720px] flex-1 flex-col px-5 pt-4 pb-6 sm:pt-8',
               phase === 'question' && mode === 'reveal' && 'cursor-pointer',
             )}
-            style={{ paddingBottom: (footerHeight || 184) + 24 }}
             onClick={(e) => {
               if (
                 phase === 'question' &&
@@ -443,8 +411,8 @@ export default function StudyPage() {
             >
               <div className="mb-8 flex items-center justify-between gap-4 text-[13px]">
                 <p className="min-w-0 truncate text-muted">
-                  <span className="hidden sm:inline">{breadcrumb}</span>
-                  <span className="sm:hidden">{breadcrumb.split(' › ').pop()}</span>
+                  <span className="hidden sm:inline">{trail.join(TRAIL_SEPARATOR)}</span>
+                  <span className="sm:hidden">{trail.at(-1)}</span>
                 </p>
                 {counts && (
                   <p className="flex shrink-0 gap-3 font-bold tabular-nums">
@@ -483,14 +451,14 @@ export default function StudyPage() {
                 aria-label="Question"
                 className="text-[22px] leading-normal font-medium sm:text-[26px]"
               >
-                {faces.clozeOrdinal !== undefined ? (
-                  <RichText
-                    source={faces.prompt}
-                    cloze={{ ordinal: faces.clozeOrdinal, reveal: phase === 'answer' }}
-                  />
-                ) : (
-                  <RichText source={faces.prompt} />
-                )}
+                <RichText
+                  source={faces.prompt}
+                  cloze={
+                    faces.clozeOrdinal === undefined
+                      ? undefined
+                      : { ordinal: faces.clozeOrdinal, reveal: phase === 'answer' }
+                  }
+                />
               </article>
 
               {mode === 'typed' && phase === 'question' && (
@@ -505,7 +473,7 @@ export default function StudyPage() {
                     rows={2}
                   />
                   {typed.includes('$') && (
-                    <div className="rounded-xl border border-line bg-bg-alt px-4 py-3 text-lg">
+                    <div className={cn(surface, 'px-4 py-3 text-lg')}>
                       <RichText source={typed} />
                     </div>
                   )}
@@ -543,7 +511,7 @@ export default function StudyPage() {
 
                   {/* The key keeps the same place in every mode; your attempt follows it. */}
                   {mode !== 'reveal' && (
-                    <div className="mt-8 rounded-xl border border-line bg-bg-alt px-4 py-3">
+                    <div className={cn(surface, 'mt-8 px-4 py-3')}>
                       <div className="mb-1 flex items-center justify-between text-[13px] text-muted">
                         <span className="font-semibold">Your answer</span>
                         {mode === 'typed' &&
@@ -567,27 +535,14 @@ export default function StudyPage() {
                   )}
                   {hasWhy && (
                     <div className="mt-10">
-                      <button
-                        type="button"
-                        onClick={toggleWhy}
-                        aria-expanded={showWhy}
-                        className="-ml-1 flex items-center gap-1 rounded-lg px-1 py-0.5 text-[15px] font-bold text-accent-text"
-                      >
-                        <Icon
-                          name="chevronRight"
-                          size={18}
-                          className={cn(
-                            'transition-transform duration-(--spring-fast) ease-spring',
-                            showWhy && 'rotate-90',
-                          )}
-                        />
+                      <DisclosureButton open={showWhy} onToggle={toggleWhy}>
                         Why?
                         <span className="ml-1.5 hidden sm:inline-flex">
                           <Kbd>I</Kbd>
                         </span>
-                      </button>
+                      </DisclosureButton>
                       {showWhy && (
-                        <div className="mt-3 animate-rise space-y-4 rounded-xl border border-line bg-bg-alt px-5 py-4">
+                        <div className={cn(surface, 'mt-3 animate-rise space-y-4 px-5 py-4')}>
                           {item.fields.explanation && <RichText source={item.fields.explanation} />}
                           {item.fields.mnemonic && (
                             <div>
@@ -607,10 +562,9 @@ export default function StudyPage() {
       </main>
 
       {current && (phase === 'question' || phase === 'answer') && (
-        <footer
-          ref={footerRef}
-          className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-line bg-bg"
-        >
+        // In flow and sticky: it stays at the bottom of the screen, and the content above
+        // always ends clear of it, whatever its height.
+        <footer className="pb-safe sticky bottom-0 z-20 border-t border-line bg-bg">
           <div className="mx-auto max-w-[720px] px-4 pt-4">
             {phase === 'question' ? (
               <div className="flex items-center gap-3">

@@ -1,14 +1,21 @@
-import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { type ComponentProps, type ReactNode, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
+import type { z } from 'zod';
 import { describeSync } from '../../app/SyncIndicator';
 import { BUNDLED_DECKS } from '../../content/decks';
 import { useMeta, useSettings } from '../../db/hooks';
 import { db, repo } from '../../db/instance';
 import { LAST_EXPORT_AT_KEY } from '../../db/metaKeys';
-import type { Settings, StepUnit } from '../../domain/types';
+import {
+  DEFAULT_SETTINGS,
+  NEW_PER_DAY_MAX,
+  type Settings,
+  type StepUnit,
+} from '../../domain/types';
 import { backupFileName, exportBackup, restoreBackup, summarizeBackup } from '../../io/backup';
 import { installContentPack } from '../../io/contentPack';
 import { type BackupFile, backupSchema, contentPackSchema, parseJson } from '../../io/schema';
+import { errorMessage } from '../../lib/errors';
 import { downloadJson } from '../../lib/files';
 import {
   formatBytes,
@@ -22,9 +29,9 @@ import { Button, buttonClass } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
 import { Dialog } from '../../ui/Dialog';
-import { Input, Segmented, Switch } from '../../ui/Field';
+import { hintText, Input, intValue, Segmented, Switch, useFieldIds } from '../../ui/Field';
 import { Icon, type IconName } from '../../ui/Icon';
-import { PageHeader } from '../../ui/misc';
+import { PageHeader, surface } from '../../ui/misc';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 import { InstallDeckDialog } from '../decks/InstallDeckDialog';
@@ -55,16 +62,9 @@ function Section({
   plain?: boolean;
 }) {
   return (
-    <section id={id} className="scroll-mt-24">
+    <section id={id}>
       <h2 className="mb-3 text-lg font-bold">{title}</h2>
-      <div
-        className={cn(
-          'rounded-xl border border-line bg-bg-alt',
-          plain ? 'px-5 py-5' : 'divide-y divide-line',
-        )}
-      >
-        {children}
-      </div>
+      <div className={cn(surface, plain ? 'px-5 py-5' : 'divide-y divide-line')}>{children}</div>
     </section>
   );
 }
@@ -75,17 +75,14 @@ function Row({
   hint,
   children,
   stacked = false,
-  className,
 }: {
   label: ReactNode;
   hint?: ReactNode;
   /** Receives the id to put on the control and the id of the hint for aria-describedby. */
   children?: ReactNode | ((id: string, describedBy: string | undefined) => ReactNode);
   stacked?: boolean;
-  className?: string;
 }) {
-  const id = useId();
-  const hintId = hint ? `${id}-hint` : undefined;
+  const { id, hintId } = useFieldIds(hint);
   const control = typeof children === 'function' ? children(id, hintId) : children;
   const labelled = typeof children === 'function';
   return (
@@ -93,7 +90,6 @@ function Row({
       className={cn(
         'flex flex-col gap-3 px-5 py-4',
         !stacked && 'sm:flex-row sm:items-center sm:justify-between sm:gap-6',
-        className,
       )}
     >
       <div className="min-w-0">
@@ -105,7 +101,7 @@ function Row({
           <p className="text-[15px] font-semibold">{label}</p>
         )}
         {hint && (
-          <p id={hintId} className="mt-0.5 text-[13px] leading-5 text-muted">
+          <p id={hintId} className={cn('mt-0.5', hintText)}>
             {hint}
           </p>
         )}
@@ -136,10 +132,118 @@ function ThemePicker() {
   );
 }
 
-function StudySettings({ settings }: { settings: Settings }) {
+/** Steps edited as text, saved when the field loses focus (or put back if they don't parse). */
+function StepsRow({
+  label,
+  hint,
+  steps,
+  example,
+  onSave,
+}: {
+  label: string;
+  hint: string;
+  steps: StepUnit[];
+  example: string;
+  onSave: (steps: StepUnit[]) => void;
+}) {
   const toast = useToast();
-  const [learning, setLearning] = useState(settings.learningSteps.join(' '));
-  const [relearning, setRelearning] = useState(settings.relearningSteps.join(' '));
+  const [text, setText] = useState(steps.join(' '));
+  return (
+    <Row label={label} hint={hint}>
+      {(id, d) => (
+        <Input
+          id={id}
+          aria-describedby={d}
+          value={text}
+          className="w-40 font-mono text-sm"
+          onChange={(e) => setText(e.target.value)}
+          onBlur={() => {
+            const parsed = parseSteps(text);
+            if (parsed) onSave(parsed);
+            else {
+              toast({ tone: 'error', message: `Steps look like ${example}` });
+              setText(steps.join(' '));
+            }
+          }}
+        />
+      )}
+    </Row>
+  );
+}
+
+/**
+ * A whole-number input. Values in range save as you type; anything else (a first digit below
+ * the minimum, say) waits for the field to lose focus and is then clamped.
+ */
+function IntInput({
+  value,
+  min,
+  max,
+  fallback = min,
+  onSave,
+  ...props
+}: Omit<ComponentProps<typeof Input>, 'value' | 'onChange' | 'onBlur' | 'min' | 'max'> & {
+  value: number;
+  min: number;
+  max: number;
+  fallback?: number;
+  onSave: (n: number) => void;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  return (
+    <Input
+      {...props}
+      type="number"
+      inputMode="numeric"
+      min={min}
+      max={max}
+      value={draft ?? value}
+      onChange={(e) => {
+        const text = e.target.value;
+        setDraft(text);
+        const n = Number(text);
+        if (text.trim() && Number.isInteger(n) && n >= min && n <= max) onSave(n);
+      }}
+      onBlur={() => {
+        if (draft !== null) onSave(intValue(draft, min, max, fallback));
+        setDraft(null);
+      }}
+    />
+  );
+}
+
+/** A button that opens the file picker for one JSON file. */
+function JsonFileButton({
+  onPick,
+  variant,
+  children,
+}: {
+  onPick: (file: File) => void;
+  variant?: ComponentProps<typeof Button>['variant'];
+  children: ReactNode;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  return (
+    <>
+      <Button size="sm" variant={variant} onClick={() => ref.current?.click()}>
+        {children}
+      </Button>
+      <input
+        ref={ref}
+        type="file"
+        accept="application/json,.json"
+        hidden
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          e.target.value = ''; // picking the same file again still fires
+          if (file) onPick(file);
+        }}
+      />
+    </>
+  );
+}
+
+function StudySettings({ settings }: { settings: Settings }) {
   const update = async (patch: Partial<Settings>) => {
     await repo.updateSettings(patch);
   };
@@ -157,7 +261,6 @@ function StudySettings({ settings }: { settings: Settings }) {
           </span>
         }
         hint="The chance of recalling a card when it comes due. 90% is a good default; each extra point costs noticeably more reviews. Courses can override this."
-        className="[&>div:first-child]:w-full"
       >
         {(id, d) => (
           <input
@@ -176,20 +279,14 @@ function StudySettings({ settings }: { settings: Settings }) {
       </Row>
       <Row label="New cards per day" hint="Per course.">
         {(id, d) => (
-          <Input
+          <IntInput
             id={id}
             aria-describedby={d}
-            type="number"
             min={0}
-            max={500}
-            inputMode="numeric"
+            max={NEW_PER_DAY_MAX}
             value={settings.newPerDay}
             className="w-28 text-right tabular-nums"
-            onChange={(e) =>
-              void update({
-                newPerDay: Math.max(0, Math.min(500, Math.round(Number(e.target.value) || 0))),
-              })
-            }
+            onSave={(n) => void update({ newPerDay: n })}
           />
         )}
       </Row>
@@ -205,59 +302,31 @@ function StudySettings({ settings }: { settings: Settings }) {
           />
         )}
       </Row>
-      <Row label="Learning steps" hint="Short same-day repeats for new cards, e.g. 1m 10m.">
-        {(id, d) => (
-          <Input
-            id={id}
-            aria-describedby={d}
-            value={learning}
-            className="w-40 font-mono text-sm"
-            onChange={(e) => setLearning(e.target.value)}
-            onBlur={() => {
-              const steps = parseSteps(learning);
-              if (steps) void update({ learningSteps: steps });
-              else {
-                toast({ tone: 'error', message: 'Steps look like 1m 10m 1h' });
-                setLearning(settings.learningSteps.join(' '));
-              }
-            }}
-          />
-        )}
-      </Row>
-      <Row label="Relearning steps" hint="Repeats after you forget a card, e.g. 10m.">
-        {(id, d) => (
-          <Input
-            id={id}
-            aria-describedby={d}
-            value={relearning}
-            className="w-40 font-mono text-sm"
-            onChange={(e) => setRelearning(e.target.value)}
-            onBlur={() => {
-              const steps = parseSteps(relearning);
-              if (steps) void update({ relearningSteps: steps });
-              else {
-                toast({ tone: 'error', message: 'Steps look like 10m' });
-                setRelearning(settings.relearningSteps.join(' '));
-              }
-            }}
-          />
-        )}
-      </Row>
+      <StepsRow
+        label="Learning steps"
+        hint="Short same-day repeats for new cards, e.g. 1m 10m."
+        steps={settings.learningSteps}
+        example="1m 10m 1h"
+        onSave={(steps) => void update({ learningSteps: steps })}
+      />
+      <StepsRow
+        label="Relearning steps"
+        hint="Repeats after you forget a card, e.g. 10m."
+        steps={settings.relearningSteps}
+        example="10m"
+        onSave={(steps) => void update({ relearningSteps: steps })}
+      />
       <Row label="Leech threshold" hint="Flag a card after this many lapses.">
         {(id, d) => (
-          <Input
+          <IntInput
             id={id}
             aria-describedby={d}
-            type="number"
             min={2}
             max={20}
+            fallback={DEFAULT_SETTINGS.leechThreshold}
             value={settings.leechThreshold}
             className="w-28 text-right tabular-nums"
-            onChange={(e) =>
-              void update({
-                leechThreshold: Math.max(2, Math.min(20, Math.round(Number(e.target.value) || 5))),
-              })
-            }
+            onSave={(n) => void update({ leechThreshold: n })}
           />
         )}
       </Row>
@@ -282,12 +351,9 @@ function DataSections() {
   const [pending, setPending] = useState<{ backup: BackupFile; name: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [installing, setInstalling] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const packRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     void storageStatus().then(setStorage);
-    void syncManager.refreshPending();
   }, []);
 
   const doExport = async () => {
@@ -298,18 +364,17 @@ function DataSections() {
     toast({ tone: 'success', message: 'Backup downloaded' });
   };
 
-  const onPickBackup = async (file: File | undefined) => {
-    if (!file) return;
-    const result = parseJson(await file.text(), backupSchema);
-    if (!result.ok) {
-      toast({
-        tone: 'error',
-        message: `Not a valid backup: ${result.errors[0]}`,
-        durationMs: 8000,
-      });
-      return;
-    }
-    setPending({ backup: result.data, name: file.name });
+  /** The file's validated contents, or null after explaining in a toast why it can't be used. */
+  const readJsonFile = async <T,>(file: File, schema: z.ZodType<T>, what: string) => {
+    const result = parseJson(await file.text(), schema);
+    if (result.ok) return result.data;
+    toast({ tone: 'error', message: `Not a valid ${what}: ${result.errors[0]}`, durationMs: 8000 });
+    return null;
+  };
+
+  const onPickBackup = async (file: File) => {
+    const backup = await readJsonFile(file, backupSchema, 'backup');
+    if (backup) setPending({ backup, name: file.name });
   };
 
   const confirmRestore = async () => {
@@ -333,19 +398,11 @@ function DataSections() {
     }
   };
 
-  const onPickPack = async (file: File | undefined) => {
-    if (!file) return;
-    const result = parseJson(await file.text(), contentPackSchema);
-    if (!result.ok) {
-      toast({
-        tone: 'error',
-        message: `Not a valid content pack: ${result.errors[0]}`,
-        durationMs: 8000,
-      });
-      return;
-    }
+  const onPickPack = async (file: File) => {
+    const pack = await readJsonFile(file, contentPackSchema, 'content pack');
+    if (!pack) return;
     try {
-      const summary = await installContentPack(repo, result.data);
+      const summary = await installContentPack(repo, pack);
       toast({
         tone: 'success',
         message: `Imported ${summary.itemsCreated} items (${summary.itemsSkipped} already present)`,
@@ -353,7 +410,7 @@ function DataSections() {
     } catch (err) {
       toast({
         tone: 'error',
-        message: `Import failed: ${err instanceof Error ? err.message : err}`,
+        message: `Import failed: ${errorMessage(err)}`,
       });
     }
   };
@@ -388,7 +445,7 @@ function DataSections() {
             {sync.error}
           </p>
         )}
-        <p className="px-5 py-4 text-[13px] leading-5 text-muted">
+        <p className={cn('px-5 py-4', hintText)}>
           Your data lives on this device first. Sync copies changes to your private Cloudflare
           database, so your other devices — and a reinstalled app — get them too. Studying works
           offline.
@@ -403,19 +460,9 @@ function DataSections() {
           <Button size="sm" onClick={() => void doExport()}>
             <Icon name="download" size={16} /> Export backup
           </Button>
-          <Button size="sm" variant="ghost" onClick={() => fileRef.current?.click()}>
+          <JsonFileButton variant="ghost" onPick={(file) => void onPickBackup(file)}>
             <Icon name="upload" size={16} /> Restore…
-          </Button>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="application/json,.json"
-            hidden
-            onChange={(e) => {
-              void onPickBackup(e.target.files?.[0]);
-              e.target.value = '';
-            }}
-          />
+          </JsonFileButton>
         </Row>
         <Row
           label="Storage on this device"
@@ -466,19 +513,9 @@ function DataSections() {
             </>
           }
         >
-          <Button size="sm" onClick={() => packRef.current?.click()}>
+          <JsonFileButton onPick={(file) => void onPickPack(file)}>
             <Icon name="upload" size={16} /> Import…
-          </Button>
-          <input
-            ref={packRef}
-            type="file"
-            accept="application/json,.json"
-            hidden
-            onChange={(e) => {
-              void onPickPack(e.target.files?.[0]);
-              e.target.value = '';
-            }}
-          />
+          </JsonFileButton>
         </Row>
         <InstallDeckDialog open={installing} onClose={() => setInstalling(false)} />
       </Section>
@@ -546,10 +583,12 @@ export default function SettingsPage() {
   const toast = useToast();
   const confirm = useConfirm();
 
+  // Scroll once the study settings have rendered: they push the later sections down.
+  const loaded = settings !== undefined;
   useEffect(() => {
-    if (location.hash)
+    if (location.hash && loaded)
       document.getElementById(location.hash.slice(1))?.scrollIntoView({ block: 'start' });
-  }, [location.hash]);
+  }, [location.hash, loaded]);
 
   const resetDevice = async () => {
     const ok = await confirm({

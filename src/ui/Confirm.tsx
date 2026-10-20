@@ -21,7 +21,6 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
     options: ConfirmOptions;
     resolve: (ok: boolean) => void;
   } | null>(null);
-  const [open, setOpen] = useState(false);
   const [typed, setTyped] = useState('');
 
   const confirm = useCallback(
@@ -29,7 +28,6 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
       new Promise<boolean>((resolve) => {
         setTyped('');
         setRequest({ options, resolve });
-        setOpen(true);
       }),
     [],
   );
@@ -37,7 +35,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
   // Resolving twice is harmless: the dialog's close event follows every settle.
   const settle = (ok: boolean) => {
     request?.resolve(ok);
-    setOpen(false);
+    setRequest(null);
   };
 
   const options = request?.options;
@@ -48,10 +46,11 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
     <ConfirmContext.Provider value={confirm}>
       {children}
       <Dialog
-        open={open}
+        open={request !== null}
         onClose={() => settle(false)}
         title={options?.title ?? ''}
         size="sm"
+        onSubmit={() => ready && settle(true)}
         footer={
           <>
             {/* The safe choice takes focus, so Enter never destroys anything by accident. */}
@@ -62,19 +61,13 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
             >
               Cancel
             </Button>
-            <Button variant="destructive" disabled={!ready} onClick={() => settle(true)}>
+            <Button type="submit" variant="destructive" disabled={!ready}>
               {options?.confirmLabel}
             </Button>
           </>
         }
       >
-        <form
-          className="space-y-4 text-[15px] text-muted"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (ready) settle(true);
-          }}
-        >
+        <div className="space-y-4 text-[15px] text-muted">
           {options?.body && <div>{options.body}</div>}
           {word && (
             <Field label={`Type ${word} to confirm`}>
@@ -91,7 +84,7 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
               )}
             </Field>
           )}
-        </form>
+        </div>
       </Dialog>
     </ConfirmContext.Provider>
   );

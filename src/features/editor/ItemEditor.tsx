@@ -1,18 +1,27 @@
-import { useLiveQuery } from 'dexie-react-hooks';
-import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
+import {
+  type ReactNode,
+  useDeferredValue,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { RichText } from '../../content/RichText';
 import { itemErrors, qualityWarnings } from '../../content/validate';
-import { useCourses, useTopics } from '../../db/hooks';
-import { db, repo } from '../../db/instance';
+import { useCourses, useItem, useTopics } from '../../db/hooks';
+import { repo } from '../../db/instance';
 import { clozeOrdinals } from '../../domain/cloze';
 import { curriculumOrder } from '../../domain/topics';
 import type { Item, ItemFields, ItemType } from '../../domain/types';
+import { errorMessage } from '../../lib/errors';
 import { Button } from '../../ui/Button';
 import { useConfirm } from '../../ui/Confirm';
 import { cn } from '../../ui/cn';
-import { Field, Input, Segmented, Switch, Textarea } from '../../ui/Field';
+import { DisclosureButton } from '../../ui/Disclosure';
+import { Field, hintText, Input, Segmented, Switch, Textarea } from '../../ui/Field';
 import { Icon } from '../../ui/Icon';
-import { Callout, EmptyState, Kbd, Skeleton } from '../../ui/misc';
+import { Callout, EmptyState, Kbd, LoadingStatus, Skeleton } from '../../ui/misc';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 
@@ -74,11 +83,13 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
   const confirm = useConfirm();
   const courses = useCourses();
   const topics = useTopics();
-  const existing = useLiveQuery(() => (itemId ? db.items.get(itemId) : undefined), [itemId]);
+  // null when missing; a deleted item can't be edited either (saving would not bring it back).
+  const item = useItem(itemId);
+  const existing = item?.deletedAt === undefined ? item : null;
 
   const [loaded, setLoaded] = useState(!itemId);
   const [type, setType] = useState<ItemType>('basic');
-  const [topicId, setTopicId] = useState(defaultTopicId ?? '');
+  const [chosenTopicId, setTopicId] = useState(defaultTopicId ?? '');
   const [fields, setFields] = useState<ItemFields>(EMPTY_FIELDS);
   const [reverse, setReverse] = useState(false);
   const [tags, setTags] = useState('');
@@ -105,21 +116,18 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
     setLoaded(true);
   }, [itemId, existing, loaded]);
 
-  // Default to the first topic when none is chosen.
-  useEffect(() => {
-    if (topicId || !topics?.length || !courses?.length) return;
-    const first = courses.flatMap((c) => curriculumOrder(topics, c.id))[0];
-    if (first) setTopicId(first.id);
-  }, [topicId, topics, courses]);
-
-  // KaTeX results are cached, so validating on every keystroke is cheap.
-  const draft = { type, fields: cleanFields(fields) };
-  const errors = itemErrors(draft);
-  const warnings = qualityWarnings(draft);
+  // Validation renders KaTeX for every cloze variant: let it trail typing by a frame. (Saving
+  // re-validates the current fields, so a stale result can never let bad content through.)
+  const deferredType = useDeferredValue(type);
+  const deferredFields = useDeferredValue(fields);
+  const { errors, warnings } = useMemo(() => {
+    const draft = { type: deferredType, fields: cleanFields(deferredFields) };
+    return { errors: itemErrors(draft), warnings: qualityWarnings(draft) };
+  }, [deferredType, deferredFields]);
   const ordinals = type === 'cloze' ? clozeOrdinals(fields.prompt) : [];
   const activeOrdinal = ordinals.includes(previewOrdinal) ? previewOrdinal : (ordinals[0] ?? 1);
   const errorFor = (key: FieldKey) => {
-    const list = errors.filter((e) => e.field === key && (touched || !/empty/.test(e.message)));
+    const list = errors.filter((e) => e.field === key && (touched || !e.required));
     return list.length ? list.map((e) => <div key={e.message}>{e.message}</div>) : undefined;
   };
 
@@ -157,9 +165,12 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
       topics: curriculumOrder(topics, c.id),
     }));
   }, [courses, topics]);
+  // Until one is chosen, the item goes in the first topic.
+  const topicId = chosenTopicId || (topicOptions.find((o) => o.topics[0])?.topics[0]?.id ?? '');
 
   const save = async (addAnother = false) => {
     setTouched(true);
+    const errors = itemErrors({ type, fields: cleanFields(fields) });
     if (errors.length || !topicId) {
       toast({
         tone: 'error',
@@ -191,7 +202,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
     } catch (err) {
       toast({
         tone: 'error',
-        message: `Could not save: ${err instanceof Error ? err.message : err}`,
+        message: `Could not save: ${errorMessage(err)}`,
       });
     } finally {
       setSaving(false);
@@ -224,12 +235,11 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
 
   if (!loaded || !courses || !topics)
     return (
-      <div className="space-y-5" role="status">
-        <span className="sr-only">Loading…</span>
+      <LoadingStatus className="space-y-5">
         <Skeleton className="h-11 w-full" />
         <Skeleton className="h-28 w-full" />
         <Skeleton className="h-28 w-full" />
-      </div>
+      </LoadingStatus>
     );
   if (itemId && existing === null)
     return <EmptyState title="This item no longer exists" icon="trash" />;
@@ -294,7 +304,7 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
                 { value: 'cloze', label: 'Cloze' },
               ]}
             />
-            <p className="text-[13px] leading-5 text-muted">
+            <p className={hintText}>
               {type === 'basic'
                 ? 'A question on the front, its answer on the back.'
                 : 'Hide parts of a sentence or formula to fill in.'}
@@ -369,22 +379,9 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
         )}
 
         <div>
-          <button
-            type="button"
-            className="-ml-1 flex items-center gap-1 rounded-lg px-1 py-0.5 text-sm font-bold text-accent-text"
-            onClick={() => setShowMore((v) => !v)}
-            aria-expanded={showMore}
-          >
-            <Icon
-              name="chevronRight"
-              size={16}
-              className={cn(
-                'transition-transform duration-(--spring-fast) ease-spring',
-                showMore && 'rotate-90',
-              )}
-            />
+          <DisclosureButton open={showMore} onToggle={() => setShowMore((v) => !v)} small>
             {showMore ? 'Hide' : 'Add'} explanation, mnemonic & source
-          </button>
+          </DisclosureButton>
         </div>
         {showMore && (
           <div className="animate-rise space-y-5">
@@ -474,11 +471,10 @@ export function ItemEditor({ itemId, defaultTopicId, onDone, compact = false }: 
           )}
         </div>
         <PreviewCard label="Front">
-          {type === 'cloze' ? (
-            <RichText source={fields.prompt} cloze={{ ordinal: activeOrdinal, reveal: false }} />
-          ) : (
-            <RichText source={fields.prompt} />
-          )}
+          <RichText
+            source={fields.prompt}
+            cloze={type === 'cloze' ? { ordinal: activeOrdinal, reveal: false } : undefined}
+          />
         </PreviewCard>
         <PreviewCard label="Back">
           {type === 'cloze' ? (

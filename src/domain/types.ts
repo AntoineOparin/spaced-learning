@@ -165,6 +165,9 @@ export const DEFAULT_SETTINGS: Omit<Settings, 'updatedAt' | 'dirty'> = {
   leechThreshold: 5,
 };
 
+/** Upper bound of the new-cards-per-day inputs (global and per course). */
+export const NEW_PER_DAY_MAX = 500;
+
 /** Names of the synced tables (also used as the `tbl` column on the server). */
 export const SYNCED_TABLES = [
   'courses',
@@ -176,6 +179,7 @@ export const SYNCED_TABLES = [
 ] as const;
 export type SyncedTable = (typeof SYNCED_TABLES)[number];
 
-export function isAlive<T extends { deletedAt?: number }>(record: T): boolean {
-  return record.deletedAt === undefined;
+/** Records that aren't soft-deleted (tombstoned). */
+export function alive<T extends { deletedAt?: number }>(rows: readonly T[]): T[] {
+  return rows.filter((r) => r.deletedAt === undefined);
 }

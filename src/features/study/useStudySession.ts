@@ -2,24 +2,25 @@
  * Study session state machine: question → (reveal) → answer → (rate) → next question.
  * Data is loaded once per session; the queue is recomputed after every answer.
  */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   buildQueueInput,
   loadStudyData,
   type Scope,
   type SessionState,
   type StudyData,
-  schedulerForCourse,
 } from '../../app/studyData';
 import { db, repo } from '../../db/instance';
 import type { ReviewResult } from '../../db/repo';
+import { MINUTE } from '../../domain/day';
 import { pickNext, type QueueKind, queueCounts } from '../../domain/queue';
-import type { ReviewOutcome } from '../../domain/scheduler';
-import type { AnswerMode, Card, Item, RatingValue } from '../../domain/types';
+import { type ReviewOutcome, schedulerForCourse } from '../../domain/scheduler';
+import { sessionStats } from '../../domain/stats';
+import { type AnswerMode, alive, type Card, type Item, type RatingValue } from '../../domain/types';
 import { syncManager } from '../../sync/manager';
 
 /** Long pauses (walked away) shouldn't distort recorded answer times. */
-const MAX_DURATION_MS = 60_000;
+const MAX_DURATION_MS = MINUTE;
 
 export interface Current {
   card: Card;
@@ -33,50 +34,49 @@ interface UndoEntry {
   session: SessionState;
 }
 
-export interface SessionStats {
-  reviewed: number;
-  again: number;
-  timeMs: number;
-  /** Items forgotten (Again) during this session. */
-  forgotten: Item[];
-}
-
 export type Phase = 'loading' | 'question' | 'answer' | 'done';
 
 export function useStudySession(scope: Scope) {
   const [data, setData] = useState<StudyData | null>(null);
   const [current, setCurrent] = useState<Current | null>(null);
-  const [phase, setPhase] = useState<Phase>('loading');
+  const [revealed, setRevealed] = useState(false);
+  // Counts the questions shown: a card that comes straight back (after Again) is a new one.
+  const [turn, setTurn] = useState(0);
   const [session, setSession] = useState<SessionState>(() => ({
     reviewsSinceNew: 0,
     lastTopicId: null,
     seed: Math.floor(Math.random() * 2 ** 31),
   }));
   const [history, setHistory] = useState<UndoEntry[]>([]);
-  const [stats, setStats] = useState<SessionStats>({
-    reviewed: 0,
-    again: 0,
-    timeMs: 0,
-    forgotten: [],
-  });
+  // This session's reviews are the day's logs from this index on (undo removes them again).
+  const [firstLog, setFirstLog] = useState(0);
   const [busy, setBusy] = useState(false);
   const shownAt = useRef(Date.now());
   const initialSession = useRef(session);
+
+  const phase: Phase = !data ? 'loading' : !current ? 'done' : revealed ? 'answer' : 'question';
+
+  // For callbacks that run later (a toast's Undo), after more answers may have been given.
+  const latest = useRef({ data, current, session });
+  useEffect(() => {
+    latest.current = { data, current, session };
+  });
+
+  /** Shows a card's question (or the end of the session for null). */
+  const show = useCallback((next: Current | null) => {
+    setCurrent(next);
+    setRevealed(false);
+    setTurn((t) => t + 1);
+    shownAt.current = Date.now();
+  }, []);
 
   const choose = useCallback(
     (d: StudyData, s: SessionState) => {
       const pick = pickNext(buildQueueInput(d, scope, s, Date.now()));
       const item = pick && d.items.find((i) => i.id === pick.card.itemId);
-      if (!pick || !item) {
-        setCurrent(null);
-        setPhase('done');
-        return;
-      }
-      setCurrent({ card: pick.card, item, kind: pick.kind });
-      setPhase('question');
-      shownAt.current = Date.now();
+      show(pick && item ? { card: pick.card, item, kind: pick.kind } : null);
     },
-    [scope],
+    [scope, show],
   );
 
   // Initial load.
@@ -87,6 +87,7 @@ export function useStudySession(scope: Scope) {
       const loaded = await loadStudyData(db, settings, Date.now());
       if (cancelled) return;
       setData(loaded);
+      setFirstLog(loaded.todayLogs.length);
       choose(loaded, initialSession.current);
     })();
     return () => {
@@ -97,9 +98,7 @@ export function useStudySession(scope: Scope) {
   // Push progress to the server when leaving the session.
   useEffect(() => () => void syncManager.sync(), []);
 
-  const reveal = useCallback(() => {
-    if (phase === 'question') setPhase('answer');
-  }, [phase]);
+  const reveal = useCallback(() => setRevealed(true), []);
 
   const preview = useCallback((): Record<RatingValue, ReviewOutcome> | null => {
     if (!data || !current) return null;
@@ -130,15 +129,6 @@ export function useStudySession(scope: Scope) {
           lastTopicId: current.card.topicId,
         };
         setHistory((h) => [...h.slice(-49), { result, kind: current.kind, session }]);
-        setStats((s) => ({
-          reviewed: s.reviewed + 1,
-          again: s.again + (rating === 1 ? 1 : 0),
-          timeMs: s.timeMs + durationMs,
-          forgotten:
-            rating === 1 && !s.forgotten.some((i) => i.id === current.item.id)
-              ? [...s.forgotten, current.item]
-              : s.forgotten,
-        }));
         setData(nextData);
         setSession(nextSession);
         choose(nextData, nextSession);
@@ -163,24 +153,14 @@ export function useStudySession(scope: Scope) {
       };
       const item = nextData.items.find((i) => i.id === restored.itemId);
       setHistory((h) => h.slice(0, -1));
-      setStats((s) => ({
-        ...s,
-        reviewed: Math.max(0, s.reviewed - 1),
-        again: s.again - (last.result.log.rating === 1 ? 1 : 0),
-        timeMs: Math.max(0, s.timeMs - last.result.log.durationMs),
-      }));
       setData(nextData);
       setSession(last.session);
-      if (item) {
-        setCurrent({ card: restored, item, kind: last.kind });
-        setPhase('question');
-        shownAt.current = Date.now();
-      }
+      if (item) show({ card: restored, item, kind: last.kind });
       return true;
     } finally {
       setBusy(false);
     }
-  }, [data, history, busy]);
+  }, [data, history, busy, show]);
 
   /** Suspends the current card and moves on. Returns a function that reverses it. */
   const suspend = useCallback(async () => {
@@ -195,11 +175,15 @@ export function useStudySession(scope: Scope) {
     choose(nextData, session);
     return async () => {
       await repo.setSuspended([card.id], false);
-      setData((d) =>
-        d
-          ? { ...d, cards: d.cards.map((c) => (c.id === card.id ? { ...c, suspended: false } : c)) }
-          : d,
-      );
+      const { data: d, current: c, session: s } = latest.current;
+      if (!d) return;
+      const restored = {
+        ...d,
+        cards: d.cards.map((x) => (x.id === card.id ? { ...x, suspended: false } : x)),
+      };
+      setData(restored);
+      // Suspending the last card ended the session: undoing it carries on with that card.
+      if (!c) choose(restored, s);
     };
   }, [data, current, session, choose]);
 
@@ -211,35 +195,39 @@ export function useStudySession(scope: Scope) {
         db.items.get(itemId),
         db.cards.where('itemId').equals(itemId).toArray(),
       ]);
-      const aliveCards = cards.filter((c) => c.deletedAt === undefined);
+      const fresh = item && !item.deletedAt ? item : null;
       const nextData: StudyData = {
         ...data,
-        items: [
-          ...data.items.filter((i) => i.id !== itemId),
-          ...(item && !item.deletedAt ? [item] : []),
-        ],
-        cards: [
-          ...data.cards.filter((c) => c.itemId !== itemId),
-          ...(item && !item.deletedAt ? aliveCards : []),
-        ],
+        items: [...data.items.filter((i) => i.id !== itemId), ...(fresh ? [fresh] : [])],
+        cards: [...data.cards.filter((c) => c.itemId !== itemId), ...(fresh ? alive(cards) : [])],
       };
       setData(nextData);
       if (current?.item.id === itemId) {
-        const card = nextData.cards.find((c) => c.id === current.card.id);
-        const fresh = nextData.items.find((i) => i.id === itemId);
-        if (card && fresh) setCurrent({ ...current, card, item: fresh });
+        const card = fresh && nextData.cards.find((c) => c.id === current.card.id);
+        if (fresh && card) setCurrent({ ...current, card, item: fresh });
         else choose(nextData, session);
       }
     },
     [data, current, session, choose],
   );
 
-  const counts = data ? queueCounts(buildQueueInput(data, scope, session, Date.now())) : null;
+  // Recomputed after each answer. (A learning card entering the learn-ahead window between
+  // answers shows up in the count with the next one.)
+  const counts = useMemo(
+    () => (data ? queueCounts(buildQueueInput(data, scope, session, Date.now())) : null),
+    [data, scope, session],
+  );
+
+  const stats = useMemo(
+    () => sessionStats(data?.todayLogs.slice(firstLog) ?? [], data?.items ?? []),
+    [data, firstLog],
+  );
 
   return {
     data,
     phase,
     current,
+    turn,
     counts,
     stats,
     busy,

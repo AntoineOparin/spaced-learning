@@ -7,6 +7,8 @@ import { mathTokens } from './markup';
 export interface ContentError {
   field: keyof ItemFields;
   message: string;
+  /** A required field is blank (the editor holds these back until a save attempt). */
+  required?: true;
 }
 
 /** KaTeX errors for every math expression in a source string. */
@@ -27,7 +29,8 @@ export function itemErrors(item: { type: ItemType; fields: ItemFields }): Conten
     for (const message of new Set(messages)) errors.push({ field, message });
   };
 
-  if (!item.fields.prompt.trim()) add('prompt', ['The prompt is empty.']);
+  if (!item.fields.prompt.trim())
+    errors.push({ field: 'prompt', message: 'The prompt is empty.', required: true });
 
   if (item.type === 'cloze') {
     const ordinals = clozeOrdinals(item.fields.prompt);
@@ -41,7 +44,8 @@ export function itemErrors(item: { type: ItemType; fields: ItemFields }): Conten
     ]);
     add('prompt', variants.flatMap(markupErrors));
   } else {
-    if (!item.fields.answer.trim()) add('answer', ['The answer is empty.']);
+    if (!item.fields.answer.trim())
+      errors.push({ field: 'answer', message: 'The answer is empty.', required: true });
     add('prompt', markupErrors(item.fields.prompt));
   }
 

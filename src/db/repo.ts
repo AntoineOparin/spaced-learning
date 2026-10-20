@@ -4,7 +4,7 @@
  */
 import { reconcileCards } from '../domain/cardgen';
 import { newId } from '../domain/ids';
-import { getScheduler, schedulerConfig } from '../domain/scheduler';
+import { schedulerForCourse } from '../domain/scheduler';
 import { subtreeIds } from '../domain/topics';
 import {
   type AnswerMode,
@@ -251,6 +251,7 @@ export class Repo {
       if (!topic || topic.deletedAt !== undefined) throw new Error('Topic not found');
 
       const existing = draft.id ? await items.get(draft.id) : undefined;
+      if (existing?.deletedAt !== undefined) throw new Error('This item was deleted');
       let item: Item;
       if (existing) {
         item = {
@@ -327,7 +328,7 @@ export class Repo {
         courses.get(previous.courseId),
         this.getSettings(),
       ]);
-      const scheduler = getScheduler(schedulerConfig(globalSettings, course));
+      const scheduler = schedulerForCourse(globalSettings, course);
       const outcome = scheduler.rate(previous.fsrs, now, args.rating);
 
       const card: Card = {

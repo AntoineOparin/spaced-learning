@@ -13,27 +13,40 @@ export const fieldControl =
   'w-full rounded-[10px] border border-line bg-bg px-3.5 text-base text-fg placeholder:text-dim sm:text-[15px] ' +
   'transition-colors hover:border-line-strong focus:border-line-strong';
 
+/** The small explanatory text under a label or control. */
+export const hintText = 'text-[13px] leading-5 text-muted';
+
+/** A number input's value as a whole number in [min, max]; blank or invalid gives `fallback`. */
+export function intValue(value: string, min: number, max: number, fallback = min): number {
+  return Math.max(min, Math.min(max, Math.round(Number(value) || fallback)));
+}
+
+/** Ids that tie a control to its label, hint and error (for aria-describedby). */
+export function useFieldIds(hint: unknown, error?: unknown) {
+  const id = useId();
+  const hintId = hint ? `${id}-hint` : undefined;
+  const errorId = error ? `${id}-error` : undefined;
+  const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
+  return { id, hintId, errorId, describedBy };
+}
+
 export interface FieldProps {
   label: ReactNode;
   hint?: ReactNode;
   error?: ReactNode;
   children: (id: string, describedBy: string | undefined) => ReactNode;
-  className?: string;
 }
 
-export function Field({ label, hint, error, children, className }: FieldProps) {
-  const id = useId();
-  const hintId = hint ? `${id}-hint` : undefined;
-  const errorId = error ? `${id}-error` : undefined;
-  const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
+export function Field({ label, hint, error, children }: FieldProps) {
+  const { id, hintId, errorId, describedBy } = useFieldIds(hint, error);
   return (
-    <div className={cn('space-y-1.5', className)}>
+    <div className="space-y-1.5">
       <label htmlFor={id} className="block text-sm font-semibold">
         {label}
       </label>
       {children(id, describedBy)}
       {hint && (
-        <p id={hintId} className="text-[13px] leading-5 text-muted">
+        <p id={hintId} className={hintText}>
           {hint}
         </p>
       )}
@@ -82,13 +95,11 @@ export function Switch({
   onChange,
   label,
   description,
-  disabled,
 }: {
   checked: boolean;
   onChange: (checked: boolean) => void;
   label: ReactNode;
   description?: ReactNode;
-  disabled?: boolean;
 }) {
   const id = useId();
   return (
@@ -97,19 +108,17 @@ export function Switch({
         <label htmlFor={id} className="cursor-pointer text-[15px] font-semibold">
           {label}
         </label>
-        {description && <p className="mt-0.5 text-[13px] leading-5 text-muted">{description}</p>}
+        {description && <p className={cn('mt-0.5', hintText)}>{description}</p>}
       </div>
       <button
         id={id}
         type="button"
         role="switch"
         aria-checked={checked}
-        disabled={disabled}
         onClick={() => onChange(!checked)}
         className={cn(
           'group relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-200',
           checked ? 'bg-accent' : 'bg-line-strong',
-          'disabled:opacity-50',
         )}
       >
         <span

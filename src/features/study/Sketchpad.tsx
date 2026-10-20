@@ -3,15 +3,25 @@
  * using coalesced events for smooth curves; once a stylus is seen, touches are ignored
  * (palm rejection). Strokes are data, so they redraw on resize and theme changes.
  */
+
 import { type PointerEvent, useCallback, useEffect, useRef } from 'react';
+import { onThemeChange } from '../../lib/theme';
 import { IconButton } from '../../ui/Button';
+import { cn } from '../../ui/cn';
 import { Icon } from '../../ui/Icon';
-import { type Point, STROKE_WIDTH, type Stroke, strokeBounds, strokePath } from './sketch';
+import { surface } from '../../ui/misc';
+import {
+  type Point,
+  STROKE_WIDTH,
+  type Stroke,
+  strokeBounds,
+  strokeEnd,
+  strokePath,
+  strokeSegment,
+} from './sketch';
 
 /** Ignore jitter smaller than this (CSS px) between samples. */
 const MIN_STEP = 0.75;
-
-const mid = (a: Point, b: Point): Point => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
 
 /** Fills its parent, which should be a flex column; never shorter than 15rem. */
 export function Sketchpad({
@@ -22,67 +32,62 @@ export function Sketchpad({
   onChange: (strokes: Stroke[]) => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const active = useRef<{ pointerId: number; points: Point[] } | null>(null);
   const penSeen = useRef(false);
   const strokesRef = useRef(strokes);
   strokesRef.current = strokes;
 
-  const context = useCallback(() => {
+  const redraw = useCallback((list: Stroke[] = strokesRef.current) => {
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d', { desynchronized: true });
-    if (!canvas || !ctx) return null;
-    ctx.strokeStyle = getComputedStyle(canvas).color;
-    ctx.fillStyle = ctx.strokeStyle;
-    ctx.lineWidth = STROKE_WIDTH;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    return ctx;
+    const ctx = ctxRef.current;
+    if (!canvas || !ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of list) ctx.stroke(new Path2D(strokePath(s)));
   }, []);
 
-  const redraw = useCallback(
-    (list: Stroke[] = strokesRef.current) => {
-      const canvas = canvasRef.current;
-      const ctx = context();
-      if (!canvas || !ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const s of list) ctx.stroke(new Path2D(strokePath(s)));
-    },
-    [context],
-  );
-
-  // Match the backing store to the element size (sharp on HiDPI), and follow theme changes.
+  // Size the backing store to the element (sharp on HiDPI) and style the pen; both are reset by
+  // a resize, and the colour follows the theme. Pointer handlers then only draw.
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    // The first getContext call fixes the options: ask for low latency.
+    const ctx = canvas?.getContext('2d', { desynchronized: true });
+    if (!canvas || !ctx) return;
+    ctxRef.current = ctx;
+    const style = () => {
+      ctx.strokeStyle = getComputedStyle(canvas).color;
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.lineWidth = STROKE_WIDTH;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      redraw();
+    };
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
       const { width, height } = canvas.getBoundingClientRect();
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
-      // The first getContext call fixes the options, so ask for low latency here too.
-      canvas.getContext('2d', { desynchronized: true })?.setTransform(dpr, 0, 0, dpr, 0, 0);
-      redraw();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      style();
     };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
-    const mo = new MutationObserver(() => redraw());
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    const offTheme = onThemeChange(style);
     return () => {
       ro.disconnect();
-      mo.disconnect();
+      offTheme();
     };
   }, [redraw]);
 
-  // Undo and clear change the strokes from outside the pointer handlers.
+  // Repaint from the stroke data whenever it changes (a finished stroke, undo, clear). The live
+  // pieces are stroked separately, so this also makes a finished stroke render exactly like any
+  // later repaint (resize, theme). It is cheap: a Path2D per stroke.
   useEffect(() => {
     if (!active.current) redraw(strokes);
   }, [strokes, redraw]);
 
-  const at = (e: { clientX: number; clientY: number }): Point => {
-    const r = canvasRef.current?.getBoundingClientRect();
-    return { x: e.clientX - (r?.left ?? 0), y: e.clientY - (r?.top ?? 0) };
-  };
+  const origin = () => canvasRef.current?.getBoundingClientRect() ?? { left: 0, top: 0 };
 
   const onPointerDown = (e: PointerEvent<HTMLCanvasElement>) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -91,10 +96,11 @@ export function Sketchpad({
     if (active.current) return; // one stroke at a time
     e.preventDefault();
     e.currentTarget.setPointerCapture(e.pointerId);
-    const p = at(e);
+    const r = origin();
+    const p = { x: e.clientX - r.left, y: e.clientY - r.top };
     active.current = { pointerId: e.pointerId, points: [p] };
     // Ink appears on contact, before any movement.
-    const ctx = context();
+    const ctx = ctxRef.current;
     ctx?.beginPath();
     ctx?.arc(p.x, p.y, STROKE_WIDTH / 2, 0, Math.PI * 2);
     ctx?.fill();
@@ -102,33 +108,17 @@ export function Sketchpad({
 
   const onPointerMove = (e: PointerEvent<HTMLCanvasElement>) => {
     const a = active.current;
-    if (!a || e.pointerId !== a.pointerId) return;
-    const ctx = context();
-    if (!ctx) return;
+    const ctx = ctxRef.current;
+    if (!a || !ctx || e.pointerId !== a.pointerId) return;
+    const r = origin(); // once per event, not per coalesced sample
     const samples = e.nativeEvent.getCoalescedEvents?.() ?? [];
     for (const sample of samples.length ? samples : [e.nativeEvent]) {
-      const p = at(sample);
+      const p = { x: sample.clientX - r.left, y: sample.clientY - r.top };
       const pts = a.points;
       const last = pts[pts.length - 1] as Point;
       if (Math.hypot(p.x - last.x, p.y - last.y) < MIN_STEP) continue;
       pts.push(p);
-      // Draw just the newest piece of the same curve strokePath() describes.
-      const n = pts.length;
-      ctx.beginPath();
-      if (n === 2) {
-        const [p0, p1] = pts as [Point, Point];
-        const m = mid(p0, p1);
-        ctx.moveTo(p0.x, p0.y);
-        ctx.lineTo(m.x, m.y);
-      } else {
-        const a0 = pts[n - 3] as Point;
-        const a1 = pts[n - 2] as Point;
-        const from = mid(a0, a1);
-        const to = mid(a1, p);
-        ctx.moveTo(from.x, from.y);
-        ctx.quadraticCurveTo(a1.x, a1.y, to.x, to.y);
-      }
-      ctx.stroke();
+      ctx.stroke(new Path2D(strokeSegment(pts, pts.length))); // just the newest piece
     }
   };
 
@@ -136,24 +126,20 @@ export function Sketchpad({
     const a = active.current;
     if (!a || e.pointerId !== a.pointerId) return;
     active.current = null;
-    const pts = a.points;
-    if (pts.length >= 2) {
-      const ctx = context();
-      const prev = pts[pts.length - 2] as Point;
-      const last = pts[pts.length - 1] as Point;
-      const from = mid(prev, last);
-      ctx?.beginPath();
-      ctx?.moveTo(from.x, from.y);
-      ctx?.lineTo(last.x, last.y);
-      ctx?.stroke();
-    }
-    onChange([...strokesRef.current, pts]);
+    const end = strokeEnd(a.points);
+    if (end) ctxRef.current?.stroke(new Path2D(end));
+    onChange([...strokesRef.current, a.points]);
   };
 
   const empty = strokes.length === 0;
 
   return (
-    <div className="relative min-h-60 flex-1 animate-rise overflow-hidden rounded-xl border border-line bg-bg-alt [-webkit-touch-callout:none] select-none">
+    <div
+      className={cn(
+        surface,
+        'relative min-h-60 flex-1 animate-rise overflow-hidden [-webkit-touch-callout:none] select-none',
+      )}
+    >
       {/* A faint dot grid helps keep handwriting level, like squared paper. */}
       <div
         aria-hidden

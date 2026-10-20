@@ -23,8 +23,7 @@ export function cardFaces(item: Item, card: Pick<Card, 'key'>): CardFaces {
   const ordinal = clozeOrdinalFromKey(card.key);
   if (item.type === 'cloze' && ordinal !== null) {
     const expected = parseCloze(item.fields.prompt)
-      .filter((s) => s.kind === 'cloze' && s.ordinal === ordinal)
-      .map((s) => (s.kind === 'cloze' ? stripCloze(s.content) : ''))
+      .flatMap((s) => (s.kind === 'cloze' && s.ordinal === ordinal ? [stripCloze(s.content)] : []))
       .join(' / ');
     return {
       prompt: item.fields.prompt,

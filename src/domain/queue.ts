@@ -11,9 +11,11 @@
  *  4. Learning cards due within the learn-ahead window, when nothing else is left.
  * Siblings (other cards of an item answered today) are buried until tomorrow.
  */
+import { MINUTE } from './day';
 import { type Card, CardState } from './types';
 
-export const DEFAULT_LEARN_AHEAD_MS = 20 * 60_000;
+/** How early a learning card is shown when nothing else is left. */
+export const LEARN_AHEAD_MS = 20 * MINUTE;
 
 export interface QueueInput {
   now: number;
@@ -32,7 +34,6 @@ export interface QueueInput {
   reviewsSinceNew: number;
   /** Session seed for deterministic tie-breaking among similarly-at-risk cards. */
   seed: number;
-  learnAheadMs?: number;
 }
 
 export type QueueKind = 'learning' | 'review' | 'new';
@@ -70,7 +71,12 @@ function isLearning(card: Card): boolean {
   return card.state === CardState.Learning || card.state === CardState.Relearning;
 }
 
-export function classify(input: QueueInput): QueueSnapshot {
+/**
+ * Buckets the cards in scope. With `ordered: false` (enough for counts) the review and new-card
+ * lists come back unsorted: their lengths don't depend on order, and skipping the ordering saves
+ * a retrievability computation per review and the curriculum ranking.
+ */
+export function classify(input: QueueInput, { ordered = true } = {}): QueueSnapshot {
   const { now, dayEnd, answeredToday } = input;
   const learningDue: Card[] = [];
   const learningLater: Card[] = [];
@@ -96,15 +102,19 @@ export function classify(input: QueueInput): QueueSnapshot {
   learningDue.sort((a, b) => a.due - b.due);
   learningLater.sort((a, b) => a.due - b.due);
 
-  const keyed = reviewCandidates.map((card) => ({
-    card,
-    bucket: Math.floor(input.retrievability(card) * R_BUCKET),
-    tie: hash(`${input.seed}:${card.id}`),
-  }));
-  keyed.sort((a, b) => a.bucket - b.bucket || a.tie - b.tie);
-  const reviews = keyed.map((k) => k.card);
+  let reviews = reviewCandidates;
+  if (ordered) {
+    const keyed = reviewCandidates.map((card) => ({
+      card,
+      bucket: Math.floor(input.retrievability(card) * R_BUCKET),
+      tie: hash(`${input.seed}:${card.id}`),
+    }));
+    keyed.sort((a, b) => a.bucket - b.bucket || a.tie - b.tie);
+    reviews = keyed.map((k) => k.card);
 
-  newCandidates.sort((a, b) => input.newRank(a) - input.newRank(b));
+    const rank = new Map(newCandidates.map((c) => [c.id, input.newRank(c)] as const));
+    newCandidates.sort((a, b) => (rank.get(a.id) ?? 0) - (rank.get(b.id) ?? 0));
+  }
   const used = new Map<string, number>();
   const news: Card[] = [];
   // Siblings of an item must not both be introduced today: keep only the first card per item.
@@ -149,13 +159,13 @@ export function pickNext(input: QueueInput): QueuePick | null {
   const fresh = snap.news[0];
   if (fresh) return { card: fresh, kind: 'new' };
 
-  const learnAhead = input.learnAheadMs ?? DEFAULT_LEARN_AHEAD_MS;
   const soon = snap.learningLater[0];
-  if (soon && soon.due <= input.now + learnAhead) return { card: soon, kind: 'learning' };
+  if (soon && soon.due <= input.now + LEARN_AHEAD_MS) return { card: soon, kind: 'learning' };
   return null;
 }
 
 export interface QueueCounts {
+  /** Learning cards a session would show now: due, or due within the learn-ahead window. */
   learning: number;
   review: number;
   new: number;
@@ -164,11 +174,13 @@ export interface QueueCounts {
 }
 
 export function queueCounts(input: QueueInput): QueueCounts {
-  const snap = classify(input);
+  const snap = classify(input, { ordered: false });
+  const horizon = input.now + LEARN_AHEAD_MS;
+  const beyond = snap.learningLater.filter((c) => c.due > horizon);
   return {
-    learning: snap.learningDue.length + snap.learningLater.length,
+    learning: snap.learningDue.length + snap.learningLater.length - beyond.length,
     review: snap.reviews.length,
     new: snap.news.length,
-    nextLearningDue: snap.learningLater[0]?.due ?? null,
+    nextLearningDue: beyond[0]?.due ?? null,
   };
 }

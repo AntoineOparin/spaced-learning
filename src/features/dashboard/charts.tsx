@@ -2,12 +2,19 @@
  * Small hand-built charts. Single-series columns (no legend; the title names it) and a stacked
  * maturity bar (ordinal green ramp + legend). Every chart has a screen-reader table.
  */
-import { type KeyboardEvent, type PointerEvent, useLayoutEffect, useRef, useState } from 'react';
+import {
+  type KeyboardEvent,
+  type PointerEvent,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { DAY } from '../../domain/day';
 import type { Maturity } from '../../domain/stats';
 import { cn } from '../../ui/cn';
 import { type AxisDay, axisLabels } from './axis';
 
-const DAY = 86_400_000;
 const SHORT = new Intl.DateTimeFormat(undefined, { weekday: 'short' });
 const NARROW = new Intl.DateTimeFormat(undefined, { weekday: 'narrow' });
 const FULL_DATE = new Intl.DateTimeFormat(undefined, {
@@ -60,17 +67,23 @@ export function ForecastChart({ counts, start }: { counts: number[]; start: numb
   const barW = Math.max(6, Math.min(24, slot * 0.6));
   const max = Math.max(1, ...counts);
   const peak = counts.indexOf(Math.max(...counts));
-  const dates = counts.map((_, i) => new Date(start + i * DAY));
+  const dates = useMemo(() => counts.map((_, i) => new Date(start + i * DAY)), [counts, start]);
   const nameFor = (i: number) =>
     i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : FULL_DATE.format(dates[i]);
 
-  const family = ref.current ? getComputedStyle(ref.current).fontFamily : 'system-ui';
-  const days: AxisDay[] = dates.map((d, i) => ({
-    short: SHORT.format(d),
-    narrow: NARROW.format(d),
-    isToday: i === 0,
-  }));
-  const labels = axisLabels(days, slot, (text, bold) => measureLabel(text, bold, family));
+  // Label text and fit only change with the days or the width, not on hover.
+  const [family, setFamily] = useState('system-ui');
+  useLayoutEffect(() => {
+    if (ref.current) setFamily(getComputedStyle(ref.current).fontFamily);
+  }, [ref]);
+  const labels = useMemo(() => {
+    const days: AxisDay[] = dates.map((d, i) => ({
+      short: SHORT.format(d),
+      narrow: NARROW.format(d),
+      isToday: i === 0,
+    }));
+    return axisLabels(days, slot, (text, bold) => measureLabel(text, bold, family));
+  }, [dates, slot, family]);
 
   const columnAt = (clientX: number, el: Element) => {
     const x = clientX - el.getBoundingClientRect().left;
@@ -227,39 +240,35 @@ const SEGMENTS: { key: keyof Omit<Maturity, 'suspended'>; label: string; classNa
   { key: 'new', label: 'New', className: 'bg-line-strong' },
 ];
 
-export function MaturityBar({ m, showLegend = true }: { m: Maturity; showLegend?: boolean }) {
+export function MaturityBar({ m }: { m: Maturity }) {
   const total = m.new + m.learning + m.young + m.mature;
   if (total === 0) return null;
   const visible = SEGMENTS.filter((s) => m[s.key] > 0);
   return (
-    <div>
-      <div
-        className="flex h-2 w-full gap-[2px] overflow-hidden rounded-full"
-        role="img"
-        aria-label={SEGMENTS.map((s) => `${s.label}: ${m[s.key]}`).join(', ')}
-      >
-        {visible.map((s) => (
-          <div
-            key={s.key}
-            className={cn('h-full first:rounded-l-full last:rounded-r-full', s.className)}
-            style={{ width: `${(m[s.key] / total) * 100}%` }}
-          />
-        ))}
-      </div>
-      {showLegend && <MaturityLegend m={m} />}
+    <div
+      className="flex h-2 w-full gap-[2px] overflow-hidden rounded-full"
+      role="img"
+      aria-label={SEGMENTS.map((s) => `${s.label}: ${m[s.key]}`).join(', ')}
+    >
+      {visible.map((s) => (
+        <div
+          key={s.key}
+          className={cn('h-full first:rounded-l-full last:rounded-r-full', s.className)}
+          style={{ width: `${(m[s.key] / total) * 100}%` }}
+        />
+      ))}
     </div>
   );
 }
 
-/** Legend for maturity bars; pass `m` to include counts. */
-export function MaturityLegend({ m }: { m?: Maturity }) {
+/** One shared legend for a list of maturity bars. */
+export function MaturityLegend() {
   return (
     <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
       {SEGMENTS.map((s) => (
         <li key={s.key} className="flex items-center gap-1.5">
           <span className={cn('size-2 rounded-full', s.className)} aria-hidden />
           {s.label}
-          {m && <span className="font-semibold text-fg tabular-nums">{m[s.key]}</span>}
         </li>
       ))}
     </ul>

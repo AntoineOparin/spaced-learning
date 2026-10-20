@@ -13,8 +13,10 @@ import {
   useState,
 } from 'react';
 import type { Course, Topic } from '../../domain/types';
+import { readLocal, writeLocal } from '../../lib/storage';
 import { IconButton } from '../../ui/Button';
 import { cn } from '../../ui/cn';
+import { DisclosureChevron } from '../../ui/Disclosure';
 import { Icon } from '../../ui/Icon';
 import { Badge } from '../../ui/misc';
 import { courseKey, revealKeys, type TreeRow, topicKey, treeKey, visibleRows } from './tree';
@@ -27,18 +29,10 @@ const GUIDE = 8;
 
 function loadExpanded(): Set<string> | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = readLocal(STORAGE_KEY);
     return raw ? new Set(JSON.parse(raw) as string[]) : null;
   } catch {
-    return null;
-  }
-}
-
-function saveExpanded(keys: Set<string>) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...keys]));
-  } catch {
-    // Per-device convenience only; fine if it doesn't persist.
+    return null; // unreadable JSON: start fresh
   }
 }
 
@@ -46,7 +40,7 @@ export function TopicTree({
   courses,
   topics,
   itemCounts,
-  selectedKey,
+  selected,
   onSelect,
   onAddTopic,
   addTopicLabel,
@@ -54,8 +48,8 @@ export function TopicTree({
   courses: Course[];
   topics: Topic[];
   itemCounts: Map<string, number>;
-  /** `course:<id>` or `topic:<id>` of what the item list shows. */
-  selectedKey: string;
+  /** What the item list shows: a course, or a topic in it. */
+  selected: { courseId: string; topicId?: string } | null;
   onSelect: (row: TreeRow) => void;
   onAddTopic: () => void;
   addTopicLabel: string;
@@ -63,21 +57,22 @@ export function TopicTree({
   const treeId = useId();
   const rowId = (key: string) => `${treeId}-${key}`;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const selectedTopicId = selected?.topicId;
+  const selectedCourseKey = selected ? courseKey(selected.courseId) : '';
+  const selectedKey = selectedTopicId ? topicKey(selectedTopicId) : selectedCourseKey;
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     // First visit: open the selected course (a selected topic is revealed below).
-    return loadExpanded() ?? new Set(selectedKey.startsWith('course:') ? [selectedKey] : []);
+    return loadExpanded() ?? new Set(selected && !selectedTopicId ? [selectedKey] : []);
   });
   const [focusKey, setFocusKey] = useState(selectedKey);
   const focusPending = useRef(false);
 
   const rows = visibleRows(courses, topics, itemCounts, expanded);
   const visible = (key: string) => rows.some((r) => r.key === key);
-  const selectedTopic = topics.find((t) => topicKey(t.id) === selectedKey);
-  const selectedCourseKey = selectedTopic ? courseKey(selectedTopic.courseId) : selectedKey;
   // Focus falls back to the selection, then its course, when its row gets folded away.
   const focus = [focusKey, selectedKey, selectedCourseKey].find(visible) ?? rows[0]?.key ?? '';
 
-  useEffect(() => saveExpanded(expanded), [expanded]);
+  useEffect(() => writeLocal(STORAGE_KEY, JSON.stringify([...expanded])), [expanded]);
 
   const expand = useCallback(
     (keys: string[]) =>
@@ -90,11 +85,11 @@ export function TopicTree({
   const topicsRef = useRef(topics);
   topicsRef.current = topics;
   useEffect(() => {
-    const topic = topicsRef.current.find((t) => topicKey(t.id) === selectedKey);
+    const topic = topicsRef.current.find((t) => t.id === selectedTopicId);
     if (topic) expand(revealKeys(topicsRef.current, topic));
     else if (selectedKey) expand([selectedKey]);
     setFocusKey(selectedKey);
-  }, [selectedKey, expand]);
+  }, [selectedKey, selectedTopicId, expand]);
 
   // A topic you just added appears where you added it. (A whole deck arriving at once,
   // from an import or a sync, is left folded.)
@@ -167,9 +162,9 @@ export function TopicTree({
   };
 
   return (
-    // Fits between the sticky offset (1.5rem) and the page's bottom padding (4rem), so the
+    // Fits between the sticky offset and the page's bottom padding, so the
     // header never gets pushed off the top at the end of the page.
-    <div className="flex max-h-[calc(100dvh-6rem)] flex-col">
+    <div className="flex max-h-[calc(100dvh-var(--page-top)-var(--page-bottom))] flex-col">
       <div className="mb-1 flex items-center justify-between pl-2.5">
         <h2 className="text-xs font-bold text-muted">Courses</h2>
         <div className="flex">
@@ -238,16 +233,7 @@ export function TopicTree({
                   row.hasChildren && 'hover:bg-line hover:text-fg',
                 )}
               >
-                {row.hasChildren && (
-                  <Icon
-                    name="chevronRight"
-                    size={14}
-                    className={cn(
-                      'transition-transform duration-(--spring-fast) ease-spring',
-                      row.expanded && 'rotate-90',
-                    )}
-                  />
-                )}
+                {row.hasChildren && <DisclosureChevron open={row.expanded} size={14} />}
               </span>
               {row.kind === 'course' && (
                 <Icon name="folder" size={16} className="shrink-0 text-dim" />

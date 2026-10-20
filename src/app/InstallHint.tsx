@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { isIOS, isStandalone } from '../lib/platform';
+import { readLocal, writeLocal } from '../lib/storage';
 import { IconButton } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 import { Callout } from '../ui/misc';
@@ -11,13 +12,7 @@ const KEY = 'installHintDismissed';
  * after 7 days without a visit, and the home-screen app keeps separate, longer-lived storage.
  */
 export function InstallHint() {
-  const [dismissed, setDismissed] = useState(() => {
-    try {
-      return localStorage.getItem(KEY) === '1';
-    } catch {
-      return false;
-    }
-  });
+  const [dismissed, setDismissed] = useState(() => readLocal(KEY) === '1');
   if (dismissed || !isIOS() || isStandalone()) return null;
 
   return (
@@ -29,11 +24,7 @@ export function InstallHint() {
           label="Dismiss"
           className="-my-2 -mr-2"
           onClick={() => {
-            try {
-              localStorage.setItem(KEY, '1');
-            } catch {
-              // ignore
-            }
+            writeLocal(KEY, '1');
             setDismissed(true);
           }}
         >

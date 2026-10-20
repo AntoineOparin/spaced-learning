@@ -14,12 +14,12 @@ export interface DialogProps {
   description?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'xl';
+  /** Makes body and footer one form: Enter submits, and a footer `type="submit"` button saves. */
+  onSubmit?: () => void;
 }
 
-const WIDTHS = { sm: 'sm:max-w-sm', md: 'sm:max-w-lg', lg: 'sm:max-w-2xl', xl: 'sm:max-w-4xl' };
-/** Longest exit transition (see dialog.panel in index.css). */
-const EXIT_MS = 450;
+const WIDTHS = { sm: 'sm:max-w-sm', md: 'sm:max-w-lg', xl: 'sm:max-w-4xl' };
 
 /** Resting distance of a flick, as in scroll deceleration (Designing Fluid Interfaces). */
 function project(velocity: number, decelerationRate = 0.998) {
@@ -31,7 +31,24 @@ function rubberband(overshoot: number, dimension: number, constant = 0.55) {
   return (overshoot * dimension * constant) / (dimension + constant * Math.abs(overshoot));
 }
 
-const isSheet = () => window.matchMedia('(max-width: 639px)').matches;
+/** A form around body and footer when the dialog submits; layout is unchanged either way. */
+function Body({ onSubmit, children }: { onSubmit?: () => void; children: ReactNode }) {
+  if (!onSubmit) return children;
+  return (
+    <form
+      className="contents"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
+    >
+      {children}
+    </form>
+  );
+}
+
+/** Below Tailwind's `sm` breakpoint dialogs are bottom sheets (see dialog.panel in index.css). */
+const isSheet = () => window.matchMedia('(width < 40rem)').matches;
 
 interface Drag {
   pointerId: number;
@@ -47,6 +64,7 @@ export function Dialog({
   children,
   footer,
   size = 'md',
+  onSubmit,
 }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -71,8 +89,14 @@ export function Dialog({
       return;
     }
     if (el.open) el.close();
-    const t = window.setTimeout(() => setPresent(false), EXIT_MS);
-    return () => window.clearTimeout(t);
+    // Unmount the content once the exit transition has played (none where unsupported).
+    let reopened = false;
+    void Promise.all(el.getAnimations().map((a) => a.finished.catch(() => undefined))).then(
+      () => !reopened && setPresent(false),
+    );
+    return () => {
+      reopened = true;
+    };
   }, [open]);
 
   const onPointerDown = (e: PointerEvent<HTMLElement>) => {
@@ -122,7 +146,6 @@ export function Dialog({
   const view = shown.current;
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: backdrop click is a mouse convenience; Esc closes natively
     <dialog
       ref={ref}
       onClose={onClose}
@@ -133,6 +156,9 @@ export function Dialog({
       onClick={(e) => {
         if (e.target === ref.current) onClose(); // backdrop click
       }}
+      // A modal is a keyboard boundary: page shortcuts never fire underneath it (Esc still
+      // reaches the native cancel).
+      onKeyDown={(e) => e.stopPropagation()}
       aria-labelledby={titleId}
       className={cn(
         'panel m-auto w-[calc(100%-2rem)] rounded-2xl border border-line bg-bg p-0 text-fg shadow-modal',
@@ -165,20 +191,22 @@ export function Dialog({
               <Icon name="x" />
             </IconButton>
           </header>
-          <div
-            className={cn(
-              // A stable gutter: content that grows past the height doesn't shift sideways.
-              'min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-1 pb-5 [scrollbar-gutter:stable] sm:px-6',
-              !view.footer && 'max-sm:pb-[max(env(safe-area-inset-bottom),1.25rem)]',
+          <Body onSubmit={onSubmit}>
+            <div
+              className={cn(
+                // A stable gutter: content that grows past the height doesn't shift sideways.
+                'min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-1 pb-5 [scrollbar-gutter:stable] sm:px-6',
+                !view.footer && 'max-sm:pb-[max(env(safe-area-inset-bottom),1.25rem)]',
+              )}
+            >
+              {view.children}
+            </div>
+            {view.footer && (
+              <footer className="flex flex-wrap justify-end gap-3 border-t border-line px-5 pt-4 pb-4 max-sm:pb-[max(env(safe-area-inset-bottom),1rem)] max-sm:[&>*]:flex-1 sm:px-6">
+                {view.footer}
+              </footer>
             )}
-          >
-            {view.children}
-          </div>
-          {view.footer && (
-            <footer className="flex flex-wrap justify-end gap-3 border-t border-line px-5 pt-4 pb-4 max-sm:pb-[max(env(safe-area-inset-bottom),1rem)] max-sm:[&>*]:flex-1 sm:px-6">
-              {view.footer}
-            </footer>
-          )}
+          </Body>
         </div>
       )}
     </dialog>

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { repo } from '../../db/instance';
-import type { Course, Topic } from '../../domain/types';
+import { type Course, NEW_PER_DAY_MAX, type Topic } from '../../domain/types';
 import { Button } from '../../ui/Button';
 import { Dialog } from '../../ui/Dialog';
-import { Field, Input, Textarea } from '../../ui/Field';
+import { Field, Input, intValue, Textarea } from '../../ui/Field';
 import { Select } from '../../ui/Select';
 import { useToast } from '../../ui/Toast';
 
@@ -30,8 +30,7 @@ export function CourseDialog({
     if (!name.trim()) return;
     const overrides = {
       desiredRetention: retention ? Number(retention) : undefined,
-      newPerDay:
-        newPerDay === '' ? undefined : Math.max(0, Math.min(500, Math.round(Number(newPerDay)))),
+      newPerDay: newPerDay === '' ? undefined : intValue(newPerDay, 0, NEW_PER_DAY_MAX),
     };
     if (course) {
       await repo.updateCourse(course.id, {
@@ -58,24 +57,19 @@ export function CourseDialog({
       open={open}
       onClose={onClose}
       title={course ? 'Course settings' : 'New course'}
+      onSubmit={() => void save()}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={() => void save()} disabled={!name.trim()}>
+          <Button type="submit" variant="primary" disabled={!name.trim()}>
             {course ? 'Save' : 'Create course'}
           </Button>
         </>
       }
     >
-      <form
-        className="space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void save();
-        }}
-      >
+      <div className="space-y-4">
         <Field label="Name">
           {(id) => (
             <Input
@@ -125,7 +119,7 @@ export function CourseDialog({
                 aria-describedby={d}
                 type="number"
                 min={0}
-                max={500}
+                max={NEW_PER_DAY_MAX}
                 inputMode="numeric"
                 value={newPerDay}
                 onChange={(e) => setNewPerDay(e.target.value)}
@@ -133,8 +127,7 @@ export function CourseDialog({
             )}
           </Field>
         </div>
-        <button type="submit" hidden />
-      </form>
+      </div>
     </Dialog>
   );
 }
@@ -166,35 +159,29 @@ export function TopicDialog({
       onClose={onClose}
       title={title}
       size="sm"
+      onSubmit={() => void save()}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={() => void save()} disabled={!name.trim()}>
+          <Button type="submit" variant="primary" disabled={!name.trim()}>
             Save
           </Button>
         </>
       }
     >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          void save();
-        }}
-      >
-        <Field label="Name">
-          {(id) => (
-            <Input
-              id={id}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              data-autofocus
-              placeholder="e.g. Integration Techniques"
-            />
-          )}
-        </Field>
-      </form>
+      <Field label="Name">
+        {(id) => (
+          <Input
+            id={id}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            data-autofocus
+            placeholder="e.g. Integration Techniques"
+          />
+        )}
+      </Field>
     </Dialog>
   );
 }
